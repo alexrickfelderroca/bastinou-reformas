@@ -8,9 +8,17 @@ import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import ProjectCard from './ProjectCard.astro';
 import { getLocaleFromUrl, useTranslations } from '../../i18n/ui';
+import { localizedPath } from '../../i18n/routes';
+import { breadcrumbLd } from '../../lib/breadcrumbs';
 
 const locale = getLocaleFromUrl(Astro.url);
 const t = useTranslations(locale);
+
+const siteUrl = Astro.site ?? new URL('https://www.bastinou.com');
+const crumbs = breadcrumbLd(siteUrl, [
+  { name: t('landing.breadcrumbHome'), path: localizedPath('home', locale) },
+  { name: t('nav.proyectos'), path: localizedPath('proyectos', locale) },
+]);
 
 const projects = (await getCollection('projects')).sort(
   (a, b) => a.data.order - b.data.order,
@@ -49,6 +57,8 @@ const filters = ['all', 'piso', 'casa', 'oficina', 'construccion'] as const;
       <p class="pf-note">{t('portfolio.note')}</p>
     </div>
   </section>
+
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(crumbs)} />
 </Layout>
 
 <style>

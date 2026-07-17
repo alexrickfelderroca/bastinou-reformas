@@ -33,12 +33,11 @@ export default defineConfig({
 
   integrations: [
     react(),
-    sitemap({
-      i18n: {
-        defaultLocale: 'es',
-        locales: { es: 'es-ES', ca: 'ca-ES', en: 'en' },
-      },
-    }),
+    // Sitemap plano. No usamos la opción `i18n` del integrador: empareja idiomas
+    // por ruta idéntica, pero nuestros slugs están traducidos (no coinciden), así
+    // que sólo enlazaría la home y dejaría el resto sin alternates. El hreflang
+    // autoritativo y completo va en el <head> de cada página (routes.ts).
+    sitemap(),
   ],
 
   vite: {

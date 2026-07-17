@@ -11,9 +11,11 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import WhatsAppFab from '../components/WhatsAppFab.astro';
 import CookieConsent from '../components/CookieConsent.astro';
-import { getLocaleFromUrl, localeHtmlLang, useTranslations } from '../i18n/ui';
+import { getLocaleFromUrl, localeHtmlLang, localeOgLocale, useTranslations } from '../i18n/ui';
 import { alternatesFor, type RouteKey } from '../i18n/routes';
 import { site } from '../config/site';
+import { OG_ROUTE_IDS, ogImagePath } from '../lib/og-meta';
+import logo from '../assets/brand/bastinou-logo.jpg';
 
 interface Props {
   title?: string;
@@ -33,35 +35,74 @@ const {
   description = t('meta.defaultDescription'),
   routeKey,
   overHero = false,
-  image = '/og/default.jpg',
+  image,
   noindex = false,
   alternates: alternatesProp,
 } = Astro.props;
 
 const siteUrl = Astro.site ?? new URL('https://www.bastinou.com');
 const canonical = new URL(Astro.url.pathname, siteUrl).href;
-const ogImage = new URL(image, siteUrl).href;
+// OG por página (Fase 8): imagen explícita (p. ej. detalle de proyecto) o la
+// generada para su routeKey/idioma; sin routeKey conocido → 'default'.
+const ogId = routeKey && (OG_ROUTE_IDS as readonly string[]).includes(routeKey) ? routeKey : 'default';
+const ogImage = new URL(image ?? ogImagePath(ogId, locale), siteUrl).href;
 const fullTitle = title.includes(site.name) ? title : `${title} · ${site.name}`;
 
 // hreflang: alternates explícitos > por routeKey > ninguno.
 const alternates = alternatesProp ?? (routeKey ? alternatesFor(routeKey) : []);
 
-// JSON-LD global del negocio (§8) — se ampliará en Fase 8.
+// JSON-LD global del negocio (§8). Se omite todo campo [PENDIENTE] para no
+// emitir datos estructurados con texto de relleno; se completa al recibir los
+// datos reales de la empresa. Entidades enlazadas por @id (negocio + web).
+const clean = (v?: string): string | undefined =>
+  v && !v.includes('[PENDIENTE') ? v : undefined;
+
+const logoUrl = new URL(logo.src, siteUrl).href;
+const businessId = `${siteUrl.href}#business`;
+const websiteId = `${siteUrl.href}#website`;
+const socialLinks = Object.values(site.social).filter(Boolean);
+
 const businessLd = {
   '@context': 'https://schema.org',
   '@type': 'HomeAndConstructionBusiness',
+  '@id': businessId,
   name: site.name,
-  description,
+  legalName: clean(site.legalName),
+  description: t('meta.defaultDescription'),
   url: siteUrl.href,
-  telephone: site.phone,
+  telephone: clean(site.phone),
   email: site.email,
-  areaServed: site.areaServed,
+  image: logoUrl,
+  logo: logoUrl,
+  priceRange: '€€€',
+  areaServed: site.areaServed.map((name) => ({ '@type': 'AdministrativeArea', name })),
   address: {
     '@type': 'PostalAddress',
+    streetAddress: clean(site.address.street),
     addressLocality: site.address.city,
     addressRegion: site.address.region,
+    postalCode: clean(site.address.postalCode),
     addressCountry: site.address.country,
   },
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    opens: '09:00',
+    closes: '19:00',
+  },
+  // Sólo se publica geo cuando hay coordenadas reales (no un punto inventado).
+  ...(site.geo ? { geo: { '@type': 'GeoCoordinates', latitude: site.geo.lat, longitude: site.geo.lng } } : {}),
+  ...(socialLinks.length ? { sameAs: socialLinks } : {}),
+};
+
+const websiteLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': websiteId,
+  name: site.name,
+  url: siteUrl.href,
+  inLanguage: localeHtmlLang[locale],
+  publisher: { '@id': businessId },
 };
 ---
 
@@ -103,11 +144,12 @@ const businessLd = {
     <!-- Open Graph / Twitter -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />
-    <meta property="og:locale" content={localeHtmlLang[locale]} />
+    <meta property="og:locale" content={localeOgLocale[locale]} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
@@ -125,6 +167,7 @@ const businessLd = {
     />
 
     <script is:inline type="application/ld+json" set:html={JSON.stringify(businessLd)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(websiteLd)} />
   </head>
   <body>
     <Header locale={locale} routeKey={routeKey} overHero={overHero} />

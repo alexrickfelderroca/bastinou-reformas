@@ -51,6 +51,9 @@
     "aria": "Contact us on WhatsApp",
     "prefill": "Hi, I'd like information about a renovation."
   },
+  "og": {
+    "eyebrow": "Renovation · Construction · Barcelona"
+  },
   "common": {
     "phone": "Phone",
     "email": "Email",

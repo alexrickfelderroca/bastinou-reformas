@@ -7,12 +7,19 @@ import Layout from '../layouts/Layout.astro';
 import Calculator from './calculator/Calculator.tsx';
 import { getLocaleFromUrl, useTranslations, tData } from '../i18n/ui';
 import { localizedPath } from '../i18n/routes';
+import { breadcrumbLd } from '../lib/breadcrumbs';
 import { site } from '../config/site';
 
 const locale = getLocaleFromUrl(Astro.url);
 const t = useTranslations(locale);
 const messages = tData<Record<string, string>>(locale, 'calculator') ?? {};
 const privacyHref = localizedPath('privacidad', locale);
+
+const siteUrl = Astro.site ?? new URL('https://www.bastinou.com');
+const crumbs = breadcrumbLd(siteUrl, [
+  { name: t('landing.breadcrumbHome'), path: localizedPath('home', locale) },
+  { name: t('nav.calculadora'), path: localizedPath('calculadora', locale) },
+]);
 ---
 
 <Layout
@@ -39,6 +46,8 @@ const privacyHref = localizedPath('privacidad', locale);
       />
     </div>
   </section>
+
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(crumbs)} />
 </Layout>
 
 <style>

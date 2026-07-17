@@ -58,7 +58,9 @@ const serviceLd = {
   description: l('metaDesc'),
   url: canonical,
   areaServed: site.areaServed,
-  provider: { '@type': 'HomeAndConstructionBusiness', name: site.name, url: siteUrl.href },
+  // Referencia a la ÚNICA entidad de negocio que emite el Layout (mismo @id),
+  // en vez de declarar un nodo de negocio anónimo duplicado.
+  provider: { '@id': `${siteUrl.href}#business` },
 };
 const breadcrumbLd = {
   '@context': 'https://schema.org',

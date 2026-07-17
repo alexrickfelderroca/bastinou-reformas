@@ -8,7 +8,9 @@ import type { CollectionEntry } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import BeforeAfter from '../sections/BeforeAfter.astro';
 import { useTranslations, locales, type Locale } from '../../i18n/ui';
-import { localizedPath } from '../../i18n/routes';
+import { localizedPath, withTrailingSlash } from '../../i18n/routes';
+import { ogImagePath } from '../../lib/og-meta';
+import { breadcrumbLd } from '../../lib/breadcrumbs';
 
 interface Props {
   locale: Locale;
@@ -22,8 +24,15 @@ const segCap = d.segment[0].toUpperCase() + d.segment.slice(1);
 
 const alternates = locales.map((l) => ({
   locale: l,
-  path: `${localizedPath('proyectos', l)}/${entry.id}`,
+  path: withTrailingSlash(`${localizedPath('proyectos', l)}/${entry.id}`),
 }));
+
+const siteUrl = Astro.site ?? new URL('https://www.bastinou.com');
+const crumbs = breadcrumbLd(siteUrl, [
+  { name: t('landing.breadcrumbHome'), path: localizedPath('home', locale) },
+  { name: t('nav.proyectos'), path: localizedPath('proyectos', locale) },
+  { name: p('title'), path: `${localizedPath('proyectos', locale)}/${entry.id}` },
+]);
 
 const meta = [
   { label: t('project.area'), value: `${d.area} m²` },
@@ -34,7 +43,13 @@ const meta = [
 ];
 ---
 
-<Layout title={p('title')} description={p('summary')} alternates={alternates} overHero={true}>
+<Layout
+  title={p('title')}
+  description={p('summary')}
+  alternates={alternates}
+  image={ogImagePath(`proyecto-${entry.id}`, locale)}
+  overHero={true}
+>
   <article>
     <section class="pd-hero on-dark">
       <div class="container-x">
@@ -102,6 +117,8 @@ const meta = [
       </div>
     </section>
   </article>
+
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(crumbs)} />
 </Layout>
 
 <style>

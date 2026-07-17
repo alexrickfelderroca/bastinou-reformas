@@ -45,11 +45,16 @@ src/
   scripts/site.ts           Runtime: Lenis + reveal/parallax/count-up + header
   scripts/consent.ts        Runtime del banner: consentimiento granular + localStorage
   scripts/tracking.ts       Eventos whatsapp_click / phone_click (listener delegado)
+  lib/og-meta.ts            OG: ids + rutas + contenido por página (puro, sin Node)
+  lib/og-render.ts          OG: render satori→SVG→sharp→PNG 1200×630 (build)
+  lib/breadcrumbs.ts        Helper BreadcrumbList (schema.org)
+  pages/og/[og].png.ts      Endpoint que genera una imagen OG por página e idioma
+  pages/robots.txt.ts       robots.txt (sitemap sincronizado con el dominio)
   pages/                    index (es) · ca/ · en/ · 404
   assets/                   brand/ (logo) · team/ (equipo) — optimizadas por astro:assets
 public/
   fonts/                    Inter woff2 (preload)
-  og/                       Imágenes Open Graph — [placeholder, se generan en Fase 8]
+                            (las imágenes OG se generan en build vía /og/[id].png)
 ```
 
 ## Sistema de diseño (resumen)
@@ -100,7 +105,16 @@ public/
       ni GTM ni banner). Eventos `whatsapp_click`/`phone_click` (listener delegado)
       + los ya existentes `form_submit` y `calc_*`. Política de cookies (ES/CA/EN)
       con botón "Gestionar cookies" (reabre las preferencias). Ver "Tracking" abajo.
-- [ ] Fase 8 — SEO técnico (JSON-LD, OG, sitemap)
+- [x] **Fase 8 — SEO técnico**: `robots.txt` (endpoint, sitemap sincronizado con
+      el dominio). Imágenes Open Graph **por página e idioma** (1200×630, B/N),
+      generadas en build con satori + sharp (endpoint `/og/[id].png`, fuente Inter
+      de `@fontsource/inter`). JSON-LD ampliado: `HomeAndConstructionBusiness`
+      (con `@id`, horario, `priceRange`, logo real) + `WebSite` enlazados por
+      `@id`; se omite todo campo `[PENDIENTE]` (dirección y geo incluidas, hasta
+      tener datos reales); el `provider` de las landings reusa el mismo `@id`.
+      `BreadcrumbList` en portfolio, detalle de proyecto, nosotros, contacto y
+      calculadora (las landings ya lo tenían). hreflang/canonical/breadcrumbs con
+      barra final coherente; sitemap plano (hreflang autoritativo en el `<head>`).
 - [ ] Fase 9 — Rendimiento (≥90 móvil)
 - [ ] Fase 10 — QA final
 

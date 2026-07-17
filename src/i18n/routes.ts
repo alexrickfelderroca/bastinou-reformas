@@ -51,9 +51,19 @@ export function localizedPath(key: RouteKey, locale: Locale): string {
   return routes[key][locale];
 }
 
+/**
+ * Normaliza a la convención con barra final (Astro sirve en formato "directory",
+ * y el canonical/og:url/sitemap llevan barra final). Así hreflang, breadcrumbs y
+ * selector de idioma apuntan a la URL canónica sin saltos de redirección 301.
+ */
+export function withTrailingSlash(path: string): string {
+  if (path === '/') return '/';
+  return path.endsWith('/') ? path : `${path}/`;
+}
+
 /** Todas las variantes de idioma de una página (para hreflang y el selector). */
 export function alternatesFor(key: RouteKey): { locale: Locale; path: string }[] {
-  return locales.map((locale) => ({ locale, path: routes[key][locale] }));
+  return locales.map((locale) => ({ locale, path: withTrailingSlash(routes[key][locale]) }));
 }
 
 /** Dada una URL, deduce a qué RouteKey corresponde (para el selector de idioma). */

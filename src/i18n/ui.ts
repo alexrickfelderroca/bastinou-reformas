@@ -28,6 +28,13 @@ export const localeHtmlLang: Record<Locale, string> = {
   en: 'en',
 };
 
+/** og:locale (formato Open Graph: idioma_TERRITORIO con guion bajo). */
+export const localeOgLocale: Record<Locale, string> = {
+  es: 'es_ES',
+  ca: 'ca_ES',
+  en: 'en_US',
+};
+
 type Dict = Record<string, unknown>;
 const dictionaries: Record<Locale, Dict> = { es, ca, en };
 

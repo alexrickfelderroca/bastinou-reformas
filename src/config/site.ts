@@ -23,7 +23,12 @@ export const site = {
   },
   areaServed: ['Barcelona', 'Cataluña'],
 
-  // Horario comercial (para JSON-LD y footer). [PENDIENTE: confirmar].
+  // Coordenadas del local para el JSON-LD (GeoCoordinates). Se dejan sin definir
+  // hasta tener la dirección real: no se publica un punto inventado. Al recibir
+  // los datos: geo: { lat: 41.xxxx, lng: 2.xxxx }.
+  geo: null as { lat: number; lng: number } | null,
+
+  // Horario comercial (para JSON-LD y footer). Se muestra en pie y contacto.
   openingHours: 'Lun–Vie 09:00–19:00',
 
   // Redes (opcional). Vacío = no se muestra.

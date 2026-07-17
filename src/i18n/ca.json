@@ -51,6 +51,9 @@
     "aria": "Contactar per WhatsApp",
     "prefill": "Hola, m'agradaria informació sobre una reforma."
   },
+  "og": {
+    "eyebrow": "Reformes · Construcció · Barcelona"
+  },
   "common": {
     "phone": "Telèfon",
     "email": "Email",

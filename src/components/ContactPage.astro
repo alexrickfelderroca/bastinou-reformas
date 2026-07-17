@@ -6,10 +6,18 @@
 import Layout from '../layouts/Layout.astro';
 import QuoteForm from './sections/QuoteForm.astro';
 import { getLocaleFromUrl, useTranslations } from '../i18n/ui';
+import { localizedPath } from '../i18n/routes';
+import { breadcrumbLd } from '../lib/breadcrumbs';
 import { site, telHref, whatsappHref } from '../config/site';
 
 const locale = getLocaleFromUrl(Astro.url);
 const t = useTranslations(locale);
+
+const siteUrl = Astro.site ?? new URL('https://www.bastinou.com');
+const crumbs = breadcrumbLd(siteUrl, [
+  { name: t('landing.breadcrumbHome'), path: localizedPath('home', locale) },
+  { name: t('nav.contacto'), path: localizedPath('contacto', locale) },
+]);
 
 const methods = [
   { label: t('cta.whatsapp'), value: site.phone, desc: t('contact.whatsappDesc'), href: whatsappHref(t('whatsapp.prefill')), attr: 'data-wa', ext: true },
@@ -69,6 +77,8 @@ const zones = ['Barcelona', "L'Hospitalet", 'Badalona', 'Sant Cugat', 'Sabadell'
       </ul>
     </div>
   </section>
+
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(crumbs)} />
 </Layout>
 
 <style>
