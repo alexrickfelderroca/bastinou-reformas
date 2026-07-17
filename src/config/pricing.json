@@ -11,6 +11,8 @@
     "cocina": { "basico": 6000, "estandar": 9000, "premium": 15000 },
     "bano": { "basico": 4500, "estandar": 7000, "premium": 12000 },
     "pintura_m2": { "basico": 9, "estandar": 12, "premium": 18 },
-    "suelos_m2": { "basico": 25, "estandar": 40, "premium": 70 }
+    "suelos_m2": { "basico": 25, "estandar": 40, "premium": 70 },
+    "electricidad_m2": { "basico": 30, "estandar": 45, "premium": 65 },
+    "fontaneria_m2": { "basico": 35, "estandar": 50, "premium": 75 }
   }
 }

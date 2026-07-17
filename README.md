@@ -70,7 +70,11 @@ public/
       traducidos), cada uno con hero+keyword, qué incluye, precios por segmento
       (pricing.json), proyectos relacionados, proceso, FAQ (FAQPage), CTA
       calculadora y formulario corto. Schema Service + BreadcrumbList + FAQPage.
-- [ ] Fase 4 — Calculadora (wizard + pricing.json + lead + eventos)
+- [x] **Fase 4 — Calculadora**: island React, wizard 5 pasos + resultado;
+      motor en lib/estimate.ts (integral y parcial) desde pricing.json; horquilla
+      ±15% redondeada a centenas con count-up; captura de lead no bloqueante +
+      WhatsApp prellenado; persistencia en sessionStorage; eventos calc_* al
+      dataLayer. ES/CA/EN, responsive.
 - [ ] Fase 5 — Portfolio + Nosotros + Contacto
 - [ ] Fase 6 — Formularios y notificaciones
 - [ ] Fase 7 — Tracking (GTM, Consent Mode v2)

@@ -1,0 +1,61 @@
+---
+/**
+ * Página de la calculadora (§5). Cabecera oscura + island de React con el
+ * wizard. Los textos se pasan como prop `messages` (i18n del idioma actual).
+ */
+import Layout from '../layouts/Layout.astro';
+import Calculator from './calculator/Calculator.tsx';
+import { getLocaleFromUrl, useTranslations, tData } from '../i18n/ui';
+import { localizedPath } from '../i18n/routes';
+import { site } from '../config/site';
+
+const locale = getLocaleFromUrl(Astro.url);
+const t = useTranslations(locale);
+const messages = tData<Record<string, string>>(locale, 'calculator') ?? {};
+const privacyHref = localizedPath('privacidad', locale);
+---
+
+<Layout
+  title={t('calculator.metaTitle')}
+  description={t('calculator.metaDesc')}
+  routeKey="calculadora"
+  overHero={true}
+>
+  <section class="calc-page-hero on-dark">
+    <div class="container-x">
+      <h1 class="h-hero calc-page-hero__title">{t('calculator.title')}</h1>
+      <p class="lead calc-page-hero__sub">{t('calculator.subtitle')}</p>
+    </div>
+  </section>
+
+  <section class="section calc-page-body">
+    <div class="container-x">
+      <Calculator
+        client:load
+        locale={locale}
+        messages={messages}
+        whatsapp={site.whatsapp}
+        privacyHref={privacyHref}
+      />
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .calc-page-hero {
+    background: var(--color-ink);
+    color: #fff;
+    padding-block: 8rem 3.5rem;
+  }
+  .calc-page-hero__title {
+    max-width: 18ch;
+  }
+  .calc-page-hero__sub {
+    margin-top: 1.25rem;
+    max-width: 46ch;
+    color: rgba(255, 255, 255, 0.72);
+  }
+  .calc-page-body {
+    background: var(--color-paper);
+  }
+</style>
