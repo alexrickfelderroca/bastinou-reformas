@@ -38,8 +38,13 @@ src/
     Footer.astro            Pie oscuro con logo, columnas y legales
     LanguageSwitcher.astro  Selector de idioma (mantiene la página actual)
     WhatsAppFab.astro       Botón flotante de WhatsApp (todas las páginas)
+    ConsentGtm.astro        Consent Mode v2 (defaults) + loader de GTM (gated) — <head>
+    CookieConsent.astro     Banner de cookies + <dialog> de preferencias (Fase 7)
+    CookiePolicy.astro      Página de política de cookies (ES/CA/EN)
     sections/               Secciones reutilizables (Hero, Stats, …)
   scripts/site.ts           Runtime: Lenis + reveal/parallax/count-up + header
+  scripts/consent.ts        Runtime del banner: consentimiento granular + localStorage
+  scripts/tracking.ts       Eventos whatsapp_click / phone_click (listener delegado)
   pages/                    index (es) · ca/ · en/ · 404
   assets/                   brand/ (logo) · team/ (equipo) — optimizadas por astro:assets
 public/
@@ -85,13 +90,51 @@ public/
       + Telegram opcional tras env vars; formularios con fetch → gracias/error;
       captura UTM/gclid en sessionStorage adjunta a cada lead; evento form_submit.
       Ver `.env.example`. Antispam reCAPTCHA/Turnstile queda como [PENDIENTE] hook.
-- [ ] Fase 7 — Tracking (GTM, Consent Mode v2)
+- [x] **Fase 7 — Tracking**: Google Tag Manager + Google Consent Mode v2 con
+      banner de cookies conforme a la AEPD/RGPD. Defaults denegados antes de
+      cargar ninguna etiqueta; primera capa no modal con Aceptar/Rechazar en
+      paridad (un clic) + "Configurar"; segunda capa granular (`<dialog>` nativo:
+      analítica y marketing por separado, necesarias siempre activas). Registro
+      granular en localStorage (`bastinou_consent`, caducidad 180 días) reaplicado
+      en cada carga. Todo **dormido** hasta definir `PUBLIC_GTM_ID` real (sin él:
+      ni GTM ni banner). Eventos `whatsapp_click`/`phone_click` (listener delegado)
+      + los ya existentes `form_submit` y `calc_*`. Política de cookies (ES/CA/EN)
+      con botón "Gestionar cookies" (reabre las preferencias). Ver "Tracking" abajo.
 - [ ] Fase 8 — SEO técnico (JSON-LD, OG, sitemap)
 - [ ] Fase 9 — Rendimiento (≥90 móvil)
 - [ ] Fase 10 — QA final
+
+## Tracking (Fase 7)
+
+Toda la analítica está escrita pero **dormida** hasta que se defina un contenedor
+de GTM real. Para activarla:
+
+1. Copia `.env.example` a `.env` y pon `PUBLIC_GTM_ID=GTM-XXXXXXX` (el ID real).
+   Sin un ID válido (`^GTM-[A-Z0-9]+$`) no se carga GTM ni se muestra el banner.
+2. Dentro del **contenedor de GTM** se configuran GA4 y las conversiones de
+   Google Ads (los IDs de GA4/Ads no van en el código). Todas las etiquetas deben
+   respetar Consent Mode: por defecto `ad_storage`, `ad_user_data`,
+   `ad_personalization` y `analytics_storage` están **denegados** hasta que el
+   usuario acepta. `security_storage` va concedido; `ads_data_redaction` y
+   `url_passthrough` activos.
+
+**Eventos que llegan al `dataLayer`** (para disparar etiquetas/conversiones en GTM):
+
+| Evento | Cuándo | Parámetros |
+|---|---|---|
+| `form_submit` | Envío correcto de cualquier formulario de lead | `form_id`, `page`, `service` |
+| `whatsapp_click` | Clic en cualquier enlace de WhatsApp (`[data-wa]`) | `click_source` (fab/header/contact/final-cta/quote-form/landing-*), `page`, `locale` |
+| `phone_click` | Clic en cualquier `tel:` (`[data-phone]`) | `click_source` (`tel`), `page`, `locale` |
+| `calc_start` · `calc_step` · `calc_complete` · `calc_lead_submit` · `calc_whatsapp_click` | Interacción con la calculadora | según el paso (ver `Calculator.tsx`) |
+
+El botón de WhatsApp de la calculadora emite `calc_whatsapp_click` (con contexto
+del cálculo) y **no** lleva `[data-wa]`, para no duplicar con `whatsapp_click`.
+En GTM, mapea ambos a la misma conversión de WhatsApp si procede.
 
 ## Pendientes de material (CLAUDE.pdf §8)
 
 Buscar `[PENDIENTE` en el código: teléfono, WhatsApp, email, razón social/NIF,
 dirección y **documento de tarifas** para `pricing.json` (Fase 4). El dominio real
-se configura en `astro.config.mjs` (`SITE`).
+se configura en `astro.config.mjs` (`SITE`). **Tracking (Fase 7):** `PUBLIC_GTM_ID`
+en `.env` + configuración de GA4/Ads dentro del contenedor de GTM. La política de
+cookies referencia la razón social/NIF (placeholder hasta recibir los datos).

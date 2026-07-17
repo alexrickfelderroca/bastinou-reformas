@@ -68,6 +68,13 @@ const legalLinks: { key: RouteKey; label: string }[] = [
       {legalLinks.map(({ key, label }) => (
         <li><a href={p(key)}>{label}</a></li>
       ))}
+      {/* Reabre las preferencias de cookies desde cualquier página (AEPD: retirar
+          o cambiar el consentimiento debe ser tan fácil como darlo). */}
+      <li>
+        <button type="button" class="footer__legal-btn" data-consent="reopen" aria-haspopup="dialog" aria-controls="consent-settings">
+          {t('consent.manage')}
+        </button>
+      </li>
     </ul>
   </div>
 </footer>
@@ -142,13 +149,25 @@ const legalLinks: { key: RouteKey; label: string }[] = [
     flex-wrap: wrap;
     gap: 1.25rem;
   }
-  .footer__legal a {
+  .footer__legal a,
+  .footer__legal-btn {
     color: var(--color-mist);
     text-decoration: none;
     transition: color 0.2s ease;
   }
-  .footer__legal a:hover {
+  .footer__legal a:hover,
+  .footer__legal-btn:hover {
     color: #fff;
+  }
+  /* El botón "Gestionar cookies" se ve exactamente como un enlace legal. */
+  .footer__legal-btn {
+    appearance: none;
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    line-height: inherit;
+    cursor: pointer;
   }
 
   @media (min-width: 640px) {

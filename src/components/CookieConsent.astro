@@ -1,0 +1,307 @@
+---
+/**
+ * Banner de consentimiento de cookies (CLAUDE.pdf §7 — Fase 7). Cumple la guía
+ * de cookies de la AEPD / RGPD:
+ *   - Primera capa NO modal (no bloquea la página → navegar nunca es consentir),
+ *     con Aceptar y Rechazar de IGUAL peso visual (paridad, un clic cada uno) y
+ *     un tercer control "Configurar" para el consentimiento granular.
+ *   - Segunda capa: <dialog> nativo con conmutadores por categoría (necesarias
+ *     siempre activas; analítica y marketing por defecto DESACTIVADAS).
+ *   - Enlace a la política de cookies (segunda capa informativa).
+ * Se renderiza SIEMPRE (SSG, presente en el HTML) pero sólo se auto-muestra con
+ * un contenedor de GTM real (`data-consent-autoshow`). El runtime vive en
+ * `scripts/consent.ts`. Sistema B/N: ni un color fuera de la escala de grises.
+ */
+import { useTranslations, type Locale } from '../i18n/ui';
+import { localizedPath } from '../i18n/routes';
+import { gtmEnabled } from '../config/site';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const policyPath = localizedPath('cookies', locale);
+---
+
+{/* --- Primera capa: aviso no modal (región, no roba el foco) --- */}
+<section
+  class="consent"
+  data-consent-banner
+  data-consent-autoshow={gtmEnabled ? '' : undefined}
+  aria-labelledby="consent-title"
+  hidden
+>
+  <div class="consent__card">
+    <h2 id="consent-title" class="consent__title">{t('consent.title')}</h2>
+    <p class="consent__body">
+      {t('consent.body')}{' '}
+      <a class="consent__link" href={policyPath}>{t('consent.policyLink')}</a>.
+    </p>
+    <div class="consent__actions">
+      <button type="button" class="btn-outline consent__settings" data-consent="settings" aria-haspopup="dialog" aria-controls="consent-settings">
+        {t('consent.settings')}
+      </button>
+      <button type="button" class="btn" data-consent="reject">{t('consent.reject')}</button>
+      <button type="button" class="btn" data-consent="accept">{t('consent.accept')}</button>
+    </div>
+  </div>
+</section>
+
+{/* --- Segunda capa: preferencias granulares (dialog nativo → foco atrapado,
+       Esc cierra sin guardar, backdrop e inertización gratis) --- */}
+<dialog class="consent-modal" id="consent-settings" aria-labelledby="cs-title">
+  <div class="consent-modal__panel">
+    <h2 id="cs-title" class="consent-modal__title">{t('consent.settingsTitle')}</h2>
+    <p class="consent-modal__intro">{t('consent.settingsIntro')}</p>
+
+    <ul class="consent-cats">
+      <li class="consent-cat">
+        <div class="consent-cat__text">
+          <span class="consent-cat__name">{t('consent.necessaryLabel')}</span>
+          <span class="consent-cat__desc">{t('consent.necessaryDesc')}</span>
+        </div>
+        <span class="consent-cat__badge">{t('consent.alwaysOn')}</span>
+      </li>
+      <li class="consent-cat">
+        <div class="consent-cat__text">
+          <label class="consent-cat__name" for="cs-analytics">{t('consent.analyticsLabel')}</label>
+          <span class="consent-cat__desc" id="cs-analytics-desc">{t('consent.analyticsDesc')}</span>
+        </div>
+        <input class="consent-switch" type="checkbox" role="switch" id="cs-analytics" data-consent-cat="analytics" aria-describedby="cs-analytics-desc" />
+      </li>
+      <li class="consent-cat">
+        <div class="consent-cat__text">
+          <label class="consent-cat__name" for="cs-marketing">{t('consent.marketingLabel')}</label>
+          <span class="consent-cat__desc" id="cs-marketing-desc">{t('consent.marketingDesc')}</span>
+        </div>
+        <input class="consent-switch" type="checkbox" role="switch" id="cs-marketing" data-consent-cat="marketing" aria-describedby="cs-marketing-desc" />
+      </li>
+    </ul>
+
+    <div class="consent__actions consent-modal__actions">
+      <button type="button" class="btn-outline consent__settings" data-consent="reject">{t('consent.reject')}</button>
+      <button type="button" class="btn" data-consent="save">{t('consent.save')}</button>
+      <button type="button" class="btn" data-consent="accept">{t('consent.accept')}</button>
+    </div>
+  </div>
+</dialog>
+
+<style>
+  /* --- Primera capa: tarjeta flotante abajo-izquierda; no bloquea la página --- */
+  .consent {
+    position: fixed;
+    z-index: 60; /* por encima del header y del FAB (z-45) */
+    inset: auto 0 0 0;
+    display: flex;
+    justify-content: flex-start;
+    padding: clamp(0.75rem, 3vw, 1.75rem);
+    pointer-events: none; /* sólo la tarjeta captura eventos; el resto es clicable */
+  }
+  .consent[hidden] {
+    display: none;
+  }
+  .consent__card {
+    pointer-events: auto;
+    width: 100%;
+    max-width: 46rem;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    border: 1px solid var(--color-line);
+    border-radius: 1rem;
+    padding: clamp(1.25rem, 4vw, 1.75rem);
+    box-shadow: 0 24px 60px -24px rgba(10, 10, 10, 0.28);
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.45s var(--ease-reveal),
+      transform 0.45s var(--ease-reveal);
+    will-change: transform, opacity;
+  }
+  .consent.is-visible .consent__card {
+    opacity: 1;
+    transform: none;
+  }
+  .consent__title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--color-ink);
+  }
+  .consent__body {
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--color-slate);
+    max-width: 62ch;
+  }
+  .consent__link {
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* --- Acciones: móvil apiladas; ≥640 en fila con "Configurar" a la izquierda --- */
+  .consent__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-top: 1.25rem;
+  }
+  .consent__actions .btn,
+  .consent__actions .btn-outline {
+    width: 100%;
+  }
+  @media (min-width: 640px) {
+    .consent__actions {
+      flex-direction: row;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .consent__actions .btn,
+    .consent__actions .btn-outline {
+      width: auto;
+    }
+    .consent__settings {
+      margin-inline-end: auto;
+    }
+  }
+
+  /* --- Segunda capa: dialog nativo centrado --- */
+  .consent-modal {
+    border: none;
+    padding: 0;
+    background: transparent;
+    width: 100%;
+    max-width: min(34rem, calc(100vw - 2rem));
+    color: var(--color-ink);
+  }
+  .consent-modal::backdrop {
+    background: rgba(10, 10, 10, 0.4);
+  }
+  .consent-modal__panel {
+    background: var(--color-paper);
+    border: 1px solid var(--color-line);
+    border-radius: 1rem;
+    padding: clamp(1.25rem, 4vw, 1.75rem);
+    box-shadow: 0 24px 60px -24px rgba(10, 10, 10, 0.35);
+  }
+  .consent-modal[open] .consent-modal__panel {
+    animation: consent-pop 0.3s var(--ease-standard);
+  }
+  @keyframes consent-pop {
+    from {
+      opacity: 0;
+      transform: translateY(8px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .consent-modal__title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .consent-modal__intro {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: var(--color-slate);
+  }
+  .consent-modal__actions {
+    margin-top: 1.5rem;
+  }
+
+  /* --- Categorías + conmutadores (grises puros) --- */
+  .consent-cats {
+    list-style: none;
+    display: grid;
+    gap: 1.1rem;
+    margin: 1.4rem 0 0;
+    padding: 1.4rem 0 0;
+    border-top: 1px solid var(--color-line);
+  }
+  .consent-cat {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .consent-cat__text {
+    display: grid;
+    gap: 0.2rem;
+  }
+  .consent-cat__name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+  .consent-cat__desc {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--color-slate);
+  }
+  .consent-cat__badge {
+    flex: none;
+    align-self: center;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-slate);
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    padding: 0.25rem 0.6rem;
+    white-space: nowrap;
+  }
+  .consent-switch {
+    appearance: none;
+    -webkit-appearance: none;
+    flex: none;
+    align-self: center;
+    position: relative;
+    width: 2.6rem;
+    height: 1.5rem;
+    border-radius: 999px;
+    background: var(--color-cloud);
+    border: 1px solid var(--color-line);
+    cursor: pointer;
+    transition: background-color 0.2s var(--ease-standard), border-color 0.2s var(--ease-standard);
+  }
+  .consent-switch::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 3px;
+    width: 1.05rem;
+    height: 1.05rem;
+    border-radius: 50%;
+    background: var(--color-slate);
+    transform: translateY(-50%);
+    transition: transform 0.2s var(--ease-standard), background-color 0.2s var(--ease-standard);
+  }
+  .consent-switch:checked {
+    background: var(--color-ink);
+    border-color: var(--color-ink);
+  }
+  .consent-switch:checked::before {
+    transform: translate(1.05rem, -50%);
+    background: var(--color-paper);
+  }
+
+  /* --- Sin movimiento para quien lo pide --- */
+  @media (prefers-reduced-motion: reduce) {
+    .consent__card {
+      transition: none;
+      transform: none;
+    }
+    .consent-modal[open] .consent-modal__panel {
+      animation: none;
+    }
+    .consent-switch,
+    .consent-switch::before {
+      transition: none;
+    }
+  }
+</style>

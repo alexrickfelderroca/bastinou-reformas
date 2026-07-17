@@ -41,3 +41,22 @@ export const telHref = `tel:${site.phoneHref}`;
 export function whatsappHref(message: string): string {
   return `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(message)}`;
 }
+
+/* -------------------------------------------------------------------------- */
+/* Analítica / Tracking (Fase 7)                                              */
+/* -------------------------------------------------------------------------- */
+/**
+ * ID del contenedor de Google Tag Manager. NO es secreto (aparece en el HTML),
+ * por eso va por variable de entorno pública `PUBLIC_GTM_ID` (ver `.env.example`)
+ * en vez de en un secreto de servidor. GA4 y las conversiones de Google Ads se
+ * configuran DENTRO del contenedor de GTM, no aquí. [PENDIENTE: GTM-XXXXXXX].
+ *
+ * Todo el stack de tracking (Consent Mode v2 + banner de cookies + eventos) está
+ * escrito y listo, pero permanece DORMIDO hasta que se defina un ID real: sin él
+ * no se carga GTM ni se auto-muestra el banner (no hay cookies que consentir).
+ */
+export const gtmId = (import.meta.env.PUBLIC_GTM_ID ?? '').trim();
+
+/** Sólo se considera activo con un ID de contenedor real (GTM-XXXXXXX). El
+ *  placeholder o una cadena vacía dejan el tracking dormido. */
+export const gtmEnabled = /^GTM-[A-Z0-9]+$/.test(gtmId);

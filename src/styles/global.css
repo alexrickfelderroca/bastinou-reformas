@@ -92,6 +92,12 @@ body {
   outline: 2px solid var(--color-ink);
   outline-offset: 2px;
 }
+/* Sobre superficies oscuras (.on-dark: pie, hero, header con scroll) el anillo
+   negro no se vería: se invierte a blanco. */
+.on-dark :focus-visible {
+  outline-color: var(--color-paper);
+}
+
 
 /* ---- Escala tipográfica (§3.2) — utilidades semánticas ---- */
 .h-hero {

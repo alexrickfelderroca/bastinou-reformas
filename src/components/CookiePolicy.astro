@@ -1,0 +1,145 @@
+---
+/**
+ * Política de cookies (segunda capa informativa exigida por la AEPD, §7 — Fase 7).
+ * Página de prosa trilingüe: qué son, quién las usa, categorías, cómo gestionamos
+ * el consentimiento (Consent Mode v2) y cómo cambiarlo o retirarlo. El botón
+ * "Gestionar cookies" reabre el panel de preferencias (data-consent="reopen").
+ * El idioma se deduce de la URL (igual que ContactPage).
+ */
+import Layout from '../layouts/Layout.astro';
+import { getLocaleFromUrl, useTranslations } from '../i18n/ui';
+import { site } from '../config/site';
+
+const locale = getLocaleFromUrl(Astro.url);
+const t = useTranslations(locale);
+
+const categories = [
+  { title: t('cookies.necessaryTitle'), text: t('cookies.necessaryText'), badge: t('consent.alwaysOn') },
+  { title: t('cookies.analyticsTitle'), text: t('cookies.analyticsText'), badge: null },
+  { title: t('cookies.marketingTitle'), text: t('cookies.marketingText'), badge: null },
+];
+---
+
+<Layout title={t('cookies.metaTitle')} description={t('cookies.metaDesc')} routeKey="cookies" overHero={true}>
+  <section class="ck-hero on-dark">
+    <div class="container-x">
+      <h1 class="h-hero">{t('cookies.title')}</h1>
+      <p class="ck-hero__meta">{t('cookies.updated')}</p>
+    </div>
+  </section>
+
+  <section class="section ck-body">
+    <div class="container-x ck-prose">
+      <h2 class="h-section" data-reveal>{t('cookies.introTitle')}</h2>
+      <p data-reveal>{t('cookies.introText')}</p>
+
+      <h2 class="h-section" data-reveal>{t('cookies.whoTitle')}</h2>
+      <p data-reveal>{t('cookies.whoText')}</p>
+
+      <h2 class="h-section" data-reveal>{t('cookies.typesTitle')}</h2>
+      <p data-reveal>{t('cookies.typesIntro')}</p>
+      <ul class="ck-cats" data-reveal-group data-reveal-stagger="70">
+        {categories.map((c) => (
+          <li class="ck-cat" data-reveal>
+            <div class="ck-cat__head">
+              <h3 class="ck-cat__title">{c.title}</h3>
+              {c.badge && <span class="ck-cat__badge">{c.badge}</span>}
+            </div>
+            <p class="ck-cat__text">{c.text}</p>
+          </li>
+        ))}
+      </ul>
+
+      <h2 class="h-section" data-reveal>{t('cookies.consentTitle')}</h2>
+      <p data-reveal>{t('cookies.consentText')}</p>
+
+      <h2 class="h-section" data-reveal>{t('cookies.manageTitle')}</h2>
+      <p data-reveal>{t('cookies.manageText')}</p>
+      <p data-reveal>
+        <button type="button" class="btn" data-consent="reopen" aria-haspopup="dialog" aria-controls="consent-settings">
+          {t('cookies.manageCta')}
+        </button>
+      </p>
+      <p data-reveal>{t('cookies.browserText')}</p>
+
+      <h2 class="h-section" data-reveal>{t('cookies.moreTitle')}</h2>
+      <p data-reveal>
+        {t('cookies.moreText')}{' '}
+        <a class="ck-link" href={`mailto:${site.email}`}>{site.email}</a>.
+      </p>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .ck-hero {
+    background: var(--color-ink);
+    color: #fff;
+    padding-block: 8rem 3.5rem;
+  }
+  .ck-hero__meta {
+    margin-top: 1rem;
+    color: var(--color-mist);
+    font-size: 0.95rem;
+  }
+  .ck-body {
+    background: var(--color-paper);
+  }
+  .ck-prose {
+    max-width: 46rem;
+  }
+  .ck-prose > h2 {
+    margin-top: 2.5rem;
+  }
+  .ck-prose > h2:first-child {
+    margin-top: 0;
+  }
+  .ck-prose > p {
+    margin-top: 1rem;
+    color: var(--color-slate);
+    line-height: 1.7;
+  }
+  .ck-link {
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .ck-cats {
+    list-style: none;
+    display: grid;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  .ck-cat {
+    padding: 1.5rem;
+    border: 1px solid var(--color-line);
+    border-radius: 1rem;
+    background: var(--color-cloud);
+  }
+  .ck-cat__head {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .ck-cat__title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .ck-cat__badge {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-slate);
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    padding: 0.2rem 0.55rem;
+    white-space: nowrap;
+  }
+  .ck-cat__text {
+    margin-top: 0.6rem;
+    color: var(--color-slate);
+    line-height: 1.6;
+    font-size: 0.975rem;
+  }
+</style>

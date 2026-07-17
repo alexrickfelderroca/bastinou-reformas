@@ -6,9 +6,11 @@
  * sirve en el HTML (SSG) — el SEO no depende de JS de cliente (§2, §8).
  */
 import '../styles/global.css';
+import ConsentGtm from '../components/ConsentGtm.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import WhatsAppFab from '../components/WhatsAppFab.astro';
+import CookieConsent from '../components/CookieConsent.astro';
 import { getLocaleFromUrl, localeHtmlLang, useTranslations } from '../i18n/ui';
 import { alternatesFor, type RouteKey } from '../i18n/routes';
 import { site } from '../config/site';
@@ -68,6 +70,11 @@ const businessLd = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Consent Mode v2 + GTM (Fase 7). Lo primero: fija los defaults DENEGADOS
+         antes de que cualquier etiqueta pueda leer el estado de consentimiento. -->
+    <ConsentGtm />
+
     <!-- Marca JS activo lo antes posible: el estado oculto de las animaciones
          sólo se aplica con html.js (sin JS todo es visible). Evita FOUC. -->
     <script is:inline>document.documentElement.classList.add('js');</script>
@@ -126,10 +133,13 @@ const businessLd = {
     </main>
     <Footer locale={locale} />
     <WhatsAppFab locale={locale} />
+    <CookieConsent locale={locale} />
 
     <script>
       import '../scripts/site.ts';
       import '../scripts/forms.ts';
+      import '../scripts/consent.ts';
+      import '../scripts/tracking.ts';
     </script>
   </body>
 </html>
