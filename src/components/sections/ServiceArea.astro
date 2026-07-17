@@ -1,0 +1,82 @@
+---
+/**
+ * Zona de servicio: Barcelona y toda Cataluña. Lista de zonas + CTA de contacto.
+ * Las zonas son comunes a los 3 idiomas (topónimos), así que viven aquí.
+ */
+import { useTranslations, type Locale } from '../../i18n/ui';
+import { localizedPath } from '../../i18n/routes';
+import SectionHeader from './SectionHeader.astro';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const zones = [
+  'Barcelona', "L'Hospitalet", 'Badalona', 'Sant Cugat', 'Sabadell',
+  'Terrassa', 'Maresme', 'Baix Llobregat', 'Girona', 'Tarragona',
+];
+---
+
+<section class="section area">
+  <div class="container-x area__grid">
+    <div>
+      <SectionHeader
+        eyebrow={t('home.area.eyebrow')}
+        title={t('home.area.title')}
+        subtitle={t('home.area.subtitle')}
+      />
+      <a class="btn btn-outline" href={localizedPath('contacto', locale)}>{t('home.area.cta')}</a>
+    </div>
+    <ul class="area__zones" data-reveal-group data-reveal-stagger="50">
+      {zones.map((z) => (
+        <li class="area__zone" data-reveal>
+          <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 1C4.5 1 2.5 3 2.5 5.5 2.5 9 7 13 7 13s4.5-4 4.5-7.5C11.5 3 9.5 1 7 1z" fill="none" stroke="currentColor" stroke-width="1.2"/><circle cx="7" cy="5.5" r="1.4" fill="currentColor"/></svg>
+          {z}
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .area {
+    background: var(--color-paper);
+    border-top: 1px solid var(--color-line);
+  }
+  .area__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    align-items: center;
+  }
+  .area__zones {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.85rem 1rem;
+  }
+  .area__zone {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    color: var(--color-graphite);
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid var(--color-line);
+  }
+  .area__zone svg {
+    color: var(--color-mist);
+    flex: none;
+  }
+  @media (min-width: 768px) {
+    .area__grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    }
+    .area__zones {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

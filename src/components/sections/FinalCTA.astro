@@ -1,0 +1,53 @@
+---
+/**
+ * Bloque de CTA final (§4.3 brief). Cierre oscuro con las 3 acciones: calcular,
+ * WhatsApp y llamar. Los clics de WhatsApp/teléfono llevan data-* para el
+ * tracking de Fase 7.
+ */
+import { useTranslations, type Locale } from '../../i18n/ui';
+import { localizedPath } from '../../i18n/routes';
+import { telHref, whatsappHref } from '../../config/site';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<section class="section final-cta on-dark">
+  <div class="container-x final-cta__inner" data-reveal-group>
+    <h2 class="h-section final-cta__title" data-reveal>{t('home.finalCta.title')}</h2>
+    <p class="lead final-cta__sub" data-reveal>{t('home.finalCta.subtitle')}</p>
+    <div class="final-cta__actions" data-reveal>
+      <a class="btn btn-invert" href={localizedPath('calculadora', locale)}>{t('home.finalCta.calc')}</a>
+      <a class="btn btn-whatsapp" href={whatsappHref(t('whatsapp.prefill'))} target="_blank" rel="noopener" data-wa data-wa-source="final-cta">
+        {t('cta.whatsapp')}
+      </a>
+      <a class="btn btn-outline" href={telHref} data-phone>{t('home.finalCta.call')}</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .final-cta {
+    background: var(--color-ink);
+    color: #fff;
+    text-align: center;
+  }
+  .final-cta__inner {
+    max-width: 42rem;
+    margin-inline: auto;
+  }
+  .final-cta__sub {
+    margin-top: 1rem;
+    color: rgba(255, 255, 255, 0.72);
+  }
+  .final-cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.9rem;
+    margin-top: 2.25rem;
+  }
+</style>

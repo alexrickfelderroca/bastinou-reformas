@@ -71,6 +71,60 @@
       "projects": "Proyectos entregados",
       "sqm": "m² reformados",
       "rating": "Satisfacción de clientes"
+    },
+    "services": {
+      "eyebrow": "Servicios",
+      "title": "Todo lo que tu espacio necesita",
+      "subtitle": "Reforma integral o parcial, con dirección de obra propia y un único interlocutor de principio a fin.",
+      "cta": "Ver servicio",
+      "pisos": "Reformas integrales y parciales de pisos: cocinas, baños, distribución, instalaciones y acabados a medida.",
+      "casas": "Casas y viviendas unifamiliares reformadas de arriba abajo, con proyecto técnico y calidades premium.",
+      "oficinas": "Oficinas y locales comerciales funcionales y con marca, listos para trabajar y sin sorpresas de plazo.",
+      "construccion": "Obra menor, ampliaciones y construcción de pequeña escala con licencias y garantías en regla."
+    },
+    "calc": {
+      "eyebrow": "Calculadora",
+      "title": "Calcula tu precio en 1 minuto",
+      "subtitle": "Sin registro y sin compromiso. Responde 4 preguntas y recibe al instante una horquilla de precio orientativa.",
+      "b1": "Estimación al momento por m² y calidades",
+      "b2": "Ves el resultado sin dar tu teléfono",
+      "b3": "Presupuesto exacto tras una visita gratuita",
+      "cta": "Empezar a calcular"
+    },
+    "portfolio": {
+      "eyebrow": "Proyectos",
+      "title": "Obra terminada, no promesas",
+      "subtitle": "Un vistazo a una de nuestras reformas integrales. Cada acabado, elegido y ejecutado por nuestro equipo.",
+      "projectName": "Villa unifamiliar",
+      "projectMeta": "Reforma integral · 320 m² · Cataluña",
+      "cta": "Ver todos los proyectos",
+      "capExterior": "Exterior y piscina",
+      "capKitchen": "Cocina-salón",
+      "capTheater": "Sala de cine",
+      "capBathroom": "Baño principal",
+      "capStaircase": "Escalera"
+    },
+    "process": {
+      "eyebrow": "Proceso",
+      "title": "Cómo trabajamos",
+      "subtitle": "Un método claro en cinco pasos. Sabes en todo momento qué pasa, cuándo y cuánto cuesta.",
+      "s1t": "Contacto", "s1d": "Nos cuentas tu proyecto por WhatsApp, teléfono o formulario. Respondemos en menos de 24 h.",
+      "s2t": "Visita", "s2d": "Visitamos el espacio, tomamos medidas y entendemos qué quieres conseguir.",
+      "s3t": "Presupuesto", "s3d": "Recibes un presupuesto detallado y cerrado, sin partidas ocultas.",
+      "s4t": "Obra", "s4d": "Ejecutamos con equipo propio y un responsable de obra que te mantiene informado.",
+      "s5t": "Entrega", "s5d": "Entregamos limpio, revisado y con garantía. Tu espacio, listo para estrenar."
+    },
+    "area": {
+      "eyebrow": "Zona de servicio",
+      "title": "Barcelona y toda Cataluña",
+      "subtitle": "Trabajamos en la ciudad y su área metropolitana, y nos desplazamos por toda Cataluña para reformas integrales.",
+      "cta": "¿Tu zona no aparece? Escríbenos"
+    },
+    "finalCta": {
+      "title": "¿Listo para reformar?",
+      "subtitle": "Calcula tu precio ahora o habla directamente con nosotros. Presupuesto en 24 h.",
+      "calc": "Calcular mi reforma",
+      "call": "Llamar ahora"
     }
   },
   "notFound": {

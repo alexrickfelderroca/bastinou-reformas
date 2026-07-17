@@ -1,0 +1,47 @@
+---
+/**
+ * Cabecera de sección reutilizable: eyebrow + título + subtítulo, con reveal.
+ * `align` centra o alinea a la izquierda; `dark` para secciones oscuras.
+ */
+interface Props {
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+  align?: 'left' | 'center';
+  dark?: boolean;
+}
+const { eyebrow, title, subtitle, align = 'left', dark = false } = Astro.props;
+---
+
+<header class:list={['sec-head', `sec-head--${align}`, { 'sec-head--dark': dark }]} data-reveal-group>
+  {eyebrow && <p class="sec-head__eyebrow" data-reveal>{eyebrow}</p>}
+  <h2 class="h-section" data-reveal>{title}</h2>
+  {subtitle && <p class="lead sec-head__sub" data-reveal>{subtitle}</p>}
+</header>
+
+<style>
+  .sec-head {
+    max-width: 46rem;
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+  .sec-head--center {
+    margin-inline: auto;
+    text-align: center;
+  }
+  .sec-head__eyebrow {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--color-slate);
+    margin-bottom: 1rem;
+  }
+  .sec-head__sub {
+    margin-top: 1.1rem;
+  }
+  .sec-head--dark .sec-head__eyebrow {
+    color: var(--color-mist);
+  }
+  .sec-head--dark .sec-head__sub {
+    color: rgba(255, 255, 255, 0.7);
+  }
+</style>

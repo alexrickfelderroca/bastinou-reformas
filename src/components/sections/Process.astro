@@ -1,0 +1,87 @@
+---
+/**
+ * Proceso de trabajo en 5 pasos (contacto → visita → presupuesto → obra →
+ * entrega). Números grandes + reveal escalonado.
+ */
+import { useTranslations, type Locale } from '../../i18n/ui';
+import SectionHeader from './SectionHeader.astro';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const steps = [1, 2, 3, 4, 5].map((n) => ({
+  n,
+  title: t(`home.process.s${n}t`),
+  desc: t(`home.process.s${n}d`),
+}));
+---
+
+<section class="section process">
+  <div class="container-x">
+    <SectionHeader
+      eyebrow={t('home.process.eyebrow')}
+      title={t('home.process.title')}
+      subtitle={t('home.process.subtitle')}
+    />
+
+    <ol class="process__grid" data-reveal-group data-reveal-stagger="90">
+      {steps.map((s) => (
+        <li class="process__step" data-reveal>
+          <span class="process__num">{String(s.n).padStart(2, '0')}</span>
+          <h3 class="process__title">{s.title}</h3>
+          <p class="process__desc">{s.desc}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .process {
+    background: var(--color-cloud);
+  }
+  .process__grid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem 1.5rem;
+    counter-reset: step;
+  }
+  .process__step {
+    position: relative;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-line);
+  }
+  .process__num {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--color-mist);
+    margin-bottom: 0.9rem;
+  }
+  .process__title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.5rem;
+  }
+  .process__desc {
+    color: var(--color-slate);
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+  @media (min-width: 640px) {
+    .process__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 1024px) {
+    .process__grid {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
+</style>

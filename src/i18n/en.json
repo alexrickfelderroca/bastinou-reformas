@@ -71,6 +71,60 @@
       "projects": "Projects delivered",
       "sqm": "m² renovated",
       "rating": "Client satisfaction"
+    },
+    "services": {
+      "eyebrow": "Services",
+      "title": "Everything your space needs",
+      "subtitle": "Full or partial renovation, with in-house site management and a single point of contact from start to finish.",
+      "cta": "View service",
+      "pisos": "Full and partial apartment renovations: kitchens, bathrooms, layout, systems and bespoke finishes.",
+      "casas": "Detached houses and homes renovated top to bottom, with technical design and premium finishes.",
+      "oficinas": "Functional, on-brand offices and commercial units, ready to work with no deadline surprises.",
+      "construccion": "Minor works, extensions and small-scale construction with permits and guarantees in order."
+    },
+    "calc": {
+      "eyebrow": "Calculator",
+      "title": "Estimate your price in 1 minute",
+      "subtitle": "No sign-up, no commitment. Answer 4 questions and get an indicative price range instantly.",
+      "b1": "Instant estimate by m² and finish level",
+      "b2": "See the result without giving your phone",
+      "b3": "Exact quote after a free site visit",
+      "cta": "Start estimating"
+    },
+    "portfolio": {
+      "eyebrow": "Projects",
+      "title": "Finished work, not promises",
+      "subtitle": "A look at one of our full renovations. Every finish, chosen and executed by our own team.",
+      "projectName": "Detached villa",
+      "projectMeta": "Full renovation · 320 m² · Catalonia",
+      "cta": "View all projects",
+      "capExterior": "Exterior & pool",
+      "capKitchen": "Kitchen-living",
+      "capTheater": "Home cinema",
+      "capBathroom": "Main bathroom",
+      "capStaircase": "Staircase"
+    },
+    "process": {
+      "eyebrow": "Process",
+      "title": "How we work",
+      "subtitle": "A clear five-step method. You always know what's happening, when, and how much it costs.",
+      "s1t": "Contact", "s1d": "Tell us about your project via WhatsApp, phone or the form. We reply within 24 h.",
+      "s2t": "Visit", "s2d": "We visit the space, take measurements and understand what you want to achieve.",
+      "s3t": "Quote", "s3d": "You receive a detailed, fixed quote with no hidden items.",
+      "s4t": "Build", "s4d": "We execute with our own team and a site manager who keeps you informed.",
+      "s5t": "Handover", "s5d": "We hand over clean, checked and guaranteed. Your space, ready to enjoy."
+    },
+    "area": {
+      "eyebrow": "Service area",
+      "title": "Barcelona and all of Catalonia",
+      "subtitle": "We work in the city and its metropolitan area, and travel across Catalonia for full renovations.",
+      "cta": "Don't see your area? Write to us"
+    },
+    "finalCta": {
+      "title": "Ready to renovate?",
+      "subtitle": "Estimate your price now or talk to us directly. Quote within 24 h.",
+      "calc": "Estimate my project",
+      "call": "Call now"
     }
   },
   "notFound": {

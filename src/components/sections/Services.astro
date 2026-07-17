@@ -1,0 +1,135 @@
+---
+/**
+ * Servicios: 4 tarjetas (pisos, casas, oficinas, construcción) con imagen real
+ * del portfolio. Hover: elevación de la tarjeta + scale 1.05 de la imagen (§3.3).
+ * Cada tarjeta enlaza a su landing.
+ */
+import { Image } from 'astro:assets';
+import { useTranslations, type Locale } from '../../i18n/ui';
+import { localizedPath, type RouteKey } from '../../i18n/routes';
+import SectionHeader from './SectionHeader.astro';
+
+import imgPisos from '../../assets/portfolio/casa-espana/kitchen-living.jpg';
+import imgCasas from '../../assets/portfolio/casa-espana/exterior-villa.jpg';
+import imgOficinas from '../../assets/portfolio/casa-espana/home-theater.jpg';
+import imgConstruccion from '../../assets/portfolio/casa-espana/exterior-pool.jpg';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const items: { key: RouteKey; img: ImageMetadata }[] = [
+  { key: 'pisos', img: imgPisos },
+  { key: 'casas', img: imgCasas },
+  { key: 'oficinas', img: imgOficinas },
+  { key: 'construccion', img: imgConstruccion },
+];
+---
+
+<section class="section services">
+  <div class="container-x">
+    <SectionHeader
+      eyebrow={t('home.services.eyebrow')}
+      title={t('home.services.title')}
+      subtitle={t('home.services.subtitle')}
+    />
+
+    <div class="services__grid" data-reveal-group data-reveal-stagger="100">
+      {items.map(({ key, img }) => (
+        <a class="service-card card-hover" href={localizedPath(key, locale)} data-reveal>
+          <div class="service-card__media">
+            <Image
+              src={img}
+              alt={t(`nav.${key}`)}
+              widths={[420, 720]}
+              sizes="(min-width: 768px) 45vw, 100vw"
+              class="card-media"
+              loading="lazy"
+            />
+          </div>
+          <div class="service-card__body">
+            <h3 class="service-card__title">{t(`nav.${key}`)}</h3>
+            <p class="service-card__desc">{t(`home.services.${key}`)}</p>
+            <span class="service-card__link">
+              {t('home.services.cta')}
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .services {
+    background: var(--color-paper);
+  }
+  .services__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .service-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-cloud);
+    border: 1px solid var(--color-line);
+    border-radius: 1.25rem;
+    overflow: hidden;
+    text-decoration: none;
+    color: var(--color-ink);
+  }
+  .service-card__media {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+  }
+  .service-card__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .service-card__body {
+    padding: 1.5rem 1.5rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    flex: 1;
+  }
+  .service-card__title {
+    font-size: 1.35rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  .service-card__desc {
+    color: var(--color-slate);
+    font-size: 0.975rem;
+    line-height: 1.55;
+    flex: 1;
+  }
+  .service-card__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+    font-weight: 550;
+    font-size: 0.95rem;
+  }
+  .service-card__link svg {
+    transition: transform 0.3s var(--ease-standard);
+  }
+  @media (hover: hover) {
+    .service-card:hover .service-card__link svg {
+      transform: translateX(4px);
+    }
+  }
+  @media (min-width: 768px) {
+    .services__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

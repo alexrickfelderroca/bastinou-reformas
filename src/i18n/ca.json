@@ -71,6 +71,60 @@
       "projects": "Projectes lliurats",
       "sqm": "m² reformats",
       "rating": "Satisfacció dels clients"
+    },
+    "services": {
+      "eyebrow": "Serveis",
+      "title": "Tot el que el teu espai necessita",
+      "subtitle": "Reforma integral o parcial, amb direcció d'obra pròpia i un únic interlocutor de principi a fi.",
+      "cta": "Veure servei",
+      "pisos": "Reformes integrals i parcials de pisos: cuines, banys, distribució, instal·lacions i acabats a mida.",
+      "casas": "Cases i habitatges unifamiliars reformats de dalt a baix, amb projecte tècnic i qualitats premium.",
+      "oficinas": "Oficines i locals comercials funcionals i amb marca, a punt per treballar i sense sorpreses de termini.",
+      "construccion": "Obra menor, ampliacions i construcció de petita escala amb llicències i garanties en regla."
+    },
+    "calc": {
+      "eyebrow": "Calculadora",
+      "title": "Calcula el teu preu en 1 minut",
+      "subtitle": "Sense registre i sense compromís. Respon 4 preguntes i rep a l'instant una forquilla de preu orientativa.",
+      "b1": "Estimació al moment per m² i qualitats",
+      "b2": "Veus el resultat sense donar el teu telèfon",
+      "b3": "Pressupost exacte després d'una visita gratuïta",
+      "cta": "Començar a calcular"
+    },
+    "portfolio": {
+      "eyebrow": "Projectes",
+      "title": "Obra acabada, no promeses",
+      "subtitle": "Un cop d'ull a una de les nostres reformes integrals. Cada acabat, escollit i executat pel nostre equip.",
+      "projectName": "Vila unifamiliar",
+      "projectMeta": "Reforma integral · 320 m² · Catalunya",
+      "cta": "Veure tots els projectes",
+      "capExterior": "Exterior i piscina",
+      "capKitchen": "Cuina-menjador",
+      "capTheater": "Sala de cinema",
+      "capBathroom": "Bany principal",
+      "capStaircase": "Escala"
+    },
+    "process": {
+      "eyebrow": "Procés",
+      "title": "Com treballem",
+      "subtitle": "Un mètode clar en cinc passos. Saps en tot moment què passa, quan i quant costa.",
+      "s1t": "Contacte", "s1d": "Ens expliques el teu projecte per WhatsApp, telèfon o formulari. Responem en menys de 24 h.",
+      "s2t": "Visita", "s2d": "Visitem l'espai, prenem mesures i entenem què vols aconseguir.",
+      "s3t": "Pressupost", "s3d": "Reps un pressupost detallat i tancat, sense partides ocultes.",
+      "s4t": "Obra", "s4d": "Executem amb equip propi i un responsable d'obra que et manté informat.",
+      "s5t": "Lliurament", "s5d": "Lliurem net, revisat i amb garantia. El teu espai, a punt per estrenar."
+    },
+    "area": {
+      "eyebrow": "Zona de servei",
+      "title": "Barcelona i tota Catalunya",
+      "subtitle": "Treballem a la ciutat i la seva àrea metropolitana, i ens desplacem per tota Catalunya per a reformes integrals.",
+      "cta": "La teva zona no hi surt? Escriu-nos"
+    },
+    "finalCta": {
+      "title": "A punt per reformar?",
+      "subtitle": "Calcula el teu preu ara o parla directament amb nosaltres. Pressupost en 24 h.",
+      "calc": "Calcular la meva reforma",
+      "call": "Trucar ara"
     }
   },
   "notFound": {

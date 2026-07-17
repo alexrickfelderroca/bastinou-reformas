@@ -63,7 +63,9 @@ public/
 
 - [x] **Fase 1 — Base**: scaffold, i18n, tokens, layout (header/footer), sistema de
       animaciones, Lenis, assets (logo/equipo), 404, build + type-check OK.
-- [ ] Fase 2 — Home completa
+- [x] **Fase 2 — Home**: hero, servicios (4 tarjetas con imágenes reales),
+      calculadora resumida (mock glass), portfolio (proyecto casa-España),
+      proceso 5 pasos, cifras, zona de servicio, CTA final — ES/CA/EN, responsive.
 - [ ] Fase 3 — Landings de servicios + FAQ + schema
 - [ ] Fase 4 — Calculadora (wizard + pricing.json + lead + eventos)
 - [ ] Fase 5 — Portfolio + Nosotros + Contacto
