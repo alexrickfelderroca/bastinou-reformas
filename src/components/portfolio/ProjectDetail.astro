@@ -1,0 +1,223 @@
+---
+/**
+ * Detalle de proyecto (§4.2): fotos, m², plazo, segmento, slider antes/después
+ * y galería. Renderiza su propio Layout con hreflang explícito (slug propio).
+ */
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import BeforeAfter from '../sections/BeforeAfter.astro';
+import { useTranslations, locales, type Locale } from '../../i18n/ui';
+import { localizedPath } from '../../i18n/routes';
+
+interface Props {
+  locale: Locale;
+  entry: CollectionEntry<'projects'>;
+}
+const { locale, entry } = Astro.props;
+const t = useTranslations(locale);
+const d = entry.data;
+const p = (k: string) => t(`projects.${entry.id}.${k}`);
+const segCap = d.segment[0].toUpperCase() + d.segment.slice(1);
+
+const alternates = locales.map((l) => ({
+  locale: l,
+  path: `${localizedPath('proyectos', l)}/${entry.id}`,
+}));
+
+const meta = [
+  { label: t('project.area'), value: `${d.area} m²` },
+  { label: t('project.duration'), value: p('duration') },
+  { label: t('project.segment'), value: t(`project.seg${segCap}`) },
+  { label: t('project.location'), value: d.location },
+  { label: t('project.year'), value: String(d.year) },
+];
+---
+
+<Layout title={p('title')} description={p('summary')} alternates={alternates} overHero={true}>
+  <article>
+    <section class="pd-hero on-dark">
+      <div class="container-x">
+        <a class="pd-back" href={localizedPath('proyectos', locale)}>← {t('project.back')}</a>
+        <h1 class="h-hero pd-title">{p('title')}</h1>
+        <p class="lead pd-summary">{p('summary')}</p>
+        <dl class="pd-meta">
+          {meta.map((m) => (
+            <div>
+              <dt>{m.label}</dt>
+              <dd>{m.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </section>
+
+    <div class="container-x pd-cover">
+      <Image src={d.cover} alt={p('title')} widths={[720, 1200, 1800]} sizes="(min-width: 1280px) 1200px, 100vw" loading="eager" fetchpriority="high" />
+    </div>
+
+    {d.beforeAfter.length > 0 && (
+      <section class="section pd-ba">
+        <div class="container-x">
+          <h2 class="h-section" data-reveal>{t('project.beforeAfterTitle')}</h2>
+          <p class="pd-ba__note" data-reveal>{t('project.beforeAfterNote')}</p>
+          <div class="pd-ba__grid">
+            {d.beforeAfter.map((pair) => (
+              <div data-reveal>
+                <BeforeAfter
+                  before={pair.before}
+                  after={pair.after}
+                  beforeLabel={t('project.before')}
+                  afterLabel={t('project.after')}
+                  ariaLabel={t('project.beforeAfterAria')}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <section class="section pd-gallery">
+      <div class="container-x">
+        <h2 class="h-section" data-reveal>{t('project.galleryTitle')}</h2>
+        <div class="pd-gallery__grid" data-reveal-group data-reveal-stagger="60">
+          {d.gallery.map((img) => (
+            <figure class="pd-gallery__item" data-reveal>
+              <Image src={img} alt={p('title')} widths={[400, 700, 1000]} sizes="(min-width: 768px) 45vw, 100vw" loading="lazy" />
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section pd-cta on-dark">
+      <div class="container-x pd-cta__inner" data-reveal-group>
+        <h2 class="h-section" data-reveal>{t('project.ctaTitle')}</h2>
+        <p class="lead pd-cta__sub" data-reveal>{t('project.ctaSub')}</p>
+        <div class="pd-cta__actions" data-reveal>
+          <a class="btn btn-invert" href={localizedPath('calculadora', locale)}>{t('project.ctaCalc')}</a>
+          <a class="btn btn-outline" href={localizedPath('contacto', locale)}>{t('project.ctaContact')}</a>
+        </div>
+      </div>
+    </section>
+  </article>
+</Layout>
+
+<style>
+  .pd-hero {
+    background: var(--color-ink);
+    color: #fff;
+    padding-block: 7rem 3rem;
+  }
+  .pd-back {
+    display: inline-block;
+    margin-bottom: 2rem;
+    color: var(--color-mist);
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+  .pd-back:hover {
+    color: #fff;
+  }
+  .pd-summary {
+    margin-top: 1.25rem;
+    max-width: 60ch;
+    color: rgba(255, 255, 255, 0.75);
+  }
+  .pd-meta {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem 2rem;
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .pd-meta dt {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-mist);
+  }
+  .pd-meta dd {
+    margin-top: 0.3rem;
+    font-size: 1.05rem;
+    font-weight: 550;
+  }
+  .pd-cover {
+    margin-top: -2rem;
+  }
+  .pd-cover :global(img) {
+    width: 100%;
+    height: auto;
+    border-radius: 1.5rem;
+    display: block;
+  }
+  .pd-ba {
+    background: var(--color-paper);
+  }
+  .pd-ba__note {
+    margin: 0.75rem 0 2rem;
+    color: var(--color-slate);
+    font-size: 0.95rem;
+  }
+  .pd-ba__grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+  .pd-gallery {
+    background: var(--color-cloud);
+  }
+  .pd-gallery__grid {
+    columns: 1;
+    column-gap: 1rem;
+    margin-top: 2rem;
+  }
+  .pd-gallery__item {
+    margin: 0 0 1rem;
+    break-inside: avoid;
+    border-radius: 1rem;
+    overflow: hidden;
+  }
+  .pd-gallery__item :global(img) {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .pd-cta {
+    background: var(--color-ink);
+    color: #fff;
+    text-align: center;
+  }
+  .pd-cta__inner {
+    max-width: 40rem;
+    margin-inline: auto;
+  }
+  .pd-cta__sub {
+    margin-top: 1rem;
+    color: rgba(255, 255, 255, 0.72);
+  }
+  .pd-cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.9rem;
+    margin-top: 2rem;
+  }
+  @media (min-width: 640px) {
+    .pd-meta {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .pd-gallery__grid {
+      columns: 2;
+    }
+  }
+  @media (min-width: 1024px) {
+    .pd-meta {
+      grid-template-columns: repeat(5, 1fr);
+    }
+    .pd-gallery__grid {
+      columns: 3;
+    }
+  }
+</style>

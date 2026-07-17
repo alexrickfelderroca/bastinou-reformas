@@ -1,0 +1,154 @@
+---
+/**
+ * Página Nosotros (§4.2): quiénes somos, enfoque, garantías, equipo y proceso.
+ */
+import Layout from '../layouts/Layout.astro';
+import SectionHeader from './sections/SectionHeader.astro';
+import Team from './sections/Team.astro';
+import Process from './sections/Process.astro';
+import Stats from './sections/Stats.astro';
+import FinalCTA from './sections/FinalCTA.astro';
+import { getLocaleFromUrl, useTranslations } from '../i18n/ui';
+
+const locale = getLocaleFromUrl(Astro.url);
+const t = useTranslations(locale);
+
+const values = [1, 2, 3, 4].map((n) => ({ t: t(`about.v${n}t`), d: t(`about.v${n}d`) }));
+const guarantees = [1, 2, 3, 4].map((n) => t(`about.g${n}`));
+---
+
+<Layout title={t('about.metaTitle')} description={t('about.metaDesc')} routeKey="nosotros" overHero={true}>
+  <section class="ab-hero on-dark">
+    <div class="container-x">
+      <h1 class="h-hero">{t('about.title')}</h1>
+      <p class="lead ab-hero__sub">{t('about.subtitle')}</p>
+    </div>
+  </section>
+
+  <section class="section ab-intro">
+    <div class="container-x ab-intro__grid">
+      <h2 class="h-section" data-reveal>{t('about.introTitle')}</h2>
+      <p class="lead" data-reveal>{t('about.introText')}</p>
+    </div>
+  </section>
+
+  <Stats locale={locale} />
+
+  <section class="section ab-values">
+    <div class="container-x">
+      <SectionHeader eyebrow={t('about.eyEnfoque')} title={t('about.valuesTitle')} />
+      <div class="ab-values__grid" data-reveal-group data-reveal-stagger="80">
+        {values.map((v, i) => (
+          <div class="ab-value" data-reveal>
+            <span class="ab-value__num">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="ab-value__title">{v.t}</h3>
+            <p class="ab-value__desc">{v.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section ab-guarantees on-dark">
+    <div class="container-x ab-guarantees__grid">
+      <div>
+        <SectionHeader eyebrow={t('about.eyGarantias')} title={t('about.guaranteesTitle')} subtitle={t('about.guaranteesSubtitle')} dark={true} />
+      </div>
+      <ul class="ab-guarantees__list" data-reveal-group data-reveal-stagger="70">
+        {guarantees.map((g) => (
+          <li data-reveal>
+            <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4L16 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>{g}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <Team locale={locale} />
+  <Process locale={locale} />
+  <FinalCTA locale={locale} />
+</Layout>
+
+<style>
+  .ab-hero {
+    background: var(--color-ink);
+    color: #fff;
+    padding-block: 8rem 3.5rem;
+  }
+  .ab-hero__sub {
+    margin-top: 1.25rem;
+    max-width: 52ch;
+    color: rgba(255, 255, 255, 0.72);
+  }
+  .ab-intro {
+    background: var(--color-paper);
+  }
+  .ab-intro__grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+  .ab-values {
+    background: var(--color-paper);
+    border-top: 1px solid var(--color-line);
+  }
+  .ab-values__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem 1.5rem;
+  }
+  .ab-value__num {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-mist);
+  }
+  .ab-value__title {
+    margin-top: 0.75rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+  .ab-value__desc {
+    margin-top: 0.5rem;
+    color: var(--color-slate);
+    line-height: 1.55;
+  }
+  .ab-guarantees {
+    background: var(--color-ink);
+    color: #fff;
+  }
+  .ab-guarantees__grid {
+    display: grid;
+    gap: 2.5rem;
+  }
+  .ab-guarantees__list {
+    list-style: none;
+    display: grid;
+    gap: 1.1rem;
+  }
+  .ab-guarantees__list li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.1rem;
+    padding-bottom: 1.1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .ab-guarantees__list svg {
+    flex: none;
+    color: #fff;
+  }
+  @media (min-width: 768px) {
+    .ab-intro__grid {
+      grid-template-columns: 1fr 1.4fr;
+      gap: 3rem;
+    }
+    .ab-values__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .ab-guarantees__grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+  }
+</style>

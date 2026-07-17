@@ -75,7 +75,11 @@ public/
       ±15% redondeada a centenas con count-up; captura de lead no bloqueante +
       WhatsApp prellenado; persistencia en sessionStorage; eventos calc_* al
       dataLayer. ES/CA/EN, responsive.
-- [ ] Fase 5 — Portfolio + Nosotros + Contacto
+- [x] **Fase 5 — Portfolio + Nosotros + Contacto**: portfolio con colección de
+      contenido (`src/content/projects`), grid con filtro por tipo, detalle con
+      meta + slider antes/después (ratón/touch/teclado) + galería; Nosotros con
+      enfoque/garantías/equipo (4 fotos reales); Contacto con métodos + form +
+      zona. hreflang correcto en detalle. ES/CA/EN.
 - [ ] Fase 6 — Formularios y notificaciones
 - [ ] Fase 7 — Tracking (GTM, Consent Mode v2)
 - [ ] Fase 8 — SEO técnico (JSON-LD, OG, sitemap)

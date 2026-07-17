@@ -1,0 +1,80 @@
+---
+/**
+ * Tarjeta de proyecto para el grid del portfolio. Cover + badge de tipo +
+ * título (i18n) + meta (m² · año). Hover: elevación + scale de la imagen.
+ */
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { useTranslations, type Locale } from '../../i18n/ui';
+import { localizedPath } from '../../i18n/routes';
+
+interface Props {
+  locale: Locale;
+  entry: CollectionEntry<'projects'>;
+}
+const { locale, entry } = Astro.props;
+const t = useTranslations(locale);
+const { type, area, year, cover } = entry.data;
+const url = `${localizedPath('proyectos', locale)}/${entry.id}`;
+const typeCap = type[0].toUpperCase() + type.slice(1);
+---
+
+<a class="pcard card-hover" href={url} data-type={type} data-reveal>
+  <div class="pcard__media">
+    <Image src={cover} alt={t(`projects.${entry.id}.title`)} widths={[420, 720, 1000]} sizes="(min-width: 768px) 45vw, 100vw" class="card-media" loading="lazy" />
+    <span class="pcard__badge">{t(`portfolio.type${typeCap}`)}</span>
+  </div>
+  <div class="pcard__body">
+    <h3 class="pcard__title">{t(`projects.${entry.id}.title`)}</h3>
+    <p class="pcard__meta">{area} m² · {year}</p>
+  </div>
+</a>
+
+<style>
+  .pcard {
+    display: block;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    text-decoration: none;
+    color: var(--color-ink);
+    background: var(--color-cloud);
+    border: 1px solid var(--color-line);
+  }
+  .pcard__media {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+  .pcard__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .pcard__badge {
+    position: absolute;
+    left: 0.9rem;
+    top: 0.9rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    background: rgba(10, 10, 10, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  .pcard__body {
+    padding: 1.25rem 1.4rem 1.5rem;
+  }
+  .pcard__title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .pcard__meta {
+    margin-top: 0.35rem;
+    color: var(--color-slate);
+    font-size: 0.95rem;
+  }
+</style>

@@ -1,0 +1,138 @@
+---
+/**
+ * Página de portfolio (/proyectos). Hero + filtro por tipo (client-side) + grid
+ * de proyectos. El filtro funciona con contenido estático mostrando/ocultando
+ * tarjetas por data-type.
+ */
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import ProjectCard from './ProjectCard.astro';
+import { getLocaleFromUrl, useTranslations } from '../../i18n/ui';
+
+const locale = getLocaleFromUrl(Astro.url);
+const t = useTranslations(locale);
+
+const projects = (await getCollection('projects')).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+const filters = ['all', 'piso', 'casa', 'oficina', 'construccion'] as const;
+---
+
+<Layout title={t('portfolio.metaTitle')} description={t('portfolio.metaDesc')} routeKey="proyectos" overHero={true}>
+  <section class="pf-hero on-dark">
+    <div class="container-x">
+      <h1 class="h-hero">{t('portfolio.title')}</h1>
+      <p class="lead pf-hero__sub">{t('portfolio.subtitle')}</p>
+    </div>
+  </section>
+
+  <section class="section pf-body">
+    <div class="container-x">
+      <div class="pf-filters" role="tablist" aria-label={t('portfolio.filterAll')}>
+        {filters.map((f) => (
+          <button
+            class:list={['pf-filter', { 'is-active': f === 'all' }]}
+            data-filter={f}
+            type="button"
+          >
+            {t(`portfolio.filter${f === 'all' ? 'All' : f[0].toUpperCase() + f.slice(1)}`)}
+          </button>
+        ))}
+      </div>
+
+      <div class="pf-grid" data-reveal-group data-reveal-stagger="80">
+        {projects.map((entry) => <ProjectCard locale={locale} entry={entry} />)}
+      </div>
+
+      <p class="pf-empty" data-pf-empty hidden>{t('portfolio.note')}</p>
+      <p class="pf-note">{t('portfolio.note')}</p>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .pf-hero {
+    background: var(--color-ink);
+    color: #fff;
+    padding-block: 8rem 3.5rem;
+  }
+  .pf-hero__sub {
+    margin-top: 1.25rem;
+    max-width: 46ch;
+    color: rgba(255, 255, 255, 0.72);
+  }
+  .pf-body {
+    background: var(--color-paper);
+  }
+  .pf-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 2.5rem;
+  }
+  .pf-filter {
+    padding: 0.55rem 1.1rem;
+    border-radius: 999px;
+    border: 1px solid var(--color-line);
+    background: var(--color-paper);
+    font-size: 0.925rem;
+    font-weight: 500;
+    color: var(--color-slate);
+    cursor: pointer;
+    transition: all 0.2s var(--ease-standard);
+  }
+  .pf-filter:hover {
+    border-color: var(--color-ink);
+    color: var(--color-ink);
+  }
+  .pf-filter.is-active {
+    background: var(--color-ink);
+    color: #fff;
+    border-color: var(--color-ink);
+  }
+  .pf-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .pf-empty {
+    padding: 3rem 0;
+    text-align: center;
+    color: var(--color-slate);
+  }
+  .pf-note {
+    margin-top: 2.5rem;
+    font-size: 0.9rem;
+    color: var(--color-mist);
+  }
+  @media (min-width: 640px) {
+    .pf-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 1024px) {
+    .pf-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  const cards = document.querySelectorAll<HTMLElement>('.pf-grid [data-type]');
+  const empty = document.querySelector<HTMLElement>('[data-pf-empty]');
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const f = btn.dataset.filter;
+      buttons.forEach((b) => b.classList.toggle('is-active', b === btn));
+      let visible = 0;
+      cards.forEach((card) => {
+        const show = f === 'all' || card.dataset.type === f;
+        card.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+      if (empty) empty.hidden = visible !== 0;
+    });
+  });
+</script>

@@ -1,0 +1,155 @@
+---
+/**
+ * Página de contacto (§4.2): métodos de contacto (WhatsApp/teléfono/email),
+ * formulario y zona de servicio + horario.
+ */
+import Layout from '../layouts/Layout.astro';
+import QuoteForm from './sections/QuoteForm.astro';
+import { getLocaleFromUrl, useTranslations } from '../i18n/ui';
+import { site, telHref, whatsappHref } from '../config/site';
+
+const locale = getLocaleFromUrl(Astro.url);
+const t = useTranslations(locale);
+
+const methods = [
+  { label: t('cta.whatsapp'), value: site.phone, desc: t('contact.whatsappDesc'), href: whatsappHref(t('whatsapp.prefill')), attr: 'data-wa', ext: true },
+  { label: t('common.phone'), value: site.phone, desc: t('contact.callDesc'), href: telHref, attr: 'data-phone', ext: false },
+  { label: t('common.email'), value: site.email, desc: t('contact.emailDesc'), href: `mailto:${site.email}`, attr: '', ext: false },
+];
+
+const zones = ['Barcelona', "L'Hospitalet", 'Badalona', 'Sant Cugat', 'Sabadell', 'Terrassa', 'Maresme', 'Baix Llobregat', 'Girona', 'Tarragona'];
+---
+
+<Layout title={t('contact.metaTitle')} description={t('contact.metaDesc')} routeKey="contacto" overHero={true}>
+  <section class="ct-hero on-dark">
+    <div class="container-x">
+      <h1 class="h-hero">{t('contact.title')}</h1>
+      <p class="lead ct-hero__sub">{t('contact.subtitle')}</p>
+    </div>
+  </section>
+
+  <section class="section ct-methods">
+    <div class="container-x">
+      <div class="ct-methods__grid" data-reveal-group data-reveal-stagger="80">
+        {methods.map((m) => (
+          <a
+            class="ct-method card-hover"
+            href={m.href}
+            data-reveal
+            data-wa={m.attr === 'data-wa' ? '' : undefined}
+            data-wa-source={m.attr === 'data-wa' ? 'contact' : undefined}
+            data-phone={m.attr === 'data-phone' ? '' : undefined}
+            target={m.ext ? '_blank' : undefined}
+            rel={m.ext ? 'noopener' : undefined}
+          >
+            <span class="ct-method__label">{m.label}</span>
+            <span class="ct-method__value">{m.value}</span>
+            <span class="ct-method__desc">{m.desc}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <QuoteForm locale={locale} id="contacto-form" />
+
+  <section class="section ct-info">
+    <div class="container-x ct-info__grid">
+      <div>
+        <h2 class="h-section" data-reveal>{t('contact.areaTitle')}</h2>
+        <p class="lead ct-info__text" data-reveal>{t('contact.areaText')}</p>
+        <p class="ct-info__hours" data-reveal>
+          <strong>{t('contact.hoursTitle')}:</strong> {t('contact.hoursValue')}
+        </p>
+      </div>
+      <ul class="ct-zones" data-reveal-group data-reveal-stagger="40">
+        {zones.map((z) => (
+          <li class="ct-zone" data-reveal>{z}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .ct-hero {
+    background: var(--color-ink);
+    color: #fff;
+    padding-block: 8rem 3.5rem;
+  }
+  .ct-hero__sub {
+    margin-top: 1.25rem;
+    max-width: 48ch;
+    color: rgba(255, 255, 255, 0.72);
+  }
+  .ct-methods {
+    background: var(--color-paper);
+  }
+  .ct-methods__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .ct-method {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 1.75rem;
+    border-radius: 1.25rem;
+    border: 1px solid var(--color-line);
+    background: var(--color-cloud);
+    text-decoration: none;
+    color: var(--color-ink);
+  }
+  .ct-method__label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-slate);
+  }
+  .ct-method__value {
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .ct-method__desc {
+    color: var(--color-slate);
+    font-size: 0.95rem;
+  }
+  .ct-info {
+    background: var(--color-cloud);
+    border-top: 1px solid var(--color-line);
+  }
+  .ct-info__grid {
+    display: grid;
+    gap: 2.5rem;
+    align-items: center;
+  }
+  .ct-info__text {
+    margin-top: 1rem;
+  }
+  .ct-info__hours {
+    margin-top: 1.5rem;
+    color: var(--color-slate);
+  }
+  .ct-zones {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem 1rem;
+  }
+  .ct-zone {
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--color-line);
+    color: var(--color-graphite);
+  }
+  @media (min-width: 768px) {
+    .ct-methods__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .ct-info__grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    }
+  }
+</style>

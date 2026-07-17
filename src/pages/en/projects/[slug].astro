@@ -1,0 +1,14 @@
+---
+import { getCollection } from 'astro:content';
+import ProjectDetail from '../../../components/portfolio/ProjectDetail.astro';
+import { getLocaleFromUrl } from '../../../i18n/ui';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const locale = getLocaleFromUrl(Astro.url);
+const { entry } = Astro.props;
+---
+<ProjectDetail locale={locale} entry={entry} />

@@ -20,6 +20,8 @@ interface Props {
   overHero?: boolean;
   image?: string;
   noindex?: boolean;
+  /** Alternates hreflang explícitos (p. ej. detalle de proyecto con slug propio). */
+  alternates?: { locale: import('../i18n/ui').Locale; path: string }[];
 }
 
 const locale = getLocaleFromUrl(Astro.url);
@@ -31,6 +33,7 @@ const {
   overHero = false,
   image = '/og/default.jpg',
   noindex = false,
+  alternates: alternatesProp,
 } = Astro.props;
 
 const siteUrl = Astro.site ?? new URL('https://www.bastinou.com');
@@ -38,8 +41,8 @@ const canonical = new URL(Astro.url.pathname, siteUrl).href;
 const ogImage = new URL(image, siteUrl).href;
 const fullTitle = title.includes(site.name) ? title : `${title} · ${site.name}`;
 
-// hreflang: sólo si conocemos las variantes traducidas de la página.
-const alternates = routeKey ? alternatesFor(routeKey) : [];
+// hreflang: alternates explícitos > por routeKey > ninguno.
+const alternates = alternatesProp ?? (routeKey ? alternatesFor(routeKey) : []);
 
 // JSON-LD global del negocio (§8) — se ampliará en Fase 8.
 const businessLd = {
