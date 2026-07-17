@@ -159,6 +159,9 @@
     "formPrivacy": "He llegit i accepto la",
     "formPrivacyLink": "política de privacitat",
     "formSubmit": "Enviar sol·licitud",
+    "formThanksTitle": "Gràcies!",
+    "formThanksText": "Hem rebut la teva sol·licitud. Et contactem en menys de 24 h.",
+    "formError": "No hem pogut enviar la teva sol·licitud. Torna-ho a provar o escriu-nos per WhatsApp.",
     "breadcrumbHome": "Inici"
   },
   "landings": {
@@ -311,6 +314,7 @@
     "leadPrivacyLink": "política de privacitat",
     "leadSubmit": "Rebre pressupost",
     "orWhatsapp": "o envia'l per WhatsApp",
+    "leadError": "No hem pogut enviar la teva sol·licitud. Torna-ho a provar o fes servir WhatsApp.",
     "thanksTitle": "Gràcies!",
     "thanksText": "Hem rebut la teva sol·licitud amb totes les dades del teu càlcul. Et contactem en menys de 24 h.",
     "emptyParts": "Selecciona almenys una part per continuar.",

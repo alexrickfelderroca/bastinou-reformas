@@ -159,6 +159,9 @@
     "formPrivacy": "I have read and accept the",
     "formPrivacyLink": "privacy policy",
     "formSubmit": "Send request",
+    "formThanksTitle": "Thank you!",
+    "formThanksText": "We've received your request. We'll contact you within 24 h.",
+    "formError": "We couldn't send your request. Please try again or message us on WhatsApp.",
     "breadcrumbHome": "Home"
   },
   "landings": {
@@ -311,6 +314,7 @@
     "leadPrivacyLink": "privacy policy",
     "leadSubmit": "Get my quote",
     "orWhatsapp": "or send it via WhatsApp",
+    "leadError": "We couldn't send your request. Please try again or use WhatsApp.",
     "thanksTitle": "Thank you!",
     "thanksText": "We've received your request with all your calculation details. We'll contact you within 24 h.",
     "emptyParts": "Select at least one area to continue.",

@@ -80,7 +80,11 @@ public/
       meta + slider antes/después (ratón/touch/teclado) + galería; Nosotros con
       enfoque/garantías/equipo (4 fotos reales); Contacto con métodos + form +
       zona. hreflang correcto en detalle. ES/CA/EN.
-- [ ] Fase 6 — Formularios y notificaciones
+- [x] **Fase 6 — Formularios y notificaciones**: endpoint `/api/lead` (Node
+      adapter neutro, swappable), validación servidor + honeypot, email (Resend)
+      + Telegram opcional tras env vars; formularios con fetch → gracias/error;
+      captura UTM/gclid en sessionStorage adjunta a cada lead; evento form_submit.
+      Ver `.env.example`. Antispam reCAPTCHA/Turnstile queda como [PENDIENTE] hook.
 - [ ] Fase 7 — Tracking (GTM, Consent Mode v2)
 - [ ] Fase 8 — SEO técnico (JSON-LD, OG, sitemap)
 - [ ] Fase 9 — Rendimiento (≥90 móvil)

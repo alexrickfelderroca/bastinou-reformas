@@ -159,6 +159,9 @@
     "formPrivacy": "He leído y acepto la",
     "formPrivacyLink": "política de privacidad",
     "formSubmit": "Enviar solicitud",
+    "formThanksTitle": "¡Gracias!",
+    "formThanksText": "Hemos recibido tu solicitud. Te contactamos en menos de 24 h.",
+    "formError": "No hemos podido enviar tu solicitud. Inténtalo de nuevo o escríbenos por WhatsApp.",
     "breadcrumbHome": "Inicio"
   },
   "landings": {
@@ -311,6 +314,7 @@
     "leadPrivacyLink": "política de privacidad",
     "leadSubmit": "Recibir presupuesto",
     "orWhatsapp": "o envíalo por WhatsApp",
+    "leadError": "No hemos podido enviar tu solicitud. Inténtalo de nuevo o usa WhatsApp.",
     "thanksTitle": "¡Gracias!",
     "thanksText": "Hemos recibido tu solicitud con todos los datos de tu cálculo. Te contactamos en menos de 24 h.",
     "emptyParts": "Selecciona al menos una parte para continuar.",

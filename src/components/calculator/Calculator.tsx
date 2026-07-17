@@ -67,6 +67,8 @@ export default function Calculator({ locale, messages, whatsapp, privacyHref }: 
   const [a, setA] = useState<Answers>(emptyAnswers);
   const [started, setStarted] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const completeFired = useRef(false);
 
@@ -227,24 +229,70 @@ export default function Calculator({ locale, messages, whatsapp, privacyHref }: 
   };
   const waHref = `https://wa.me/${whatsapp}?text=${encodeURIComponent(waMessage())}`;
 
-  const onLeadSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const getUTM = (): Record<string, string> => {
+    try {
+      return JSON.parse(sessionStorage.getItem('bastinou-utm') || '{}');
+    } catch {
+      return {};
+    }
+  };
+
+  const onLeadSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
     if (!form.checkValidity()) {
       form.reportValidity();
       return;
     }
-    // El envío real (endpoint + email + UTM) se conecta en Fase 6.
-    pushDL('calc_lead_submit', {
-      tipo: a.tipo,
-      obra: a.obra,
-      m2: a.m2,
-      segmento: a.segmento,
-      precio_min: result.min,
-      precio_max: result.max,
+    const fd = new FormData(form);
+    const payload: Record<string, string> = {
+      name: String(fd.get('name') || ''),
+      phone: String(fd.get('phone') || ''),
+      email: String(fd.get('email') || ''),
+      service: 'calculadora',
+      source: 'calculator',
+      locale,
+      tipo: a.tipo ?? '',
+      obra: a.obra ?? '',
+      m2: String(a.m2),
+      segmento: a.segmento ?? '',
+      precioMin: String(result.min),
+      precioMax: String(result.max),
       plazo: a.plazo,
-    });
-    setSubmitted(true);
+      municipio: a.municipio,
+      page: typeof location !== 'undefined' ? location.pathname : '',
+      ...getUTM(),
+    };
+    setSubmitting(true);
+    setSubmitError(false);
+    try {
+      const res = await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const out = (await res.json().catch(() => ({ ok: res.ok }))) as { ok?: boolean };
+      if (res.ok && out.ok) {
+        // Conversión principal (§5.4) + form_submit (§7).
+        pushDL('calc_lead_submit', {
+          tipo: a.tipo,
+          obra: a.obra,
+          m2: a.m2,
+          segmento: a.segmento,
+          precio_min: result.min,
+          precio_max: result.max,
+          plazo: a.plazo,
+        });
+        pushDL('form_submit', { form_id: 'calculator', page: payload.page, service: 'calculadora' });
+        setSubmitted(true);
+      } else {
+        setSubmitError(true);
+      }
+    } catch {
+      setSubmitError(true);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   /* ---------------------------------------------------------------- render */
@@ -503,12 +551,15 @@ export default function Calculator({ locale, messages, whatsapp, privacyHref }: 
                   </span>
                 </label>
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-                  <button type="submit" className="btn">{t('leadSubmit')}</button>
+                  <button type="submit" disabled={submitting} className="btn disabled:opacity-70">
+                    {t('leadSubmit')}
+                  </button>
                   <span className="text-sm text-slate">{t('orWhatsapp')}</span>
                   <a href={waHref} target="_blank" rel="noopener" onClick={() => pushDL('calc_whatsapp_click')} className="btn btn-whatsapp">
                     WhatsApp
                   </a>
                 </div>
+                {submitError && <p className="text-sm text-red-600">{t('leadError')}</p>}
               </form>
             </div>
           ) : (
