@@ -1,0 +1,91 @@
+---
+/**
+ * 404 personalizada (§8) con enlaces a servicios. Se sirve en español (idioma
+ * por defecto); el usuario puede navegar a su idioma desde la cabecera.
+ */
+import Layout from '../layouts/Layout.astro';
+import { getLocaleFromUrl, useTranslations } from '../i18n/ui';
+import { localizedPath, type RouteKey } from '../i18n/routes';
+
+const locale = getLocaleFromUrl(Astro.url);
+const t = useTranslations(locale);
+const services: RouteKey[] = ['pisos', 'casas', 'oficinas', 'construccion'];
+---
+
+<Layout title={t('notFound.title')} routeKey="home" overHero={true} noindex={true}>
+  <section class="nf on-dark">
+    <div class="container-x nf__inner">
+      <p class="nf__code">{t('notFound.code')}</p>
+      <h1 class="h-section">{t('notFound.title')}</h1>
+      <p class="lead nf__sub">{t('notFound.subtitle')}</p>
+      <div class="nf__actions">
+        <a class="btn btn-invert" href={localizedPath('home', locale)}>{t('notFound.home')}</a>
+        <a class="btn btn-outline nf__ghost" href={localizedPath('calculadora', locale)}>
+          {t('cta.calculate')}
+        </a>
+      </div>
+      <ul class="nf__links">
+        {services.map((s) => (
+          <li><a href={localizedPath(s, locale)}>{t(`nav.${s}`)}</a></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .nf {
+    background: var(--color-ink);
+    color: #fff;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    padding-block: 8rem 4rem;
+  }
+  .nf__code {
+    font-size: clamp(4rem, 14vw, 9rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.14);
+  }
+  .nf__sub {
+    margin-top: 1rem;
+    max-width: 42ch;
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .nf__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin-top: 2rem;
+  }
+  .nf__ghost {
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.35);
+  }
+  @media (hover: hover) {
+    .nf__ghost:hover {
+      background: #fff;
+      color: var(--color-ink);
+      border-color: #fff;
+    }
+  }
+  .nf__links {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .nf__links a {
+    color: var(--color-mist);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .nf__links a:hover {
+    color: #fff;
+  }
+</style>

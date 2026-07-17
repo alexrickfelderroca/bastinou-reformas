@@ -1,0 +1,55 @@
+---
+/**
+ * Botón flotante de WhatsApp en todas las páginas (CLAUDE.pdf §5.3, brief §5).
+ * Mensaje prellenado en el idioma de la página. `data-wa` marca el clic para el
+ * tracking (Fase 7: whatsapp_click). Única excepción de color del sitio.
+ */
+import { useTranslations, type Locale } from '../i18n/ui';
+import { whatsappHref } from '../config/site';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const href = whatsappHref(t('whatsapp.prefill'));
+---
+
+<a
+  class="wa-fab"
+  href={href}
+  target="_blank"
+  rel="noopener"
+  aria-label={t('whatsapp.aria')}
+  data-wa
+  data-wa-source="fab"
+>
+  <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true" fill="currentColor">
+    <path d="M16 3C9.4 3 4 8.4 4 15c0 2.1.6 4.2 1.6 6L4 29l8.2-1.6c1.7.9 3.7 1.4 5.8 1.4 6.6 0 12-5.4 12-12S22.6 3 16 3zm0 21.8c-1.8 0-3.6-.5-5.1-1.4l-.4-.2-4.9 1 1-4.8-.3-.4c-1-1.6-1.5-3.4-1.5-5.3C4.3 9.6 9.6 4.3 16 4.3S27.7 9.6 27.7 16 22.4 24.8 16 24.8zm6.6-8.2c-.4-.2-2.1-1-2.4-1.2-.3-.1-.6-.2-.8.2s-.9 1.2-1.1 1.4c-.2.2-.4.3-.8.1-.4-.2-1.5-.6-2.9-1.8-1.1-1-1.8-2.2-2-2.5-.2-.4 0-.6.2-.7l.5-.6c.2-.2.2-.4.4-.6.1-.2.1-.4 0-.6l-1.1-2.6c-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.4-1.2 1.2-1.2 2.9s1.2 3.4 1.4 3.6c.2.2 2.5 3.8 6 5.3.8.4 1.5.6 2 .7.8.3 1.6.2 2.2.1.7-.1 2.1-.9 2.4-1.7.3-.8.3-1.6.2-1.7-.1-.2-.4-.3-.8-.5z"/>
+  </svg>
+</a>
+
+<style>
+  .wa-fab {
+    position: fixed;
+    right: clamp(1rem, 3vw, 1.75rem);
+    bottom: clamp(1rem, 3vw, 1.75rem);
+    z-index: 45;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 999px;
+    background: var(--color-whatsapp);
+    color: #fff;
+    box-shadow: 0 12px 30px -8px rgba(37, 211, 102, 0.6);
+    transition: transform 0.25s var(--ease-standard), box-shadow 0.25s var(--ease-standard);
+  }
+  @media (hover: hover) {
+    .wa-fab:hover {
+      transform: translateY(-3px) scale(1.04);
+      box-shadow: 0 16px 36px -8px rgba(37, 211, 102, 0.7);
+    }
+  }
+</style>

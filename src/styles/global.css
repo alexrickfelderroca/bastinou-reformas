@@ -1,0 +1,293 @@
+@import "tailwindcss";
+
+/* ============================================================================
+   BASTINOU — Sistema de diseño (CLAUDE.pdf §3)
+   Regla maestra: nada de colores vivos. Blanco, negro y grises. El contraste
+   hace el trabajo. Única excepción de color: el verde del botón de WhatsApp.
+   ========================================================================== */
+
+/* ---- Fuente self-hosted: Inter Variable (subset latin, 1 archivo woff2) ---- */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("/fonts/inter-latin-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@theme {
+  /* ---- Colores (design tokens §3.1) ---- */
+  --color-paper: #ffffff;      /* fondo principal            (--color-bg)      */
+  --color-ink: #0a0a0a;        /* secciones oscuras, textos  (--color-black)   */
+  --color-graphite: #1a1a1a;   /* gris-900                   (--color-gray-900)*/
+  --color-slate: #666666;      /* texto secundario           (--color-gray-600)*/
+  --color-mist: #999999;       /* gris-400                   (--color-gray-400)*/
+  --color-cloud: #f5f5f5;      /* superficies, tarjetas      (--color-gray-100)*/
+  --color-line: #e5e5e5;       /* bordes, separadores        (--color-line)    */
+  --color-whatsapp: #25d366;   /* ÚNICA excepción de color                     */
+
+  /* ---- Tipografía ---- */
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  /* ---- Ritmo de secciones (mucho aire: ≥6rem desktop / 4rem móvil) ---- */
+  --space-section: clamp(4rem, 9vw, 6.5rem);
+
+  /* ---- Curvas de animación (§3.3) ---- */
+  --ease-reveal: cubic-bezier(0.22, 1, 0.36, 1); /* titulares / reveals suaves */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Alias con los nombres literales del spec (§3.1) para código que los use. */
+:root {
+  --color-bg: var(--color-paper);
+  --color-black: var(--color-ink);
+  --color-gray-900: var(--color-graphite);
+  --color-gray-600: var(--color-slate);
+  --color-gray-400: var(--color-mist);
+  --color-gray-100: var(--color-cloud);
+  color-scheme: light;
+}
+
+/* ============================================================================
+   BASE
+   ========================================================================== */
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+/* Cuando Lenis controla el scroll desactiva el smooth nativo para no competir. */
+html.lenis {
+  scroll-behavior: auto;
+}
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 1rem;              /* cuerpo 1–1.125rem */
+  line-height: 1.6;
+  font-feature-settings: "cv11", "ss01";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+
+/* Anillo de foco visible y accesible (nunca eliminar el focus ring). */
+:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+}
+
+/* ---- Escala tipográfica (§3.2) — utilidades semánticas ---- */
+.h-hero {
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 650;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+}
+.h-section {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+}
+.lead {
+  font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+  line-height: 1.55;
+  color: var(--color-slate);
+}
+
+/* Contenedor central del sitio. */
+.container-x {
+  width: 100%;
+  max-width: 80rem; /* 1280px */
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 5vw, 4rem);
+}
+.section {
+  padding-block: var(--space-section);
+}
+
+/* ============================================================================
+   SISTEMA DE ANIMACIONES (§3.3)
+   Animar sólo transform y opacity. Nada bloquea LCP ni interacción.
+   ========================================================================== */
+
+/* --- Reveal: fade-in + translateY(24px→0), 0.6s ease-out, stagger 80ms ---
+   El estado oculto inicial se aplica SÓLO con html.js: sin JavaScript el
+   contenido es visible por defecto (mejora progresiva, seguro para SEO/no-JS). */
+html.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  will-change: transform, opacity;
+  transition:
+    opacity 0.6s var(--ease-standard),
+    transform 0.6s var(--ease-standard);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+html.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* --- Reveal de titulares por líneas (clip-path), 0.7s ease-reveal --- */
+[data-reveal-lines] .line {
+  display: block;
+  overflow: hidden;
+}
+html.js [data-reveal-lines] .line > span {
+  display: block;
+  transform: translateY(110%);
+  transition: transform 0.7s var(--ease-reveal);
+  transition-delay: var(--line-delay, 0ms);
+  will-change: transform;
+}
+html.js [data-reveal-lines].is-visible .line > span {
+  transform: none;
+}
+
+/* --- Parallax sutil (desplazamiento máx. 8–10% del alto) --- */
+[data-parallax] {
+  will-change: transform;
+}
+
+/* --- Tarjeta hover: elevación + scale de la imagen interna 1.05, 0.4s --- */
+.card-hover {
+  transition: transform 0.4s var(--ease-standard),
+    box-shadow 0.4s var(--ease-standard);
+}
+.card-hover .card-media {
+  transition: transform 0.4s var(--ease-standard);
+  will-change: transform;
+}
+@media (hover: hover) {
+  .card-hover:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 60px -30px rgba(10, 10, 10, 0.35);
+  }
+  .card-hover:hover .card-media {
+    transform: scale(1.05);
+  }
+}
+
+/* --- Botón: inversión de color (negro↔blanco), 0.3s ease --- */
+.btn {
+  --btn-bg: var(--color-ink);
+  --btn-fg: var(--color-paper);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3rem;             /* ≥44px táctil */
+  padding: 0.85rem 1.6rem;
+  font-weight: 550;
+  font-size: 0.975rem;
+  letter-spacing: -0.01em;
+  border: 1px solid var(--btn-bg);
+  border-radius: 999px;
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  cursor: pointer;
+  transition: background-color 0.3s var(--ease-standard),
+    color 0.3s var(--ease-standard), border-color 0.3s var(--ease-standard);
+}
+@media (hover: hover) {
+  .btn:hover {
+    background: var(--btn-fg);
+    color: var(--btn-bg);
+  }
+}
+.btn-outline {
+  --btn-bg: transparent;
+  --btn-fg: var(--color-ink);
+  border-color: var(--color-line);
+}
+@media (hover: hover) {
+  .btn-outline:hover {
+    background: var(--color-ink);
+    color: var(--color-paper);
+    border-color: var(--color-ink);
+  }
+}
+/* Variante outline sobre superficies oscuras: texto blanco, borde translúcido. */
+.on-dark .btn-outline {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.35);
+}
+@media (hover: hover) {
+  .on-dark .btn-outline:hover {
+    background: #fff;
+    color: var(--color-ink);
+    border-color: #fff;
+  }
+}
+/* Botón invertido para fondos oscuros (blanco relleno → texto negro).
+   Se aplica de forma explícita con .btn-invert; NO se hereda por estar dentro
+   de .on-dark, para no romper la variante .btn-outline (fondo transparente). */
+.btn-invert {
+  --btn-bg: var(--color-paper);
+  --btn-fg: var(--color-ink);
+}
+.btn-whatsapp {
+  --btn-bg: var(--color-whatsapp);
+  --btn-fg: #ffffff;
+  border-color: var(--color-whatsapp);
+}
+@media (hover: hover) {
+  .btn-whatsapp:hover {
+    --btn-bg: #1ebe5b;
+    background: var(--btn-bg);
+    color: #fff;
+    border-color: var(--btn-bg);
+  }
+}
+
+/* --- Header con glassmorphism al hacer scroll (§3.3) --- */
+.site-header {
+  transition: background-color 0.3s var(--ease-standard),
+    backdrop-filter 0.3s var(--ease-standard),
+    border-color 0.3s var(--ease-standard);
+}
+.site-header[data-scrolled="true"] {
+  background: rgba(10, 10, 10, 0.6);
+  backdrop-filter: blur(12px) saturate(1.4);
+  -webkit-backdrop-filter: blur(12px) saturate(1.4);
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+/* ============================================================================
+   ACCESIBILIDAD — prefers-reduced-motion: desactivar animaciones no esenciales
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  [data-reveal],
+  [data-reveal-lines] .line > span {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

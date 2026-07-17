@@ -1,0 +1,98 @@
+---
+/**
+ * Hero de la home. Fondo oscuro (la cabecera arranca en modo over-dark),
+ * titular revelado por líneas (§3.3) y doble CTA: calcular precio / ver
+ * proyectos. Contenido placeholder trilingüe (Fase 2 lo ampliará).
+ */
+import { useTranslations, type Locale } from '../../i18n/ui';
+import { localizedPath } from '../../i18n/routes';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<section class="hero on-dark">
+  <div class="container-x hero__inner">
+    <p class="hero__eyebrow" data-reveal>{t('home.hero.eyebrow')}</p>
+    <h1 class="h-hero hero__title" data-reveal-lines>
+      <span class="line"><span>{t('home.hero.line1')}</span></span>
+      <span class="line"><span>{t('home.hero.line2')}</span></span>
+    </h1>
+    <p class="hero__subtitle lead" data-reveal style="--reveal-delay: 240ms">
+      {t('home.hero.subtitle')}
+    </p>
+    <div class="hero__actions" data-reveal style="--reveal-delay: 340ms">
+      <a class="btn btn-invert" href={localizedPath('calculadora', locale)}>
+        {t('home.hero.ctaCalc')}
+      </a>
+      <a class="btn btn-outline hero__ghost" href={localizedPath('proyectos', locale)}>
+        {t('home.hero.ctaProjects')}
+      </a>
+    </div>
+  </div>
+  <div class="hero__glow" aria-hidden="true"></div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    background: var(--color-ink);
+    color: #fff;
+    min-height: min(92vh, 900px);
+    display: flex;
+    align-items: flex-end;
+    padding-block: 8rem 4rem;
+    overflow: hidden;
+  }
+  .hero__inner {
+    position: relative;
+    z-index: 2;
+    max-width: 60rem;
+  }
+  .hero__eyebrow {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--color-mist);
+    margin-bottom: 1.5rem;
+  }
+  .hero__title {
+    max-width: 18ch;
+  }
+  .hero__subtitle {
+    margin-top: 1.75rem;
+    max-width: 44ch;
+    color: rgba(255, 255, 255, 0.75);
+  }
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin-top: 2.25rem;
+  }
+  .hero__ghost {
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.35);
+  }
+  @media (hover: hover) {
+    .hero__ghost:hover {
+      background: #fff;
+      color: var(--color-ink);
+      border-color: #fff;
+    }
+  }
+  /* Resplandor sutil de fondo (glass premium), sin coste de reflow. */
+  .hero__glow {
+    position: absolute;
+    inset: auto -10% -30% auto;
+    width: 60vw;
+    height: 60vw;
+    max-width: 720px;
+    max-height: 720px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.09), transparent 65%);
+    pointer-events: none;
+  }
+</style>

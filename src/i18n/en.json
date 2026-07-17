@@ -1,0 +1,82 @@
+{
+  "meta": {
+    "siteName": "Bastinou",
+    "defaultTitle": "Bastinou — Renovation & construction in Barcelona",
+    "defaultDescription": "Apartment, house and office renovations in Barcelona and Catalonia. Premium finishes, deadlines met and clear pricing. Estimate your project in 1 minute.",
+    "tagline": "Premium renovations in Barcelona"
+  },
+  "nav": {
+    "servicios": "Services",
+    "pisos": "Apartment renovation",
+    "casas": "House renovation",
+    "oficinas": "Office renovation",
+    "construccion": "Construction",
+    "calculadora": "Calculator",
+    "proyectos": "Projects",
+    "nosotros": "About",
+    "contacto": "Contact",
+    "blog": "Blog",
+    "menu": "Menu",
+    "close": "Close",
+    "open": "Open menu"
+  },
+  "cta": {
+    "calculate": "Estimate price",
+    "calculatePrice": "Estimate your price",
+    "whatsapp": "WhatsApp",
+    "call": "Call",
+    "quote": "Request a quote",
+    "quote24": "Quote within 24 h",
+    "budget1min": "Estimate your price in 1 minute",
+    "viewProjects": "View projects",
+    "contact": "Contact"
+  },
+  "header": {
+    "langLabel": "Language",
+    "skipToContent": "Skip to content"
+  },
+  "footer": {
+    "tagline": "High-end renovation and construction in Barcelona and across Catalonia.",
+    "services": "Services",
+    "company": "Company",
+    "legalTitle": "Legal",
+    "contactTitle": "Contact",
+    "serviceArea": "Barcelona and all of Catalonia",
+    "rights": "All rights reserved.",
+    "avisoLegal": "Legal notice",
+    "privacidad": "Privacy policy",
+    "cookies": "Cookie policy"
+  },
+  "whatsapp": {
+    "aria": "Contact us on WhatsApp",
+    "prefill": "Hi, I'd like information about a renovation."
+  },
+  "common": {
+    "phone": "Phone",
+    "email": "Email",
+    "loading": "Loading…",
+    "menu": "Menu"
+  },
+  "home": {
+    "hero": {
+      "eyebrow": "Renovation · Construction · Barcelona & Catalonia",
+      "line1": "Renovations in",
+      "line2": "a class of their own",
+      "subtitle": "Premium design, build and finishes in Barcelona. Deadlines that are met and clear pricing from the very first minute.",
+      "ctaCalc": "Estimate your price",
+      "ctaProjects": "View projects"
+    },
+    "stats": {
+      "years": "Years of experience",
+      "projects": "Projects delivered",
+      "sqm": "m² renovated",
+      "rating": "Client satisfaction"
+    }
+  },
+  "notFound": {
+    "code": "404",
+    "title": "Page not found",
+    "subtitle": "The page you're looking for doesn't exist or has moved. Let's get you back.",
+    "home": "Back to home"
+  }
+}

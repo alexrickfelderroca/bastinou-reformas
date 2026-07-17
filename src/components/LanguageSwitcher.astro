@@ -1,0 +1,67 @@
+---
+/**
+ * Selector de idioma (CLAUDE.pdf §4.1). Enlaza a la MISMA página en el otro
+ * idioma usando el mapa de slugs traducidos, no a la home.
+ */
+import { locales, localeShort, type Locale } from '../i18n/ui';
+import { routeKeyFromPath, routes } from '../i18n/routes';
+
+interface Props {
+  locale: Locale;
+  routeKey?: keyof typeof routes;
+}
+const { locale, routeKey } = Astro.props;
+
+// Si no se pasa routeKey, se deduce de la URL actual.
+const key = routeKey ?? routeKeyFromPath(Astro.url.pathname);
+const current = locale;
+
+function hrefFor(l: Locale): string {
+  if (key) return routes[key][l];
+  // Sin mapeo conocido → home del idioma destino.
+  return routes.home[l];
+}
+---
+
+<div class="lang" role="group" aria-label={Astro.props.locale === 'en' ? 'Language' : 'Idioma'}>
+  {
+    locales.map((l) => (
+      <a
+        href={hrefFor(l)}
+        hreflang={l}
+        lang={l}
+        aria-current={l === current ? 'true' : undefined}
+        class:list={['lang__item', { 'is-active': l === current }]}
+      >
+        {localeShort[l]}
+      </a>
+    ))
+  }
+</div>
+
+<style>
+  .lang {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.15rem;
+    font-size: 0.8rem;
+    font-weight: 550;
+    letter-spacing: 0.02em;
+  }
+  .lang__item {
+    padding: 0.25rem 0.4rem;
+    border-radius: 0.4rem;
+    color: currentColor;
+    opacity: 0.55;
+    transition: opacity 0.2s ease;
+    text-decoration: none;
+  }
+  .lang__item:hover {
+    opacity: 1;
+  }
+  .lang__item.is-active {
+    opacity: 1;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+</style>

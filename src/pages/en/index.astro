@@ -1,0 +1,19 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Hero from '../../components/sections/Hero.astro';
+import Stats from '../../components/sections/Stats.astro';
+import { getLocaleFromUrl, useTranslations } from '../../i18n/ui';
+
+const locale = getLocaleFromUrl(Astro.url);
+const t = useTranslations(locale);
+---
+
+<Layout
+  title={t('meta.defaultTitle')}
+  description={t('meta.defaultDescription')}
+  routeKey="home"
+  overHero={true}
+>
+  <Hero locale={locale} />
+  <Stats locale={locale} />
+</Layout>

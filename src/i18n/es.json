@@ -1,0 +1,82 @@
+{
+  "meta": {
+    "siteName": "Bastinou",
+    "defaultTitle": "Bastinou — Reformas y construcción en Barcelona",
+    "defaultDescription": "Reformas de pisos, casas y oficinas en Barcelona y Cataluña. Acabados premium, plazos cumplidos y presupuesto claro. Calcula tu reforma en 1 minuto.",
+    "tagline": "Reformas premium en Barcelona"
+  },
+  "nav": {
+    "servicios": "Servicios",
+    "pisos": "Reformas de pisos",
+    "casas": "Reformas de casas",
+    "oficinas": "Reformas de oficinas",
+    "construccion": "Construcción",
+    "calculadora": "Calculadora",
+    "proyectos": "Proyectos",
+    "nosotros": "Nosotros",
+    "contacto": "Contacto",
+    "blog": "Blog",
+    "menu": "Menú",
+    "close": "Cerrar",
+    "open": "Abrir menú"
+  },
+  "cta": {
+    "calculate": "Calcular precio",
+    "calculatePrice": "Calcula tu precio",
+    "whatsapp": "WhatsApp",
+    "call": "Llamar",
+    "quote": "Pedir presupuesto",
+    "quote24": "Presupuesto en 24 h",
+    "budget1min": "Calcula tu precio en 1 minuto",
+    "viewProjects": "Ver proyectos",
+    "contact": "Contacto"
+  },
+  "header": {
+    "langLabel": "Idioma",
+    "skipToContent": "Saltar al contenido"
+  },
+  "footer": {
+    "tagline": "Reformas y construcción de gama alta en Barcelona y toda Cataluña.",
+    "services": "Servicios",
+    "company": "Empresa",
+    "legalTitle": "Legal",
+    "contactTitle": "Contacto",
+    "serviceArea": "Barcelona y toda Cataluña",
+    "rights": "Todos los derechos reservados.",
+    "avisoLegal": "Aviso legal",
+    "privacidad": "Política de privacidad",
+    "cookies": "Política de cookies"
+  },
+  "whatsapp": {
+    "aria": "Contactar por WhatsApp",
+    "prefill": "Hola, me gustaría información sobre una reforma."
+  },
+  "common": {
+    "phone": "Teléfono",
+    "email": "Email",
+    "loading": "Cargando…",
+    "menu": "Menú"
+  },
+  "home": {
+    "hero": {
+      "eyebrow": "Reformas · Construcción · Barcelona y Cataluña",
+      "line1": "Reformas que",
+      "line2": "parecen de otra liga",
+      "subtitle": "Diseño, obra y acabados premium en Barcelona. Plazos que se cumplen y un presupuesto claro desde el primer minuto.",
+      "ctaCalc": "Calcula tu precio",
+      "ctaProjects": "Ver proyectos"
+    },
+    "stats": {
+      "years": "Años de experiencia",
+      "projects": "Proyectos entregados",
+      "sqm": "m² reformados",
+      "rating": "Satisfacción de clientes"
+    }
+  },
+  "notFound": {
+    "code": "404",
+    "title": "Página no encontrada",
+    "subtitle": "La página que buscas no existe o se ha movido. Te llevamos de vuelta.",
+    "home": "Volver al inicio"
+  }
+}

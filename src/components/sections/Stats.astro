@@ -1,0 +1,71 @@
+---
+/**
+ * Franja de cifras con count-up al entrar en viewport (§3.3). Cifras
+ * placeholder [PENDIENTE: datos reales de la empresa].
+ */
+import { useTranslations, type Locale } from '../../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+// [PENDIENTE: cifras reales]
+const stats = [
+  { value: 15, suffix: '+', label: t('home.stats.years') },
+  { value: 200, suffix: '+', label: t('home.stats.projects') },
+  { value: 45000, suffix: '', label: t('home.stats.sqm') },
+  { value: 98, suffix: '%', label: t('home.stats.rating') },
+];
+---
+
+<section class="section stats">
+  <div class="container-x">
+    <ul class="stats__grid" data-reveal-group data-reveal-stagger="90">
+      {stats.map((s) => (
+        <li class="stats__item" data-reveal>
+          <span
+            class="stats__value"
+            data-countup={s.value}
+            data-countup-suffix={s.suffix}
+          >0{s.suffix}</span>
+          <span class="stats__label">{s.label}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .stats {
+    background: var(--color-paper);
+    border-bottom: 1px solid var(--color-line);
+  }
+  .stats__grid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem 1.5rem;
+  }
+  .stats__item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .stats__value {
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 650;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .stats__label {
+    font-size: 0.95rem;
+    color: var(--color-slate);
+  }
+  @media (min-width: 768px) {
+    .stats__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+</style>

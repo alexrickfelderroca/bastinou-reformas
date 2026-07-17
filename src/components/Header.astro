@@ -1,0 +1,375 @@
+---
+/**
+ * Cabecera del sitio. Wordmark tipográfico, navegación con desplegable de
+ * Servicios, menú full-screen en móvil, selector de idioma y CTA principal.
+ * Glassmorphism al hacer scroll (§3.3) gestionado por data-scrolled en site.ts.
+ *
+ * `overHero`: cuando la cabecera arranca sobre un hero oscuro, el texto inicial
+ * es blanco (páginas con hero en negro). En caso contrario, texto oscuro.
+ */
+import { useTranslations, type Locale } from '../i18n/ui';
+import { localizedPath, type RouteKey } from '../i18n/routes';
+import { telHref, whatsappHref } from '../config/site';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+
+interface Props {
+  locale: Locale;
+  routeKey?: RouteKey;
+  overHero?: boolean;
+}
+const { locale, routeKey, overHero = false } = Astro.props;
+const t = useTranslations(locale);
+const p = (k: RouteKey) => localizedPath(k, locale);
+
+const services: RouteKey[] = ['pisos', 'casas', 'oficinas', 'construccion'];
+const primaryNav: RouteKey[] = ['calculadora', 'proyectos', 'nosotros', 'contacto'];
+const waPrefill = t('whatsapp.prefill');
+---
+
+<header
+  class:list={['site-header', { 'site-header--over-dark': overHero }]}
+  data-site-header
+  data-scrolled="false"
+>
+  <a class="skip-link" href="#main">{t('header.skipToContent')}</a>
+
+  <div class="site-header__bar container-x">
+    <!-- Wordmark -->
+    <a class="wordmark" href={p('home')} aria-label={t('meta.siteName')}>
+      Bastinou
+    </a>
+
+    <!-- Navegación desktop -->
+    <nav class="nav-desktop" aria-label="Principal">
+      <div class="nav-desktop__group" data-dropdown>
+        <button class="nav-link nav-link--btn" aria-expanded="false" aria-haspopup="true" data-dropdown-toggle>
+          {t('nav.servicios')}
+          <svg width="10" height="6" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+        <div class="dropdown" data-dropdown-menu>
+          {services.map((s) => (
+            <a class="dropdown__item" href={p(s)}>{t(`nav.${s}`)}</a>
+          ))}
+        </div>
+      </div>
+      {primaryNav.map((k) => (
+        <a class="nav-link" href={p(k)}>{t(`nav.${k}`)}</a>
+      ))}
+    </nav>
+
+    <!-- Acciones desktop -->
+    <div class="header-actions">
+      <LanguageSwitcher locale={locale} routeKey={routeKey} />
+      <a class="btn header-cta" href={p('calculadora')}>{t('cta.calculate')}</a>
+    </div>
+
+    <!-- Botón menú móvil -->
+    <button class="menu-toggle" aria-expanded="false" aria-controls="mobile-menu" data-menu-open>
+      <span class="sr-only">{t('nav.menu')}</span>
+      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true">
+        <path d="M4 8h18M4 13h18M4 18h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<!-- Menú full-screen móvil -->
+<div class="mobile-menu on-dark" id="mobile-menu" data-mobile-menu hidden>
+  <div class="mobile-menu__top container-x">
+    <a class="wordmark" href={p('home')}>Bastinou</a>
+    <button class="menu-toggle" data-menu-close aria-label={t('nav.close')}>
+      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true">
+        <path d="M6 6l14 14M20 6L6 20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+  <nav class="mobile-menu__nav container-x" aria-label={t('nav.menu')}>
+    <span class="mobile-menu__label">{t('nav.servicios')}</span>
+    {services.map((s) => (
+      <a class="mobile-menu__link mobile-menu__link--sub" href={p(s)}>{t(`nav.${s}`)}</a>
+    ))}
+    {primaryNav.map((k) => (
+      <a class="mobile-menu__link" href={p(k)}>{t(`nav.${k}`)}</a>
+    ))}
+  </nav>
+  <div class="mobile-menu__footer container-x">
+    <a class="btn btn-whatsapp" href={whatsappHref(waPrefill)} target="_blank" rel="noopener" data-wa>
+      {t('cta.whatsapp')}
+    </a>
+    <a class="btn btn-outline" href={telHref} data-phone>{t('cta.call')}</a>
+    <div class="mobile-menu__lang"><LanguageSwitcher locale={locale} routeKey={routeKey} /></div>
+  </div>
+</div>
+
+<style>
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 50;
+    border-bottom: 1px solid transparent;
+    color: var(--color-ink);
+  }
+  /* Sobre hero oscuro: texto blanco de inicio. */
+  .site-header--over-dark {
+    color: #fff;
+  }
+  /* Al hacer scroll (glass oscuro) el texto siempre es blanco. */
+  .site-header[data-scrolled='true'] {
+    color: #fff;
+  }
+  .site-header__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    height: 72px;
+  }
+  .wordmark {
+    font-weight: 700;
+    font-size: 1.35rem;
+    letter-spacing: -0.03em;
+    color: currentColor;
+    text-decoration: none;
+  }
+
+  .nav-desktop {
+    display: none;
+    align-items: center;
+    gap: 1.75rem;
+    margin-inline-start: auto;
+  }
+  .nav-link,
+  .nav-link--btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: currentColor;
+    opacity: 0.85;
+    text-decoration: none;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+  }
+  .nav-link:hover,
+  .nav-link--btn:hover {
+    opacity: 1;
+  }
+
+  .nav-desktop__group {
+    position: relative;
+  }
+  .dropdown {
+    position: absolute;
+    top: calc(100% + 0.75rem);
+    left: 0;
+    min-width: 15rem;
+    padding: 0.5rem;
+    background: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(14px) saturate(1.4);
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.9rem;
+    display: grid;
+    gap: 0.15rem;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s;
+  }
+  .nav-desktop__group[data-open='true'] .dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+  .dropdown__item {
+    padding: 0.65rem 0.85rem;
+    border-radius: 0.6rem;
+    color: #fff;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+  }
+  .dropdown__item:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .header-actions {
+    display: none;
+    align-items: center;
+    gap: 1.25rem;
+  }
+  .header-cta {
+    min-height: 2.5rem;
+    padding: 0.6rem 1.15rem;
+    font-size: 0.9rem;
+  }
+  /* CTA hereda inversión; sobre header claro es negro→blanco. */
+  .site-header[data-scrolled='true'] .header-cta,
+  .site-header--over-dark .header-cta {
+    --btn-bg: #fff;
+    --btn-fg: var(--color-ink);
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    margin-inline-end: -0.5rem;
+    color: currentColor;
+    background: none;
+    border: 0;
+    cursor: pointer;
+  }
+
+  /* ---- Menú full-screen móvil ---- */
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    background: var(--color-ink);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .mobile-menu[data-open='true'] {
+    opacity: 1;
+  }
+  .mobile-menu__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+    flex: none;
+  }
+  .mobile-menu__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding-block: 1.5rem;
+    flex: 1;
+    overflow-y: auto;
+  }
+  .mobile-menu__label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--color-mist);
+    margin-bottom: 0.4rem;
+  }
+  .mobile-menu__link {
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: #fff;
+    text-decoration: none;
+    padding-block: 0.35rem;
+  }
+  .mobile-menu__link--sub {
+    font-size: 1.15rem;
+    font-weight: 500;
+    opacity: 0.85;
+    padding-left: 0.25rem;
+  }
+  .mobile-menu__footer {
+    display: grid;
+    gap: 0.75rem;
+    padding-block: 1.5rem 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    flex: none;
+  }
+  .mobile-menu__lang {
+    margin-top: 0.25rem;
+    color: #fff;
+  }
+
+  /* ---- Utilidades a11y ---- */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0.5rem;
+    z-index: 100;
+    background: #fff;
+    color: var(--color-ink);
+    padding: 0.6rem 1rem;
+    border-radius: 0.5rem;
+  }
+  .skip-link:focus {
+    left: 1rem;
+  }
+
+  @media (min-width: 1024px) {
+    .nav-desktop,
+    .header-actions {
+      display: flex;
+    }
+    .menu-toggle {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // Interacciones de la cabecera: desplegable de Servicios + menú móvil.
+
+  // Desplegable Servicios (hover + click + teclado).
+  const group = document.querySelector<HTMLElement>('[data-dropdown]');
+  const toggle = group?.querySelector<HTMLButtonElement>('[data-dropdown-toggle]');
+  if (group && toggle) {
+    const setOpen = (open: boolean) => {
+      group.dataset.open = String(open);
+      toggle.setAttribute('aria-expanded', String(open));
+    };
+    toggle.addEventListener('click', () => setOpen(group.dataset.open !== 'true'));
+    group.addEventListener('mouseenter', () => setOpen(true));
+    group.addEventListener('mouseleave', () => setOpen(false));
+    document.addEventListener('click', (e) => {
+      if (!group.contains(e.target as Node)) setOpen(false);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') setOpen(false);
+    });
+  }
+
+  // Menú móvil full-screen con bloqueo de scroll.
+  const menu = document.querySelector<HTMLElement>('[data-mobile-menu]');
+  const openBtn = document.querySelector<HTMLButtonElement>('[data-menu-open]');
+  const closeBtn = document.querySelector<HTMLButtonElement>('[data-menu-close]');
+  const openMenu = () => {
+    if (!menu) return;
+    menu.hidden = false;
+    requestAnimationFrame(() => (menu.dataset.open = 'true'));
+    document.body.style.overflow = 'hidden';
+    openBtn?.setAttribute('aria-expanded', 'true');
+  };
+  const closeMenu = () => {
+    if (!menu) return;
+    menu.dataset.open = 'false';
+    document.body.style.overflow = '';
+    openBtn?.setAttribute('aria-expanded', 'false');
+    setTimeout(() => (menu.hidden = true), 300);
+  };
+  openBtn?.addEventListener('click', openMenu);
+  closeBtn?.addEventListener('click', closeMenu);
+  menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && menu && !menu.hidden) closeMenu();
+  });
+</script>
