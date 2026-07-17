@@ -1,0 +1,85 @@
+---
+/**
+ * Plantilla de landing de servicio (§4.3). Ensambla todas las secciones y añade
+ * el schema Service + BreadcrumbList (§8). Cada página de servicio (con su slug
+ * traducido) es un wrapper mínimo que renderiza este componente.
+ *
+ * Estructura: Hero → Qué incluye → Precios → Proyectos relacionados → Proceso →
+ * FAQ (FAQPage) → CTA calculadora → Formulario de presupuesto.
+ */
+import Layout from '../layouts/Layout.astro';
+import ServiceHero from './sections/ServiceHero.astro';
+import ServiceIncludes from './sections/ServiceIncludes.astro';
+import PricingTable from './sections/PricingTable.astro';
+import RelatedProjects from './sections/RelatedProjects.astro';
+import Process from './sections/Process.astro';
+import Faq from './sections/Faq.astro';
+import CalcCtaBlock from './sections/CalcCtaBlock.astro';
+import QuoteForm from './sections/QuoteForm.astro';
+
+import { getLocaleFromUrl, useTranslations } from '../i18n/ui';
+import { localizedPath } from '../i18n/routes';
+import { services, type ServiceKey } from '../config/services';
+import { site } from '../config/site';
+
+interface Props {
+  service: ServiceKey;
+}
+const { service } = Astro.props;
+const cfg = services[service];
+
+const locale = getLocaleFromUrl(Astro.url);
+const t = useTranslations(locale);
+const l = (k: string) => t(`landings.${service}.${k}`);
+
+// Imágenes de hero por servicio.
+import kitchen from '../assets/portfolio/casa-espana/kitchen-living.jpg';
+import villa from '../assets/portfolio/casa-espana/exterior-villa.jpg';
+import theater from '../assets/portfolio/casa-espana/home-theater.jpg';
+import pool from '../assets/portfolio/casa-espana/exterior-pool.jpg';
+const heroImages: Record<ServiceKey, ImageMetadata> = {
+  pisos: kitchen,
+  casas: villa,
+  oficinas: theater,
+  construccion: pool,
+};
+
+// FAQ items (q1..q5 / a1..a5).
+const faqItems = [1, 2, 3, 4, 5].map((n) => ({ q: l(`q${n}`), a: l(`a${n}`) }));
+
+// Schema Service + BreadcrumbList.
+const siteUrl = Astro.site ?? new URL('https://www.bastinou.com');
+const canonical = new URL(Astro.url.pathname, siteUrl).href;
+const serviceLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: l('h1'),
+  serviceType: t(`nav.${service}`),
+  description: l('metaDesc'),
+  url: canonical,
+  areaServed: site.areaServed,
+  provider: { '@type': 'HomeAndConstructionBusiness', name: site.name, url: siteUrl.href },
+};
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: t('landing.breadcrumbHome'), item: new URL(localizedPath('home', locale), siteUrl).href },
+    { '@type': 'ListItem', position: 2, name: t(`nav.${service}`), item: canonical },
+  ],
+};
+---
+
+<Layout title={l('metaTitle')} description={l('metaDesc')} routeKey={cfg.routeKey} overHero={true}>
+  <ServiceHero locale={locale} service={service} image={heroImages[service]} />
+  <ServiceIncludes locale={locale} service={service} />
+  <PricingTable locale={locale} pricingType={cfg.pricingType} />
+  <RelatedProjects locale={locale} />
+  <Process locale={locale} />
+  <Faq locale={locale} items={faqItems} />
+  <CalcCtaBlock locale={locale} />
+  <QuoteForm locale={locale} service={service} />
+
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(serviceLd)} />
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />
+</Layout>

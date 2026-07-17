@@ -66,7 +66,10 @@ public/
 - [x] **Fase 2 — Home**: hero, servicios (4 tarjetas con imágenes reales),
       calculadora resumida (mock glass), portfolio (proyecto casa-España),
       proceso 5 pasos, cifras, zona de servicio, CTA final — ES/CA/EN, responsive.
-- [ ] Fase 3 — Landings de servicios + FAQ + schema
+- [x] **Fase 3 — Landings de servicios**: 4 servicios × 3 idiomas (slugs
+      traducidos), cada uno con hero+keyword, qué incluye, precios por segmento
+      (pricing.json), proyectos relacionados, proceso, FAQ (FAQPage), CTA
+      calculadora y formulario corto. Schema Service + BreadcrumbList + FAQPage.
 - [ ] Fase 4 — Calculadora (wizard + pricing.json + lead + eventos)
 - [ ] Fase 5 — Portfolio + Nosotros + Contacto
 - [ ] Fase 6 — Formularios y notificaciones

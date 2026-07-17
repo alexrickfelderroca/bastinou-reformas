@@ -1,0 +1,107 @@
+---
+/**
+ * Proyectos relacionados (§4.3): 3 tarjetas del portfolio que enlazan a
+ * /proyectos. Imágenes reales del proyecto casa-España.
+ */
+import { Image } from 'astro:assets';
+import { useTranslations, type Locale } from '../../i18n/ui';
+import { localizedPath } from '../../i18n/routes';
+import SectionHeader from './SectionHeader.astro';
+
+import kitchen from '../../assets/portfolio/casa-espana/kitchen-living.jpg';
+import bathroom from '../../assets/portfolio/casa-espana/bathroom.jpg';
+import staircase from '../../assets/portfolio/casa-espana/staircase.jpg';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const tiles = [
+  { img: kitchen, cap: t('home.portfolio.capKitchen') },
+  { img: bathroom, cap: t('home.portfolio.capBathroom') },
+  { img: staircase, cap: t('home.portfolio.capStaircase') },
+];
+---
+
+<section class="section related">
+  <div class="container-x">
+    <div class="related__head">
+      <SectionHeader eyebrow={t('home.portfolio.eyebrow')} title={t('landing.relatedTitle')} />
+      <a class="btn btn-outline related__cta" href={localizedPath('proyectos', locale)}>
+        {t('landing.relatedCta')}
+      </a>
+    </div>
+    <div class="related__grid" data-reveal-group data-reveal-stagger="90">
+      {tiles.map(({ img, cap }) => (
+        <a class="related__tile card-hover" href={localizedPath('proyectos', locale)} data-reveal>
+          <div class="related__media">
+            <Image src={img} alt={cap} widths={[380, 640]} sizes="(min-width: 768px) 33vw, 100vw" class="card-media" loading="lazy" />
+          </div>
+          <span class="related__cap">{cap}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .related {
+    background: var(--color-paper);
+    border-top: 1px solid var(--color-line);
+  }
+  .related__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+  .related__head :global(.sec-head) {
+    margin-bottom: 0;
+  }
+  .related__cta {
+    flex: none;
+  }
+  .related__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: clamp(2rem, 4vw, 3rem);
+  }
+  .related__tile {
+    position: relative;
+    display: block;
+    border-radius: 1rem;
+    overflow: hidden;
+    text-decoration: none;
+  }
+  .related__media {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+  .related__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .related__cap {
+    position: absolute;
+    left: 0.9rem;
+    bottom: 0.8rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    background: rgba(10, 10, 10, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #fff;
+    font-size: 0.8rem;
+  }
+  @media (min-width: 768px) {
+    .related__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

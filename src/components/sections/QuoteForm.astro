@@ -1,0 +1,180 @@
+---
+/**
+ * Formulario corto de presupuesto (§4.3, §6). Campos mínimos: nombre, teléfono,
+ * mensaje (opcional). Honeypot antispam + checkbox de privacidad (RGPD).
+ * El envío (endpoint, validación servidor, email, UTM) se conecta en Fase 6:
+ * marcado con data-lead-form. `service` viaja como campo oculto.
+ */
+import { useTranslations, type Locale } from '../../i18n/ui';
+import { localizedPath } from '../../i18n/routes';
+import { site, telHref, whatsappHref } from '../../config/site';
+import type { ServiceKey } from '../../config/services';
+
+interface Props {
+  locale: Locale;
+  service?: ServiceKey;
+  id?: string;
+}
+const { locale, service = undefined, id = 'presupuesto' } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<section class="section quote" id={id}>
+  <div class="container-x quote__grid">
+    <div class="quote__aside" data-reveal-group>
+      <h2 class="h-section" data-reveal>{t('landing.formTitle')}</h2>
+      <p class="lead quote__sub" data-reveal>{t('landing.formSubtitle')}</p>
+      <ul class="quote__direct" data-reveal>
+        <li>
+          <a class="btn btn-whatsapp" href={whatsappHref(t('whatsapp.prefill'))} target="_blank" rel="noopener" data-wa data-wa-source="quote-form">{t('cta.whatsapp')}</a>
+          <a class="btn btn-outline" href={telHref} data-phone>{t('cta.call')}</a>
+        </li>
+        <li class="quote__phone"><a href={telHref} data-phone>{site.phone}</a></li>
+      </ul>
+    </div>
+
+    <form class="quote__form" data-lead-form method="post" action="/api/lead" novalidate data-reveal>
+      {service && <input type="hidden" name="service" value={service} />}
+      <input type="hidden" name="locale" value={locale} />
+      <!-- Honeypot antispam: oculto para humanos, lo rellenan los bots -->
+      <div class="quote__hp" aria-hidden="true">
+        <label>No rellenar<input type="text" name="company" tabindex="-1" autocomplete="off" /></label>
+      </div>
+
+      <div class="quote__field">
+        <label for="q-name">{t('landing.formName')}</label>
+        <input id="q-name" name="name" type="text" autocomplete="name" required />
+      </div>
+      <div class="quote__field">
+        <label for="q-phone">{t('landing.formPhone')}</label>
+        <input id="q-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required />
+      </div>
+      <div class="quote__field">
+        <label for="q-email">{t('landing.formEmail')}</label>
+        <input id="q-email" name="email" type="email" autocomplete="email" />
+      </div>
+      <div class="quote__field">
+        <label for="q-message">{t('landing.formMessage')}</label>
+        <textarea id="q-message" name="message" rows="3"></textarea>
+      </div>
+
+      <label class="quote__consent">
+        <input type="checkbox" name="privacy" required />
+        <span>
+          {t('landing.formPrivacy')}
+          <a href={localizedPath('privacidad', locale)} target="_blank" rel="noopener">{t('landing.formPrivacyLink')}</a>.
+        </span>
+      </label>
+
+      <button class="btn quote__submit" type="submit">{t('landing.formSubmit')}</button>
+    </form>
+  </div>
+</section>
+
+<style>
+  .quote {
+    background: var(--color-cloud);
+    border-top: 1px solid var(--color-line);
+  }
+  .quote__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  .quote__sub {
+    margin-top: 1rem;
+  }
+  .quote__direct {
+    list-style: none;
+    margin-top: 2rem;
+    display: grid;
+    gap: 1rem;
+  }
+  .quote__direct li:first-child {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .quote__phone a {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-ink);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+
+  .quote__form {
+    background: var(--color-paper);
+    border: 1px solid var(--color-line);
+    border-radius: 1.25rem;
+    padding: clamp(1.5rem, 4vw, 2.25rem);
+    display: grid;
+    gap: 1.1rem;
+  }
+  .quote__hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+  .quote__field {
+    display: grid;
+    gap: 0.4rem;
+  }
+  .quote__field label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-graphite);
+  }
+  .quote__field input,
+  .quote__field textarea {
+    width: 100%;
+    padding: 0.8rem 0.9rem;
+    border: 1px solid var(--color-line);
+    border-radius: 0.6rem;
+    background: var(--color-paper);
+    font: inherit;
+    color: var(--color-ink);
+    transition: border-color 0.2s ease;
+  }
+  .quote__field input:focus,
+  .quote__field textarea:focus {
+    outline: none;
+    border-color: var(--color-ink);
+  }
+  .quote__field textarea {
+    resize: vertical;
+  }
+  .quote__consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 0.875rem;
+    color: var(--color-slate);
+    line-height: 1.4;
+  }
+  .quote__consent input {
+    margin-top: 0.15rem;
+    flex: none;
+    width: 1.05rem;
+    height: 1.05rem;
+    accent-color: var(--color-ink);
+  }
+  .quote__consent a {
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .quote__submit {
+    width: 100%;
+    margin-top: 0.25rem;
+  }
+  @media (min-width: 900px) {
+    .quote__grid {
+      grid-template-columns: 1fr 1.1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+  }
+</style>

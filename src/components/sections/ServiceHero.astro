@@ -1,0 +1,113 @@
+---
+/**
+ * Hero de landing de servicio (§4.3). Breadcrumb + H1 con keyword + subtítulo +
+ * doble CTA (calcular / WhatsApp) + imagen del servicio. Fondo oscuro.
+ */
+import { Image } from 'astro:assets';
+import { useTranslations, type Locale } from '../../i18n/ui';
+import { localizedPath } from '../../i18n/routes';
+import { whatsappHref } from '../../config/site';
+import type { ServiceKey } from '../../config/services';
+
+interface Props {
+  locale: Locale;
+  service: ServiceKey;
+  image: ImageMetadata;
+}
+const { locale, service, image } = Astro.props;
+const t = useTranslations(locale);
+const l = (k: string) => t(`landings.${service}.${k}`);
+---
+
+<section class="svc-hero on-dark">
+  <div class="container-x svc-hero__grid">
+    <div class="svc-hero__content" data-reveal-group>
+      <nav class="svc-hero__crumbs" aria-label="Breadcrumb" data-reveal>
+        <a href={localizedPath('home', locale)}>{t('landing.breadcrumbHome')}</a>
+        <span aria-hidden="true">/</span>
+        <span>{t(`nav.${service}`)}</span>
+      </nav>
+      <h1 class="h-hero svc-hero__title" data-reveal>{l('h1')}</h1>
+      <p class="lead svc-hero__sub" data-reveal>{l('heroSub')}</p>
+      <div class="svc-hero__actions" data-reveal>
+        <a class="btn btn-invert" href={localizedPath('calculadora', locale)}>{t('landing.ctaCalc')}</a>
+        <a class="btn btn-whatsapp" href={whatsappHref(t('whatsapp.prefill'))} target="_blank" rel="noopener" data-wa data-wa-source={`landing-${service}`}>
+          {t('cta.whatsapp')}
+        </a>
+      </div>
+    </div>
+    <div class="svc-hero__media" data-reveal>
+      <Image
+        src={image}
+        alt={l('h1')}
+        widths={[480, 800, 1000]}
+        sizes="(min-width: 900px) 45vw, 100vw"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .svc-hero {
+    background: var(--color-ink);
+    color: #fff;
+    padding-block: 8rem 4rem;
+  }
+  .svc-hero__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    align-items: center;
+  }
+  .svc-hero__crumbs {
+    display: flex;
+    gap: 0.6rem;
+    font-size: 0.85rem;
+    color: var(--color-mist);
+    margin-bottom: 1.5rem;
+  }
+  .svc-hero__crumbs a {
+    color: var(--color-mist);
+    text-decoration: none;
+  }
+  .svc-hero__crumbs a:hover {
+    color: #fff;
+  }
+  .svc-hero__title {
+    max-width: 15ch;
+  }
+  .svc-hero__sub {
+    margin-top: 1.5rem;
+    max-width: 42ch;
+    color: rgba(255, 255, 255, 0.75);
+  }
+  .svc-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin-top: 2rem;
+  }
+  .svc-hero__media {
+    border-radius: 1.5rem;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+  }
+  .svc-hero__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  @media (min-width: 900px) {
+    .svc-hero__grid {
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 4rem;
+    }
+    .svc-hero__media {
+      aspect-ratio: 3 / 4;
+      max-height: 34rem;
+    }
+  }
+</style>

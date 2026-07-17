@@ -1,0 +1,16 @@
+{
+  "_comment": "PLACEHOLDER. Cifras de ejemplo (CLAUDE.pdf §5.2). NO son precios reales: sustituir por el documento de tarifas que se entregará por separado (§8). Editable sin tocar código.",
+  "currency": "EUR",
+  "horquilla": 0.15,
+  "integral": {
+    "piso": { "basico": 450, "estandar": 650, "premium": 950 },
+    "casa": { "basico": 500, "estandar": 750, "premium": 1100 },
+    "oficina": { "basico": 400, "estandar": 600, "premium": 900 }
+  },
+  "parcial": {
+    "cocina": { "basico": 6000, "estandar": 9000, "premium": 15000 },
+    "bano": { "basico": 4500, "estandar": 7000, "premium": 12000 },
+    "pintura_m2": { "basico": 9, "estandar": 12, "premium": 18 },
+    "suelos_m2": { "basico": 25, "estandar": 40, "premium": 70 }
+  }
+}

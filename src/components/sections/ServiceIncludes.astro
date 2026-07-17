@@ -1,0 +1,66 @@
+---
+/**
+ * "Qué incluye el servicio": lista clara de 6 partidas con check, reveal
+ * escalonado.
+ */
+import { useTranslations, type Locale } from '../../i18n/ui';
+import type { ServiceKey } from '../../config/services';
+import SectionHeader from './SectionHeader.astro';
+
+interface Props {
+  locale: Locale;
+  service: ServiceKey;
+}
+const { locale, service } = Astro.props;
+const t = useTranslations(locale);
+const items = [1, 2, 3, 4, 5, 6].map((n) => t(`landings.${service}.i${n}`));
+---
+
+<section class="section includes">
+  <div class="container-x">
+    <SectionHeader
+      eyebrow={t('nav.servicios')}
+      title={t('landing.includesTitle')}
+      subtitle={t('landing.includesSubtitle')}
+    />
+    <ul class="includes__grid" data-reveal-group data-reveal-stagger="70">
+      {items.map((item) => (
+        <li class="includes__item" data-reveal>
+          <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4L16 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>{item}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .includes {
+    background: var(--color-paper);
+  }
+  .includes__grid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem 2rem;
+  }
+  .includes__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    font-size: 1.05rem;
+    line-height: 1.45;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--color-line);
+  }
+  .includes__item svg {
+    flex: none;
+    margin-top: 0.15rem;
+    color: var(--color-ink);
+  }
+  @media (min-width: 768px) {
+    .includes__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
