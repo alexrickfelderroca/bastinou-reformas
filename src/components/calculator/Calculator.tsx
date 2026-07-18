@@ -298,7 +298,7 @@ export default function Calculator({ locale, messages, whatsapp, privacyHref }: 
   /* ---------------------------------------------------------------- render */
   const cardBase =
     'text-left rounded-2xl border p-5 transition-all duration-200 cursor-pointer';
-  const cardOff = 'bg-paper border-line hover:border-ink';
+  const cardOff = 'bg-cloud border-line hover:border-ink';
   const cardOn = 'bg-ink text-paper border-ink';
 
   return (
@@ -379,7 +379,7 @@ export default function Calculator({ locale, messages, whatsapp, privacyHref }: 
                       onClick={() => togglePart(part)}
                       aria-pressed={on}
                       className={`rounded-full border px-4 py-2 text-sm transition-colors ${
-                        on ? 'border-ink bg-ink text-paper' : 'border-line bg-paper hover:border-ink'
+                        on ? 'border-ink bg-ink text-paper' : 'border-line bg-cloud hover:border-ink'
                       }`}
                     >
                       {t(`parte${part[0].toUpperCase()}${part.slice(1)}`)}
@@ -471,7 +471,7 @@ export default function Calculator({ locale, messages, whatsapp, privacyHref }: 
                 type="text"
                 value={a.municipio}
                 onChange={(e) => update({ municipio: e.target.value })}
-                className="rounded-lg border border-line bg-paper px-3.5 py-2.5 focus:border-ink focus:outline-none"
+                className="rounded-lg border border-line bg-cloud px-3.5 py-2.5 focus:border-ink focus:outline-none"
               />
             </label>
             <div>
@@ -488,7 +488,7 @@ export default function Calculator({ locale, messages, whatsapp, privacyHref }: 
                     onClick={() => update({ plazo: o.k })}
                     aria-pressed={a.plazo === o.k}
                     className={`rounded-full border px-4 py-2 text-sm transition-colors ${
-                      a.plazo === o.k ? 'border-ink bg-ink text-paper' : 'border-line bg-paper hover:border-ink'
+                      a.plazo === o.k ? 'border-ink bg-ink text-paper' : 'border-line bg-cloud hover:border-ink'
                     }`}
                   >
                     {o.label}
@@ -503,7 +503,7 @@ export default function Calculator({ locale, messages, whatsapp, privacyHref }: 
       {/* Resultado */}
       {step === TOTAL_STEPS && (
         <div>
-          <div className="rounded-3xl bg-ink p-7 text-paper sm:p-9">
+          <div className="rounded-3xl border border-line bg-cloud p-7 text-ink sm:p-9">
             <span className="text-xs uppercase tracking-widest text-mist">{t('resultTitle')}</span>
             <p className="mt-3 text-sm text-mist">{t('resultRange')}</p>
             <p className="mt-1 text-4xl font-semibold tracking-tight sm:text-5xl">
@@ -530,16 +530,16 @@ export default function Calculator({ locale, messages, whatsapp, privacyHref }: 
                 <div className="grid gap-4 sm:grid-cols-2">
                   <label className="grid gap-1.5">
                     <span className="text-sm font-medium">{t('leadName')}</span>
-                    <input name="name" type="text" required autoComplete="name" className="rounded-lg border border-line bg-paper px-3.5 py-2.5 focus:border-ink focus:outline-none" />
+                    <input name="name" type="text" required autoComplete="name" className="rounded-lg border border-line bg-cloud px-3.5 py-2.5 focus:border-ink focus:outline-none" />
                   </label>
                   <label className="grid gap-1.5">
                     <span className="text-sm font-medium">{t('leadPhone')}</span>
-                    <input name="phone" type="tel" required autoComplete="tel" inputMode="tel" className="rounded-lg border border-line bg-paper px-3.5 py-2.5 focus:border-ink focus:outline-none" />
+                    <input name="phone" type="tel" required autoComplete="tel" inputMode="tel" className="rounded-lg border border-line bg-cloud px-3.5 py-2.5 focus:border-ink focus:outline-none" />
                   </label>
                 </div>
                 <label className="grid gap-1.5">
                   <span className="text-sm font-medium">{t('leadEmail')}</span>
-                  <input name="email" type="email" autoComplete="email" className="rounded-lg border border-line bg-paper px-3.5 py-2.5 focus:border-ink focus:outline-none" />
+                  <input name="email" type="email" autoComplete="email" className="rounded-lg border border-line bg-cloud px-3.5 py-2.5 focus:border-ink focus:outline-none" />
                 </label>
                 <label className="flex items-start gap-2 text-sm text-slate">
                   <input type="checkbox" required className="mt-0.5 h-4 w-4 accent-ink" />

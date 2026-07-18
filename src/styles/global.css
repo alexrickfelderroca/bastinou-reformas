@@ -1,55 +1,79 @@
 @import "tailwindcss";
 
 /* ============================================================================
-   BASTINOU — Sistema de diseño (CLAUDE.pdf §3)
-   Regla maestra: nada de colores vivos. Blanco, negro y grises. El contraste
-   hace el trabajo. Única excepción de color: el verde del botón de WhatsApp.
+   BASTINOU — Sistema de diseño (rediseño oscuro)
+   Paleta inspirada en selemen.liqium.com: carbón frío casi negro de fondo,
+   texto gris-azulado, un verde salvia muy sutil como único acento cromático.
+   Tipografía inspirada en berch.ch: una grotesca cálida (Hanken Grotesk,
+   self-hosted) usada para todo, con titulares de peso medio.
+   Regla maestra: el contraste (claro sobre oscuro) hace el trabajo. El verde
+   de WhatsApp se mantiene como excepción funcional en su botón.
    ========================================================================== */
 
-/* ---- Fuente self-hosted: Inter Variable (subset latin, 1 archivo woff2) ---- */
+/* ---- Fuente self-hosted: Hanken Grotesk Variable (subset latin, woff2) ----
+   Sustituye a Inter. Grotesca cercana a "Area Normal" (la de berch.ch), con
+   licencia libre (OFL) y un solo archivo variable por estilo. */
 @font-face {
-  font-family: "Inter";
+  font-family: "Hanken Grotesk";
   font-style: normal;
   font-display: swap;
   font-weight: 100 900;
-  src: url("/fonts/inter-latin-wght-normal.woff2") format("woff2-variations");
+  src: url("/fonts/hanken-grotesk-latin-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Hanken Grotesk";
+  font-style: italic;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("/fonts/hanken-grotesk-latin-wght-italic.woff2") format("woff2-variations");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
     U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
     U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 @theme {
-  /* ---- Colores (design tokens §3.1) ---- */
-  --color-paper: #ffffff;      /* fondo principal            (--color-bg)      */
-  --color-ink: #0a0a0a;        /* secciones oscuras, textos  (--color-black)   */
-  --color-graphite: #1a1a1a;   /* gris-900                   (--color-gray-900)*/
-  --color-slate: #666666;      /* texto secundario           (--color-gray-600)*/
-  --color-mist: #999999;       /* gris-400                   (--color-gray-400)*/
-  --color-cloud: #f5f5f5;      /* superficies, tarjetas      (--color-gray-100)*/
-  --color-line: #e5e5e5;       /* bordes, separadores        (--color-line)    */
-  --color-whatsapp: #25d366;   /* ÚNICA excepción de color                     */
+  /* ---- Colores (paleta oscura tipo Selemen) ----
+     Nota semántica del rediseño: `ink` pasa a ser el TEXTO primario (claro) y
+     `paper` el FONDO base (oscuro). Los antiguos "bloques oscuros" ahora usan
+     `--color-deep`; las tarjetas/superficies elevadas usan `--color-surface`
+     (alias histórico `--color-cloud`). */
+  --color-paper: #141518;      /* fondo base de la página        (--color-bg)      */
+  --color-deep: #0d0e11;       /* superficie más honda: héroes, CTA, pie, menú     */
+  --color-surface: #1e1f25;    /* superficies elevadas: tarjetas, inputs           */
+  --color-cloud: #1e1f25;      /* alias histórico de superficie elevada            */
+  --color-ink: #f3f3f5;        /* TEXTO primario / titulares      (--color-black)   */
+  --color-graphite: #d5d6db;   /* texto fuerte / secundario alto  (--color-gray-900)*/
+  --color-slate: #a9abb5;      /* texto secundario (azul-gris Selemen) (--gray-600) */
+  --color-mist: #8a8c95;       /* texto atenuado / etiquetas      (--color-gray-400)*/
+  --color-line: rgba(255, 255, 255, 0.12); /* bordes, separadores  (--color-line)   */
+  --color-accent: #8fa593;     /* acento salvia (aclarado para texto, AA en oscuro) */
+  --color-accent-solid: #708573; /* salvia sólido para rellenos/bordes             */
+  --color-whatsapp: #25d366;   /* ÚNICA excepción cromática funcional              */
 
   /* ---- Tipografía ---- */
-  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system,
+  --font-sans: "Hanken Grotesk", ui-sans-serif, system-ui, -apple-system,
     "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 
   /* ---- Ritmo de secciones (mucho aire: ≥6rem desktop / 4rem móvil) ---- */
   --space-section: clamp(4rem, 9vw, 6.5rem);
 
-  /* ---- Curvas de animación (§3.3) ---- */
+  /* ---- Curvas de animación ---- */
   --ease-reveal: cubic-bezier(0.22, 1, 0.36, 1); /* titulares / reveals suaves */
   --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Alias con los nombres literales del spec (§3.1) para código que los use. */
+/* Alias con los nombres literales del spec para código que los use. */
 :root {
   --color-bg: var(--color-paper);
-  --color-black: var(--color-ink);
+  --color-black: var(--color-deep);
   --color-gray-900: var(--color-graphite);
   --color-gray-600: var(--color-slate);
   --color-gray-400: var(--color-mist);
-  --color-gray-100: var(--color-cloud);
-  color-scheme: light;
+  --color-gray-100: var(--color-surface);
+  color-scheme: dark;
 }
 
 /* ============================================================================
@@ -62,6 +86,7 @@ html {
      prefers-reduced-motion) dejan el destino bajo la cabecera fija; este
      desplazamiento lo compensa igual que el offset -80 de Lenis. */
   scroll-padding-top: 80px;
+  background-color: var(--color-paper);
 }
 /* Cuando Lenis controla el scroll desactiva el smooth nativo para no competir. */
 html.lenis {
@@ -80,40 +105,36 @@ body {
   color: var(--color-ink);
   font-family: var(--font-sans);
   font-size: 1rem;              /* cuerpo 1–1.125rem */
+  font-weight: 420;             /* base algo más de cuerpo, al gusto de berch.ch */
   line-height: 1.6;
-  font-feature-settings: "cv11", "ss01";
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
 ::selection {
   background: var(--color-ink);
-  color: var(--color-paper);
+  color: var(--color-deep);
 }
 
-/* Anillo de foco visible y accesible (nunca eliminar el focus ring). */
+/* Anillo de foco visible y accesible (nunca eliminar el focus ring). Sobre el
+   fondo oscuro global el anillo claro (ink) siempre contrasta. */
 :focus-visible {
   outline: 2px solid var(--color-ink);
   outline-offset: 2px;
 }
-/* Sobre superficies oscuras (.on-dark: pie, hero, header con scroll) el anillo
-   negro no se vería: se invierte a blanco. */
-.on-dark :focus-visible {
-  outline-color: var(--color-paper);
-}
 
 
-/* ---- Escala tipográfica (§3.2) — utilidades semánticas ---- */
+/* ---- Escala tipográfica — utilidades semánticas (pesos medios, estilo berch) ---- */
 .h-hero {
   font-size: clamp(2.5rem, 6vw, 5rem);
-  font-weight: 650;
-  line-height: 1.02;
+  font-weight: 560;
+  line-height: 1.04;
   letter-spacing: -0.02em;
 }
 .h-section {
   font-size: clamp(1.8rem, 4vw, 3rem);
-  font-weight: 600;
-  line-height: 1.08;
+  font-weight: 540;
+  line-height: 1.1;
   letter-spacing: -0.015em;
 }
 .lead {
@@ -134,7 +155,7 @@ body {
 }
 
 /* ============================================================================
-   SISTEMA DE ANIMACIONES (§3.3)
+   SISTEMA DE ANIMACIONES
    Animar sólo transform y opacity. Nada bloquea LCP ni interacción.
    ========================================================================== */
 
@@ -188,24 +209,26 @@ html.js [data-reveal-lines].is-visible .line > span {
 @media (hover: hover) {
   .card-hover:hover {
     transform: translateY(-6px);
-    box-shadow: 0 24px 60px -30px rgba(10, 10, 10, 0.35);
+    box-shadow: 0 24px 60px -30px rgba(0, 0, 0, 0.6);
   }
   .card-hover:hover .card-media {
     transform: scale(1.05);
   }
 }
 
-/* --- Botón: inversión de color (negro↔blanco), 0.3s ease --- */
+/* --- Botón: inversión de color (claro↔oscuro), 0.3s ease ---
+   En el tema oscuro el botón primario es un relleno claro con texto oscuro,
+   que resalta sobre el fondo. Al hacer hover se invierte a oscuro con texto claro. */
 .btn {
   --btn-bg: var(--color-ink);
-  --btn-fg: var(--color-paper);
+  --btn-fg: var(--color-deep);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   min-height: 3rem;             /* ≥44px táctil */
   padding: 0.85rem 1.6rem;
-  font-weight: 550;
+  font-weight: 520;
   font-size: 0.975rem;
   letter-spacing: -0.01em;
   border: 1px solid var(--btn-bg);
@@ -230,11 +253,11 @@ html.js [data-reveal-lines].is-visible .line > span {
 @media (hover: hover) {
   .btn-outline:hover {
     background: var(--color-ink);
-    color: var(--color-paper);
+    color: var(--color-deep);
     border-color: var(--color-ink);
   }
 }
-/* Variante outline sobre superficies oscuras: texto blanco, borde translúcido. */
+/* Variante outline sobre superficies con imagen/foto: texto blanco, borde translúcido. */
 .on-dark .btn-outline {
   color: #fff;
   border-color: rgba(255, 255, 255, 0.35);
@@ -242,16 +265,15 @@ html.js [data-reveal-lines].is-visible .line > span {
 @media (hover: hover) {
   .on-dark .btn-outline:hover {
     background: #fff;
-    color: var(--color-ink);
+    color: var(--color-deep);
     border-color: #fff;
   }
 }
-/* Botón invertido para fondos oscuros (blanco relleno → texto negro).
-   Se aplica de forma explícita con .btn-invert; NO se hereda por estar dentro
-   de .on-dark, para no romper la variante .btn-outline (fondo transparente). */
+/* Botón "brillante" para secciones/héroes con foto: relleno claro, texto oscuro.
+   En el tema oscuro coincide con el primario por defecto. */
 .btn-invert {
-  --btn-bg: var(--color-paper);
-  --btn-fg: var(--color-ink);
+  --btn-bg: #ffffff;
+  --btn-fg: var(--color-deep);
 }
 .btn-whatsapp {
   --btn-bg: var(--color-whatsapp);
@@ -267,17 +289,60 @@ html.js [data-reveal-lines].is-visible .line > span {
   }
 }
 
-/* --- Header con glassmorphism al hacer scroll (§3.3) --- */
+/* --- Header con glassmorphism al hacer scroll --- */
 .site-header {
   transition: background-color 0.3s var(--ease-standard),
     backdrop-filter 0.3s var(--ease-standard),
     border-color 0.3s var(--ease-standard);
 }
 .site-header[data-scrolled="true"] {
-  background: rgba(10, 10, 10, 0.6);
+  background: rgba(10, 11, 14, 0.65);
   backdrop-filter: blur(12px) saturate(1.4);
   -webkit-backdrop-filter: blur(12px) saturate(1.4);
   border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+/* ============================================================================
+   TRANSICIÓN DE PÁGINA — "Center Clip Zoom"
+   Adaptación del componente "Center Clip Zoom" (Page Transitions). El original
+   (Next.js + next-view-transitions) usa la View Transitions API. Aquí se recrea
+   con la API NATIVA de transiciones entre documentos (cross-document), sin router
+   SPA ni JS: es una mejora progresiva pura. La página entrante se descubre desde
+   un rectángulo redondeado en el centro que se des-recorta y ajusta la escala
+   hasta llenar el viewport. Re-tematizado a los tokens del proyecto (radio de las
+   tarjetas). En navegadores sin soporte, la navegación es normal (no se pierde
+   nada). Se desactiva con prefers-reduced-motion (ver bloque de accesibilidad).
+   ========================================================================== */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-old(root) {
+  z-index: 1;
+}
+::view-transition-new(root) {
+  z-index: 2;
+  animation: bastinou-center-clip 1.1s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+}
+
+@keyframes bastinou-center-clip {
+  0% {
+    clip-path: inset(50% 50% 50% 50% round 1.25rem);
+    transform: scale(1.35);
+  }
+  78% {
+    clip-path: inset(0% 0% 0% 0% round 1.25rem);
+    transform: scale(1);
+  }
+  100% {
+    clip-path: inset(0% 0% 0% 0% round 0);
+    transform: scale(1);
+  }
 }
 
 /* ============================================================================
@@ -299,5 +364,10 @@ html.js [data-reveal-lines].is-visible .line > span {
   [data-reveal-lines] .line > span {
     opacity: 1 !important;
     transform: none !important;
+  }
+  /* Sin animación de zoom en la transición de página: corte directo. */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
   }
 }

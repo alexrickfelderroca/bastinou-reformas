@@ -1,0 +1,322 @@
+---
+/**
+ * BrandLoader — intro de marca "letter loader" (home). Adaptación del componente
+ * "Aurela Letter Loader" (referencia GSAP) al sistema de Bastinou:
+ *  - Rebrand "Aurela" → "Bastinou" (wordmark partido "Bast" | caja | "inou").
+ *  - Re-tematizado a los tokens OSCUROS del proyecto (nada de la paleta original).
+ *  - Imágenes de la caja creciente = fotos reales del portfolio; la imagen FINAL
+ *    es el póster del hero, así el "descubrimiento" enlaza con el vídeo del hero.
+ *  - GSAP se importa DINÁMICAMENTE dentro del script del módulo (code-split): solo
+ *    se descarga en la home y en la primera visita; nunca en el resto del sitio.
+ *
+ * Robustez (igual criterio que el antiguo Preloader):
+ *  - Solo home (se monta desde `Layout` con la prop `preloader`).
+ *  - Una vez por sesión (sessionStorage).
+ *  - prefers-reduced-motion / sesión ya vista / sin-JS → NO se pinta: el hero se
+ *    ve de inmediato (el overlay está `display:none` por defecto y el contenido
+ *    del hero solo se oculta bajo `html.is-brandloading`, que solo se activa si
+ *    el loader va a reproducirse).
+ *  - El visitante puede saltarlo (clic / Esc / Enter / Espacio).
+ *
+ * Coordina el "reveal" del hero + la cabecera mediante dos clases en <html>:
+ *   .is-brandloading  → puesto en el parseo si el loader va a reproducirse (oculta
+ *                        el contenido del hero/nav y bloquea el scroll).
+ *   .is-revealed      → puesto al final de la animación (o al saltar) → el hero y
+ *                        la cabecera hacen su reveal enmascarado (CSS).
+ */
+import coverA from '../assets/portfolio/casa-espana/kitchen-living.jpg';
+import coverB from '../assets/portfolio/casa-espana/staircase.jpg';
+import coverC from '../assets/portfolio/casa-espana/exterior-villa.jpg';
+
+const brand = 'Bastinou';
+// Partición del wordmark: "Bast" | [caja imagen] | "inou" (4 + 4 → caja centrada).
+const startLetters = ['B', 'a', 's', 't'];
+const endLetters = ['i', 'n', 'o', 'u'];
+---
+
+<div id="brand-loader" class="bl" aria-hidden="true">
+  <div class="bl__loader">
+    <div class="bl__h1">
+      <div class="bl__h1-start">
+        {startLetters.map((l) => <span class="bl__letter">{l}</span>)}
+      </div>
+
+      <div class="bl__box">
+        <div class="bl__box-inner">
+          <div class="bl__img">
+            <div class="bl__img-wrap">
+              <img class="bl__cover is--1" src={coverA.src} width={coverA.width} height={coverA.height} loading="eager" decoding="async" alt="" />
+              <img class="bl__cover is--2" src={coverB.src} width={coverB.width} height={coverB.height} loading="eager" decoding="async" alt="" />
+              <img class="bl__cover is--3" src={coverC.src} width={coverC.width} height={coverC.height} loading="eager" decoding="async" alt="" />
+              <img class="bl__cover-base" src="/hero/hero-desktop.jpg" loading="eager" decoding="async" alt="" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bl__h1-end">
+        {endLetters.map((l) => <span class="bl__letter">{l}</span>)}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style is:global>
+  /* ---- Oculto por defecto: sin JS / reduced-motion / ya visto → nada de telón,
+         el hero se ve normal. Solo html.is-brandloading lo muestra. ---- */
+  #brand-loader {
+    display: none;
+  }
+  html.is-brandloading {
+    overflow: hidden;
+  }
+  html.is-brandloading #brand-loader {
+    display: flex;
+  }
+
+  .bl {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    width: 100%;
+    height: 100dvh;
+    background: var(--color-deep, #0d0e11);
+    color: var(--color-ink, #f3f3f5);
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .bl__loader {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .bl__h1 {
+    white-space: nowrap;
+    justify-content: center;
+    font-family: var(--font-sans);
+    font-size: clamp(3.5rem, 15vw, 13rem);
+    font-weight: 560;
+    line-height: 0.75;
+    letter-spacing: -0.02em;
+    display: flex;
+    position: relative;
+  }
+
+  .bl__h1-start {
+    justify-content: flex-end;
+    display: flex;
+    overflow: hidden;
+  }
+  .bl__h1-end {
+    justify-content: flex-start;
+    display: flex;
+    overflow: hidden;
+  }
+  .bl__letter {
+    display: block;
+    position: relative;
+  }
+
+  .bl__box {
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    width: 0;
+    display: flex;
+    position: relative;
+  }
+  .bl__box-inner {
+    justify-content: center;
+    align-items: center;
+    min-width: 1em;
+    height: 95%;
+    display: flex;
+    position: relative;
+  }
+  .bl__img {
+    justify-content: center;
+    align-items: center;
+    width: 0%;
+    height: 100%;
+    display: flex;
+    position: absolute;
+    overflow: hidden;
+  }
+  .bl__img-wrap {
+    width: 100%;
+    min-width: 1em;
+    height: 100%;
+    position: absolute;
+  }
+  .bl__cover,
+  .bl__cover-base {
+    pointer-events: none;
+    -webkit-user-select: none;
+    user-select: none;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .bl__cover.is--1 { z-index: 3; }
+  .bl__cover.is--2 { z-index: 2; }
+  .bl__cover.is--3 { z-index: 1; }
+  .bl__cover-base { z-index: 0; }
+
+  @media screen and (max-width: 767px) {
+    .bl__h1 {
+      font-size: clamp(2.75rem, 20vw, 6rem);
+    }
+  }
+
+  /* ---- Cabecera: entra suave al descubrir (solo cuando el loader se reproduce) ---- */
+  html.is-brandloading .site-header {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  html.is-revealed .site-header {
+    opacity: 1;
+    transform: none;
+    transition: opacity 1s ease, transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: 0.35s;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html.is-brandloading .site-header {
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  /**
+   * Reproduce la secuencia del loader con GSAP (importado dinámicamente).
+   * Solo corre si el script inline de <head> decidió que toca (html.is-brandloading).
+   */
+  const ROOT = document.documentElement;
+
+  function finish() {
+    ROOT.classList.add('is-revealed');
+    ROOT.classList.remove('is-brandloading');
+    const el = document.getElementById('brand-loader');
+    if (el) el.remove();
+  }
+
+  async function initBrandLoader() {
+    // Si el inline no activó el loader (reduced-motion / ya visto / sin soporte),
+    // no hacemos nada: el hero ya es visible.
+    if (!ROOT.classList.contains('is-brandloading')) return;
+
+    const el = document.getElementById('brand-loader');
+    if (!el) { finish(); return; }
+
+    let gsap;
+    try {
+      ({ gsap } = await import('gsap'));
+    } catch (e) {
+      // GSAP falló al cargar → descubrimos el hero sin animación (nada se pierde).
+      finish();
+      return;
+    }
+
+    const letters = el.querySelectorAll('.bl__letter');
+    const box = el.querySelector('.bl__box');
+    const img = el.querySelector('.bl__img');
+    const hStart = el.querySelector('.bl__h1-start');
+    const hEnd = el.querySelector('.bl__h1-end');
+    const extras = el.querySelectorAll('.bl__cover');
+    const loader = el.querySelector('.bl__loader');
+
+    let revealed = false;
+    const revealNow = () => {
+      if (revealed) return;
+      revealed = true;
+      ROOT.classList.add('is-revealed');
+    };
+
+    const tl = gsap.timeline({
+      defaults: { ease: 'expo.inOut' },
+      onComplete: finish,
+    });
+
+    tl.from(letters, { yPercent: 100, stagger: 0.025, duration: 1.25 });
+    tl.fromTo(box, { width: '0em' }, { width: '1em', duration: 1.25 }, '< 1.25');
+    tl.fromTo(img, { width: '0%' }, { width: '100%', duration: 1.25 }, '<');
+    tl.fromTo(hStart, { x: '0em' }, { x: '-0.05em', duration: 1.25 }, '<');
+    tl.fromTo(hEnd, { x: '0em' }, { x: '0.05em', duration: 1.25 }, '<');
+    tl.fromTo(
+      extras,
+      { opacity: 1 },
+      { opacity: 0, duration: 0.05, ease: 'none', stagger: 0.5 },
+      '-=0.05'
+    );
+    // La imagen crece hasta cubrir la pantalla (se convierte en el "fondo").
+    tl.to(img, { width: '100vw', height: '100vh', duration: 2 }, '< 1.25');
+    tl.to(box, { width: '110vw', duration: 2 }, '<');
+    // A mitad de la expansión: descubrimos el hero (bajo el overlay) y fundimos el overlay.
+    tl.add(revealNow, '< 0.6');
+    tl.to(loader, { autoAlpha: 0, duration: 0.7, ease: 'power2.out' }, '< 0.15');
+
+    // Saltar: clic / Esc / Enter / Espacio → al final inmediatamente.
+    const skip = () => {
+      tl.kill();
+      revealNow();
+      finish();
+      cleanup();
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') skip();
+    };
+    const cleanup = () => {
+      el.removeEventListener('pointerdown', skip);
+      window.removeEventListener('keydown', onKey);
+    };
+    el.addEventListener('pointerdown', skip, { once: true });
+    window.addEventListener('keydown', onKey);
+    tl.eventCallback('onComplete', () => { finish(); cleanup(); });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBrandLoader);
+  } else {
+    initBrandLoader();
+  }
+</script>
+
+<!-- Decisión de reproducir (corre en el parseo, ANTES de pintar hero/cabecera):
+     sin flash y a prueba de sin-JS. -->
+<script is:inline>
+  (function () {
+    var KEY = 'bastinou_intro';
+    var el = document.getElementById('brand-loader');
+    if (!el) return;
+    var reduce = false;
+    try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+    var seen = false;
+    try { seen = sessionStorage.getItem(KEY) === '1'; } catch (e) {}
+    if (reduce || seen) {
+      el.parentNode && el.parentNode.removeChild(el);
+      return;
+    }
+    try { sessionStorage.setItem(KEY, '1'); } catch (e) {}
+    document.documentElement.classList.add('is-brandloading');
+    // Failsafe: si el script del módulo (GSAP) nunca corre, el contenido NO puede
+    // quedar oculto para siempre → a los 9s se fuerza el reveal.
+    setTimeout(function () {
+      var r = document.documentElement;
+      if (r.classList.contains('is-revealed')) return;
+      r.classList.add('is-revealed');
+      r.classList.remove('is-brandloading');
+      var e = document.getElementById('brand-loader');
+      if (e && e.parentNode) e.parentNode.removeChild(e);
+    }, 9000);
+  })();
+</script>

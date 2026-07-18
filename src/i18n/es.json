@@ -60,6 +60,11 @@
     "loading": "Cargando…",
     "menu": "Menú"
   },
+  "preloader": {
+    "w1": "Diseño.",
+    "w2": "Obra.",
+    "w3": "Hogar."
+  },
   "home": {
     "hero": {
       "eyebrow": "Reformas · Construcción · Barcelona y Cataluña",

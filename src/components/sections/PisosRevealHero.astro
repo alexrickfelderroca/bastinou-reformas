@@ -1,0 +1,420 @@
+---
+/**
+ * Hero de "Reformas de pisos" — descubrimiento fluido ANTES/DESPUÉS con el ratón.
+ *
+ * Adaptación del componente "Fluid Skull Reveal" (Mouse Effects). El original
+ * (three.js + WebGPU + TSL: simulación de fluido que disuelve entre dos escenas)
+ * se recrea aquí con el stack del proyecto (Astro + Canvas 2D vainilla, sin three)
+ * y con DOS FOTOS REALES del mismo espacio: el "después" (reforma acabada) de base
+ * y el "antes" (obra en bruto) que se descubre siguiendo el rastro fluido del
+ * cursor y se "cura" (se difumina de vuelta) al pasar. Cuenta la transformación
+ * de un vistazo. Re-tematizado 100% a los tokens oscuros de Bastinou.
+ *
+ * Robustez (requisitos del encargo):
+ *  - La imagen ACABADA se sirve como <img> real (LCP, alt, SEO): SIN JS o con
+ *    prefers-reduced-motion el hero muestra el resultado acabado y todo el texto.
+ *    El contenido (H1, subtítulo, CTAs) NUNCA queda oculto.
+ *  - El canvas del "antes" es una capa de mejora encima; si falla, se retira.
+ *  - En táctil/primer plano se auto-descubre un instante para insinuar el gesto.
+ */
+import { getImage } from 'astro:assets';
+import { useTranslations, type Locale } from '../../i18n/ui';
+import { localizedPath } from '../../i18n/routes';
+import { whatsappHref } from '../../config/site';
+
+import beforeAsset from '../../assets/reveal/pisos-before.jpg';
+import afterAsset from '../../assets/reveal/pisos-after.jpg';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const l = (k: string) => t(`landings.pisos.${k}`);
+
+// URLs optimizadas (mismo origen → el canvas no se "contamina").
+const after = await getImage({ src: afterAsset, width: 1800, format: 'webp' });
+const before = await getImage({ src: beforeAsset, width: 1800, format: 'webp' });
+
+// Micro-copia localizada del propio componente (autocontenida).
+const ui = (
+  {
+    es: { antes: 'Antes', despues: 'Después', hint: 'Mueve el cursor sobre la imagen para descubrir el antes' },
+    ca: { antes: 'Abans', despues: 'Després', hint: "Mou el cursor sobre la imatge per descobrir l'abans" },
+    en: { antes: 'Before', despues: 'After', hint: 'Move your cursor over the image to reveal the before' },
+  } as const
+)[locale] ?? { antes: 'Antes', despues: 'Después', hint: '' };
+---
+
+<section class="pr-hero on-dark" data-pr-hero data-before-src={before.src}>
+  <div class="pr-hero__stage" data-pr-stage>
+    <!-- Capa base: reforma ACABADA (visible siempre = fallback + LCP). -->
+    <img
+      class="pr-hero__base"
+      src={after.src}
+      width={afterAsset.width}
+      height={afterAsset.height}
+      alt={l('h1')}
+      fetchpriority="high"
+      decoding="async"
+    />
+    <!-- Capa de descubrimiento del "antes" (se pinta por JS). -->
+    <canvas class="pr-hero__canvas" data-pr-canvas aria-hidden="true"></canvas>
+    <span class="pr-hero__scrim" aria-hidden="true"></span>
+
+    <!-- Etiquetas antes/después -->
+    <span class="pr-hero__tag pr-hero__tag--after">{ui.despues}</span>
+    <span class="pr-hero__tag pr-hero__tag--before" data-pr-hint>{ui.antes}</span>
+  </div>
+
+  <div class="container-x pr-hero__content">
+    <nav class="pr-hero__crumbs" aria-label="Breadcrumb">
+      <a href={localizedPath('home', locale)}>{t('landing.breadcrumbHome')}</a>
+      <span aria-hidden="true">/</span>
+      <span>{t('nav.pisos')}</span>
+    </nav>
+    <h1 class="h-hero pr-hero__title">{l('h1')}</h1>
+    <p class="lead pr-hero__sub">{l('heroSub')}</p>
+    <p class="pr-hero__hint" data-pr-hint-text>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 4l7 16 2-7 7-2z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg>
+      {ui.hint}
+    </p>
+    <div class="pr-hero__actions">
+      <a class="btn btn-invert" href={localizedPath('calculadora', locale)}>{t('landing.ctaCalc')}</a>
+      <a class="btn btn-whatsapp" href={whatsappHref(t('whatsapp.prefill'))} target="_blank" rel="noopener" data-wa data-wa-source="landing-pisos">
+        {t('cta.whatsapp')}
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .pr-hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    align-items: flex-end;
+    background: var(--color-deep);
+    color: #fff;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .pr-hero__stage {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    touch-action: pan-y;
+  }
+  .pr-hero__base,
+  .pr-hero__canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .pr-hero__base {
+    object-fit: cover;
+    z-index: 0;
+  }
+  .pr-hero__canvas {
+    z-index: 1;
+    /* Suaviza el borde del rastro → sensación líquida. */
+    filter: blur(0.4px) saturate(0.92) contrast(1.02);
+    opacity: 0; /* se muestra sólo cuando el JS lo activa */
+    transition: opacity 0.4s var(--ease-standard);
+  }
+  .pr-hero.is-live .pr-hero__canvas { opacity: 1; }
+
+  .pr-hero__scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background:
+      linear-gradient(to top, rgba(13, 14, 17, 0.9) 0%, rgba(13, 14, 17, 0.35) 38%, rgba(13, 14, 17, 0) 62%),
+      linear-gradient(to right, rgba(13, 14, 17, 0.7) 0%, rgba(13, 14, 17, 0.1) 46%, rgba(13, 14, 17, 0) 70%);
+    pointer-events: none;
+  }
+
+  .pr-hero__tag {
+    position: absolute;
+    top: 6.5rem;
+    z-index: 3;
+    padding: 0.3rem 0.8rem;
+    border-radius: 999px;
+    background: rgba(13, 14, 17, 0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    pointer-events: none;
+  }
+  .pr-hero__tag--after { right: clamp(1.25rem, 5vw, 4rem); }
+  .pr-hero__tag--before {
+    right: clamp(1.25rem, 5vw, 4rem);
+    top: calc(6.5rem + 2.2rem);
+    color: var(--color-accent);
+    opacity: 0.55;
+    transition: opacity 0.3s var(--ease-standard);
+  }
+
+  .pr-hero__content {
+    position: relative;
+    z-index: 4;
+    width: 100%;
+    padding-block: 3rem 4.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.15rem;
+  }
+  .pr-hero__crumbs {
+    display: flex;
+    gap: 0.6rem;
+    font-size: 0.85rem;
+    color: var(--color-mist);
+    margin-bottom: 1.4rem;
+  }
+  .pr-hero__crumbs a { color: var(--color-mist); text-decoration: none; }
+  .pr-hero__crumbs a:hover { color: #fff; }
+  .pr-hero__title { max-width: 15ch; }
+  .pr-hero__sub {
+    margin-top: 1.4rem;
+    max-width: 40ch;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  .pr-hero__hint {
+    display: none;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+    color: var(--color-slate);
+  }
+  .pr-hero__hint svg { color: var(--color-accent); flex: none; }
+  .pr-hero.is-live .pr-hero__hint { display: inline-flex; }
+  .pr-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin-top: 2rem;
+  }
+
+  @media (min-width: 900px) {
+    .pr-hero__content { padding-block: 3rem 5.5rem; }
+  }
+
+  /* Sin movimiento: nada de canvas ni pista, se ve la reforma acabada estática. */
+  @media (prefers-reduced-motion: reduce) {
+    .pr-hero__canvas { display: none; }
+    .pr-hero.is-live .pr-hero__hint { display: none; }
+  }
+</style>
+
+<script>
+  /**
+   * Descubrimiento fluido del "antes" con Canvas 2D. Máscara de alpha acumulada
+   * por el rastro del cursor que se difumina de vuelta (curación) → sensación de
+   * fluido. La imagen del "antes" se pinta sólo donde la máscara es opaca, sobre
+   * la foto "después" de base. Se pausa fuera de viewport. Con reduced-motion no
+   * corre (queda la foto acabada). Si algo falla, se retira el canvas.
+   */
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hero = document.querySelector<HTMLElement>('[data-pr-hero]');
+
+  if (hero && !reduce) {
+    const stage = hero.querySelector<HTMLElement>('[data-pr-stage]')!;
+    const canvas = hero.querySelector<HTMLCanvasElement>('[data-pr-canvas]')!;
+
+    // src de la imagen "antes" (obra) desde el atributo data del <section>.
+    const BEFORE_SRC = hero.getAttribute('data-before-src') || '';
+
+    const start = (beforeImg: HTMLImageElement) => {
+      const disp = canvas.getContext('2d');
+      const mask = document.createElement('canvas');
+      const mctx = mask.getContext('2d');
+      if (!disp || !mctx) return;
+
+      let W = 0, H = 0, DPR = 1;
+      let cover = { sx: 0, sy: 0, sw: 0, sh: 0 };
+
+      const computeCover = () => {
+        // Réplica de object-fit: cover centrado (igual que la <img> base).
+        const ir = beforeImg.naturalWidth / beforeImg.naturalHeight;
+        const cr = W / H;
+        if (ir > cr) {
+          cover.sh = beforeImg.naturalHeight;
+          cover.sw = cover.sh * cr;
+          cover.sx = (beforeImg.naturalWidth - cover.sw) / 2;
+          cover.sy = 0;
+        } else {
+          cover.sw = beforeImg.naturalWidth;
+          cover.sh = cover.sw / cr;
+          cover.sx = 0;
+          cover.sy = (beforeImg.naturalHeight - cover.sh) / 2;
+        }
+      };
+
+      const resize = () => {
+        DPR = Math.min(window.devicePixelRatio || 1, 2);
+        W = Math.round(stage.clientWidth * DPR);
+        H = Math.round(stage.clientHeight * DPR);
+        if (W === 0 || H === 0) return;
+        canvas.width = W; canvas.height = H;
+        mask.width = W; mask.height = H;
+        computeCover();
+      };
+      resize();
+
+      const brush = Math.max(W, H) * 0.11;
+      let lastX = -1, lastY = -1;
+      let lastActivity = 0;
+      let raf = 0;
+      let running = false;
+      let lastT = 0;
+      let autoActive = false, autoStart = 0;
+      const AUTO_DUR = 5200;
+
+      const stamp = (x: number, y: number, strength: number, r: number) => {
+        const g = mctx.createRadialGradient(x, y, 0, x, y, r);
+        g.addColorStop(0, `rgba(255,255,255,${strength})`);
+        g.addColorStop(0.6, `rgba(255,255,255,${strength * 0.5})`);
+        g.addColorStop(1, "rgba(255,255,255,0)");
+        mctx.fillStyle = g;
+        mctx.beginPath();
+        mctx.arc(x, y, r, 0, Math.PI * 2);
+        mctx.fill();
+      };
+
+      const paintTo = (x: number, y: number, strength = 0.9) => {
+        if (lastX < 0) { lastX = x; lastY = y; }
+        const dx = x - lastX, dy = y - lastY;
+        const dist = Math.hypot(dx, dy);
+        const step = brush * 0.28;
+        const n = Math.max(1, Math.floor(dist / step));
+        for (let k = 0; k <= n; k++) {
+          const px = lastX + (dx * k) / n;
+          const py = lastY + (dy * k) / n;
+          const jx = Math.sin((px + py) * 0.05) * brush * 0.06;
+          const jy = Math.cos((px - py) * 0.05) * brush * 0.06;
+          stamp(px + jx, py + jy, strength, brush * (0.85 + 0.3 * Math.random()));
+        }
+        lastX = x; lastY = y;
+        lastActivity = performance.now();
+        ensureRunning();
+      };
+
+      // Bucle unico gobernado por DELTA-TIME (independiente de los FPS: 60/120/144Hz
+      // o sin cap se comportan igual). Cura la mascara y compone cada frame.
+      const frame = (t: number) => {
+        if (!lastT) lastT = t;
+        const dt = Math.min(0.05, (t - lastT) / 1000);
+        lastT = t;
+
+        // Auto-demo (figura-8) gobernada por RELOJ REAL (no por FPS ni acumulador):
+        // dura AUTO_DUR ms exactos aunque el navegador vaya a 60/120/240 Hz o sin cap.
+        if (autoActive) {
+          if (!autoStart) autoStart = performance.now();
+          const e = (performance.now() - autoStart) / AUTO_DUR;
+          if (e >= 1) {
+            autoActive = false; autoStart = 0;
+          } else {
+            const a = e * Math.PI * 3;
+            const cx = W * (0.5 + 0.36 * Math.sin(a));
+            const cy = H * (0.5 + 0.26 * Math.sin(a * 2));
+            paintTo(cx, cy, 0.9);
+          }
+        }
+
+        // Curacion proporcional al tiempo transcurrido.
+        mctx.globalCompositeOperation = "destination-out";
+        mctx.globalAlpha = Math.min(0.5, dt * 1.6);
+        mctx.fillStyle = "#000";
+        mctx.fillRect(0, 0, W, H);
+        mctx.globalAlpha = 1;
+        mctx.globalCompositeOperation = "source-over";
+
+        // Composicion: "antes" (obra) recortado por la mascara, sobre "despues".
+        disp.clearRect(0, 0, W, H);
+        disp.globalCompositeOperation = "source-over";
+        disp.drawImage(beforeImg, cover.sx, cover.sy, cover.sw, cover.sh, 0, 0, W, H);
+        disp.globalCompositeOperation = "destination-in";
+        disp.drawImage(mask, 0, 0);
+        disp.globalCompositeOperation = "source-over";
+
+        if (autoActive || t - lastActivity < 1200) {
+          raf = requestAnimationFrame(frame);
+        } else {
+          running = false; lastT = 0;
+          disp.clearRect(0, 0, W, H);
+          mctx.clearRect(0, 0, W, H);
+        }
+      };
+
+      const ensureRunning = () => {
+        if (!running) { running = true; lastT = 0; raf = requestAnimationFrame(frame); }
+      };
+
+      // --- Auto-demo: insinua el gesto al entrar en viewport ---
+      const autoOn = () => {
+        if (autoActive) return;
+        autoActive = true; autoStart = 0; lastX = -1; lastY = -1;
+        ensureRunning();
+      };
+      const autoOff = () => { autoActive = false; };
+
+      // --- Entrada del puntero (raton y tactil via Pointer Events) ---
+      const isCoarse = window.matchMedia("(pointer: coarse)").matches;
+      let resumeTimer = 0;
+      const toLocal = (clientX: number, clientY: number) => {
+        const rect = stage.getBoundingClientRect();
+        return { x: (clientX - rect.left) * DPR, y: (clientY - rect.top) * DPR };
+      };
+      const onMove = (e: PointerEvent) => {
+        const { x, y } = toLocal(e.clientX, e.clientY);
+        if (x < 0 || y < 0 || x > W || y > H) return;
+        autoOff();
+        paintTo(x, y);
+        if (isCoarse) { clearTimeout(resumeTimer); resumeTimer = window.setTimeout(autoOn, 2500); }
+      };
+      // Escuchamos en la SECCIÓN (no en el stage): el contenido (H1, CTAs, scrim)
+      // se pinta por encima del canvas, así que un pointermove real cae sobre él;
+      // como es hermano del stage, sólo burbujea hasta la sección. Escuchando aquí
+      // el rastro funciona sobre TODA la imagen, también detrás del texto.
+      hero.addEventListener("pointermove", onMove, { passive: true });
+      hero.addEventListener("pointerleave", () => { lastX = -1; lastY = -1; });
+
+      // --- Pausar/retomar segun visibilidad ---
+      let seenOnce = false;
+      const io = new IntersectionObserver((entries) => {
+        for (const en of entries) {
+          if (en.isIntersecting) {
+            if (!seenOnce) { seenOnce = true; window.setTimeout(autoOn, 400); }
+          } else {
+            autoOff();
+            clearTimeout(resumeTimer);
+          }
+        }
+      }, { threshold: 0.3 });
+      io.observe(hero);
+
+      window.addEventListener("resize", () => {
+        cancelAnimationFrame(raf); running = false;
+        resize();
+      });
+
+      hero.classList.add("is-live");
+    };
+
+    // Carga la imagen "antes" y arranca (o retira el canvas si falla).
+    const img = new Image();
+    img.decoding = 'async';
+    img.onload = () => start(img);
+    img.onerror = () => { canvas.remove(); };
+    img.src = BEFORE_SRC;
+    if (!BEFORE_SRC) canvas.remove();
+  }
+</script>

@@ -1,0 +1,239 @@
+---
+/**
+ * Preloader / intro de marca (home). Recrea la secuencia de Infinity pero con
+ * la identidad de Bastinou y la regla B/N/gris del sistema (§3): sobre negro,
+ * primero aparece el wordmark "Bastinou" y después el lema de tres tiempos
+ * "Diseño. Obra. Hogar." — sin color: el énfasis de la última palabra es puro
+ * contraste (blanco pleno frente a gris). Al terminar, el telón sube y descubre
+ * el hero (también negro → costura invisible).
+ *
+ * Comportamiento (decidido con el cliente):
+ *  - Solo en la home (se monta desde `Layout` con la prop `preloader`).
+ *  - Una vez por sesión de navegador (sessionStorage), para no repetirse al
+ *    navegar por un sitio multipágina.
+ *  - prefers-reduced-motion o sesión ya vista → NO se pinta (se elimina del DOM
+ *    en el primer parseo, sin flash): el sitio se ve de inmediato.
+ *  - El visitante puede saltarlo (clic / Esc / Enter / espacio).
+ *
+ * Sin flash: el overlay está `display:none` por defecto; el script `is:inline`
+ * (corre en el parseo, ANTES de que se pinten header y hero) decide y solo
+ * entonces añade `html.is-preloading`, que lo muestra. Si decide que no toca,
+ * lo retira y la página aparece normal.
+ */
+import { useTranslations, type Locale } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const brand = t('meta.siteName');
+const words = [t('preloader.w1'), t('preloader.w2'), t('preloader.w3')];
+---
+
+<div id="preloader" class="preloader" aria-hidden="true">
+  <div class="preloader__stage">
+    <!-- Tiempo 1: wordmark -->
+    <span class="preloader__brand">{brand}</span>
+
+    <!-- Tiempo 2: lema de tres tiempos. El foco (blanco pleno) barre en
+         secuencia palabra 1 → 2 → 3 y se queda en la última. -->
+    <div class="preloader__tagwrap">
+      <p class="preloader__tag">
+        {words.map((w) => (
+          <span class="pl-word"><span>{w}</span></span>
+        ))}
+      </p>
+    </div>
+  </div>
+</div>
+
+<style is:global>
+  /* Oculto por defecto: sin JS (o si no toca reproducirlo) la página se ve
+     normal, sin telón negro. Solo `html.is-preloading` lo muestra. */
+  .preloader {
+    display: none;
+  }
+
+  html.is-preloading {
+    overflow: hidden;
+  }
+  html.is-preloading .preloader {
+    display: grid;
+    place-items: center;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    /* Negro de marca (--color-ink) con un vignette apenas perceptible. */
+    background:
+      radial-gradient(120% 120% at 50% 42%, #141414 0%, #0a0a0a 62%);
+    color: #fff;
+    /* El telón sube al terminar (o al saltar). */
+    transform: translateY(0);
+    transition: transform 0.76s cubic-bezier(0.76, 0, 0.24, 1);
+    will-change: transform;
+  }
+  html.is-preloading .preloader.is-lifting {
+    transform: translateY(-100%);
+  }
+
+  /* Escenario: wordmark y lema apilados en la misma celda, centrados. */
+  .preloader__stage {
+    display: grid;
+    place-items: center;
+    text-align: center;
+    padding-inline: 1.5rem;
+  }
+  .preloader__brand,
+  .preloader__tagwrap {
+    grid-area: 1 / 1;
+  }
+
+  /* ---- Tiempo 1: wordmark "Bastinou" ---- */
+  .preloader__brand {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(2.1rem, 7vw, 4.25rem);
+    line-height: 1;
+    color: #fff;
+    /* Aparece con un ajuste fino de tracking (ancho → cerrado) y se retira
+       hacia arriba para dar paso al lema. */
+    animation:
+      pl-brand-in 0.72s cubic-bezier(0.22, 1, 0.36, 1) both,
+      pl-brand-out 0.42s cubic-bezier(0.4, 0, 0.2, 1) 1.16s forwards;
+  }
+  @keyframes pl-brand-in {
+    from {
+      opacity: 0;
+      letter-spacing: 0.34em;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      letter-spacing: -0.03em;
+      transform: translateY(0);
+    }
+  }
+  @keyframes pl-brand-out {
+    to {
+      opacity: 0;
+      transform: translateY(-16px);
+    }
+  }
+
+  /* ---- Tiempo 2: lema "Diseño. Obra. Hogar." ---- */
+  .preloader__tagwrap {
+    display: grid;
+    justify-items: center;
+  }
+  .preloader__tag {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.4em;
+    margin: 0;
+    font-weight: 600;
+    font-size: clamp(1.5rem, 5vw, 3rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+  /* Cada palabra entra en gris con una máscara (el interior sube desde abajo,
+     mismo lenguaje que los titulares del sitio, §3.3). Después el foco —blanco
+     pleno— barre en secuencia: palabra 1, luego 2, luego 3; las dos primeras
+     vuelven a gris y la última se queda encendida. */
+  .pl-word {
+    display: block;
+    overflow: hidden;
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .pl-word > span {
+    display: block;
+    transform: translateY(110%);
+    animation: pl-rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .pl-word:nth-child(1) > span { animation-delay: 1.4s; }
+  .pl-word:nth-child(2) > span { animation-delay: 1.48s; }
+  .pl-word:nth-child(3) > span { animation-delay: 1.56s; }
+
+  /* Barrido del foco (color) — una palabra encendida a la vez. */
+  .pl-word:nth-child(1) { animation: pl-flash 0.6s ease 1.85s both; }
+  .pl-word:nth-child(2) { animation: pl-flash 0.6s ease 2.19s both; }
+  .pl-word:nth-child(3) { animation: pl-flash-hold 0.6s ease 2.53s both; }
+
+  @keyframes pl-rise {
+    to {
+      transform: translateY(0);
+    }
+  }
+  @keyframes pl-flash {
+    0% { color: rgba(255, 255, 255, 0.5); }
+    35% { color: #fff; }
+    65% { color: #fff; }
+    100% { color: rgba(255, 255, 255, 0.5); }
+  }
+  @keyframes pl-flash-hold {
+    0% { color: rgba(255, 255, 255, 0.5); }
+    60% { color: #fff; }
+    100% { color: #fff; }
+  }
+</style>
+
+<script is:inline>
+  /* Decisión + secuencia. Corre en el parseo (antes de header/hero) para que no
+     haya destello: solo muestra el overlay si de verdad va a reproducirse. */
+  (function () {
+    var root = document.documentElement;
+    var pre = document.getElementById('preloader');
+    if (!pre) return;
+
+    var reduced = false;
+    var seen = false;
+    try {
+      reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    } catch (e) {}
+    try {
+      seen = window.sessionStorage.getItem('bastinou_intro') === '1';
+    } catch (e) {}
+
+    // Ya vista esta sesión, o el usuario pidió menos movimiento → sin intro.
+    if (reduced || seen) {
+      pre.parentNode && pre.parentNode.removeChild(pre);
+      return;
+    }
+    try {
+      window.sessionStorage.setItem('bastinou_intro', '1');
+    } catch (e) {}
+
+    root.classList.add('is-preloading');
+
+    var HOLD = 3100; // fin del contenido → empieza a subir el telón
+    var LIFT = 760; // duración de la subida (sincronizada con el CSS)
+    var lifted = false;
+
+    function finish() {
+      if (lifted) return;
+      lifted = true;
+      pre.classList.add('is-lifting');
+      window.setTimeout(function () {
+        root.classList.remove('is-preloading');
+        pre.parentNode && pre.parentNode.removeChild(pre);
+      }, LIFT);
+    }
+
+    var timer = window.setTimeout(finish, HOLD);
+
+    // Saltar el intro (clic o teclas comunes).
+    function skip() {
+      window.clearTimeout(timer);
+      finish();
+    }
+    pre.addEventListener('pointerdown', skip, { once: true });
+    window.addEventListener(
+      'keydown',
+      function (e) {
+        if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') skip();
+      },
+      { once: true },
+    );
+  })();
+</script>

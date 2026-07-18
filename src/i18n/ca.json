@@ -60,6 +60,11 @@
     "loading": "Carregant…",
     "menu": "Menú"
   },
+  "preloader": {
+    "w1": "Disseny.",
+    "w2": "Obra.",
+    "w3": "Llar."
+  },
   "home": {
     "hero": {
       "eyebrow": "Reformes · Construcció · Barcelona i Catalunya",

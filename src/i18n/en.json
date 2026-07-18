@@ -60,6 +60,11 @@
     "loading": "Loading…",
     "menu": "Menu"
   },
+  "preloader": {
+    "w1": "Design.",
+    "w2": "Build.",
+    "w3": "Home."
+  },
   "home": {
     "hero": {
       "eyebrow": "Renovation · Construction · Barcelona & Catalonia",

@@ -42,5 +42,23 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()],
+    // React 19 splits its runtime and its "shared internals" across the `react`
+    // and `react-dom` packages. If Vite pre-bundles them into separate instances,
+    // react-dom sets the hooks dispatcher on one copy while the component reads it
+    // from another → `Cannot read properties of null (reading 'useState')` and the
+    // island never hydrates (calculadora en blanco). Deduping + co-optimising every
+    // React entrypoint forces a single shared instance in dev and preview.
+    resolve: {
+      dedupe: ['react', 'react-dom'],
+    },
+    optimizeDeps: {
+      include: [
+        'react',
+        'react-dom',
+        'react-dom/client',
+        'react/jsx-runtime',
+        'react/jsx-dev-runtime',
+      ],
+    },
   },
 });

@@ -9,6 +9,7 @@
  */
 import Layout from '../layouts/Layout.astro';
 import ServiceHero from './sections/ServiceHero.astro';
+import PisosRevealHero from './sections/PisosRevealHero.astro';
 import ServiceIncludes from './sections/ServiceIncludes.astro';
 import PricingTable from './sections/PricingTable.astro';
 import RelatedProjects from './sections/RelatedProjects.astro';
@@ -73,7 +74,9 @@ const breadcrumbLd = {
 ---
 
 <Layout title={l('metaTitle')} description={l('metaDesc')} routeKey={cfg.routeKey} overHero={true}>
-  <ServiceHero locale={locale} service={service} image={heroImages[service]} />
+  {service === 'pisos'
+    ? <PisosRevealHero locale={locale} />
+    : <ServiceHero locale={locale} service={service} image={heroImages[service]} />}
   <ServiceIncludes locale={locale} service={service} />
   <PricingTable locale={locale} pricingType={cfg.pricingType} />
   <RelatedProjects locale={locale} />

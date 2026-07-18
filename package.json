@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
+    "@fontsource/hanken-grotesk": "^5.2.8",
     "@fontsource/inter": "^5.2.8",
     "satori": "^0.28.0",
     "typescript": "^6.0.3"
