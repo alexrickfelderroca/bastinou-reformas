@@ -331,6 +331,7 @@
     "title": "Our projects",
     "subtitle": "Finished work, chosen and executed by our own team. Filter by project type.",
     "filterAll": "All",
+    "filterLabel": "Filter projects",
     "filterPiso": "Apartments",
     "filterCasa": "Houses",
     "filterOficina": "Offices",
@@ -458,6 +459,40 @@
     "browserText": "You can also block or delete cookies from your browser settings. Note that disabling some may affect how the site works.",
     "moreTitle": "More information",
     "moreText": "To learn how we process your personal data, see our privacy policy. If you have questions, write to us at"
+  },
+  "privacy": {
+    "metaTitle": "Privacy policy",
+    "metaDesc": "How Bastinou processes your personal data: controller, purposes, legal basis, retention, recipients and your rights (GDPR).",
+    "title": "Privacy policy",
+    "updated": "Last updated: July 2026.",
+    "s": [
+      { "h": "Data controller", "p": ["The controller of your data is Bastinou ([PENDING: legal name], tax ID [PENDING], registered at [PENDING: address]). You can reach us at <a href=\"mailto:info@bastinou.com\">info@bastinou.com</a>."] },
+      { "h": "What data we process", "p": ["We process the data you provide in the contact and quote forms (name, phone, email and your message or renovation details) and what you enter in the calculator. If you accept cookies, we also process browsing and advertising-campaign data."] },
+      { "h": "Purposes", "p": ["We use your data to respond to your request, prepare quotes and provide our renovation and construction services. With your consent, we also measure site audience and show relevant advertising."] },
+      { "h": "Legal basis", "p": ["We process your data on the basis of your consent and of pre-contractual measures taken at your request. Analytics and advertising rely solely on your consent, which you can withdraw at any time."] },
+      { "h": "How long we keep it", "p": ["We keep your data for as long as the relationship lasts and, afterwards, for the periods required by law. Data processed for marketing is kept until you withdraw your consent."] },
+      { "h": "Who we share it with", "p": ["We do not sell your data. We only share it with the providers that serve us (email and hosting) and, if you have consented, with Google for analytics and advertising."] },
+      { "h": "International transfers", "p": ["Some providers, such as Google, may process data outside the European Economic Area. In that case the appropriate safeguards under the GDPR apply, such as the European Commission's standard contractual clauses."] },
+      { "h": "Your rights", "p": ["You can exercise your rights of access, rectification, erasure, objection, restriction of processing and portability by writing to <a href=\"mailto:info@bastinou.com\">info@bastinou.com</a>. If you believe we have not handled your request properly, you may lodge a complaint with the Spanish Data Protection Agency (<a href=\"https://www.aepd.es\" target=\"_blank\" rel=\"noopener\">www.aepd.es</a>)."] },
+      { "h": "Cookies", "p": ["We use first- and third-party cookies as described in our <a href=\"/en/cookie-policy/\">cookie policy</a>, where you can also manage your preferences."] },
+      { "h": "Security", "p": ["We apply reasonable technical and organisational measures to protect your data against unauthorised access, loss or alteration."] },
+      { "h": "Changes to this policy", "p": ["We may update this policy to reflect legal or service changes. The current version will always be published here."] }
+    ]
+  },
+  "legal": {
+    "metaTitle": "Legal notice",
+    "metaDesc": "Owner identification, terms of use, intellectual property and applicable law for the Bastinou website.",
+    "title": "Legal notice",
+    "updated": "Last updated: July 2026.",
+    "s": [
+      { "h": "Owner identification", "p": ["In accordance with Spanish Law 34/2002 (LSSI-CE), this website is owned by Bastinou ([PENDING: legal name], tax ID [PENDING]), registered at [PENDING: address], email <a href=\"mailto:info@bastinou.com\">info@bastinou.com</a>. Activity: renovation and construction."] },
+      { "h": "Purpose and terms of use", "p": ["This site provides information about our services and lets you request a quote. By browsing it you accept these terms. You agree to make appropriate use of the content and not to use it for unlawful purposes."] },
+      { "h": "Intellectual and industrial property", "p": ["The site's content (texts, photographs, designs, logos and trademarks) belongs to Bastinou or to third parties who have authorised its use, and is protected by intellectual and industrial property law. Its reproduction, distribution or transformation is not permitted without express authorisation."] },
+      { "h": "Liability", "p": ["We strive to keep the information correct and up to date, but we do not guarantee the absence of errors or the continuous availability of the site. We are not liable for damages arising from misuse of the site or from its temporary unavailability."] },
+      { "h": "Third-party links", "p": ["The site may include links to third-party pages. We are not responsible for their content or their privacy policies."] },
+      { "h": "Data protection", "p": ["The processing of the personal data you provide is governed by our <a href=\"/en/privacy-policy/\">privacy policy</a>."] },
+      { "h": "Applicable law", "p": ["These terms are governed by Spanish law. For the resolution of any dispute, the parties submit to the courts and tribunals with jurisdiction under the law."] }
+    ]
   },
   "notFound": {
     "code": "404",

@@ -21,11 +21,11 @@ const typeCap = type[0].toUpperCase() + type.slice(1);
 
 <a class="pcard card-hover" href={url} data-type={type} data-reveal>
   <div class="pcard__media">
-    <Image src={cover} alt={t(`projects.${entry.id}.title`)} widths={[420, 720, 1000]} sizes="(min-width: 768px) 45vw, 100vw" class="card-media" loading="lazy" />
+    <Image src={cover} alt="" widths={[420, 720, 1000]} sizes="(min-width: 768px) 45vw, 100vw" class="card-media" loading="lazy" />
     <span class="pcard__badge">{t(`portfolio.type${typeCap}`)}</span>
   </div>
   <div class="pcard__body">
-    <h3 class="pcard__title">{t(`projects.${entry.id}.title`)}</h3>
+    <h2 class="pcard__title">{t(`projects.${entry.id}.title`)}</h2>
     <p class="pcard__meta">{area} m² · {year}</p>
   </div>
 </a>

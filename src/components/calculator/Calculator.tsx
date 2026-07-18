@@ -425,7 +425,7 @@ export default function Calculator({ locale, messages, whatsapp, privacyHref }: 
               className="w-full accent-ink"
               aria-label={t('s3title')}
             />
-            <div className="mt-1 flex justify-between text-xs text-mist">
+            <div className="mt-1 flex justify-between text-xs text-slate">
               <span>{M2_MIN} {t('unit')}</span>
               <span>{M2_MAX} {t('unit')}</span>
             </div>

@@ -1,0 +1,84 @@
+---
+/**
+ * Página legal genérica (aviso legal / política de privacidad) — Fase 10.
+ * Renderiza el título, la fecha y una lista de secciones {h, p[]} tomada de i18n
+ * (`legal.s` o `privacy.s`). Los párrafos pueden llevar enlaces (política de
+ * cookies/privacidad, correo, AEPD): son contenido propio y de confianza, por eso
+ * se pintan con set:html. El idioma se deduce de la URL (igual que CookiePolicy).
+ *
+ * CONTENIDO: estructura profesional RGPD/LSSI con marcadores [PENDIENTE] para los
+ * datos de empresa (razón social, NIF, dirección). Requiere revisión jurídica y
+ * los datos reales del cliente antes de publicar.
+ */
+import Layout from '../layouts/Layout.astro';
+import { getLocaleFromUrl, useTranslations, tData } from '../i18n/ui';
+
+interface Props {
+  doc: 'privacy' | 'legal';
+}
+const { doc } = Astro.props;
+const routeKey = doc === 'privacy' ? 'privacidad' : 'avisoLegal';
+const locale = getLocaleFromUrl(Astro.url);
+const t = useTranslations(locale);
+const sections = tData<{ h: string; p: string[] }[]>(locale, `${doc}.s`) ?? [];
+---
+
+<Layout title={t(`${doc}.metaTitle`)} description={t(`${doc}.metaDesc`)} routeKey={routeKey} overHero={true}>
+  <section class="lg-hero on-dark">
+    <div class="container-x">
+      <h1 class="h-hero">{t(`${doc}.title`)}</h1>
+      <p class="lg-hero__meta">{t(`${doc}.updated`)}</p>
+    </div>
+  </section>
+
+  <section class="section lg-body">
+    <div class="container-x lg-prose">
+      {sections.map((s) => (
+        <div class="lg-section" data-reveal>
+          <h2 class="lg-h">{s.h}</h2>
+          {s.p.map((para) => (
+            <p set:html={para} />
+          ))}
+        </div>
+      ))}
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .lg-hero {
+    background: var(--color-ink);
+    color: #fff;
+    padding-block: 8rem 3.5rem;
+  }
+  .lg-hero__meta {
+    margin-top: 1rem;
+    color: var(--color-mist);
+    font-size: 0.95rem;
+  }
+  .lg-body {
+    background: var(--color-paper);
+  }
+  .lg-prose {
+    max-width: 46rem;
+  }
+  .lg-section + .lg-section {
+    margin-top: 2.5rem;
+  }
+  .lg-h {
+    font-size: clamp(1.25rem, 2.4vw, 1.6rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+  .lg-section p {
+    margin-top: 1rem;
+    color: var(--color-slate);
+    line-height: 1.7;
+  }
+  .lg-section :global(a) {
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+</style>

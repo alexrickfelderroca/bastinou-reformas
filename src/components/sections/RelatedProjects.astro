@@ -37,7 +37,7 @@ const tiles = [
       {tiles.map(({ img, cap }) => (
         <a class="related__tile card-hover" href={localizedPath('proyectos', locale)} data-reveal>
           <div class="related__media">
-            <Image src={img} alt={cap} widths={[380, 640]} sizes="(min-width: 768px) 33vw, 100vw" class="card-media" loading="lazy" />
+            <Image src={img} alt="" widths={[380, 640]} sizes="(min-width: 768px) 33vw, 100vw" class="card-media" loading="lazy" />
           </div>
           <span class="related__cap">{cap}</span>
         </a>

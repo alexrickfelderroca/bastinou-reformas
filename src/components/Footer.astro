@@ -19,7 +19,8 @@ const p = (k: RouteKey) => localizedPath(k, locale);
 const year = new Date().getFullYear();
 
 const serviceLinks: RouteKey[] = ['pisos', 'casas', 'oficinas', 'construccion'];
-const companyLinks: RouteKey[] = ['proyectos', 'nosotros', 'calculadora', 'blog', 'contacto'];
+// 'blog' se omite hasta que exista la sección (evita un enlace 404 en el pie).
+const companyLinks: RouteKey[] = ['proyectos', 'nosotros', 'calculadora', 'contacto'];
 const legalLinks: { key: RouteKey; label: string }[] = [
   { key: 'avisoLegal', label: t('footer.avisoLegal') },
   { key: 'privacidad', label: t('footer.privacidad') },

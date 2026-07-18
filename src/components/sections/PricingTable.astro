@@ -162,7 +162,8 @@ const rates = pricingType ? (pricing.integral as Record<string, Record<Seg, numb
   .pricing__disclaimer {
     margin-top: 1.75rem;
     font-size: 0.85rem;
-    color: var(--color-mist);
+    /* Texto legal legible: slate (>=4.5:1 sobre claro); mist (#999) no pasa AA. */
+    color: var(--color-slate);
     max-width: 46rem;
   }
 

@@ -99,7 +99,9 @@ const meta = [
         <div class="pd-gallery__grid" data-reveal-group data-reveal-stagger="60">
           {d.gallery.map((img) => (
             <figure class="pd-gallery__item" data-reveal>
-              <Image src={img} alt={p('title')} widths={[400, 700, 1000]} sizes="(min-width: 768px) 45vw, 100vw" loading="lazy" />
+              {/* Galería decorativa dentro de una sección ya titulada: alt vacío
+                  para no repetir el mismo texto 9 veces (WCAG 1.1.1). */}
+              <Image src={img} alt="" widths={[400, 700, 1000]} sizes="(min-width: 768px) 45vw, 100vw" loading="lazy" />
             </figure>
           ))}
         </div>

@@ -123,7 +123,17 @@ public/
       (island React) pasa a `client:visible` para diferir la hidratación (TBT).
       Imágenes ya optimizadas (astro:assets, `widths`/`sizes`, lazy salvo LCP con
       `fetchpriority`); fuente Inter con preload+swap. Medido con Lighthouse móvil.
-- [ ] Fase 10 — QA final
+- [x] **Fase 10 — QA final**: barrido completo (i18n, enlaces, SEO, accesibilidad)
+      de las 33+6 páginas. **Auditorías Lighthouse móvil**: SEO 100 y buenas
+      prácticas 100 en todo el sitio; accesibilidad 100 salvo las landings (96,
+      por el contraste del botón WhatsApp — ver checklist); rendimiento 96/93/96
+      (Fase 9). Corregidos: `alt` redundantes (portfolio/galería/equipo), contraste
+      de texto secundario (mist→slate), enlace "Blog" del pie (404), migaja de
+      landing sin barra final, salto de encabezado en `/proyectos`, filtro de
+      portfolio (`role="group"` + `aria-pressed`). **Creadas las páginas legales
+      que faltaban** (aviso legal + privacidad, ES/CA/EN) → sin enlaces 404 en el
+      pie ni en el checkbox RGPD de los formularios. Sin errores de consola.
+      Ver "Checklist de lanzamiento" abajo.
 
 ## Tracking (Fase 7)
 
@@ -152,10 +162,46 @@ El botón de WhatsApp de la calculadora emite `calc_whatsapp_click` (con context
 del cálculo) y **no** lleva `[data-wa]`, para no duplicar con `whatsapp_click`.
 En GTM, mapea ambos a la misma conversión de WhatsApp si procede.
 
-## Pendientes de material (CLAUDE.pdf §8)
+## Checklist de lanzamiento (Fase 10)
 
-Buscar `[PENDIENTE` en el código: teléfono, WhatsApp, email, razón social/NIF,
-dirección y **documento de tarifas** para `pricing.json` (Fase 4). El dominio real
-se configura en `astro.config.mjs` (`SITE`). **Tracking (Fase 7):** `PUBLIC_GTM_ID`
-en `.env` + configuración de GA4/Ads dentro del contenedor de GTM. La política de
-cookies referencia la razón social/NIF (placeholder hasta recibir los datos).
+El sitio está **completo y verificado a nivel técnico**. Antes de publicar hay que
+rellenar los datos del cliente (marcados con `[PENDIENTE]`/`[PENDING]`/`[PENDENT]`
+en el código) y activar los servicios externos. Nada de esto es código nuevo: son
+datos y credenciales.
+
+**Bloqueantes de lanzamiento — datos del cliente:**
+- [ ] **Contacto** (`src/config/site.ts`): teléfono real (`phone` + `phoneHref`),
+      WhatsApp (`whatsapp`), email (`email`). Hasta rellenarlos, el pie muestra
+      `[PENDIENTE: +34 600 000 000]` como texto visible.
+- [ ] **Identidad legal** (`src/config/site.ts`): `legalName` (razón social), `nif`,
+      `address` (calle/CP) y `geo` (coordenadas). Aparecen en el JSON-LD y en las
+      páginas legales cuando existan.
+- [ ] **Dominio real** en `astro.config.mjs` (`SITE`) — afecta a canonical, sitemap,
+      hreflang, OG y `robots.txt`.
+- [ ] **Tarifas reales** para la calculadora y las landings (`pricing.json` +
+      `landing.pricingDisclaimer`).
+- [ ] **Equipo**: nombres y cargos reales (`about.teamName`/`teamRole`; las 4 fotos
+      ya están).
+- [ ] **Portfolio**: más proyectos y fotos reales del "antes" (before/after).
+- [ ] **Revisión jurídica** de aviso legal + privacidad + política de cookies
+      (estructura RGPD/LSSI lista; faltan los datos de empresa y el visto bueno legal).
+
+**Activación de servicios (credenciales / `.env`, en el deploy):**
+- [ ] **Tracking**: `PUBLIC_GTM_ID` real + configurar GA4/Ads dentro del contenedor
+      de GTM (ver sección "Tracking"). Todo dormido hasta entonces.
+- [ ] **Leads** (`.env`): `RESEND_API_KEY`, `LEAD_TO_EMAIL`, `LEAD_FROM_EMAIL` y,
+      opcional, `TELEGRAM_BOT_TOKEN`/`TELEGRAM_CHAT_ID`. Sin ellos el lead se registra
+      en el log del servidor pero no se envía email/Telegram.
+- [ ] **Hosting**: elegir adaptador (Vercel/Netlify/Cloudflare) — el de Node es interino.
+- [ ] **Antispam** (Fase 6): activar reCAPTCHA/Turnstile en el endpoint `/api/lead`.
+
+**Decisión de diseño pendiente (accesibilidad):**
+- El botón de WhatsApp usa texto blanco sobre verde `#25d366` (~2:1), que **no cumple
+  WCAG AA** — es la excepción de marca aprobada (estándar de WhatsApp) y mantiene las
+  landings en 96 de accesibilidad. Si se exige AA estricto: texto oscuro sobre el verde
+  (pasa a ~7.5:1) o un verde más oscuro. Cambio de una línea en `--color-whatsapp`/`.btn-whatsapp`.
+
+**Verificado en QA (correcto):** SEO 100 y buenas prácticas 100 en todo el sitio;
+accesibilidad 100 (salvo el botón WhatsApp); rendimiento 96/93/96 móvil; i18n completo
+en ES/CA/EN; sin errores de consola; sin enlaces internos rotos; JSON-LD válido sin
+fugas de `[PENDIENTE]`; sitemap con 39 URLs + hreflang correcto.

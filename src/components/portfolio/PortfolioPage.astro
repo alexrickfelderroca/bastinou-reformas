@@ -37,12 +37,13 @@ const filters = ['all', 'piso', 'casa', 'oficina', 'construccion'] as const;
 
   <section class="section pf-body">
     <div class="container-x">
-      <div class="pf-filters" role="tablist" aria-label={t('portfolio.filterAll')}>
+      <div class="pf-filters" role="group" aria-label={t('portfolio.filterLabel')}>
         {filters.map((f) => (
           <button
             class:list={['pf-filter', { 'is-active': f === 'all' }]}
             data-filter={f}
             type="button"
+            aria-pressed={f === 'all' ? 'true' : 'false'}
           >
             {t(`portfolio.filter${f === 'all' ? 'All' : f[0].toUpperCase() + f.slice(1)}`)}
           </button>
@@ -114,7 +115,7 @@ const filters = ['all', 'piso', 'casa', 'oficina', 'construccion'] as const;
   .pf-note {
     margin-top: 2.5rem;
     font-size: 0.9rem;
-    color: var(--color-mist);
+    color: var(--color-slate);
   }
   @media (min-width: 640px) {
     .pf-grid {
@@ -135,7 +136,11 @@ const filters = ['all', 'piso', 'casa', 'oficina', 'construccion'] as const;
   buttons.forEach((btn) => {
     btn.addEventListener('click', () => {
       const f = btn.dataset.filter;
-      buttons.forEach((b) => b.classList.toggle('is-active', b === btn));
+      buttons.forEach((b) => {
+        const active = b === btn;
+        b.classList.toggle('is-active', active);
+        b.setAttribute('aria-pressed', String(active));
+      });
       let visible = 0;
       cards.forEach((card) => {
         const show = f === 'all' || card.dataset.type === f;

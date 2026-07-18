@@ -46,7 +46,7 @@ const tiles = [
       <div class="portfolio__feature-media">
         <Image
           src={feature}
-          alt={t('home.portfolio.projectName')}
+          alt=""
           widths={[720, 1200, 1600]}
           sizes="(min-width: 1024px) 1200px, 100vw"
           class="card-media"
@@ -64,7 +64,7 @@ const tiles = [
       {tiles.map(({ img, cap }) => (
         <a class="portfolio__tile card-hover" href={localizedPath('proyectos', locale)} data-reveal>
           <div class="portfolio__tile-media">
-            <Image src={img} alt={cap} widths={[320, 560]} sizes="(min-width: 640px) 25vw, 50vw" class="card-media" loading="lazy" />
+            <Image src={img} alt="" widths={[320, 560]} sizes="(min-width: 640px) 25vw, 50vw" class="card-media" loading="lazy" />
           </div>
           <span class="portfolio__tile-cap">{cap}</span>
         </a>
