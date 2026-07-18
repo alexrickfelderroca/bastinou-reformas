@@ -58,6 +58,10 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
+  /* Los saltos de ancla nativos (antes de que Lenis cargue, o con
+     prefers-reduced-motion) dejan el destino bajo la cabecera fija; este
+     desplazamiento lo compensa igual que el offset -80 de Lenis. */
+  scroll-padding-top: 80px;
 }
 /* Cuando Lenis controla el scroll desactiva el smooth nativo para no competir. */
 html.lenis {

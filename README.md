@@ -115,7 +115,14 @@ public/
       `BreadcrumbList` en portfolio, detalle de proyecto, nosotros, contacto y
       calculadora (las landings ya lo tenían). hreflang/canonical/breadcrumbs con
       barra final coherente; sitemap plano (hreflang autoritativo en el `<head>`).
-- [ ] Fase 9 — Rendimiento (≥90 móvil)
+- [x] **Fase 9 — Rendimiento**: Lighthouse móvil ≥90 en las páginas clave
+      (home 96, calculadora 93, landing 96; CLS 0, TBT 0–120 ms). Lenis y el
+      parallax se difieren a `requestIdleCallback` (antes provocaban un reflow
+      forzado en la ruta crítica: 644 ms → ~8 ms); header y parallax escuchan el
+      scroll nativo (Lenis scrollea la ventana con suavizado). La calculadora
+      (island React) pasa a `client:visible` para diferir la hidratación (TBT).
+      Imágenes ya optimizadas (astro:assets, `widths`/`sizes`, lazy salvo LCP con
+      `fetchpriority`); fuente Inter con preload+swap. Medido con Lighthouse móvil.
 - [ ] Fase 10 — QA final
 
 ## Tracking (Fase 7)

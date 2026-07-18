@@ -9,36 +9,37 @@ import Lenis from 'lenis';
 
 const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+/** Ejecuta `fn` cuando el hilo principal está libre (tras el primer render). */
+function whenIdle(fn: () => void): void {
+  const ric = (window as unknown as {
+    requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => void;
+  }).requestIdleCallback;
+  if (ric) ric(fn, { timeout: 800 });
+  else window.setTimeout(fn, 200);
+}
+
 /* -------------------------------------------------------------------------- */
-/* Lenis — scroll suave                                                        */
+/* Lenis — scroll suave (mejora NO crítica; se difiere a idle)                 */
+/* Al iniciarse mide el wrapper (reflow forzado) y competiría con el LCP. Se   */
+/* inicializa en idle (ver final del archivo); hasta entonces el header y el   */
+/* parallax usan el scroll nativo, y los anclas caen a scroll nativo. Lenis    */
+/* scrollea de forma nativa con suavizado, así que los eventos 'scroll' de     */
+/* window se siguen disparando y todo queda sincronizado.                      */
 /* -------------------------------------------------------------------------- */
 let lenis: Lenis | null = null;
-if (!prefersReduced) {
-  lenis = new Lenis({
-    duration: 1.1,
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    smoothWheel: true,
-    touchMultiplier: 1.6,
-  });
-  const raf = (time: number) => {
-    lenis!.raf(time);
-    requestAnimationFrame(raf);
-  };
-  requestAnimationFrame(raf);
 
-  // Enlaces ancla internos → scroll suave gestionado por Lenis.
-  document.addEventListener('click', (e) => {
-    const a = (e.target as HTMLElement)?.closest?.('a[href^="#"]') as HTMLAnchorElement | null;
-    if (!a) return;
-    const id = a.getAttribute('href');
-    if (!id || id === '#') return;
-    const target = document.querySelector(id);
-    if (target) {
-      e.preventDefault();
-      lenis!.scrollTo(target as HTMLElement, { offset: -80 });
-    }
-  });
-}
+// Enlaces ancla internos → scroll suave con Lenis si ya está listo; si no, nativo.
+document.addEventListener('click', (e) => {
+  const a = (e.target as HTMLElement)?.closest?.('a[href^="#"]') as HTMLAnchorElement | null;
+  if (!a) return;
+  const id = a.getAttribute('href');
+  if (!id || id === '#') return;
+  const target = document.querySelector(id);
+  if (target && lenis) {
+    e.preventDefault();
+    lenis.scrollTo(target as HTMLElement, { offset: -80 });
+  }
+});
 
 /* -------------------------------------------------------------------------- */
 /* Header: estado "scrolled" para el glassmorphism                             */
@@ -48,8 +49,7 @@ const syncHeader = () => {
   if (header) header.dataset.scrolled = window.scrollY > 24 ? 'true' : 'false';
 };
 syncHeader();
-if (lenis) lenis.on('scroll', syncHeader);
-else window.addEventListener('scroll', syncHeader, { passive: true });
+window.addEventListener('scroll', syncHeader, { passive: true });
 
 /* -------------------------------------------------------------------------- */
 /* Auto-stagger: reparte retardos dentro de grupos y titulares por líneas      */
@@ -115,8 +115,9 @@ function runCountUp(el: HTMLElement): void {
 /* -------------------------------------------------------------------------- */
 /* Parallax sutil: desplazamiento máx. ~8% del alto del elemento (§3.3)        */
 /* -------------------------------------------------------------------------- */
-const parallaxEls = Array.from(document.querySelectorAll<HTMLElement>('[data-parallax]'));
-if (!prefersReduced && parallaxEls.length) {
+function initParallax(): void {
+  const parallaxEls = Array.from(document.querySelectorAll<HTMLElement>('[data-parallax]'));
+  if (!parallaxEls.length) return;
   let ticking = false;
   const update = () => {
     const vh = window.innerHeight;
@@ -137,10 +138,35 @@ if (!prefersReduced && parallaxEls.length) {
       requestAnimationFrame(update);
     }
   };
-  if (lenis) lenis.on('scroll', request);
-  else window.addEventListener('scroll', request, { passive: true });
+  window.addEventListener('scroll', request, { passive: true });
   window.addEventListener('resize', request);
   update();
+}
+
+function initLenis(): void {
+  lenis = new Lenis({
+    duration: 1.1,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smoothWheel: true,
+    touchMultiplier: 1.6,
+  });
+  const raf = (time: number) => {
+    lenis!.raf(time);
+    requestAnimationFrame(raf);
+  };
+  requestAnimationFrame(raf);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Inicialización diferida (idle): Lenis + parallax. Corren tras el primer     */
+/* render, con el layout ya estable, así que las lecturas de geometría del     */
+/* parallax no fuerzan un reflow síncrono y no cargan el TBT de la carga.      */
+/* -------------------------------------------------------------------------- */
+if (!prefersReduced) {
+  whenIdle(() => {
+    initLenis();
+    initParallax();
+  });
 }
 
 export {};
