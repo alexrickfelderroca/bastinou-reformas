@@ -1,0 +1,491 @@
+---
+/**
+ * Hero de landing de servicio — "Split Revealer Image Stack".
+ *
+ * Recreación del componente de referencia (GSAP + Flip + SplitType + CustomEase,
+ * proyecto Vite) con el stack de ESTE proyecto: Astro + TS/CSS vainilla, CERO
+ * dependencias nuevas (igual que las 3 animaciones anteriores del sitio; GSAP no
+ * está instalado). Re-tematizado 100% a los tokens oscuros de Bastinou — el par
+ * de paneles blancos del original pasa a ser una "cortina" del color base de la
+ * página (`--color-deep`) que se abre en canal, revelando una secuencia de fotos
+ * a pantalla completa que se asientan (zoom-out) mientras un puñado se recoge en
+ * una pila de miniaturas en la esquina y el texto del héroe entra deslizándose.
+ *
+ * Robustez (requisitos del encargo):
+ *  - La foto PRINCIPAL se sirve como <img> real de fondo (LCP + alt + fallback):
+ *    sin JS o con prefers-reduced-motion se ve el héroe acabado con TODO el texto
+ *    y la pila estática. El contenido NUNCA queda oculto de forma permanente.
+ *  - Paneles + carrusel son una capa de MEJORA: sólo existen/animan con JS activo
+ *    y movimiento permitido (`html.js` + `.is-intro`, que añade el script). Si el
+ *    módulo falla, un failsafe revela el contenido; sin JS, ni se muestran.
+ *  - Las imágenes del carrusel se cargan por JS (data-src) — no penalizan a quien
+ *    no ve la intro (reduced-motion / sin JS).
+ *  - Intro una vez por sesión y servicio (sessionStorage); en revisitas se entra
+ *    directo al estado final.
+ */
+import { Image, getImage } from 'astro:assets';
+import { useTranslations, type Locale } from '../../i18n/ui';
+import { localizedPath } from '../../i18n/routes';
+import { whatsappHref } from '../../config/site';
+import type { ServiceKey } from '../../config/services';
+
+// Sets de imágenes por servicio (curadas de "Дом в Испании 10.2023").
+// Índice 0 = principal (fondo final a pantalla completa); 1-4 = carrusel.
+import casas0 from '../../assets/service-hero/casas/01-lounge.jpg';
+import casas1 from '../../assets/service-hero/casas/02-kitchen.jpg';
+import casas2 from '../../assets/service-hero/casas/03-living.jpg';
+import casas3 from '../../assets/service-hero/casas/04-bedroom.jpg';
+import casas4 from '../../assets/service-hero/casas/05-exterior.jpg';
+import ofi0 from '../../assets/service-hero/oficinas/01-reception.jpg';
+import ofi1 from '../../assets/service-hero/oficinas/02-boardroom.jpg';
+import ofi2 from '../../assets/service-hero/oficinas/03-lounge.jpg';
+import ofi3 from '../../assets/service-hero/oficinas/04-lobby.jpg';
+import ofi4 from '../../assets/service-hero/oficinas/05-breakout.jpg';
+import con0 from '../../assets/service-hero/construccion/01-facade.jpg';
+import con1 from '../../assets/service-hero/construccion/02-elevation.jpg';
+import con2 from '../../assets/service-hero/construccion/03-volume.jpg';
+import con3 from '../../assets/service-hero/construccion/04-aerial.jpg';
+import con4 from '../../assets/service-hero/construccion/05-structure.jpg';
+
+type SplitService = Exclude<ServiceKey, 'pisos'>;
+
+interface Props {
+  locale: Locale;
+  service: SplitService;
+}
+const { locale, service } = Astro.props;
+const t = useTranslations(locale);
+const l = (k: string) => t(`landings.${service}.${k}`);
+
+const IMAGES: Record<SplitService, ImageMetadata[]> = {
+  casas: [casas0, casas1, casas2, casas3, casas4],
+  oficinas: [ofi0, ofi1, ofi2, ofi3, ofi4],
+  construccion: [con0, con1, con2, con3, con4],
+};
+// Cuáles de las 5 forman la pila de la esquina (variedad temática por servicio).
+const PILE_IDX: Record<SplitService, number[]> = {
+  casas: [1, 3, 4], // cocina · dormitorio · exterior
+  oficinas: [1, 3, 4], // sala de juntas · recibidor · office
+  construccion: [1, 2, 4], // alzado · volumen · estructura
+};
+
+const set = IMAGES[service];
+const primary = set[0];
+const reelSet = set.slice(1);
+const pileSet = PILE_IDX[service].map((i) => set[i]);
+
+// Variantes optimizadas, mismo origen (webp). La principal (LCP) se sirve con
+// <Image> responsivo (srcset + sizes) más abajo; carrusel y pila con getImage.
+const reelImgs = await Promise.all(reelSet.map((s) => getImage({ src: s, width: 1600, format: 'webp' })));
+const pileImgs = await Promise.all(pileSet.map((s) => getImage({ src: s, width: 480, format: 'webp' })));
+---
+
+<section class="sr-hero on-dark" data-sr-hero data-service={service}>
+  <!-- Fondo: foto PRINCIPAL (LCP + fallback + estado final) + degradados.
+       <Image> responsivo: mismo webp en varias anchuras (srcset) → el móvil no
+       descarga la versión de escritorio. -->
+  <div class="sr-hero__backdrop">
+    <Image
+      class="sr-hero__bg"
+      src={primary}
+      widths={[640, 960, 1280, 1600, 2000]}
+      sizes="100vw"
+      format="webp"
+      alt={l('h1')}
+      loading="eager"
+      fetchpriority="high"
+      decoding="async"
+      data-sr-bg
+    />
+    <span class="sr-hero__scrim" aria-hidden="true"></span>
+    <!-- Degradado superior permanente: garantiza contraste del texto blanco de la
+         cabecera fija sobre cualquier foto (no se anula durante la intro). -->
+    <span class="sr-hero__topscrim" aria-hidden="true"></span>
+  </div>
+
+  <!-- Carrusel de la intro (mejora; sólo con JS). src se inyecta por JS. -->
+  <div class="sr-hero__reel" data-sr-reel aria-hidden="true">
+    {reelImgs.map((im) => (
+      <img class="sr-hero__reel-img" data-src={im.src} alt="" decoding="async" />
+    ))}
+  </div>
+
+  <!-- Cortina de paneles que se abre en canal (mejora; sólo con JS). -->
+  <div class="sr-hero__revealers" data-sr-revealers aria-hidden="true">
+    <span class="sr-hero__panel sr-hero__panel--top"></span>
+    <span class="sr-hero__panel sr-hero__panel--bottom"></span>
+  </div>
+
+  <!-- Pila de miniaturas de la esquina (estado final; visible sin JS en desktop) -->
+  <figure class="sr-hero__pile" data-sr-pile aria-hidden="true">
+    {pileImgs.map((im, i) => (
+      <span class="sr-hero__thumb" style={`--i:${i}`}><img src={im.src} alt="" loading="lazy" decoding="async" /></span>
+    ))}
+  </figure>
+
+  <!-- Contenido (SSR, visible por defecto) -->
+  <div class="container-x sr-hero__content" data-sr-content>
+    <nav class="sr-hero__crumbs" aria-label="Breadcrumb" data-sr-reveal style="--d:0ms">
+      <a href={localizedPath('home', locale)}>{t('landing.breadcrumbHome')}</a>
+      <span aria-hidden="true">/</span>
+      <span>{t(`nav.${service}`)}</span>
+    </nav>
+    <h1 class="h-hero sr-hero__title"><span class="sr-hero__title-i">{l('h1')}</span></h1>
+    <p class="lead sr-hero__sub" data-sr-reveal style="--d:240ms">{l('heroSub')}</p>
+    <div class="sr-hero__actions" data-sr-reveal style="--d:360ms">
+      <a class="btn btn-invert" href={localizedPath('calculadora', locale)}>{t('landing.ctaCalc')}</a>
+      <a class="btn btn-whatsapp" href={whatsappHref(t('whatsapp.prefill'))} target="_blank" rel="noopener" data-wa data-wa-source={`landing-${service}`}>
+        {t('cta.whatsapp')}
+      </a>
+    </div>
+  </div>
+
+  <!-- Gating pre-pintado: decide si la intro se reproduce (una vez por sesión y
+       servicio, con movimiento permitido) y, si es así, marca el estado inicial
+       ocultando el contenido ANTES del primer pintado. Failsafe que revela por si
+       el módulo no llega a ejecutarse. Sin JS: no corre → todo visible. -->
+  <script is:inline define:vars={{ service }}>
+    (function () {
+      var s = document.currentScript.parentElement;
+      if (!s) return;
+      var reduce = false;
+      try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+      var seen = false;
+      try { seen = sessionStorage.getItem('bastinou_srhero_' + service) === '1'; } catch (e) {}
+      if (reduce || seen) return; // estado final directo, sin intro
+      s.classList.add('is-intro');
+      try { sessionStorage.setItem('bastinou_srhero_' + service, '1'); } catch (e) {}
+      // Failsafe: si el módulo no revela en 6s, mostramos el contenido igualmente.
+      window.setTimeout(function () {
+        if (!s.classList.contains('is-revealed')) s.classList.add('is-revealed', 'is-done');
+      }, 6000);
+    })();
+  </script>
+</section>
+
+<style>
+  .sr-hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    align-items: flex-end;
+    background: var(--color-deep);
+    color: #fff;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  /* ---- Fondo principal (persistente) ---- */
+  .sr-hero__backdrop {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  .sr-hero__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transform-origin: center center;
+  }
+  .sr-hero__scrim {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to top, rgba(13, 14, 17, 0.92) 0%, rgba(13, 14, 17, 0.4) 38%, rgba(13, 14, 17, 0) 66%),
+      linear-gradient(to right, rgba(13, 14, 17, 0.72) 0%, rgba(13, 14, 17, 0.12) 48%, rgba(13, 14, 17, 0) 72%);
+    pointer-events: none;
+  }
+  /* Franja superior siempre presente (z sobre el carrusel) para la cabecera. */
+  .sr-hero__topscrim {
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 150px;
+    z-index: 2;
+    background: linear-gradient(to bottom, rgba(13, 14, 17, 0.5) 0%, rgba(13, 14, 17, 0) 100%);
+    pointer-events: none;
+  }
+
+  /* ---- Carrusel de la intro (oculto por defecto; sólo se ve durante la intro) ---- */
+  .sr-hero__reel {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0;
+    display: none;
+  }
+  .sr-hero__reel-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0;
+    transform-origin: center center;
+  }
+
+  /* ---- Cortina de paneles (oculta por defecto) ---- */
+  .sr-hero__revealers {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    display: none;
+    flex-direction: column;
+    pointer-events: none;
+  }
+  .sr-hero__panel {
+    flex: 1;
+    width: 100%;
+    background: var(--color-deep);
+  }
+  .sr-hero__panel--top { transform-origin: top center; }
+  .sr-hero__panel--bottom { transform-origin: bottom center; }
+
+  /* Sólo cuando la intro está activa aparecen carrusel y paneles. */
+  .sr-hero.is-intro .sr-hero__reel,
+  .sr-hero.is-intro .sr-hero__revealers { display: flex; }
+  .sr-hero.is-intro .sr-hero__reel { display: block; }
+
+  /* Al terminar (o en failsafe) se retiran del render. */
+  .sr-hero.is-done .sr-hero__reel,
+  .sr-hero.is-done .sr-hero__revealers { display: none !important; }
+
+  /* ---- Pila de miniaturas en la esquina ---- */
+  .sr-hero__pile {
+    position: absolute;
+    right: clamp(1.25rem, 4vw, 3rem);
+    /* Elevada para no chocar con el FAB de WhatsApp (fijo abajo-derecha). */
+    bottom: clamp(6.5rem, 9vh, 8rem);
+    z-index: 2;
+    margin: 0;
+    display: none; /* desktop-only, ver media query */
+    flex-direction: column-reverse;
+    gap: 0.75rem;
+    pointer-events: none;
+  }
+  .sr-hero__thumb {
+    display: block;
+    width: clamp(112px, 12vw, 158px);
+    aspect-ratio: 3 / 2;
+    border-radius: 0.7rem;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow: 0 18px 40px -22px rgba(0, 0, 0, 0.85);
+    background: var(--color-surface);
+  }
+  .sr-hero__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ---- Contenido ---- */
+  .sr-hero__content {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    padding-block: 3rem 4.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.15rem;
+  }
+  .sr-hero__crumbs {
+    display: flex;
+    gap: 0.6rem;
+    font-size: 0.85rem;
+    color: var(--color-mist);
+    margin-bottom: 1.4rem;
+  }
+  .sr-hero__crumbs a { color: var(--color-mist); text-decoration: none; }
+  .sr-hero__crumbs a:hover { color: #fff; }
+  .sr-hero__title { max-width: 18ch; }
+  /* Máscara del titular: el interior se desliza desde abajo. El padding/margen
+     compensa el clip de descendentes (g, j, p, q, y) mientras hay overflow. */
+  .sr-hero__title-i {
+    display: block;
+    padding-bottom: 0.14em;
+    margin-bottom: -0.14em;
+  }
+  .sr-hero__sub {
+    margin-top: 1.4rem;
+    max-width: 42ch;
+    color: rgba(255, 255, 255, 0.82);
+  }
+  .sr-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin-top: 2rem;
+  }
+
+  @media (min-width: 900px) {
+    .sr-hero__content { padding-block: 3rem 5.5rem; }
+    .sr-hero__pile { display: flex; }
+  }
+
+  /* ============================================================
+     ESTADOS DE LA INTRO (sólo con JS: gated por .is-intro)
+     Por defecto (sin JS / reduced-motion / revisita) NO se aplican,
+     así que el contenido y la pila se ven de inmediato.
+     ============================================================ */
+  html.js .sr-hero.is-intro .sr-hero__title { overflow: hidden; }
+  html.js .sr-hero.is-intro .sr-hero__title-i {
+    transform: translateY(115%);
+    will-change: transform;
+  }
+  html.js .sr-hero.is-intro [data-sr-reveal] {
+    opacity: 0;
+    /* visibility oculta también saca los enlaces/CTA del orden de tabulación y
+       del hit-testing mientras están invisibles durante la intro. */
+    visibility: hidden;
+    transform: translateY(28px);
+    will-change: transform, opacity;
+  }
+  html.js .sr-hero.is-intro .sr-hero__scrim { opacity: 0; }
+  html.js .sr-hero.is-intro .sr-hero__thumb { opacity: 0; }
+
+  /* Revelado del contenido (dispara transiciones). */
+  html.js .sr-hero.is-revealed .sr-hero__title-i {
+    transform: none;
+    transition: transform 1s var(--ease-reveal);
+    transition-delay: 0.12s;
+  }
+  html.js .sr-hero.is-revealed [data-sr-reveal] {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition: opacity 0.7s ease, transform 0.75s var(--ease-reveal), visibility 0s;
+    transition-delay: var(--d, 0ms);
+  }
+  /* Al terminar, libera el hint de composición (no dejar 4 capas promovidas). */
+  html.js .sr-hero.is-done .sr-hero__title-i,
+  html.js .sr-hero.is-done [data-sr-reveal] {
+    will-change: auto;
+  }
+  html.js .sr-hero.is-revealed .sr-hero__scrim {
+    opacity: 1;
+    transition: opacity 0.8s ease;
+  }
+  /* Respaldo de la pila: si WAAPI no recoge las miniaturas (sin soporte o vía
+     failsafe), se muestran igualmente al revelar — nunca quedan invisibles. */
+  html.js .sr-hero.is-revealed .sr-hero__thumb {
+    opacity: 1;
+    transition: opacity 0.6s ease;
+  }
+
+  /* ============================================================
+     ACCESIBILIDAD — sin movimiento: se ignora toda la intro.
+     ============================================================ */
+  @media (prefers-reduced-motion: reduce) {
+    .sr-hero__reel,
+    .sr-hero__revealers { display: none !important; }
+    .sr-hero__title-i,
+    [data-sr-reveal] { transform: none !important; opacity: 1 !important; }
+    .sr-hero__scrim,
+    .sr-hero__thumb { opacity: 1 !important; }
+  }
+</style>
+
+<script>
+  /**
+   * Secuenciador de la intro con la Web Animations API (transform/opacity →
+   * compuestas, sin dependencias). Gobernado por relojes propios de cada
+   * animación (delay), independiente de los FPS. Sólo corre si el script inline
+   * marcó `.is-intro` (JS activo + movimiento permitido + primera visita).
+   */
+  const EASE_CURTAIN = 'cubic-bezier(0.66, 0, 0.2, 1)';
+  const EASE_SETTLE = 'cubic-bezier(0.22, 1, 0.36, 1)';
+
+  const hero = document.querySelector<HTMLElement>('[data-sr-hero]');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Sólo actuamos si el gating pre-pintado activó la intro.
+  if (hero && !reduce && hero.classList.contains('is-intro')) {
+    const supportsWAAPI = typeof (Element.prototype as unknown as { animate?: unknown }).animate === 'function';
+
+    const reveal = () => hero.classList.add('is-revealed');
+    const finish = () => hero.classList.add('is-done');
+
+    if (!supportsWAAPI) {
+      // Sin WAAPI: nos saltamos la coreografía y revelamos el estado final.
+      reveal();
+      finish();
+    } else {
+      const reel = hero.querySelector<HTMLElement>('[data-sr-reel]')!;
+      const reelImgs = Array.from(hero.querySelectorAll<HTMLImageElement>('.sr-hero__reel-img'));
+      const panelTop = hero.querySelector<HTMLElement>('.sr-hero__panel--top')!;
+      const panelBottom = hero.querySelector<HTMLElement>('.sr-hero__panel--bottom')!;
+      const bg = hero.querySelector<HTMLElement>('[data-sr-bg]')!;
+      const thumbs = Array.from(hero.querySelectorAll<HTMLElement>('.sr-hero__thumb'));
+
+      // Carga diferida real de las imágenes del carrusel.
+      reelImgs.forEach((img) => {
+        const src = img.getAttribute('data-src');
+        if (src) img.src = src;
+      });
+
+      const play = () => {
+        // Si el failsafe (o cualquier vía) ya asentó el héroe antes de que este
+        // rAF diferido se ejecute — típico al abrir en una pestaña en segundo
+        // plano, donde los rAF se pausan pero el setTimeout del failsafe sí corre
+        // —, NO reproducimos la coreografía sobre contenido ya revelado.
+        if (hero.classList.contains('is-done') || hero.classList.contains('is-revealed')) return;
+
+        // 1) Fondo principal: leve zoom-out que se asienta durante toda la intro.
+        bg.animate(
+          [{ transform: 'scale(1.12)' }, { transform: 'scale(1)' }],
+          { duration: 2900, delay: 150, easing: EASE_SETTLE, fill: 'both' },
+        );
+
+        // 2) La cortina se abre en canal (cada panel colapsa hacia su borde).
+        const wipeOpts = { duration: 1050, delay: 150, easing: EASE_CURTAIN, fill: 'forwards' as const };
+        panelTop.animate([{ transform: 'scaleY(1)' }, { transform: 'scaleY(0)' }], wipeOpts);
+        panelBottom.animate([{ transform: 'scaleY(1)' }, { transform: 'scaleY(0)' }], wipeOpts);
+
+        // 3) Carrusel: cada foto entra (fade + zoom-out) por encima de la anterior.
+        reel.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300, delay: 500, fill: 'both' });
+        reelImgs.forEach((img, i) => {
+          img.animate(
+            [{ opacity: 0, transform: 'scale(1.12)' }, { opacity: 1, transform: 'scale(1)' }],
+            { duration: 900, delay: 560 + i * 380, easing: EASE_SETTLE, fill: 'both' },
+          );
+        });
+
+        // 4) El carrusel se disuelve para dejar ver el fondo principal.
+        const reelEnd = 560 + (reelImgs.length - 1) * 380 + 500;
+        reel.animate([{ opacity: 1 }, { opacity: 0 }], {
+          duration: 800,
+          delay: reelEnd,
+          easing: 'ease',
+          fill: 'forwards',
+        });
+
+        // 5) La pila se recoge en la esquina (escala uniforme → sin distorsión).
+        thumbs.forEach((thumb, i) => {
+          thumb.animate(
+            [
+              { opacity: 0, transform: 'translate(-34vw, -26vh) scale(1.5)' },
+              { opacity: 1, transform: 'translate(0, 0) scale(1)' },
+            ],
+            { duration: 950, delay: reelEnd - 250 + i * 170, easing: EASE_CURTAIN, fill: 'both' },
+          );
+        });
+
+        // 6) Entra el texto del héroe.
+        window.setTimeout(reveal, reelEnd - 200);
+
+        // 7) Limpieza: retira cortina y carrusel del render.
+        window.setTimeout(finish, reelEnd + 1400);
+      };
+
+      // Arrancamos tras el primer pintado para no competir con el LCP.
+      requestAnimationFrame(() => requestAnimationFrame(play));
+    }
+  }
+</script>

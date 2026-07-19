@@ -8,7 +8,7 @@
  * FAQ (FAQPage) → CTA calculadora → Formulario de presupuesto.
  */
 import Layout from '../layouts/Layout.astro';
-import ServiceHero from './sections/ServiceHero.astro';
+import SplitRevealHero from './sections/SplitRevealHero.astro';
 import PisosRevealHero from './sections/PisosRevealHero.astro';
 import ServiceIncludes from './sections/ServiceIncludes.astro';
 import PricingTable from './sections/PricingTable.astro';
@@ -32,18 +32,6 @@ const cfg = services[service];
 const locale = getLocaleFromUrl(Astro.url);
 const t = useTranslations(locale);
 const l = (k: string) => t(`landings.${service}.${k}`);
-
-// Imágenes de hero por servicio.
-import kitchen from '../assets/portfolio/casa-espana/kitchen-living.jpg';
-import villa from '../assets/portfolio/casa-espana/exterior-villa.jpg';
-import theater from '../assets/portfolio/casa-espana/home-theater.jpg';
-import pool from '../assets/portfolio/casa-espana/exterior-pool.jpg';
-const heroImages: Record<ServiceKey, ImageMetadata> = {
-  pisos: kitchen,
-  casas: villa,
-  oficinas: theater,
-  construccion: pool,
-};
 
 // FAQ items (q1..q5 / a1..a5).
 const faqItems = [1, 2, 3, 4, 5].map((n) => ({ q: l(`q${n}`), a: l(`a${n}`) }));
@@ -76,7 +64,7 @@ const breadcrumbLd = {
 <Layout title={l('metaTitle')} description={l('metaDesc')} routeKey={cfg.routeKey} overHero={true}>
   {service === 'pisos'
     ? <PisosRevealHero locale={locale} />
-    : <ServiceHero locale={locale} service={service} image={heroImages[service]} />}
+    : <SplitRevealHero locale={locale} service={service} />}
   <ServiceIncludes locale={locale} service={service} />
   <PricingTable locale={locale} pricingType={cfg.pricingType} />
   <RelatedProjects locale={locale} />
