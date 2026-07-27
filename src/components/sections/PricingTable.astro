@@ -47,8 +47,8 @@ const rates = pricingType ? (pricing.integral as Record<string, Record<Seg, numb
               <span class="pricing__unit">{t('landing.perSqm')}</span>
             </p>
             <p class="pricing__desc">{seg.desc}</p>
-            <a class:list={['btn', seg.featured ? '' : 'btn-outline']} href={localizedPath('calculadora', locale)}>
-              {t('landing.ctaCalc')}
+            <a class:list={['btn', seg.featured ? '' : 'btn-outline']} href={localizedPath('contacto', locale)}>
+              {t('cta.quote')}
             </a>
           </div>
         ))}
@@ -95,7 +95,7 @@ const rates = pricingType ? (pricing.integral as Record<string, Record<Seg, numb
     color: var(--color-slate);
   }
   .pricing__card--featured .pricing__seg {
-    color: var(--color-mist);
+    color: rgba(255, 255, 255, 0.65);
   }
   .pricing__price {
     display: flex;
@@ -108,7 +108,7 @@ const rates = pricingType ? (pricing.integral as Record<string, Record<Seg, numb
     color: var(--color-slate);
   }
   .pricing__card--featured .pricing__from {
-    color: var(--color-mist);
+    color: rgba(255, 255, 255, 0.65);
   }
   .pricing__amount {
     font-size: clamp(2rem, 5vw, 2.8rem);
@@ -120,7 +120,7 @@ const rates = pricingType ? (pricing.integral as Record<string, Record<Seg, numb
     color: var(--color-slate);
   }
   .pricing__card--featured .pricing__unit {
-    color: var(--color-mist);
+    color: rgba(255, 255, 255, 0.65);
   }
   .pricing__desc {
     font-size: 0.95rem;

@@ -1,17 +1,17 @@
 {
-  "_comment": "PLACEHOLDER. Cifras de ejemplo (CLAUDE.pdf §5.2). NO son precios reales: sustituir por el documento de tarifas que se entregará por separado (§8). Editable sin tocar código.",
+  "_comment": "Precios orientativos «desde» por m² para las landings, alineados con la especificación «Nuestros precios» (jul 2026): reforma integral de vivienda desde 590 €/m², local comercial desde 490 €/m². Los segmentos escalan desde esa base. Editable sin tocar código.",
   "currency": "EUR",
   "horquilla": 0.15,
   "integral": {
-    "piso": { "basico": 450, "estandar": 650, "premium": 950 },
-    "casa": { "basico": 500, "estandar": 750, "premium": 1100 },
-    "oficina": { "basico": 400, "estandar": 600, "premium": 900 }
+    "piso": { "basico": 590, "estandar": 720, "premium": 890 },
+    "casa": { "basico": 590, "estandar": 750, "premium": 950 },
+    "oficina": { "basico": 490, "estandar": 620, "premium": 780 }
   },
   "parcial": {
-    "cocina": { "basico": 6000, "estandar": 9000, "premium": 15000 },
-    "bano": { "basico": 4500, "estandar": 7000, "premium": 12000 },
+    "cocina": { "basico": 7900, "estandar": 10500, "premium": 15000 },
+    "bano": { "basico": 4900, "estandar": 7000, "premium": 11000 },
     "pintura_m2": { "basico": 9, "estandar": 12, "premium": 18 },
-    "suelos_m2": { "basico": 25, "estandar": 40, "premium": 70 },
+    "suelos_m2": { "basico": 29, "estandar": 42, "premium": 60 },
     "electricidad_m2": { "basico": 30, "estandar": 45, "premium": 65 },
     "fontaneria_m2": { "basico": 35, "estandar": 50, "premium": 75 }
   }

@@ -1,7 +1,7 @@
 ---
 /**
- * Proceso de trabajo en 5 pasos (contacto → visita → presupuesto → obra →
- * entrega). Números grandes + reveal escalonado.
+ * Proceso de trabajo en 4 pasos (contacto → visita → presupuesto → reforma).
+ * Números grandes + reveal escalonado.
  */
 import { useTranslations, type Locale } from '../../i18n/ui';
 import SectionHeader from './SectionHeader.astro';
@@ -12,7 +12,7 @@ interface Props {
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 
-const steps = [1, 2, 3, 4, 5].map((n) => ({
+const steps = [1, 2, 3, 4].map((n) => ({
   n,
   title: t(`home.process.s${n}t`),
   desc: t(`home.process.s${n}d`),
@@ -82,7 +82,7 @@ const steps = [1, 2, 3, 4, 5].map((n) => ({
   }
   @media (min-width: 1024px) {
     .process__grid {
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(4, 1fr);
     }
   }
 </style>

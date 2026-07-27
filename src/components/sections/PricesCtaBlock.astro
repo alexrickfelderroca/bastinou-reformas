@@ -1,0 +1,50 @@
+---
+/**
+ * Bloque CTA a «Nuestros precios». Franja compacta verde entre secciones que
+ * empuja a la página de precios orientativos.
+ */
+import { useTranslations, type Locale } from '../../i18n/ui';
+import { localizedPath } from '../../i18n/routes';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<section class="prices-cta on-dark">
+  <div class="container-x prices-cta__inner" data-reveal-group>
+    <div class="prices-cta__text" data-reveal>
+      <h2 class="prices-cta__title">{t('landing.ctaBlockTitle')}</h2>
+      <p class="prices-cta__sub">{t('landing.ctaBlockSub')}</p>
+    </div>
+    <a class="btn btn-invert" href={localizedPath('precios', locale)} data-reveal>
+      {t('landing.ctaBlockCta')}
+    </a>
+  </div>
+</section>
+
+<style>
+  .prices-cta {
+    background: var(--color-deep);
+    color: #fff;
+  }
+  .prices-cta__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-block: clamp(2.5rem, 5vw, 3.5rem);
+  }
+  .prices-cta__title {
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  .prices-cta__sub {
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 0.4rem;
+  }
+</style>

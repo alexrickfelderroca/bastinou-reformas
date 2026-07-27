@@ -6,7 +6,6 @@ import Layout from '../layouts/Layout.astro';
 import SectionHeader from './sections/SectionHeader.astro';
 import Team from './sections/Team.astro';
 import Process from './sections/Process.astro';
-import Stats from './sections/Stats.astro';
 import FinalCTA from './sections/FinalCTA.astro';
 import { getLocaleFromUrl, useTranslations } from '../i18n/ui';
 import { localizedPath } from '../i18n/routes';
@@ -15,7 +14,7 @@ import { breadcrumbLd } from '../lib/breadcrumbs';
 const locale = getLocaleFromUrl(Astro.url);
 const t = useTranslations(locale);
 
-const siteUrl = Astro.site ?? new URL('https://www.bastinou.com');
+const siteUrl = Astro.site ?? new URL('https://www.reformabcn.es');
 const crumbs = breadcrumbLd(siteUrl, [
   { name: t('landing.breadcrumbHome'), path: localizedPath('home', locale) },
   { name: t('nav.nosotros'), path: localizedPath('nosotros', locale) },
@@ -39,8 +38,6 @@ const guarantees = [1, 2, 3, 4].map((n) => t(`about.g${n}`));
       <p class="lead" data-reveal>{t('about.introText')}</p>
     </div>
   </section>
-
-  <Stats locale={locale} />
 
   <section class="section ab-values">
     <div class="container-x">

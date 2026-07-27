@@ -9,8 +9,8 @@
  * consentimiento sólo condiciona el comportamiento de red de las etiquetas, no el
  * push al dataLayer (ad_storage denegado + ads_data_redaction lo mantienen conforme).
  *
- * El botón de WhatsApp de la calculadora NO lleva [data-wa] a propósito: emite su
- * propio `calc_whatsapp_click` con contexto del cálculo. No lo dupliques aquí.
+ * Los eventos de la página «Nuestros precios» (view_prices, open_all_prices,
+ * click_cta, start_form) viven en PricesPage.astro; generate_lead en forms.ts.
  */
 interface DataLayerEvent {
   event: string;

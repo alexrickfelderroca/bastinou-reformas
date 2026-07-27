@@ -27,7 +27,7 @@ const alternates = locales.map((l) => ({
   path: withTrailingSlash(`${localizedPath('proyectos', l)}/${entry.id}`),
 }));
 
-const siteUrl = Astro.site ?? new URL('https://www.bastinou.com');
+const siteUrl = Astro.site ?? new URL('https://www.reformabcn.es');
 const crumbs = breadcrumbLd(siteUrl, [
   { name: t('landing.breadcrumbHome'), path: localizedPath('home', locale) },
   { name: t('nav.proyectos'), path: localizedPath('proyectos', locale) },
@@ -113,7 +113,7 @@ const meta = [
         <h2 class="h-section" data-reveal>{t('project.ctaTitle')}</h2>
         <p class="lead pd-cta__sub" data-reveal>{t('project.ctaSub')}</p>
         <div class="pd-cta__actions" data-reveal>
-          <a class="btn btn-invert" href={localizedPath('calculadora', locale)}>{t('project.ctaCalc')}</a>
+          <a class="btn btn-invert" href={localizedPath('precios', locale)}>{t('project.ctaPrices')}</a>
           <a class="btn btn-outline" href={localizedPath('contacto', locale)}>{t('project.ctaContact')}</a>
         </div>
       </div>
@@ -132,7 +132,7 @@ const meta = [
   .pd-back {
     display: inline-block;
     margin-bottom: 2rem;
-    color: var(--color-mist);
+    color: rgba(255, 255, 255, 0.65);
     text-decoration: none;
     font-size: 0.9rem;
   }
@@ -156,7 +156,7 @@ const meta = [
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: var(--color-mist);
+    color: rgba(255, 255, 255, 0.6);
   }
   .pd-meta dd {
     margin-top: 0.3rem;

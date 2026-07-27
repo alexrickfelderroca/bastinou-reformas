@@ -34,7 +34,7 @@ const t = useTranslations(locale);
     </div>
 
     <div class="quote__col" data-reveal>
-    <form class="quote__form" data-lead-form method="post" action="/api/lead" novalidate>
+    <form id="quote" class="quote__form" data-lead-form method="post" action="/api/lead" novalidate>
       {service && <input type="hidden" name="service" value={service} />}
       <input type="hidden" name="locale" value={locale} />
       <!-- Honeypot antispam: oculto para humanos, lo rellenan los bots -->
@@ -114,7 +114,7 @@ const t = useTranslations(locale);
   }
 
   .quote__form {
-    background: var(--color-paper);
+    background: var(--color-surface);
     border: 1px solid var(--color-line);
     border-radius: 1.25rem;
     padding: clamp(1.5rem, 4vw, 2.25rem);
@@ -185,7 +185,7 @@ const t = useTranslations(locale);
     pointer-events: none;
   }
   .quote__thanks {
-    background: var(--color-paper);
+    background: var(--color-surface);
     border: 1px solid var(--color-line);
     border-radius: 1.25rem;
     padding: clamp(1.75rem, 4vw, 2.5rem);

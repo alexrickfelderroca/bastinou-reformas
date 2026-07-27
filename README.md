@@ -1,8 +1,17 @@
-# Bastinou — sitio web
+# Reforma BCN — sitio web
 
-Sitio de captación de leads para **Bastinou** (reformas y construcción premium en
-Barcelona y Cataluña). Trilingüe (ES/CA/EN), estático, orientado a Google Ads y SEO.
-La fuente de verdad del proyecto es `CLAUDE.pdf` (especificación) + `Brief Bastinou ES.docx`.
+Sitio de captación de leads para **Reforma BCN** (reformas de viviendas y locales
+comerciales en Barcelona y alrededores, hasta 50 km). Trilingüe (ES/CA/EN), estático,
+orientado a Google Ads y SEO.
+
+> **Rebranding (jul-2026).** El proyecto nació como «Bastinou» (premium, tema oscuro);
+> la fuente de verdad actual son los dos PDF del cliente: *Concepto página principal
+> Reformas Barcelona* y *Especificación página «Nuestros precios»*. Cambios clave:
+> marca y logo AV Reforma BCN, tema claro (crema/verde), servicios Viviendas · Oficinas ·
+> Tiendas · Beauty & fitness, página `/nuestros-precios/` (14 + 26 precios editables en
+> `src/config/pricing-list.ts`), portfolio antes/después con 20 proyectos y calculadora
+> eliminada (las URLs antiguas redirigen con stubs estáticos). Las animaciones previas
+> se conservaron tal cual.
 
 ## Stack
 

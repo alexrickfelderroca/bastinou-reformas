@@ -1,19 +1,16 @@
 ---
 /**
- * Vista previa del portfolio (home). Destaca el proyecto real "Villa unifamiliar"
- * (casa en España) con una imagen grande + galería de estancias. CTA a /proyectos.
- * El grid completo con filtros llega en Fase 5.
+ * Portfolio (home). Según el concepto: dos categorías visibles — Viviendas y
+ * Locales comerciales — con fotografía grande y banda de título verde, más el
+ * CTA «Ver todos los proyectos».
  */
 import { Image } from 'astro:assets';
 import { useTranslations, type Locale } from '../../i18n/ui';
 import { localizedPath } from '../../i18n/routes';
 import SectionHeader from './SectionHeader.astro';
 
-import feature from '../../assets/portfolio/casa-espana/exterior-villa.jpg';
-import kitchen from '../../assets/portfolio/casa-espana/kitchen-living.jpg';
-import bathroom from '../../assets/portfolio/casa-espana/bathroom.jpg';
-import staircase from '../../assets/portfolio/casa-espana/staircase.jpg';
-import theater from '../../assets/portfolio/casa-espana/home-theater.jpg';
+import imgViviendas from '../../assets/portfolio/viviendas/v3-despues.jpg';
+import imgLocales from '../../assets/portfolio/comerciales/c1-despues.jpg';
 
 interface Props {
   locale: Locale;
@@ -21,54 +18,51 @@ interface Props {
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 
-const tiles = [
-  { img: kitchen, cap: t('home.portfolio.capKitchen') },
-  { img: bathroom, cap: t('home.portfolio.capBathroom') },
-  { img: staircase, cap: t('home.portfolio.capStaircase') },
-  { img: theater, cap: t('home.portfolio.capTheater') },
+const cats = [
+  {
+    img: imgViviendas,
+    title: t('home.portfolio.catViviendas'),
+    meta: t('home.portfolio.catViviendasMeta'),
+  },
+  {
+    img: imgLocales,
+    title: t('home.portfolio.catLocales'),
+    meta: t('home.portfolio.catLocalesMeta'),
+  },
 ];
 ---
 
 <section class="section portfolio">
   <div class="container-x">
-    <div class="portfolio__head">
-      <SectionHeader
-        eyebrow={t('home.portfolio.eyebrow')}
-        title={t('home.portfolio.title')}
-        subtitle={t('home.portfolio.subtitle')}
-      />
-      <a class="btn btn-outline portfolio__head-cta" href={localizedPath('proyectos', locale)}>
-        {t('home.portfolio.cta')}
-      </a>
-    </div>
+    <SectionHeader
+      eyebrow={t('home.portfolio.eyebrow')}
+      title={t('home.portfolio.title')}
+      subtitle={t('home.portfolio.subtitle')}
+    />
 
-    <a class="portfolio__feature card-hover" href={localizedPath('proyectos', locale)} data-reveal>
-      <div class="portfolio__feature-media">
-        <Image
-          src={feature}
-          alt=""
-          widths={[720, 1200, 1600]}
-          sizes="(min-width: 1024px) 1200px, 100vw"
-          class="card-media"
-          loading="lazy"
-        />
-      </div>
-      <div class="portfolio__feature-overlay">
-        <span class="portfolio__feature-cap">{t('home.portfolio.capExterior')}</span>
-        <h3 class="portfolio__feature-title">{t('home.portfolio.projectName')}</h3>
-        <p class="portfolio__feature-meta">{t('home.portfolio.projectMeta')}</p>
-      </div>
-    </a>
-
-    <div class="portfolio__tiles" data-reveal-group data-reveal-stagger="90">
-      {tiles.map(({ img, cap }) => (
-        <a class="portfolio__tile card-hover" href={localizedPath('proyectos', locale)} data-reveal>
-          <div class="portfolio__tile-media">
-            <Image src={img} alt="" widths={[320, 560]} sizes="(min-width: 640px) 25vw, 50vw" class="card-media" loading="lazy" />
+    <div class="portfolio__cats" data-reveal-group data-reveal-stagger="120">
+      {cats.map(({ img, title, meta }) => (
+        <a class="portfolio__cat card-hover" href={localizedPath('proyectos', locale)} data-reveal>
+          <div class="portfolio__cat-media">
+            <Image
+              src={img}
+              alt=""
+              widths={[640, 1024, 1400]}
+              sizes="(min-width: 900px) 50vw, 100vw"
+              class="card-media"
+              loading="lazy"
+            />
           </div>
-          <span class="portfolio__tile-cap">{cap}</span>
+          <div class="portfolio__cat-band">
+            <h3 class="portfolio__cat-title">{title}</h3>
+            <p class="portfolio__cat-meta">{meta}</p>
+          </div>
         </a>
       ))}
+    </div>
+
+    <div class="portfolio__foot" data-reveal>
+      <a class="btn" href={localizedPath('proyectos', locale)}>{t('home.portfolio.cta')}</a>
     </div>
   </div>
 </section>
@@ -77,103 +71,51 @@ const tiles = [
   .portfolio {
     background: var(--color-paper);
   }
-  .portfolio__head {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-end;
-    justify-content: space-between;
+  .portfolio__cats {
+    display: grid;
+    grid-template-columns: 1fr;
     gap: 1.5rem;
   }
-  .portfolio__head :global(.sec-head) {
-    margin-bottom: 0;
-  }
-  .portfolio__head-cta {
-    flex: none;
-  }
-
-  .portfolio__feature {
-    display: block;
-    position: relative;
-    margin-top: clamp(2rem, 4vw, 3rem);
-    border-radius: 1.5rem;
-    overflow: hidden;
-    color: #fff;
-    text-decoration: none;
-  }
-  .portfolio__feature-media {
-    aspect-ratio: 16 / 9;
-    overflow: hidden;
-  }
-  .portfolio__feature-media :global(img) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-  .portfolio__feature-overlay {
-    position: absolute;
-    inset: auto 0 0 0;
-    padding: clamp(1.5rem, 4vw, 2.5rem);
-    background: linear-gradient(to top, rgba(10, 10, 10, 0.8), rgba(10, 10, 10, 0) 70%);
-  }
-  .portfolio__feature-cap {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: rgba(255, 255, 255, 0.75);
-  }
-  .portfolio__feature-title {
-    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
-    font-weight: 650;
-    letter-spacing: -0.02em;
-    margin-top: 0.35rem;
-  }
-  .portfolio__feature-meta {
-    color: rgba(255, 255, 255, 0.8);
-    margin-top: 0.3rem;
-    font-size: 0.975rem;
-  }
-
-  .portfolio__tiles {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    margin-top: 1rem;
-  }
-  .portfolio__tile {
-    display: block;
-    position: relative;
-    border-radius: 1rem;
+  .portfolio__cat {
+    display: flex;
+    flex-direction: column;
+    border-radius: 1.25rem;
     overflow: hidden;
     text-decoration: none;
+    background: var(--color-deep);
   }
-  .portfolio__tile-media {
+  .portfolio__cat-media {
     aspect-ratio: 4 / 3;
     overflow: hidden;
   }
-  .portfolio__tile-media :global(img) {
+  .portfolio__cat-media :global(img) {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
   }
-  .portfolio__tile-cap {
-    position: absolute;
-    left: 0.9rem;
-    bottom: 0.8rem;
-    padding: 0.3rem 0.7rem;
-    border-radius: 999px;
-    background: rgba(10, 10, 10, 0.6);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+  .portfolio__cat-band {
+    padding: 1.4rem 1.6rem 1.5rem;
     color: #fff;
-    font-size: 0.8rem;
-    font-weight: 500;
+  }
+  .portfolio__cat-title {
+    font-size: 1.35rem;
+    font-weight: 640;
+    letter-spacing: -0.015em;
+  }
+  .portfolio__cat-meta {
+    margin-top: 0.3rem;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.72);
+  }
+  .portfolio__foot {
+    margin-top: 2.25rem;
   }
 
-  @media (min-width: 640px) {
-    .portfolio__tiles {
-      grid-template-columns: repeat(4, 1fr);
+  @media (min-width: 900px) {
+    .portfolio__cats {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
     }
   }
 </style>

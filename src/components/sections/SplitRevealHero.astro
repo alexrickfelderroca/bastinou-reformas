@@ -5,7 +5,7 @@
  * Recreación del componente de referencia (GSAP + Flip + SplitType + CustomEase,
  * proyecto Vite) con el stack de ESTE proyecto: Astro + TS/CSS vainilla, CERO
  * dependencias nuevas (igual que las 3 animaciones anteriores del sitio; GSAP no
- * está instalado). Re-tematizado 100% a los tokens oscuros de Bastinou — el par
+ * está instalado). Re-tematizado 100% a los tokens del proyecto — el par
  * de paneles blancos del original pasa a ser una "cortina" del color base de la
  * página (`--color-deep`) que se abre en canal, revelando una secuencia de fotos
  * a pantalla completa que se asientan (zoom-out) mientras un puñado se recoge en
@@ -29,25 +29,25 @@ import { localizedPath } from '../../i18n/routes';
 import { whatsappHref } from '../../config/site';
 import type { ServiceKey } from '../../config/services';
 
-// Sets de imágenes por servicio (curadas de "Дом в Испании 10.2023").
-// Índice 0 = principal (fondo final a pantalla completa); 1-4 = carrusel.
-import casas0 from '../../assets/service-hero/casas/01-lounge.jpg';
-import casas1 from '../../assets/service-hero/casas/02-kitchen.jpg';
-import casas2 from '../../assets/service-hero/casas/03-living.jpg';
-import casas3 from '../../assets/service-hero/casas/04-bedroom.jpg';
-import casas4 from '../../assets/service-hero/casas/05-exterior.jpg';
-import ofi0 from '../../assets/service-hero/oficinas/01-reception.jpg';
-import ofi1 from '../../assets/service-hero/oficinas/02-boardroom.jpg';
-import ofi2 from '../../assets/service-hero/oficinas/03-lounge.jpg';
-import ofi3 from '../../assets/service-hero/oficinas/04-lobby.jpg';
+// Sets de imágenes por servicio (mitades "después" del material antes/después
+// del cliente + interiores del archivo del proyecto para oficinas).
+// Índice 0 = principal (fondo final a pantalla completa); el resto = carrusel.
+import ofi0 from '../../assets/portfolio/comerciales/c3-despues.jpg';
+import ofi1 from '../../assets/portfolio/comerciales/c6-despues.jpg';
+import ofi2 from '../../assets/service-hero/oficinas/01-reception.jpg';
+import ofi3 from '../../assets/service-hero/oficinas/03-lounge.jpg';
 import ofi4 from '../../assets/service-hero/oficinas/05-breakout.jpg';
-import con0 from '../../assets/service-hero/construccion/01-facade.jpg';
-import con1 from '../../assets/service-hero/construccion/02-elevation.jpg';
-import con2 from '../../assets/service-hero/construccion/03-volume.jpg';
-import con3 from '../../assets/service-hero/construccion/04-aerial.jpg';
-import con4 from '../../assets/service-hero/construccion/05-structure.jpg';
+import tie0 from '../../assets/portfolio/comerciales/c7-despues.jpg';
+import tie1 from '../../assets/portfolio/comerciales/c9-despues.jpg';
+import tie2 from '../../assets/portfolio/comerciales/c1-despues.jpg';
+import tie3 from '../../assets/portfolio/comerciales/c2-despues.jpg';
+import tie4 from '../../assets/portfolio/comerciales/c4-despues.jpg';
+import bea0 from '../../assets/portfolio/comerciales/c5-despues.jpg';
+import bea1 from '../../assets/portfolio/comerciales/c8-despues.jpg';
+import bea2 from '../../assets/portfolio/comerciales/c11-despues.jpg';
+import bea3 from '../../assets/portfolio/comerciales/c10-despues.jpg';
 
-type SplitService = Exclude<ServiceKey, 'pisos'>;
+type SplitService = Exclude<ServiceKey, 'viviendas'>;
 
 interface Props {
   locale: Locale;
@@ -58,15 +58,15 @@ const t = useTranslations(locale);
 const l = (k: string) => t(`landings.${service}.${k}`);
 
 const IMAGES: Record<SplitService, ImageMetadata[]> = {
-  casas: [casas0, casas1, casas2, casas3, casas4],
   oficinas: [ofi0, ofi1, ofi2, ofi3, ofi4],
-  construccion: [con0, con1, con2, con3, con4],
+  tiendas: [tie0, tie1, tie2, tie3, tie4],
+  beauty: [bea0, bea1, bea2, bea3],
 };
-// Cuáles de las 5 forman la pila de la esquina (variedad temática por servicio).
+// Cuáles forman la pila de la esquina (variedad temática por servicio).
 const PILE_IDX: Record<SplitService, number[]> = {
-  casas: [1, 3, 4], // cocina · dormitorio · exterior
-  oficinas: [1, 3, 4], // sala de juntas · recibidor · office
-  construccion: [1, 2, 4], // alzado · volumen · estructura
+  oficinas: [1, 2, 4], // oficina lounge · recepción · office
+  tiendas: [1, 2, 4], // supermercado · restaurante · cocina
+  beauty: [1, 2, 3], // gimnasio · aseos salvia · aseos
 };
 
 const set = IMAGES[service];
@@ -133,7 +133,7 @@ const pileImgs = await Promise.all(pileSet.map((s) => getImage({ src: s, width: 
     <h1 class="h-hero sr-hero__title"><span class="sr-hero__title-i">{l('h1')}</span></h1>
     <p class="lead sr-hero__sub" data-sr-reveal style="--d:240ms">{l('heroSub')}</p>
     <div class="sr-hero__actions" data-sr-reveal style="--d:360ms">
-      <a class="btn btn-invert" href={localizedPath('calculadora', locale)}>{t('landing.ctaCalc')}</a>
+      <a class="btn btn-invert" href={localizedPath('contacto', locale)}>{t('landing.ctaVisit')}</a>
       <a class="btn btn-whatsapp" href={whatsappHref(t('whatsapp.prefill'))} target="_blank" rel="noopener" data-wa data-wa-source={`landing-${service}`}>
         {t('cta.whatsapp')}
       </a>
@@ -151,10 +151,10 @@ const pileImgs = await Promise.all(pileSet.map((s) => getImage({ src: s, width: 
       var reduce = false;
       try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
       var seen = false;
-      try { seen = sessionStorage.getItem('bastinou_srhero_' + service) === '1'; } catch (e) {}
+      try { seen = sessionStorage.getItem('rbcn_srhero_' + service) === '1'; } catch (e) {}
       if (reduce || seen) return; // estado final directo, sin intro
       s.classList.add('is-intro');
-      try { sessionStorage.setItem('bastinou_srhero_' + service, '1'); } catch (e) {}
+      try { sessionStorage.setItem('rbcn_srhero_' + service, '1'); } catch (e) {}
       // Failsafe: si el módulo no revela en 6s, mostramos el contenido igualmente.
       window.setTimeout(function () {
         if (!s.classList.contains('is-revealed')) s.classList.add('is-revealed', 'is-done');
@@ -299,10 +299,10 @@ const pileImgs = await Promise.all(pileSet.map((s) => getImage({ src: s, width: 
     display: flex;
     gap: 0.6rem;
     font-size: 0.85rem;
-    color: var(--color-mist);
+    color: rgba(255, 255, 255, 0.68);
     margin-bottom: 1.4rem;
   }
-  .sr-hero__crumbs a { color: var(--color-mist); text-decoration: none; }
+  .sr-hero__crumbs a { color: rgba(255, 255, 255, 0.68); text-decoration: none; }
   .sr-hero__crumbs a:hover { color: #fff; }
   .sr-hero__title { max-width: 18ch; }
   /* Máscara del titular: el interior se desliza desde abajo. El padding/margen

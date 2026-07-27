@@ -1,15 +1,19 @@
 ---
 /**
- * Cabecera del sitio. Wordmark tipográfico, navegación con desplegable de
- * Servicios, menú full-screen en móvil, selector de idioma y CTA principal.
- * Glassmorphism al hacer scroll (§3.3) gestionado por data-scrolled en site.ts.
+ * Cabecera del sitio. Logotipo AV Reforma BCN, navegación con desplegable de
+ * Servicios, menú full-screen en móvil, selector de idioma, teléfono visible y
+ * CTA principal («Solicitar visita»). Glassmorphism claro al hacer scroll
+ * gestionado por data-scrolled en site.ts.
  *
- * `overHero`: cuando la cabecera arranca sobre un hero oscuro, el texto inicial
- * es blanco (páginas con hero en negro). En caso contrario, texto oscuro.
+ * `overHero`: cuando la cabecera arranca sobre un hero con foto oscura, el
+ * texto inicial es blanco y el logotipo se pinta en blanco (filter). Al hacer
+ * scroll aparece el cristal claro y el logo vuelve a su color.
  */
+import { Image } from 'astro:assets';
+import logo from '../assets/brand/reforma-bcn-logo.png';
 import { useTranslations, type Locale } from '../i18n/ui';
 import { localizedPath, type RouteKey } from '../i18n/routes';
-import { telHref, whatsappHref } from '../config/site';
+import { site, telHref, whatsappHref } from '../config/site';
 import LanguageSwitcher from './LanguageSwitcher.astro';
 
 interface Props {
@@ -21,9 +25,10 @@ const { locale, routeKey, overHero = false } = Astro.props;
 const t = useTranslations(locale);
 const p = (k: RouteKey) => localizedPath(k, locale);
 
-const services: RouteKey[] = ['pisos', 'casas', 'oficinas', 'construccion'];
-const primaryNav: RouteKey[] = ['calculadora', 'proyectos', 'nosotros', 'contacto'];
+const services: RouteKey[] = ['viviendas', 'oficinas', 'tiendas', 'beauty'];
+const primaryNav: RouteKey[] = ['precios', 'proyectos', 'contacto'];
 const waPrefill = t('whatsapp.prefill');
+const hasPhone = !site.phone.includes('[PENDIENTE');
 ---
 
 <header
@@ -34,13 +39,15 @@ const waPrefill = t('whatsapp.prefill');
   <a class="skip-link" href="#main">{t('header.skipToContent')}</a>
 
   <div class="site-header__bar container-x">
-    <!-- Wordmark -->
-    <a class="wordmark" href={p('home')} aria-label={t('meta.siteName')}>
-      Bastinou
+    <!-- Logotipo -->
+    <a class="brand" href={p('home')} aria-label={t('meta.siteName')}>
+      <Image src={logo} alt={t('meta.siteName')} class="brand__img" width={168} densities={[1, 2]} loading="eager" />
     </a>
 
     <!-- Navegación desktop -->
     <nav class="nav-desktop" aria-label="Principal">
+      <a class="nav-link" href={p('home')}>{t('nav.inicio')}</a>
+      <a class="nav-link" href={p('nosotros')}>{t('nav.nosotros')}</a>
       <div class="nav-desktop__group" data-dropdown>
         <button class="nav-link nav-link--btn" aria-expanded="false" aria-haspopup="true" data-dropdown-toggle>
           {t('nav.servicios')}
@@ -59,8 +66,14 @@ const waPrefill = t('whatsapp.prefill');
 
     <!-- Acciones desktop -->
     <div class="header-actions">
+      {hasPhone && (
+        <a class="header-phone" href={telHref} data-phone>
+          <svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.6 1.8c.4-.4 1-.4 1.4 0l1.6 1.6c.4.4.4 1 0 1.4l-.8.8c-.2.2-.2.5-.1.7a9.2 9.2 0 0 0 4 4c.2.1.5.1.7-.1l.8-.8c.4-.4 1-.4 1.4 0l1.6 1.6c.4.4.4 1 0 1.4l-.9.9c-.5.5-1.2.7-1.9.5C8.1 12.9 3.1 7.9 1.9 4.6c-.2-.7 0-1.4.5-1.9l1.2-.9Z" fill="currentColor"/></svg>
+          {site.phone}
+        </a>
+      )}
       <LanguageSwitcher locale={locale} routeKey={routeKey} />
-      <a class="btn header-cta" href={p('calculadora')}>{t('cta.calculate')}</a>
+      <a class="btn header-cta" href={p('contacto')}>{t('cta.visit')}</a>
     </div>
 
     <!-- Botón menú móvil -->
@@ -76,7 +89,9 @@ const waPrefill = t('whatsapp.prefill');
 <!-- Menú full-screen móvil -->
 <div class="mobile-menu on-dark" id="mobile-menu" data-mobile-menu hidden>
   <div class="mobile-menu__top container-x">
-    <a class="wordmark" href={p('home')}>Bastinou</a>
+    <a class="brand brand--on-dark" href={p('home')} aria-label={t('meta.siteName')}>
+      <Image src={logo} alt={t('meta.siteName')} class="brand__img" width={168} densities={[1, 2]} loading="lazy" />
+    </a>
     <button class="menu-toggle" data-menu-close aria-label={t('nav.close')}>
       <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true">
         <path d="M6 6l14 14M20 6L6 20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
@@ -84,6 +99,8 @@ const waPrefill = t('whatsapp.prefill');
     </button>
   </div>
   <nav class="mobile-menu__nav container-x" aria-label={t('nav.menu')}>
+    <a class="mobile-menu__link" href={p('home')}>{t('nav.inicio')}</a>
+    <a class="mobile-menu__link" href={p('nosotros')}>{t('nav.nosotros')}</a>
     <span class="mobile-menu__label">{t('nav.servicios')}</span>
     {services.map((s) => (
       <a class="mobile-menu__link mobile-menu__link--sub" href={p(s)}>{t(`nav.${s}`)}</a>
@@ -109,13 +126,13 @@ const waPrefill = t('whatsapp.prefill');
     border-bottom: 1px solid transparent;
     color: var(--color-ink);
   }
-  /* Sobre hero oscuro: texto blanco de inicio. */
+  /* Sobre hero con foto oscura: texto blanco de inicio. */
   .site-header--over-dark {
     color: #fff;
   }
-  /* Al hacer scroll (glass oscuro) el texto siempre es blanco. */
+  /* Al hacer scroll aparece el cristal claro: el texto vuelve a oscuro. */
   .site-header[data-scrolled='true'] {
-    color: #fff;
+    color: var(--color-ink);
   }
   .site-header__bar {
     display: flex;
@@ -124,18 +141,29 @@ const waPrefill = t('whatsapp.prefill');
     gap: 1.5rem;
     height: 72px;
   }
-  .wordmark {
-    font-weight: 700;
-    font-size: 1.35rem;
-    letter-spacing: -0.03em;
-    color: currentColor;
-    text-decoration: none;
+
+  /* ---- Logotipo ---- */
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    flex: none;
+  }
+  .brand :global(img) {
+    display: block;
+    width: clamp(128px, 14vw, 168px);
+    height: auto;
+    transition: filter 0.3s var(--ease-standard);
+  }
+  /* Sobre el hero oscuro (sin scroll) el logo se pinta en blanco. */
+  .site-header--over-dark:not([data-scrolled='true']) .brand :global(img),
+  .brand--on-dark :global(img) {
+    filter: brightness(0) invert(1);
   }
 
   .nav-desktop {
     display: none;
     align-items: center;
-    gap: 1.75rem;
+    gap: 1.6rem;
     margin-inline-start: auto;
   }
   .nav-link,
@@ -167,11 +195,12 @@ const waPrefill = t('whatsapp.prefill');
     left: 0;
     min-width: 15rem;
     padding: 0.5rem;
-    background: rgba(10, 10, 10, 0.85);
-    backdrop-filter: blur(14px) saturate(1.4);
-    -webkit-backdrop-filter: blur(14px) saturate(1.4);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(14px) saturate(1.2);
+    -webkit-backdrop-filter: blur(14px) saturate(1.2);
+    border: 1px solid rgba(31, 55, 48, 0.12);
     border-radius: 0.9rem;
+    box-shadow: 0 24px 50px -24px rgba(31, 55, 48, 0.35);
     display: grid;
     gap: 0.15rem;
     opacity: 0;
@@ -187,28 +216,41 @@ const waPrefill = t('whatsapp.prefill');
   .dropdown__item {
     padding: 0.65rem 0.85rem;
     border-radius: 0.6rem;
-    color: #fff;
+    color: var(--color-ink);
     font-size: 0.95rem;
     text-decoration: none;
     transition: background-color 0.2s ease;
   }
   .dropdown__item:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(31, 55, 48, 0.08);
   }
 
   .header-actions {
     display: none;
     align-items: center;
-    gap: 1.25rem;
+    gap: 1.1rem;
+  }
+  .header-phone {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.92rem;
+    font-weight: 550;
+    color: currentColor;
+    text-decoration: none;
+    white-space: nowrap;
+    opacity: 0.92;
+  }
+  .header-phone:hover {
+    opacity: 1;
   }
   .header-cta {
     min-height: 2.5rem;
     padding: 0.6rem 1.15rem;
     font-size: 0.9rem;
   }
-  /* CTA hereda inversión; sobre header claro es negro→blanco. */
-  .site-header[data-scrolled='true'] .header-cta,
-  .site-header--over-dark .header-cta {
+  /* CTA sobre hero oscuro: relleno blanco con texto verde para contrastar. */
+  .site-header--over-dark:not([data-scrolled='true']) .header-cta {
     --btn-bg: #fff;
     --btn-fg: var(--color-deep);
   }
@@ -260,19 +302,19 @@ const waPrefill = t('whatsapp.prefill');
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.14em;
-    color: var(--color-mist);
-    margin-bottom: 0.4rem;
+    color: rgba(255, 255, 255, 0.55);
+    margin-block: 0.6rem 0.4rem;
   }
   .mobile-menu__link {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     font-weight: 600;
     letter-spacing: -0.02em;
     color: #fff;
     text-decoration: none;
-    padding-block: 0.35rem;
+    padding-block: 0.3rem;
   }
   .mobile-menu__link--sub {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     font-weight: 500;
     opacity: 0.85;
     padding-left: 0.25rem;
@@ -321,6 +363,12 @@ const waPrefill = t('whatsapp.prefill');
       display: flex;
     }
     .menu-toggle {
+      display: none;
+    }
+  }
+  /* El teléfono del header sólo cabe con holgura en pantallas amplias. */
+  @media (min-width: 1024px) and (max-width: 1279px) {
+    .header-phone {
       display: none;
     }
   }

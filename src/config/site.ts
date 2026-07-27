@@ -3,7 +3,7 @@
  * Hasta entonces: placeholders claros [PENDIENTE]. Cambiar SOLO aquí.
  */
 export const site = {
-  name: 'Bastinou',
+  name: 'Reforma BCN',
   legalName: '[PENDIENTE: razón social]',
   nif: '[PENDIENTE: NIF/CIF]',
 
@@ -11,17 +11,17 @@ export const site = {
   phone: '[PENDIENTE: +34 600 000 000]',
   phoneHref: '+34600000000', // formato E.164 sin espacios para tel: y wa.me
   whatsapp: '34600000000', // número wa.me sin '+'
-  email: 'info@bastinou.com', // [PENDIENTE: email real]
+  email: 'info@reformabcn.es', // [PENDIENTE: email real]
 
-  // Dirección / zona de servicio.
+  // Dirección / zona de servicio: Barcelona y alrededores hasta 50 km.
   address: {
     street: '[PENDIENTE: dirección]',
-    city: 'Barcelona',
+    city: 'Barcelona / Sant Cugat del Vallès',
     region: 'Cataluña',
     postalCode: '[PENDIENTE]',
     country: 'ES',
   },
-  areaServed: ['Barcelona', 'Cataluña'],
+  areaServed: ['Barcelona', 'Área metropolitana de Barcelona'],
 
   // Coordenadas del local para el JSON-LD (GeoCoordinates). Se dejan sin definir
   // hasta tener la dirección real: no se publica un punto inventado. Al recibir
@@ -29,7 +29,7 @@ export const site = {
   geo: null as { lat: number; lng: number } | null,
 
   // Horario comercial (para JSON-LD y footer). Se muestra en pie y contacto.
-  openingHours: 'Lun–Vie 09:00–19:00',
+  openingHours: 'Lun–Sáb 09:00–19:00',
 
   // Redes (opcional). Vacío = no se muestra.
   social: {

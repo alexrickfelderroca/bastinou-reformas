@@ -8,9 +8,9 @@ import { useTranslations, type Locale } from '../../i18n/ui';
 import { localizedPath } from '../../i18n/routes';
 import SectionHeader from './SectionHeader.astro';
 
-import kitchen from '../../assets/portfolio/casa-espana/kitchen-living.jpg';
-import bathroom from '../../assets/portfolio/casa-espana/bathroom.jpg';
-import staircase from '../../assets/portfolio/casa-espana/staircase.jpg';
+import kitchen from '../../assets/portfolio/viviendas/v6-despues.jpg';
+import bathroom from '../../assets/portfolio/viviendas/v10-despues.jpg';
+import restaurant from '../../assets/portfolio/comerciales/c1-despues.jpg';
 
 interface Props {
   locale: Locale;
@@ -19,9 +19,9 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 
 const tiles = [
-  { img: kitchen, cap: t('home.portfolio.capKitchen') },
-  { img: bathroom, cap: t('home.portfolio.capBathroom') },
-  { img: staircase, cap: t('home.portfolio.capStaircase') },
+  { img: kitchen, cap: t('projects.cocina-comedor-marmol.title'), slug: 'cocina-comedor-marmol' },
+  { img: bathroom, cap: t('projects.bano-verde-salvia.title'), slug: 'bano-verde-salvia' },
+  { img: restaurant, cap: t('projects.restaurante-vigas.title'), slug: 'restaurante-vigas' },
 ];
 ---
 
@@ -34,8 +34,8 @@ const tiles = [
       </a>
     </div>
     <div class="related__grid" data-reveal-group data-reveal-stagger="90">
-      {tiles.map(({ img, cap }) => (
-        <a class="related__tile card-hover" href={localizedPath('proyectos', locale)} data-reveal>
+      {tiles.map(({ img, cap, slug }) => (
+        <a class="related__tile card-hover" href={`${localizedPath('proyectos', locale)}/${slug}`} data-reveal>
           <div class="related__media">
             <Image src={img} alt="" widths={[380, 640]} sizes="(min-width: 768px) 33vw, 100vw" class="card-media" loading="lazy" />
           </div>

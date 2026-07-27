@@ -16,7 +16,7 @@ import { getLocaleFromUrl, localeHtmlLang, localeOgLocale, useTranslations } fro
 import { alternatesFor, type RouteKey } from '../i18n/routes';
 import { site } from '../config/site';
 import { OG_ROUTE_IDS, ogImagePath } from '../lib/og-meta';
-import logo from '../assets/brand/bastinou-logo.jpg';
+import logo from '../assets/brand/reforma-bcn-logo.png';
 
 interface Props {
   title?: string;
@@ -25,6 +25,8 @@ interface Props {
   overHero?: boolean;
   image?: string;
   noindex?: boolean;
+  /** No añadir el sufijo de marca al <title> (títulos fijados por especificación). */
+  exactTitle?: boolean;
   /** Intro de marca a pantalla completa (solo la home). Ver Preloader.astro. */
   preloader?: boolean;
   /** Alternates hreflang explícitos (p. ej. detalle de proyecto con slug propio). */
@@ -40,17 +42,18 @@ const {
   overHero = false,
   image,
   noindex = false,
+  exactTitle = false,
   preloader = false,
   alternates: alternatesProp,
 } = Astro.props;
 
-const siteUrl = Astro.site ?? new URL('https://www.bastinou.com');
+const siteUrl = Astro.site ?? new URL('https://www.reformabcn.es');
 const canonical = new URL(Astro.url.pathname, siteUrl).href;
 // OG por página (Fase 8): imagen explícita (p. ej. detalle de proyecto) o la
 // generada para su routeKey/idioma; sin routeKey conocido → 'default'.
 const ogId = routeKey && (OG_ROUTE_IDS as readonly string[]).includes(routeKey) ? routeKey : 'default';
 const ogImage = new URL(image ?? ogImagePath(ogId, locale), siteUrl).href;
-const fullTitle = title.includes(site.name) ? title : `${title} · ${site.name}`;
+const fullTitle = exactTitle || title.includes(site.name) ? title : `${title} · ${site.name}`;
 
 // hreflang: alternates explícitos > por routeKey > ninguno.
 const alternates = alternatesProp ?? (routeKey ? alternatesFor(routeKey) : []);
@@ -90,7 +93,7 @@ const businessLd = {
   },
   openingHoursSpecification: {
     '@type': 'OpeningHoursSpecification',
-    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
     opens: '09:00',
     closes: '19:00',
   },
@@ -123,10 +126,12 @@ const websiteLd = {
     <!-- Marca JS activo lo antes posible: el estado oculto de las animaciones
          sólo se aplica con html.js (sin JS todo es visible). Evita FOUC. -->
     <script is:inline>document.documentElement.classList.add('js');</script>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/favicon-512.png" sizes="512x512" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" content="#141518" />
+    <meta name="theme-color" content="#f7f5f0" />
 
     <title>{fullTitle}</title>
     <meta name="description" content={description} />

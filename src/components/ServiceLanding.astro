@@ -15,7 +15,7 @@ import PricingTable from './sections/PricingTable.astro';
 import RelatedProjects from './sections/RelatedProjects.astro';
 import Process from './sections/Process.astro';
 import Faq from './sections/Faq.astro';
-import CalcCtaBlock from './sections/CalcCtaBlock.astro';
+import PricesCtaBlock from './sections/PricesCtaBlock.astro';
 import QuoteForm from './sections/QuoteForm.astro';
 
 import { getLocaleFromUrl, useTranslations } from '../i18n/ui';
@@ -37,7 +37,7 @@ const l = (k: string) => t(`landings.${service}.${k}`);
 const faqItems = [1, 2, 3, 4, 5].map((n) => ({ q: l(`q${n}`), a: l(`a${n}`) }));
 
 // Schema Service + BreadcrumbList.
-const siteUrl = Astro.site ?? new URL('https://www.bastinou.com');
+const siteUrl = Astro.site ?? new URL('https://www.reformabcn.es');
 const canonical = new URL(Astro.url.pathname, siteUrl).href;
 const serviceLd = {
   '@context': 'https://schema.org',
@@ -62,7 +62,7 @@ const breadcrumbLd = {
 ---
 
 <Layout title={l('metaTitle')} description={l('metaDesc')} routeKey={cfg.routeKey} overHero={true}>
-  {service === 'pisos'
+  {service === 'viviendas'
     ? <PisosRevealHero locale={locale} />
     : <SplitRevealHero locale={locale} service={service} />}
   <ServiceIncludes locale={locale} service={service} />
@@ -70,7 +70,7 @@ const breadcrumbLd = {
   <RelatedProjects locale={locale} />
   <Process locale={locale} />
   <Faq locale={locale} items={faqItems} />
-  <CalcCtaBlock locale={locale} />
+  <PricesCtaBlock locale={locale} />
   <QuoteForm locale={locale} service={service} />
 
   <script is:inline type="application/ld+json" set:html={JSON.stringify(serviceLd)} />

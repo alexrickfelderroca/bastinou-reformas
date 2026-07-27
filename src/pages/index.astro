@@ -2,10 +2,9 @@
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/sections/Hero.astro';
 import Services from '../components/sections/Services.astro';
-import CalculatorTeaser from '../components/sections/CalculatorTeaser.astro';
 import PortfolioPreview from '../components/sections/PortfolioPreview.astro';
+import PricesTeaser from '../components/sections/PricesTeaser.astro';
 import Process from '../components/sections/Process.astro';
-import Stats from '../components/sections/Stats.astro';
 import ServiceArea from '../components/sections/ServiceArea.astro';
 import FinalCTA from '../components/sections/FinalCTA.astro';
 import { getLocaleFromUrl, useTranslations } from '../i18n/ui';
@@ -23,10 +22,9 @@ const t = useTranslations(locale);
 >
   <Hero locale={locale} />
   <Services locale={locale} />
-  <CalculatorTeaser locale={locale} />
   <PortfolioPreview locale={locale} />
+  <PricesTeaser locale={locale} />
   <Process locale={locale} />
-  <Stats locale={locale} />
   <ServiceArea locale={locale} />
   <FinalCTA locale={locale} />
 </Layout>

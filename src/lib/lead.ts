@@ -90,7 +90,7 @@ export function leadToText(d: LeadData): string {
 async function sendEmail(d: LeadData): Promise<boolean> {
   const key = getEnv('RESEND_API_KEY');
   const to = getEnv('LEAD_TO_EMAIL');
-  const from = getEnv('LEAD_FROM_EMAIL') || 'Bastinou <leads@bastinou.com>';
+  const from = getEnv('LEAD_FROM_EMAIL') || 'Reforma BCN <leads@reformabcn.es>';
   if (!key || !to) return false;
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -113,7 +113,7 @@ async function sendTelegram(d: LeadData): Promise<boolean> {
   const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ chat_id: chat, text: `🏗️ Nuevo lead Bastinou\n\n${leadToText(d)}` }),
+    body: JSON.stringify({ chat_id: chat, text: `🏗️ Nuevo lead Reforma BCN\n\n${leadToText(d)}` }),
   });
   return res.ok;
 }

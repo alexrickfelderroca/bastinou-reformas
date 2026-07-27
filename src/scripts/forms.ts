@@ -4,7 +4,7 @@
  * formularios [data-lead-form]: envío por fetch a /api/lead, estados de
  * carga/gracias/error y evento form_submit al dataLayer.
  */
-const UTM_KEY = 'bastinou-utm';
+const UTM_KEY = 'rbcn-utm';
 const UTM_FIELDS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid'];
 
 function captureUTM(): void {
@@ -71,6 +71,12 @@ document.querySelectorAll<HTMLFormElement>('[data-lead-form]').forEach((form) =>
       const out = (await res.json().catch(() => ({ ok: res.ok }))) as { ok?: boolean };
       if (res.ok && out.ok) {
         dl('form_submit', {
+          form_id: form.getAttribute('id') || 'lead',
+          page: location.pathname,
+          service: payload.service || '',
+        });
+        // Evento de conversión estándar (especificación «Nuestros precios» §9).
+        dl('generate_lead', {
           form_id: form.getAttribute('id') || 'lead',
           page: location.pathname,
           service: payload.service || '',

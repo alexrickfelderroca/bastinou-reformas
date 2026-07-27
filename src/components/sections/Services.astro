@@ -19,17 +19,17 @@
  *    esa lista apilada normal — el contenido NUNCA queda oculto (SEO/no-JS).
  *  - Con JS + movimiento permitido, `is-enhanced` transforma la lista en la
  *    secuencia pineada a pantalla completa. Si el script falla, se queda la lista.
- *  - Re-tematizado 100% a los tokens oscuros de Bastinou (nada de la paleta ref).
+ *  - Re-tematizado 100% a los tokens del proyecto (nada de la paleta ref).
  */
 import { Image } from 'astro:assets';
 import { useTranslations, type Locale } from '../../i18n/ui';
 import { localizedPath, type RouteKey } from '../../i18n/routes';
 import SectionHeader from './SectionHeader.astro';
 
-import imgPisos from '../../assets/portfolio/casa-espana/kitchen-living.jpg';
-import imgCasas from '../../assets/portfolio/casa-espana/exterior-villa.jpg';
-import imgOficinas from '../../assets/portfolio/casa-espana/home-theater.jpg';
-import imgConstruccion from '../../assets/portfolio/casa-espana/exterior-pool.jpg';
+import imgViviendas from '../../assets/portfolio/viviendas/v6-despues.jpg';
+import imgOficinas from '../../assets/portfolio/comerciales/c3-despues.jpg';
+import imgTiendas from '../../assets/portfolio/comerciales/c7-despues.jpg';
+import imgBeauty from '../../assets/portfolio/comerciales/c5-despues.jpg';
 
 interface Props {
   locale: Locale;
@@ -38,10 +38,10 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 
 const items: { key: RouteKey; img: ImageMetadata }[] = [
-  { key: 'pisos', img: imgPisos },
-  { key: 'casas', img: imgCasas },
+  { key: 'viviendas', img: imgViviendas },
   { key: 'oficinas', img: imgOficinas },
-  { key: 'construccion', img: imgConstruccion },
+  { key: 'tiendas', img: imgTiendas },
+  { key: 'beauty', img: imgBeauty },
 ];
 const N = items.length;
 
@@ -77,7 +77,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
     <div class="svc-reveal__vp">
       <ol class="svc-reveal__panels">
         {items.map(({ key, img }, i) => {
-          const title = t(`nav.${key}`);
+          const title = t(`home.services.${key}T`);
           return (
             <li class="svc-reveal__panel-wrap">
               <a
@@ -204,14 +204,14 @@ const pad = (n: number) => String(n).padStart(2, '0');
   .svc-panel__index {
     font-size: 0.85rem;
     letter-spacing: 0.14em;
-    color: var(--color-slate);
+    color: rgba(255, 255, 255, 0.65);
     display: inline-flex;
     align-items: baseline;
     gap: 0.35rem;
   }
   .svc-panel__index em {
     font-style: normal;
-    color: var(--color-accent);
+    color: #a9c0ad; /* salvia clara, legible sobre la foto oscura */
     font-weight: 600;
   }
   .svc-panel__index-sep { opacity: 0.5; }

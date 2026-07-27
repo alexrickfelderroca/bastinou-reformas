@@ -11,7 +11,7 @@ const projects = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/projects' }),
   schema: ({ image }) =>
     z.object({
-      type: z.enum(['piso', 'casa', 'oficina', 'construccion']),
+      type: z.enum(['vivienda', 'comercial']),
       area: z.number(),
       year: z.number(),
       segment: z.enum(['basico', 'estandar', 'premium']),

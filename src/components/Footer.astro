@@ -1,14 +1,14 @@
 ---
 /**
- * Pie del sitio (fondo negro). Aquí sí usamos el logotipo raster (blanco sobre
- * negro) porque el fondo oscuro lo integra perfectamente. Columnas de servicios,
- * empresa, legal y contacto con teléfono/email clicables (tel:/mailto:).
+ * Pie del sitio (banda verde oscura). Logotipo en blanco (filter sobre el PNG
+ * transparente), columnas de servicios, empresa y contacto con teléfono, email,
+ * WhatsApp, oficina y horario clicables/visibles, y la fila legal.
  */
 import { Image } from 'astro:assets';
-import logo from '../assets/brand/bastinou-logo.jpg';
+import logo from '../assets/brand/reforma-bcn-logo.png';
 import { useTranslations, type Locale } from '../i18n/ui';
 import { localizedPath, type RouteKey } from '../i18n/routes';
-import { site, telHref } from '../config/site';
+import { site, telHref, whatsappHref } from '../config/site';
 
 interface Props {
   locale: Locale;
@@ -18,20 +18,22 @@ const t = useTranslations(locale);
 const p = (k: RouteKey) => localizedPath(k, locale);
 const year = new Date().getFullYear();
 
-const serviceLinks: RouteKey[] = ['pisos', 'casas', 'oficinas', 'construccion'];
-// 'blog' se omite hasta que exista la sección (evita un enlace 404 en el pie).
-const companyLinks: RouteKey[] = ['proyectos', 'nosotros', 'calculadora', 'contacto'];
+const serviceLinks: RouteKey[] = ['viviendas', 'oficinas', 'tiendas', 'beauty'];
+const companyLinks: RouteKey[] = ['precios', 'proyectos', 'nosotros', 'contacto'];
 const legalLinks: { key: RouteKey; label: string }[] = [
   { key: 'avisoLegal', label: t('footer.avisoLegal') },
   { key: 'privacidad', label: t('footer.privacidad') },
   { key: 'cookies', label: t('footer.cookies') },
 ];
+const hasPhone = !site.phone.includes('[PENDIENTE');
 ---
 
 <footer class="footer on-dark">
   <div class="container-x footer__grid">
     <div class="footer__brand">
-      <Image src={logo} alt={t('meta.siteName')} width={132} height={132} class="footer__logo" loading="lazy" />
+      <a href={p('home')} aria-label={t('meta.siteName')}>
+        <Image src={logo} alt={t('meta.siteName')} width={200} densities={[1, 2]} class="footer__logo" loading="lazy" />
+      </a>
       <p class="footer__tagline">{t('footer.tagline')}</p>
     </div>
 
@@ -56,8 +58,18 @@ const legalLinks: { key: RouteKey; label: string }[] = [
     <div class="footer__col">
       <h2 class="footer__title">{t('footer.contactTitle')}</h2>
       <ul>
-        <li><a href={telHref} data-phone>{site.phone}</a></li>
+        {hasPhone && <li><a href={telHref} data-phone>{site.phone}</a></li>}
+        <li>
+          <a href={whatsappHref(t('whatsapp.prefill'))} target="_blank" rel="noopener" data-wa data-wa-source="footer">
+            {t('cta.whatsapp')}
+          </a>
+        </li>
         <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+        {site.social.instagram && (
+          <li><a href={site.social.instagram} target="_blank" rel="noopener">Instagram</a></li>
+        )}
+        <li class="footer__area">{t('footer.office')}: {site.address.city}</li>
+        <li class="footer__area">{t('footer.hours')}: {t('contact.hoursValue')}</li>
         <li class="footer__area">{t('footer.serviceArea')}</li>
       </ul>
     </div>
@@ -96,14 +108,15 @@ const legalLinks: { key: RouteKey; label: string }[] = [
     max-width: 22rem;
   }
   .footer__logo {
-    width: 66px;
-    height: 66px;
-    border-radius: 0.5rem;
-    object-fit: contain;
+    width: 180px;
+    height: auto;
+    /* PNG transparente con texto verde oscuro → en blanco sobre la banda verde. */
+    filter: brightness(0) invert(1);
+    opacity: 0.95;
   }
   .footer__tagline {
-    margin-top: 1rem;
-    color: var(--color-mist);
+    margin-top: 1.1rem;
+    color: rgba(255, 255, 255, 0.72);
     font-size: 0.975rem;
     line-height: 1.55;
   }
@@ -111,7 +124,7 @@ const legalLinks: { key: RouteKey; label: string }[] = [
     font-size: 0.78rem;
     text-transform: uppercase;
     letter-spacing: 0.14em;
-    color: var(--color-mist);
+    color: rgba(255, 255, 255, 0.55);
     margin-bottom: 1rem;
     font-weight: 600;
   }
@@ -130,7 +143,7 @@ const legalLinks: { key: RouteKey; label: string }[] = [
     color: #fff;
   }
   .footer__area {
-    color: var(--color-mist);
+    color: rgba(255, 255, 255, 0.6);
     font-size: 0.95rem;
   }
   .footer__bottom {
@@ -141,7 +154,7 @@ const legalLinks: { key: RouteKey; label: string }[] = [
     justify-content: space-between;
     padding-block: 1.75rem;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--color-mist);
+    color: rgba(255, 255, 255, 0.6);
     font-size: 0.875rem;
   }
   .footer__legal {
@@ -152,7 +165,7 @@ const legalLinks: { key: RouteKey; label: string }[] = [
   }
   .footer__legal a,
   .footer__legal-btn {
-    color: var(--color-mist);
+    color: rgba(255, 255, 255, 0.6);
     text-decoration: none;
     transition: color 0.2s ease;
   }

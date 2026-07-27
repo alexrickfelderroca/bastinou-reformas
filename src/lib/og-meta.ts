@@ -8,11 +8,11 @@ import { useTranslations, type Locale } from '../i18n/ui';
 /** routeKeys que tienen página y para las que generamos una imagen OG propia. */
 export const OG_ROUTE_IDS = [
   'home',
-  'pisos',
-  'casas',
+  'viviendas',
   'oficinas',
-  'construccion',
-  'calculadora',
+  'tiendas',
+  'beauty',
+  'precios',
   'proyectos',
   'nosotros',
   'contacto',
@@ -36,11 +36,11 @@ export function ogContent(id: string, locale: Locale): { eyebrow: string; title:
 
   const titles: Record<string, string> = {
     home: `${t('home.hero.line1')} ${t('home.hero.line2')}`,
-    pisos: t('landings.pisos.h1'),
-    casas: t('landings.casas.h1'),
+    viviendas: t('landings.viviendas.h1'),
     oficinas: t('landings.oficinas.h1'),
-    construccion: t('landings.construccion.h1'),
-    calculadora: t('calculator.title'),
+    tiendas: t('landings.tiendas.h1'),
+    beauty: t('landings.beauty.h1'),
+    precios: t('prices.h1'),
     proyectos: t('portfolio.title'),
     nosotros: t('about.title'),
     contacto: t('contact.title'),

@@ -1,31 +1,59 @@
 ---
 /**
- * Bloque de CTA final (§4.3 brief). Cierre oscuro con las 3 acciones: calcular,
- * WhatsApp y llamar. Los clics de WhatsApp/teléfono llevan data-* para el
- * tracking de Fase 7.
+ * Contacto y cierre de la página (concepto, pág. 8). Banda verde oscura con el
+ * titular «¿Quieres saber cuánto costará tu reforma?», los CTA de visita y
+ * WhatsApp, y las cuatro fichas de contacto: teléfono, WhatsApp, oficina y
+ * horario. Los clics de WhatsApp/teléfono llevan data-* para el tracking.
  */
 import { useTranslations, type Locale } from '../../i18n/ui';
 import { localizedPath } from '../../i18n/routes';
-import { telHref, whatsappHref } from '../../config/site';
+import { site, telHref, whatsappHref } from '../../config/site';
 
 interface Props {
   locale: Locale;
 }
 const { locale } = Astro.props;
 const t = useTranslations(locale);
+const hasPhone = !site.phone.includes('[PENDIENTE');
 ---
 
 <section class="section final-cta on-dark">
-  <div class="container-x final-cta__inner" data-reveal-group>
-    <h2 class="h-section final-cta__title" data-reveal>{t('home.finalCta.title')}</h2>
-    <p class="lead final-cta__sub" data-reveal>{t('home.finalCta.subtitle')}</p>
-    <div class="final-cta__actions" data-reveal>
-      <a class="btn btn-invert" href={localizedPath('calculadora', locale)}>{t('home.finalCta.calc')}</a>
-      <a class="btn btn-whatsapp" href={whatsappHref(t('whatsapp.prefill'))} target="_blank" rel="noopener" data-wa data-wa-source="final-cta">
-        {t('cta.whatsapp')}
-      </a>
-      <a class="btn btn-outline" href={telHref} data-phone>{t('home.finalCta.call')}</a>
+  <div class="container-x final-cta__grid" data-reveal-group>
+    <div class="final-cta__main">
+      <h2 class="h-section final-cta__title" data-reveal>{t('home.finalCta.title')}</h2>
+      <p class="lead final-cta__sub" data-reveal>{t('home.finalCta.subtitle')}</p>
+      <div class="final-cta__actions" data-reveal>
+        <a class="btn btn-invert" href={localizedPath('contacto', locale)}>{t('home.finalCta.visit')}</a>
+        <a class="btn btn-whatsapp" href={whatsappHref(t('whatsapp.prefill'))} target="_blank" rel="noopener" data-wa data-wa-source="final-cta">
+          {t('home.finalCta.whatsapp')}
+        </a>
+      </div>
     </div>
+
+    <dl class="final-cta__facts" data-reveal>
+      {hasPhone && (
+        <div class="final-cta__fact">
+          <dt>{t('home.finalCta.fPhone')}</dt>
+          <dd><a href={telHref} data-phone>{site.phone}</a></dd>
+        </div>
+      )}
+      <div class="final-cta__fact">
+        <dt>{t('home.finalCta.fWhatsapp')}</dt>
+        <dd>
+          <a href={whatsappHref(t('whatsapp.prefill'))} target="_blank" rel="noopener" data-wa data-wa-source="final-cta-fact">
+            {t('home.finalCta.fWhatsappV')}
+          </a>
+        </dd>
+      </div>
+      <div class="final-cta__fact">
+        <dt>{t('home.finalCta.fOffice')}</dt>
+        <dd>{site.address.city}</dd>
+      </div>
+      <div class="final-cta__fact">
+        <dt>{t('home.finalCta.fHours')}</dt>
+        <dd>{t('home.finalCta.fHoursV')}</dd>
+      </div>
+    </dl>
   </div>
 </section>
 
@@ -33,11 +61,15 @@ const t = useTranslations(locale);
   .final-cta {
     background: var(--color-deep);
     color: #fff;
-    text-align: center;
   }
-  .final-cta__inner {
-    max-width: 42rem;
-    margin-inline: auto;
+  .final-cta__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+  .final-cta__main {
+    max-width: 34rem;
   }
   .final-cta__sub {
     margin-top: 1rem;
@@ -46,8 +78,43 @@ const t = useTranslations(locale);
   .final-cta__actions {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     gap: 0.9rem;
     margin-top: 2.25rem;
+  }
+
+  .final-cta__facts {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
+    margin: 0;
+  }
+  .final-cta__fact {
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  }
+  .final-cta__fact dt {
+    font-size: 0.9rem;
+    font-weight: 620;
+    margin-bottom: 0.25rem;
+  }
+  .final-cta__fact dd {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.975rem;
+  }
+  .final-cta__fact a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .final-cta__fact a:hover {
+    color: #fff;
+  }
+
+  @media (min-width: 900px) {
+    .final-cta__grid {
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 4rem;
+    }
   }
 </style>

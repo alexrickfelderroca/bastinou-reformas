@@ -14,7 +14,7 @@ import { breadcrumbLd } from '../../lib/breadcrumbs';
 const locale = getLocaleFromUrl(Astro.url);
 const t = useTranslations(locale);
 
-const siteUrl = Astro.site ?? new URL('https://www.bastinou.com');
+const siteUrl = Astro.site ?? new URL('https://www.reformabcn.es');
 const crumbs = breadcrumbLd(siteUrl, [
   { name: t('landing.breadcrumbHome'), path: localizedPath('home', locale) },
   { name: t('nav.proyectos'), path: localizedPath('proyectos', locale) },
@@ -24,7 +24,7 @@ const projects = (await getCollection('projects')).sort(
   (a, b) => a.data.order - b.data.order,
 );
 
-const filters = ['all', 'piso', 'casa', 'oficina', 'construccion'] as const;
+const filters = ['all', 'vivienda', 'comercial'] as const;
 ---
 
 <Layout title={t('portfolio.metaTitle')} description={t('portfolio.metaDesc')} routeKey="proyectos" overHero={true}>
@@ -54,8 +54,7 @@ const filters = ['all', 'piso', 'casa', 'oficina', 'construccion'] as const;
         {projects.map((entry) => <ProjectCard locale={locale} entry={entry} />)}
       </div>
 
-      <p class="pf-empty" data-pf-empty hidden>{t('portfolio.note')}</p>
-      <p class="pf-note">{t('portfolio.note')}</p>
+      <p class="pf-empty" data-pf-empty hidden>{t('portfolio.empty')}</p>
     </div>
   </section>
 
@@ -99,7 +98,7 @@ const filters = ['all', 'piso', 'casa', 'oficina', 'construccion'] as const;
   }
   .pf-filter.is-active {
     background: var(--color-ink);
-    color: var(--color-deep);
+    color: #fff;
     border-color: var(--color-ink);
   }
   .pf-grid {

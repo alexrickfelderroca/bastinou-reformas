@@ -9,7 +9,7 @@ import { localizedPath, type RouteKey } from '../i18n/routes';
 
 const locale = getLocaleFromUrl(Astro.url);
 const t = useTranslations(locale);
-const services: RouteKey[] = ['pisos', 'casas', 'oficinas', 'construccion'];
+const services: RouteKey[] = ['viviendas', 'oficinas', 'tiendas', 'beauty'];
 ---
 
 <Layout title={t('notFound.title')} routeKey="home" overHero={true} noindex={true}>
@@ -20,8 +20,8 @@ const services: RouteKey[] = ['pisos', 'casas', 'oficinas', 'construccion'];
       <p class="lead nf__sub">{t('notFound.subtitle')}</p>
       <div class="nf__actions">
         <a class="btn btn-invert" href={localizedPath('home', locale)}>{t('notFound.home')}</a>
-        <a class="btn btn-outline nf__ghost" href={localizedPath('calculadora', locale)}>
-          {t('cta.calculate')}
+        <a class="btn btn-outline nf__ghost" href={localizedPath('precios', locale)}>
+          {t('cta.viewOurPrices')}
         </a>
       </div>
       <ul class="nf__links">
@@ -81,7 +81,7 @@ const services: RouteKey[] = ['pisos', 'casas', 'oficinas', 'construccion'];
     border-top: 1px solid rgba(255, 255, 255, 0.12);
   }
   .nf__links a {
-    color: var(--color-mist);
+    color: rgba(255, 255, 255, 0.68);
     text-decoration: none;
     transition: color 0.2s ease;
   }

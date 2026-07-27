@@ -10,30 +10,30 @@ import { locales } from './ui';
 
 export const routes = {
   home: { es: '/', ca: '/ca', en: '/en' },
-  pisos: {
-    es: '/reformas-pisos-barcelona',
-    ca: '/ca/reformes-pisos-barcelona',
-    en: '/en/apartment-renovation-barcelona',
-  },
-  casas: {
-    es: '/reformas-casas-barcelona',
-    ca: '/ca/reformes-cases-barcelona',
-    en: '/en/house-renovation-barcelona',
+  viviendas: {
+    es: '/reformas-viviendas-barcelona',
+    ca: '/ca/reformes-habitatges-barcelona',
+    en: '/en/home-renovation-barcelona',
   },
   oficinas: {
     es: '/reformas-oficinas-barcelona',
     ca: '/ca/reformes-oficines-barcelona',
     en: '/en/office-renovation-barcelona',
   },
-  construccion: {
-    es: '/construccion-barcelona',
-    ca: '/ca/construccio-barcelona',
-    en: '/en/construction-barcelona',
+  tiendas: {
+    es: '/reformas-tiendas-barcelona',
+    ca: '/ca/reformes-botigues-barcelona',
+    en: '/en/retail-renovation-barcelona',
   },
-  calculadora: {
-    es: '/calculadora-reformas',
-    ca: '/ca/calculadora-reformes',
-    en: '/en/renovation-cost-calculator',
+  beauty: {
+    es: '/reformas-beauty-fitness-barcelona',
+    ca: '/ca/reformes-beauty-fitness-barcelona',
+    en: '/en/beauty-fitness-renovation-barcelona',
+  },
+  precios: {
+    es: '/nuestros-precios',
+    ca: '/ca/els-nostres-preus',
+    en: '/en/our-prices',
   },
   proyectos: { es: '/proyectos', ca: '/ca/projectes', en: '/en/projects' },
   nosotros: { es: '/nosotros', ca: '/ca/nosaltres', en: '/en/about' },

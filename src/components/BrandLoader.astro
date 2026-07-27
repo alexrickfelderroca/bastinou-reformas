@@ -1,9 +1,9 @@
 ---
 /**
  * BrandLoader — intro de marca "letter loader" (home). Adaptación del componente
- * "Aurela Letter Loader" (referencia GSAP) al sistema de Bastinou:
- *  - Rebrand "Aurela" → "Bastinou" (wordmark partido "Bast" | caja | "inou").
- *  - Re-tematizado a los tokens OSCUROS del proyecto (nada de la paleta original).
+ * "Aurela Letter Loader" (referencia GSAP) al sistema de Reforma BCN:
+ *  - Rebrand: wordmark partido "Reforma" | caja | "BCN".
+ *  - Telón sobre la banda verde oscura del proyecto (--color-deep).
  *  - Imágenes de la caja creciente = fotos reales del portfolio; la imagen FINAL
  *    es el póster del hero, así el "descubrimiento" enlaza con el vídeo del hero.
  *  - GSAP se importa DINÁMICAMENTE dentro del script del módulo (code-split): solo
@@ -24,14 +24,14 @@
  *   .is-revealed      → puesto al final de la animación (o al saltar) → el hero y
  *                        la cabecera hacen su reveal enmascarado (CSS).
  */
-import coverA from '../assets/portfolio/casa-espana/kitchen-living.jpg';
-import coverB from '../assets/portfolio/casa-espana/staircase.jpg';
-import coverC from '../assets/portfolio/casa-espana/exterior-villa.jpg';
+import coverA from '../assets/portfolio/viviendas/v6-despues.jpg';
+import coverB from '../assets/portfolio/viviendas/v3-despues.jpg';
+import coverC from '../assets/portfolio/comerciales/c1-despues.jpg';
 
-const brand = 'Bastinou';
-// Partición del wordmark: "Bast" | [caja imagen] | "inou" (4 + 4 → caja centrada).
-const startLetters = ['B', 'a', 's', 't'];
-const endLetters = ['i', 'n', 'o', 'u'];
+// Partición del wordmark "Reforma BCN": "Reforma" | [caja imagen] | "BCN"
+// (la caja crece donde iría el espacio).
+const startLetters = ['R', 'e', 'f', 'o', 'r', 'm', 'a'];
+const endLetters = ['B', 'C', 'N'];
 ---
 
 <div id="brand-loader" class="bl" aria-hidden="true">
@@ -80,8 +80,8 @@ const endLetters = ['i', 'n', 'o', 'u'];
     z-index: 9999;
     width: 100%;
     height: 100dvh;
-    background: var(--color-deep, #0d0e11);
-    color: var(--color-ink, #f3f3f5);
+    background: var(--color-deep, #24443c);
+    color: #fff;
     justify-content: center;
     align-items: center;
     overflow: hidden;
@@ -295,7 +295,7 @@ const endLetters = ['i', 'n', 'o', 'u'];
      sin flash y a prueba de sin-JS. -->
 <script is:inline>
   (function () {
-    var KEY = 'bastinou_intro';
+    var KEY = 'rbcn_intro';
     var el = document.getElementById('brand-loader');
     if (!el) return;
     var reduce = false;

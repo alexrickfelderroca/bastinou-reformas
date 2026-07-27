@@ -1,0 +1,109 @@
+---
+/**
+ * Precios orientativos (home). Según el concepto: en la página principal solo
+ * se muestran seis referencias en tarjetas blancas; el listado completo se abre
+ * en «Nuestros precios». Con el aviso único de IVA debajo del bloque.
+ */
+import { useTranslations, type Locale } from '../../i18n/ui';
+import { localizedPath } from '../../i18n/routes';
+import SectionHeader from './SectionHeader.astro';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const items = [1, 2, 3, 4, 5, 6].map((n) => ({
+  name: t(`home.prices.p${n}n`),
+  value: t(`home.prices.p${n}v`),
+}));
+---
+
+<section class="section hprices">
+  <div class="container-x">
+    <SectionHeader
+      eyebrow={t('home.prices.eyebrow')}
+      title={t('home.prices.title')}
+      subtitle={t('home.prices.subtitle')}
+    />
+
+    <ul class="hprices__grid" data-reveal-group data-reveal-stagger="70">
+      {items.map((it) => (
+        <li class="hprices__card" data-reveal>
+          <span class="hprices__name">{it.name}</span>
+          <span class="hprices__value">
+            <em>{t('home.prices.from')}</em> {it.value}
+          </span>
+        </li>
+      ))}
+    </ul>
+
+    <div class="hprices__foot" data-reveal>
+      <a class="btn" href={localizedPath('precios', locale)}>{t('home.prices.cta')}</a>
+      <p class="hprices__note">{t('home.prices.note')}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hprices {
+    background: var(--color-paper);
+  }
+  .hprices__grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .hprices__card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    padding: 1.5rem 1.6rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 1rem;
+  }
+  .hprices__name {
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .hprices__value {
+    font-size: 1.15rem;
+    font-weight: 560;
+    color: var(--color-ink);
+  }
+  .hprices__value em {
+    font-style: normal;
+    font-size: 0.85rem;
+    font-weight: 480;
+    color: var(--color-slate);
+    margin-right: 0.15rem;
+  }
+  .hprices__foot {
+    margin-top: 2.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .hprices__note {
+    font-size: 0.85rem;
+    color: var(--color-slate);
+  }
+
+  @media (min-width: 640px) {
+    .hprices__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .hprices__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

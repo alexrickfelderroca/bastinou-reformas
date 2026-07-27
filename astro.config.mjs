@@ -7,11 +7,17 @@ import sitemap from '@astrojs/sitemap';
 import node from '@astrojs/node';
 
 // Site URL — [PENDIENTE: dominio real]. Used for canonicals, sitemap, hreflang, OG.
-const SITE = 'https://www.bastinou.com';
+const SITE = 'https://www.reformabcn.es';
 
 // https://astro.build/config
 export default defineConfig({
   site: SITE,
+
+  // Rutas antiguas (rebranding jul-2026) → nuevas. NO se usan los `redirects`
+  // del config: en el build estático no generan stubs y el hosting interino
+  // (GitHub Pages) devolvería 404. En su lugar hay páginas físicas con
+  // meta-refresh + canonical + noindex (src/components/RedirectStub.astro),
+  // que funcionan igual en estático y en SSR.
 
   // Salida estática por defecto: todo el contenido se prerenderiza (SEO). Sólo
   // las rutas marcadas con `prerender = false` (p. ej. /api/lead) se ejecutan
@@ -37,7 +43,25 @@ export default defineConfig({
     // por ruta idéntica, pero nuestros slugs están traducidos (no coinciden), así
     // que sólo enlazaría la home y dejaría el resto sin alternates. El hreflang
     // autoritativo y completo va en el <head> de cada página (routes.ts).
-    sitemap(),
+    // Los stubs de redirección (URLs antiguas, noindex) se excluyen.
+    sitemap({
+      filter: (page) =>
+        ![
+          '/reformas-pisos-barcelona/',
+          '/reformas-casas-barcelona/',
+          '/construccion-barcelona/',
+          '/calculadora-reformas/',
+          '/ca/reformes-pisos-barcelona/',
+          '/ca/reformes-cases-barcelona/',
+          '/ca/construccio-barcelona/',
+          '/ca/calculadora-reformes/',
+          '/en/apartment-renovation-barcelona/',
+          '/en/house-renovation-barcelona/',
+          '/en/construction-barcelona/',
+          '/en/renovation-cost-calculator/',
+          '/proyectos/casa-espana/',
+        ].some((old) => page.endsWith(old)),
+    }),
   ],
 
   vite: {

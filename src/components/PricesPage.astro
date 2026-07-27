@@ -1,0 +1,778 @@
+---
+/**
+ * Página «Nuestros precios» (especificación v1.0, jul 2026).
+ * Estructura: Hero → 14 precios principales → listado completo en accordion →
+ * nota de precios → proceso en 3 pasos → formulario corto → FAQ → CTA final.
+ *
+ * Requisitos cubiertos: precios como foco visual; tabla en escritorio y
+ * tarjetas en móvil (sin scroll horizontal); «Desde» precede al importe; un
+ * único aviso de IVA bajo el bloque; accordion accesible (details/summary
+ * nativo, solo una categoría abierta con el atributo name); sin filtros ni
+ * calculadoras; schema Service + FAQPage; eventos view_prices,
+ * open_all_prices, click_cta y start_form (generate_lead lo emite forms.ts).
+ */
+import Layout from '../layouts/Layout.astro';
+import Faq from './sections/Faq.astro';
+import SectionHeader from './sections/SectionHeader.astro';
+import { getLocaleFromUrl, useTranslations } from '../i18n/ui';
+import { localizedPath, withTrailingSlash } from '../i18n/routes';
+import { mainPrices, priceCategories, formatEuro } from '../config/pricing-list';
+import { site, telHref, whatsappHref } from '../config/site';
+
+const locale = getLocaleFromUrl(Astro.url);
+const t = useTranslations(locale);
+const p = (k: string) => t(`prices.${k}`);
+
+const faqItems = [1, 2, 3, 4, 5, 6].map((n) => ({ q: p(`faq${n}q`), a: p(`faq${n}a`) }));
+const steps = [p('processS1'), p('processS2'), p('processS3')];
+
+// Opciones del formulario corto: trabajos más pedidos + «Otro».
+const workOptions = [
+  'reforma-integral',
+  'reforma-estetica',
+  'reforma-bano',
+  'reforma-cocina',
+  'reforma-local',
+  'pintura-paredes',
+  'suelo-laminado',
+  'alicatado-paredes',
+];
+
+// Schema Service + BreadcrumbList (FAQPage lo emite el componente Faq).
+const siteUrl = Astro.site ?? new URL('https://www.reformabcn.es');
+const canonical = new URL(Astro.url.pathname, siteUrl).href;
+const serviceLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: p('h1'),
+  serviceType: t('meta.tagline'),
+  description: p('metaDesc'),
+  url: canonical,
+  areaServed: site.areaServed,
+  provider: { '@id': `${siteUrl.href}#business` },
+};
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: t('landing.breadcrumbHome'), item: new URL(withTrailingSlash(localizedPath('home', locale)), siteUrl).href },
+    { '@type': 'ListItem', position: 2, name: t('nav.precios'), item: canonical },
+  ],
+};
+---
+
+<Layout title={p('metaTitle')} description={p('metaDesc')} routeKey="precios" exactTitle={true}>
+  <!-- Hero -->
+  <section class="pp-hero">
+    <div class="container-x pp-hero__inner">
+      <h1 class="h-hero pp-hero__title" data-reveal>{p('h1')}</h1>
+      <p class="lead pp-hero__intro" data-reveal>{p('intro')}</p>
+      <div class="pp-hero__actions" data-reveal>
+        <a class="btn" href="#presupuesto" data-cta="quote">{p('ctaQuote')}</a>
+        <a class="btn btn-outline" href="#precios" data-cta="view-prices">{p('ctaView')}</a>
+      </div>
+      <p class="pp-hero__trust" data-reveal>
+        <svg width="16" height="16" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9.5l3.5 3.5L15 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        {p('trust')}
+      </p>
+    </div>
+  </section>
+
+  <!-- 14 precios principales -->
+  <section class="section pp-main" id="precios" data-prices-block>
+    <div class="container-x">
+      <SectionHeader title={p('mainTitle')} subtitle={p('mainSubtitle')} />
+
+      <div class="pp-table" role="table" aria-label={p('mainTitle')}>
+        <div class="pp-table__head" role="row">
+          <span role="columnheader">{p('thWork')}</span>
+          <span role="columnheader">{p('thUnit')}</span>
+          <span role="columnheader">{p('thFrom')}</span>
+        </div>
+        {mainPrices.map((it) => (
+          <div class="pp-table__row" role="row">
+            <span class="pp-table__work" role="cell">{p(`items.${it.id}`)}</span>
+            <span class="pp-table__unit" role="cell">{p(`units.${it.unit}`)}</span>
+            <span class="pp-table__price" role="cell">
+              <em>{p('from')}</em> {formatEuro(it.from, locale)}
+              <span class="pp-table__per">/ {p(`units.${it.unit}`)}</span>
+            </span>
+          </div>
+        ))}
+      </div>
+
+      <p class="pp-note">{p('shortNote')}</p>
+
+      <!-- Listado completo (accordion por categorías; solo una abierta a la vez) -->
+      <div class="pp-all">
+        <button
+          class="btn btn-outline pp-all__btn"
+          type="button"
+          aria-expanded="false"
+          aria-controls="todos-los-precios"
+          data-all-toggle
+        >
+          {p('btnAll')}
+          <svg width="12" height="8" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+
+        <div class="pp-all__list" id="todos-los-precios" data-all-list>
+          <h2 class="pp-all__title">{p('allTitle')}</h2>
+          {priceCategories.map((cat, i) => (
+            <details class="pp-cat" name="precios-cat" open={i === 0 ? undefined : undefined}>
+              <summary class="pp-cat__sum">
+                <span>{p(`cats.${cat.id}`)}</span>
+                <svg class="pp-cat__icon" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M9 3v12M3 9h12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              </summary>
+              <div class="pp-cat__body">
+                {cat.items.map((it) => (
+                  <div class="pp-cat__row">
+                    <span class="pp-cat__work">{p(`items.${it.id}`)}</span>
+                    <span class="pp-cat__price">
+                      <em>{p('from')}</em> {formatEuro(it.from, locale)}
+                      <span class="pp-cat__per">/ {p(`units.${it.unit}`)}</span>
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Nota de precios -->
+  <section class="section pp-terms">
+    <div class="container-x pp-terms__grid">
+      <div class="pp-terms__card">
+        <h2 class="pp-terms__title">{p('noteTitle')}</h2>
+        <p class="pp-terms__text">{p('noteText')}</p>
+        <ul class="pp-terms__list">
+          {[1, 2, 3, 4].map((n) => (
+            <li>
+              <svg width="16" height="16" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9.5l3.5 3.5L15 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>{p(`noteL${n}`)}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="pp-process">
+        <h2 class="pp-terms__title">{p('processTitle')}</h2>
+        <ol class="pp-process__list">
+          {steps.map((s, i) => (
+            <li class="pp-process__step">
+              <span class="pp-process__num">{i + 1}</span>
+              <span>{s}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- Formulario corto -->
+  <section class="section pp-form" id="presupuesto">
+    <div class="container-x pp-form__grid">
+      <div class="pp-form__aside" data-reveal-group>
+        <h2 class="h-section" data-reveal>{p('formTitle')}</h2>
+        <p class="lead pp-form__sub" data-reveal>{p('formSubtitle')}</p>
+        <div class="pp-form__direct" data-reveal>
+          <a class="btn btn-whatsapp" href={whatsappHref(t('whatsapp.prefill'))} target="_blank" rel="noopener" data-wa data-wa-source="prices-form">{t('cta.whatsapp')}</a>
+          {!site.phone.includes('[PENDIENTE') && (
+            <a class="btn btn-outline" href={telHref} data-phone>{t('cta.call')}</a>
+          )}
+        </div>
+      </div>
+
+      <div class="pp-form__col" data-reveal>
+        <form id="prices" class="pp-form__form" data-lead-form data-prices-form method="post" action="/api/lead" novalidate>
+          <input type="hidden" name="locale" value={locale} />
+          <input type="hidden" name="source" value="precios" />
+          <!-- Honeypot antispam: oculto para humanos, lo rellenan los bots -->
+          <div class="pp-form__hp" aria-hidden="true">
+            <label>No rellenar<input type="text" name="company" tabindex="-1" autocomplete="off" /></label>
+          </div>
+
+          <div class="pp-form__field">
+            <label for="pp-work">{p('fWork')} *</label>
+            <select id="pp-work" name="service" required>
+              <option value="" disabled selected>{p('fWorkPlaceholder')}</option>
+              {workOptions.map((id) => (
+                <option value={id}>{p(`items.${id}`)}</option>
+              ))}
+              <option value="otro">{p('fWorkOtro')}</option>
+            </select>
+          </div>
+          <div class="pp-form__row">
+            <div class="pp-form__field">
+              <label for="pp-city">{p('fLocation')} *</label>
+              <input id="pp-city" name="municipio" type="text" autocomplete="postal-code" required />
+            </div>
+            <div class="pp-form__field">
+              <label for="pp-m2">{p('fArea')}</label>
+              <input id="pp-m2" name="m2" type="number" min="1" max="5000" inputmode="numeric" />
+            </div>
+          </div>
+          <div class="pp-form__field">
+            <label for="pp-comment">{p('fComment')}</label>
+            <textarea id="pp-comment" name="message" rows="3"></textarea>
+          </div>
+          <div class="pp-form__row">
+            <div class="pp-form__field">
+              <label for="pp-name">{p('fName')} *</label>
+              <input id="pp-name" name="name" type="text" autocomplete="name" required />
+            </div>
+            <div class="pp-form__field">
+              <label for="pp-phone">{p('fPhone')} *</label>
+              <input id="pp-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required />
+            </div>
+          </div>
+          <div class="pp-form__field">
+            <label for="pp-email">{p('fEmail')}</label>
+            <input id="pp-email" name="email" type="email" autocomplete="email" />
+          </div>
+
+          <label class="pp-form__consent">
+            <input type="checkbox" name="privacy" required />
+            <span>
+              {p('fPrivacy')}
+              <a href={localizedPath('privacidad', locale)} target="_blank" rel="noopener">{p('fPrivacyLink')}</a>.
+            </span>
+          </label>
+
+          <button class="btn pp-form__submit" type="submit">{p('fSubmit')}</button>
+        </form>
+        <div class="pp-form__thanks" data-form-thanks hidden>
+          <div class="pp-form__thanks-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><path d="M5 11.5l4 4L17 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3 class="pp-form__thanks-title">{t('landing.formThanksTitle')}</h3>
+          <p>{t('landing.formThanksText')}</p>
+        </div>
+        <p class="pp-form__error" data-form-error hidden>{t('landing.formError')}</p>
+      </div>
+    </div>
+  </section>
+
+  <Faq locale={locale} items={faqItems} />
+
+  <!-- CTA final -->
+  <section class="pp-final on-dark">
+    <div class="container-x pp-final__inner" data-reveal-group>
+      <div data-reveal>
+        <h2 class="pp-final__title">{p('finalTitle')}</h2>
+        <p class="pp-final__sub">{p('finalSub')}</p>
+      </div>
+      <a class="btn btn-invert" href="#presupuesto" data-cta="quote-final" data-reveal>{p('ctaQuote')}</a>
+    </div>
+  </section>
+
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(serviceLd)} />
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />
+</Layout>
+
+<style>
+  /* ---- Hero ---- */
+  .pp-hero {
+    padding: clamp(8rem, 16vh, 11rem) 0 clamp(2.5rem, 5vw, 4rem);
+    background: var(--color-paper);
+  }
+  .pp-hero__inner {
+    max-width: 52rem;
+  }
+  .pp-hero__intro {
+    margin-top: 1.25rem;
+    max-width: 40rem;
+  }
+  .pp-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin-top: 2rem;
+  }
+  .pp-hero__trust {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    font-size: 0.92rem;
+    color: var(--color-slate);
+  }
+  .pp-hero__trust svg {
+    color: var(--color-accent);
+    flex: none;
+  }
+
+  /* ---- Tabla principal (escritorio) / tarjetas (móvil) ---- */
+  .pp-main {
+    background: var(--color-paper);
+    padding-top: clamp(2rem, 4vw, 3rem);
+  }
+  .pp-table {
+    border: 1px solid var(--color-line);
+    border-radius: 1rem;
+    background: var(--color-surface);
+    overflow: hidden;
+  }
+  .pp-table__head {
+    display: none;
+  }
+  .pp-table__row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 1.05rem 1.25rem;
+  }
+  .pp-table__row + .pp-table__row {
+    border-top: 1px solid var(--color-line);
+  }
+  .pp-table__work {
+    font-weight: 560;
+    letter-spacing: -0.01em;
+  }
+  .pp-table__unit {
+    display: none;
+  }
+  .pp-table__price {
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+  .pp-table__price em,
+  .pp-cat__price em {
+    font-style: normal;
+    font-weight: 480;
+    font-size: 0.85rem;
+    color: var(--color-slate);
+    margin-right: 0.1rem;
+  }
+  .pp-table__per,
+  .pp-cat__per {
+    font-weight: 460;
+    font-size: 0.85rem;
+    color: var(--color-slate);
+  }
+
+  @media (min-width: 768px) {
+    .pp-table__head {
+      display: grid;
+      grid-template-columns: 1fr 8rem 13rem;
+      gap: 1rem;
+      padding: 0.85rem 1.5rem;
+      background: var(--color-deep);
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+    .pp-table__row {
+      display: grid;
+      grid-template-columns: 1fr 8rem 13rem;
+      gap: 1rem;
+      align-items: baseline;
+      padding: 0.95rem 1.5rem;
+    }
+    .pp-table__unit {
+      display: block;
+      color: var(--color-slate);
+      font-size: 0.92rem;
+    }
+    .pp-table__per {
+      display: none;
+    }
+  }
+
+  .pp-note {
+    margin-top: 1.25rem;
+    font-size: 0.875rem;
+    color: var(--color-slate);
+    max-width: 52rem;
+  }
+
+  /* ---- Listado completo (accordion) ---- */
+  .pp-all {
+    margin-top: 2.5rem;
+  }
+  .pp-all__btn svg {
+    transition: transform 0.3s var(--ease-standard);
+  }
+  .pp-all__btn[aria-expanded='true'] svg {
+    transform: rotate(180deg);
+  }
+  /* Con JS: plegado hasta pulsar el botón. Sin JS: visible (nunca inaccesible). */
+  :global(html.js) .pp-all__list[data-collapsed] {
+    display: none;
+  }
+  .pp-all__list {
+    margin-top: 1.75rem;
+  }
+  .pp-all__title {
+    font-size: 1.35rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    margin-bottom: 1rem;
+  }
+  .pp-cat {
+    border: 1px solid var(--color-line);
+    border-radius: 0.9rem;
+    background: var(--color-surface);
+  }
+  .pp-cat + .pp-cat {
+    margin-top: 0.6rem;
+  }
+  .pp-cat__sum {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.05rem 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    list-style: none;
+  }
+  .pp-cat__sum::-webkit-details-marker {
+    display: none;
+  }
+  .pp-cat__icon {
+    flex: none;
+    color: var(--color-slate);
+    transition: transform 0.3s var(--ease-standard);
+  }
+  .pp-cat[open] .pp-cat__icon {
+    transform: rotate(45deg);
+  }
+  .pp-cat__body {
+    padding: 0 1.25rem 0.6rem;
+  }
+  .pp-cat__row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.25rem 1rem;
+    padding: 0.75rem 0;
+    border-top: 1px solid var(--color-line);
+  }
+  .pp-cat__work {
+    font-size: 0.975rem;
+  }
+  .pp-cat__price {
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  /* ---- Nota + proceso ---- */
+  .pp-terms {
+    background: var(--color-cloud);
+    border-top: 1px solid var(--color-line);
+  }
+  .pp-terms__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .pp-terms__card {
+    background: var(--color-beige);
+    border-radius: 1.25rem;
+    padding: clamp(1.5rem, 4vw, 2.25rem);
+  }
+  .pp-terms__title {
+    font-size: 1.3rem;
+    font-weight: 620;
+    letter-spacing: -0.015em;
+    margin-bottom: 0.9rem;
+  }
+  .pp-terms__text {
+    color: var(--color-graphite);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+  .pp-terms__list {
+    list-style: none;
+    margin-top: 1.25rem;
+    display: grid;
+    gap: 0.7rem;
+  }
+  .pp-terms__list li {
+    display: flex;
+    gap: 0.6rem;
+    font-size: 0.92rem;
+    color: var(--color-graphite);
+    line-height: 1.5;
+  }
+  .pp-terms__list svg {
+    flex: none;
+    margin-top: 0.2rem;
+    color: var(--color-accent);
+  }
+  .pp-process {
+    background: var(--color-sagecard);
+    border-radius: 1.25rem;
+    padding: clamp(1.5rem, 4vw, 2.25rem);
+  }
+  .pp-process__list {
+    list-style: none;
+    display: grid;
+    gap: 1.1rem;
+    margin: 0;
+    padding: 0;
+  }
+  .pp-process__step {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    font-weight: 540;
+  }
+  .pp-process__num {
+    flex: none;
+    width: 2.1rem;
+    height: 2.1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: var(--color-deep);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 620;
+  }
+
+  @media (min-width: 900px) {
+    .pp-terms__grid {
+      grid-template-columns: 1.25fr 0.75fr;
+    }
+  }
+
+  /* ---- Formulario ---- */
+  .pp-form {
+    background: var(--color-paper);
+    border-top: 1px solid var(--color-line);
+  }
+  .pp-form__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  .pp-form__sub {
+    margin-top: 1rem;
+  }
+  .pp-form__direct {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+  .pp-form__form {
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 1.25rem;
+    padding: clamp(1.5rem, 4vw, 2.25rem);
+    display: grid;
+    gap: 1.1rem;
+  }
+  .pp-form__hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+  .pp-form__row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.1rem;
+  }
+  .pp-form__field {
+    display: grid;
+    gap: 0.4rem;
+  }
+  .pp-form__field label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-graphite);
+  }
+  .pp-form__field input,
+  .pp-form__field select,
+  .pp-form__field textarea {
+    width: 100%;
+    min-height: 44px;
+    padding: 0.8rem 0.9rem;
+    border: 1px solid var(--color-line);
+    border-radius: 0.6rem;
+    background: var(--color-paper);
+    font: inherit;
+    font-size: 1rem;
+    color: var(--color-ink);
+    transition: border-color 0.2s ease;
+  }
+  .pp-form__field input:focus,
+  .pp-form__field select:focus,
+  .pp-form__field textarea:focus {
+    outline: none;
+    border-color: var(--color-ink);
+  }
+  .pp-form__field textarea {
+    resize: vertical;
+  }
+  .pp-form__consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 0.875rem;
+    color: var(--color-slate);
+    line-height: 1.4;
+  }
+  .pp-form__consent input {
+    margin-top: 0.15rem;
+    flex: none;
+    width: 1.05rem;
+    height: 1.05rem;
+    accent-color: var(--color-deep);
+  }
+  .pp-form__consent a {
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .pp-form__submit {
+    width: 100%;
+    margin-top: 0.25rem;
+  }
+  .pp-form__submit[data-loading] {
+    opacity: 0.7;
+    pointer-events: none;
+  }
+  .pp-form__thanks {
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 1.25rem;
+    padding: clamp(1.75rem, 4vw, 2.5rem);
+    text-align: center;
+  }
+  .pp-form__thanks-icon {
+    width: 3rem;
+    height: 3rem;
+    margin: 0 auto 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: var(--color-deep);
+    color: #fff;
+  }
+  .pp-form__thanks-title {
+    font-size: 1.35rem;
+    font-weight: 600;
+  }
+  .pp-form__thanks p {
+    margin-top: 0.5rem;
+    color: var(--color-slate);
+  }
+  .pp-form__error {
+    margin-top: 0.9rem;
+    color: #b91c1c;
+    font-size: 0.9rem;
+  }
+  @media (min-width: 640px) {
+    .pp-form__row {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (min-width: 900px) {
+    .pp-form__grid {
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+  }
+
+  /* ---- CTA final ---- */
+  .pp-final {
+    background: var(--color-deep);
+    color: #fff;
+  }
+  .pp-final__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-block: clamp(2.5rem, 5vw, 3.5rem);
+  }
+  .pp-final__title {
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  .pp-final__sub {
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 0.4rem;
+  }
+</style>
+
+<script>
+  /**
+   * Interacción y analítica de la página de precios:
+   *  - «Ver todos los precios» pliega/despliega el accordion (colapsado sólo con
+   *    JS; sin JS el listado es visible) + evento open_all_prices.
+   *  - view_prices al ver el bloque principal; click_cta en los CTA del hero;
+   *    start_form al primer foco en el formulario. (generate_lead → forms.ts.)
+   */
+  const dl = (event: string, data: Record<string, unknown> = {}) => {
+    const w = window as unknown as { dataLayer?: Record<string, unknown>[] };
+    w.dataLayer = w.dataLayer || [];
+    w.dataLayer.push({ event, ...data });
+  };
+
+  // Colapsar el listado completo (solo con JS activo).
+  const list = document.querySelector<HTMLElement>('[data-all-list]');
+  const toggle = document.querySelector<HTMLButtonElement>('[data-all-toggle]');
+  if (list && toggle) {
+    list.dataset.collapsed = 'true';
+    let opened = false;
+    toggle.addEventListener('click', () => {
+      const willOpen = 'collapsed' in list.dataset;
+      if (willOpen) {
+        delete list.dataset.collapsed;
+        toggle.setAttribute('aria-expanded', 'true');
+        if (!opened) {
+          opened = true;
+          dl('open_all_prices', { page: location.pathname });
+        }
+        list.querySelector<HTMLElement>('details')?.setAttribute('open', '');
+      } else {
+        list.dataset.collapsed = 'true';
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  // view_prices: una vez, al entrar el bloque principal en el viewport.
+  const block = document.querySelector('[data-prices-block]');
+  if (block && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) {
+        dl('view_prices', { page: location.pathname });
+        io.disconnect();
+      }
+    }, { threshold: 0.15 });
+    io.observe(block);
+  }
+
+  // click_cta en los botones marcados.
+  document.querySelectorAll<HTMLElement>('[data-cta]').forEach((el) => {
+    el.addEventListener('click', () => dl('click_cta', { cta: el.dataset.cta, page: location.pathname }));
+  });
+
+  // start_form: primer foco en cualquier campo del formulario corto.
+  const form = document.querySelector<HTMLFormElement>('[data-prices-form]');
+  if (form) {
+    form.addEventListener(
+      'focusin',
+      () => dl('start_form', { form_id: 'prices', page: location.pathname }),
+      { once: true },
+    );
+  }
+</script>

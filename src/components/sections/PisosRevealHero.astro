@@ -8,7 +8,7 @@
  * y con DOS FOTOS REALES del mismo espacio: el "después" (reforma acabada) de base
  * y el "antes" (obra en bruto) que se descubre siguiendo el rastro fluido del
  * cursor y se "cura" (se difumina de vuelta) al pasar. Cuenta la transformación
- * de un vistazo. Re-tematizado 100% a los tokens oscuros de Bastinou.
+ * de un vistazo. Re-tematizado 100% a los tokens del proyecto.
  *
  * Robustez (requisitos del encargo):
  *  - La imagen ACABADA se sirve como <img> real (LCP, alt, SEO): SIN JS o con
@@ -30,7 +30,7 @@ interface Props {
 }
 const { locale } = Astro.props;
 const t = useTranslations(locale);
-const l = (k: string) => t(`landings.pisos.${k}`);
+const l = (k: string) => t(`landings.viviendas.${k}`);
 
 // URLs optimizadas (mismo origen → el canvas no se "contamina").
 const after = await getImage({ src: afterAsset, width: 1800, format: 'webp' });
@@ -71,7 +71,7 @@ const ui = (
     <nav class="pr-hero__crumbs" aria-label="Breadcrumb">
       <a href={localizedPath('home', locale)}>{t('landing.breadcrumbHome')}</a>
       <span aria-hidden="true">/</span>
-      <span>{t('nav.pisos')}</span>
+      <span>{t('nav.viviendas')}</span>
     </nav>
     <h1 class="h-hero pr-hero__title">{l('h1')}</h1>
     <p class="lead pr-hero__sub">{l('heroSub')}</p>
@@ -80,8 +80,8 @@ const ui = (
       {ui.hint}
     </p>
     <div class="pr-hero__actions">
-      <a class="btn btn-invert" href={localizedPath('calculadora', locale)}>{t('landing.ctaCalc')}</a>
-      <a class="btn btn-whatsapp" href={whatsappHref(t('whatsapp.prefill'))} target="_blank" rel="noopener" data-wa data-wa-source="landing-pisos">
+      <a class="btn btn-invert" href={localizedPath('contacto', locale)}>{t('landing.ctaVisit')}</a>
+      <a class="btn btn-whatsapp" href={whatsappHref(t('whatsapp.prefill'))} target="_blank" rel="noopener" data-wa data-wa-source="landing-viviendas">
         {t('cta.whatsapp')}
       </a>
     </div>
@@ -156,8 +156,10 @@ const ui = (
   .pr-hero__tag--before {
     right: clamp(1.25rem, 5vw, 4rem);
     top: calc(6.5rem + 2.2rem);
-    color: var(--color-accent);
-    opacity: 0.55;
+    /* Salvia CLARA: legible sobre el chip oscuro (el accent del tema claro es
+       demasiado oscuro para este contexto .on-dark). */
+    color: #a9c0ad;
+    opacity: 0.75;
     transition: opacity 0.3s var(--ease-standard);
   }
 
@@ -175,10 +177,10 @@ const ui = (
     display: flex;
     gap: 0.6rem;
     font-size: 0.85rem;
-    color: var(--color-mist);
+    color: rgba(255, 255, 255, 0.68);
     margin-bottom: 1.4rem;
   }
-  .pr-hero__crumbs a { color: var(--color-mist); text-decoration: none; }
+  .pr-hero__crumbs a { color: rgba(255, 255, 255, 0.68); text-decoration: none; }
   .pr-hero__crumbs a:hover { color: #fff; }
   .pr-hero__title { max-width: 15ch; }
   .pr-hero__sub {
@@ -192,9 +194,9 @@ const ui = (
     gap: 0.5rem;
     margin-top: 1.5rem;
     font-size: 0.85rem;
-    color: var(--color-slate);
+    color: rgba(255, 255, 255, 0.75);
   }
-  .pr-hero__hint svg { color: var(--color-accent); flex: none; }
+  .pr-hero__hint svg { color: #a9c0ad; flex: none; }
   .pr-hero.is-live .pr-hero__hint { display: inline-flex; }
   .pr-hero__actions {
     display: flex;

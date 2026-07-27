@@ -1,0 +1,31 @@
+---
+/**
+ * Página de redirección estática (rebranding jul-2026). Las URLs antiguas
+ * deben redirigir también en hosting 100% estático (GitHub Pages), donde los
+ * `redirects` de astro.config no se materializan: meta refresh inmediato +
+ * canonical al destino + noindex + enlace manual de reserva.
+ */
+interface Props {
+  /** Ruta destino (con barra final). */
+  to: string;
+  lang?: string;
+}
+const { to, lang = 'es' } = Astro.props;
+const siteUrl = Astro.site ?? new URL('https://www.reformabcn.es');
+const target = new URL(to, siteUrl).href;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="refresh" content={`0;url=${to}`} />
+    <link rel="canonical" href={target} />
+    <meta name="robots" content="noindex" />
+    <title>Reforma BCN</title>
+  </head>
+  <body>
+    <p><a href={to}>Reforma BCN — continuar</a></p>
+  </body>
+</html>
