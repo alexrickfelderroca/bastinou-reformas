@@ -100,7 +100,9 @@ const endLetters = ['B', 'C', 'N'];
     white-space: nowrap;
     justify-content: center;
     font-family: var(--font-sans);
-    font-size: clamp(3.5rem, 15vw, 13rem);
+    /* El wordmark completo («Reforma» + caja de 1em + «BCN») mide ~6,6em:
+       a 13vw ocupa ~86vw, así que cabe entero en cualquier pantalla. */
+    font-size: clamp(2.25rem, 13vw, 13rem);
     font-weight: 560;
     line-height: 0.75;
     letter-spacing: -0.02em;
@@ -170,12 +172,6 @@ const endLetters = ['B', 'C', 'N'];
   .bl__cover.is--2 { z-index: 2; }
   .bl__cover.is--3 { z-index: 1; }
   .bl__cover-base { z-index: 0; }
-
-  @media screen and (max-width: 767px) {
-    .bl__h1 {
-      font-size: clamp(2.75rem, 20vw, 6rem);
-    }
-  }
 
   /* ---- Cabecera: entra suave al descubrir (solo cuando el loader se reproduce) ---- */
   html.is-brandloading .site-header {
