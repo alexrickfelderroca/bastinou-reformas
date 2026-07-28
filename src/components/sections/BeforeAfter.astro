@@ -1,8 +1,11 @@
 ---
 /**
- * Slider antes/después (§4.2, checklist). Funciona con ratón, touch y teclado:
- * construido sobre un <input type="range"> nativo (accesible) que controla la
- * posición del recorte (clip-path). Sin dependencias.
+ * Slider antes/después (§4.2, checklist). Funciona con ratón, touch y teclado.
+ * El <input type="range"> nativo queda como control de teclado/AT; el arrastre
+ * de ratón y táctil se gestiona con pointer events sobre la figura, exigiendo
+ * intención horizontal en táctil para no interferir con el scroll de página
+ * (los range nativos capturan gestos de forma inconsistente en iOS/Android).
+ * Sin dependencias.
  */
 import { Image } from 'astro:assets';
 
@@ -12,38 +15,62 @@ interface Props {
   beforeLabel: string;
   afterLabel: string;
   ariaLabel: string;
+  /** Relación de aspecto CSS del recuadro (p. ej. '4 / 3'). */
+  aspect?: string;
+  /** Atributos responsive de las imágenes; por defecto, los del detalle. */
+  widths?: number[];
+  sizes?: string;
+  /** Variante tarjeta: etiquetas abajo (no chocan con el badge) y grip menor. */
+  compact?: boolean;
 }
-const { before, after, beforeLabel, afterLabel, ariaLabel } = Astro.props;
+const {
+  before,
+  after,
+  beforeLabel,
+  afterLabel,
+  ariaLabel,
+  aspect = '16 / 10',
+  widths = [600, 1000, 1400],
+  sizes = '(min-width: 1024px) 900px, 100vw',
+  compact = false,
+} = Astro.props;
 ---
 
-<figure class="ba" data-ba style="--pos: 50%">
-  <Image class="ba__img" src={after} alt={afterLabel} widths={[600, 1000, 1400]} sizes="(min-width: 1024px) 900px, 100vw" loading="lazy" />
+<figure class:list={['ba', { 'ba--compact': compact }]} data-ba style={`--pos: 50%; --ba-aspect: ${aspect}`}>
+  {/* alt vacío: las etiquetas visibles y el aria-label del control ya nombran
+      antes/después; repetirlo como alt duplicaría cada anuncio (WCAG 1.1.1). */}
+  <Image class="ba__img" src={after} alt="" widths={widths} sizes={sizes} loading="lazy" />
   <div class="ba__clip">
-    <Image class="ba__img" src={before} alt={beforeLabel} widths={[600, 1000, 1400]} sizes="(min-width: 1024px) 900px, 100vw" loading="lazy" />
+    <Image class="ba__img" src={before} alt="" widths={widths} sizes={sizes} loading="lazy" />
   </div>
 
   <span class="ba__tag ba__tag--before">{beforeLabel}</span>
   <span class="ba__tag ba__tag--after">{afterLabel}</span>
+
+  {/* El input debe preceder a .ba__line: el anillo de foco del grip depende
+      de los combinadores de hermano siguiente (+/~). */}
+  <input class="ba__range" type="range" min="0" max="100" value="50" step="0.1" aria-label={ariaLabel} data-ba-range />
 
   <div class="ba__line" aria-hidden="true">
     <span class="ba__grip">
       <svg width="18" height="18" viewBox="0 0 18 18"><path d="M7 4L3 9l4 5M11 4l4 5-4 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </span>
   </div>
-
-  <input class="ba__range" type="range" min="0" max="100" value="50" step="0.1" aria-label={ariaLabel} data-ba-range />
 </figure>
 
 <style>
   .ba {
     position: relative;
     margin: 0;
-    aspect-ratio: 16 / 10;
+    aspect-ratio: var(--ba-aspect, 16 / 10);
     border-radius: 1.25rem;
     overflow: hidden;
     background: var(--color-cloud);
-    touch-action: none;
+    /* pan-y: el arrastre horizontal mueve el slider y el vertical sigue
+       haciendo scroll de página (imprescindible en el grid móvil). */
+    touch-action: pan-y;
     user-select: none;
+    cursor: ew-resize;
   }
   .ba__img {
     position: absolute;
@@ -113,13 +140,37 @@ const { before, after, beforeLabel, afterLabel, ariaLabel } = Astro.props;
     height: 100%;
     margin: 0;
     opacity: 0;
-    cursor: ew-resize;
+    /* Sólo teclado/AT: el puntero lo gestiona el script sobre la figura.
+       Los range nativos capturan gestos táctiles de forma errática (iOS sólo
+       arrastra desde el pulgar; Android fija el valor al iniciar un scroll). */
+    pointer-events: none;
     z-index: 4;
   }
   .ba__range:focus-visible + .ba__line .ba__grip,
   .ba__range:focus-visible ~ .ba__line .ba__grip {
     outline: 2px solid var(--color-ink);
     outline-offset: 2px;
+  }
+
+  /* ---- Variante tarjeta (portfolio) ---- */
+  .ba--compact {
+    border-radius: 0;
+  }
+  .ba--compact .ba__tag {
+    top: auto;
+    bottom: 0.75rem;
+    font-size: 0.65rem;
+    padding: 0.2rem 0.55rem;
+  }
+  .ba--compact .ba__tag--before {
+    left: 0.75rem;
+  }
+  .ba--compact .ba__tag--after {
+    right: 0.75rem;
+  }
+  .ba--compact .ba__grip {
+    width: 34px;
+    height: 34px;
   }
 </style>
 
@@ -128,7 +179,81 @@ const { before, after, beforeLabel, afterLabel, ariaLabel } = Astro.props;
     const range = fig.querySelector<HTMLInputElement>('[data-ba-range]');
     if (!range) return;
     const sync = () => fig.style.setProperty('--pos', `${range.value}%`);
+    const clamp = (v: number) => Math.min(100, Math.max(0, v));
+    const setFromX = (x: number) => {
+      const r = fig.getBoundingClientRect();
+      range.value = String(clamp(((x - r.left) / r.width) * 100));
+      sync();
+    };
+
     range.addEventListener('input', sync);
+
+    // Flechas: con el step fino (0.1) cada pulsación movería ~0,4px; saltos
+    // de 5 para que el teclado sea operable sin perder precisión al arrastrar.
+    const KEY_DELTA: Record<string, number> = { ArrowLeft: -5, ArrowDown: -5, ArrowRight: 5, ArrowUp: 5 };
+    range.addEventListener('keydown', (e) => {
+      const delta = KEY_DELTA[e.key];
+      if (!delta) return;
+      e.preventDefault();
+      range.value = String(clamp(parseFloat(range.value) + delta));
+      sync();
+    });
+
+    // Arrastre con pointer events. Ratón: responde al instante (click fija la
+    // posición y arrastra). Táctil: se exige intención horizontal antes de
+    // capturar el gesto; si domina el eje vertical, el navegador scrollea
+    // (touch-action: pan-y) y dispara pointercancel.
+    const capture = (id: number) => {
+      try {
+        fig.setPointerCapture(id);
+      } catch {
+        /* el puntero puede haberse liberado ya */
+      }
+    };
+    let startX = 0;
+    let startY = 0;
+    let dragging = false;
+    let pending = false;
+    fig.addEventListener('pointerdown', (e) => {
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      startX = e.clientX;
+      startY = e.clientY;
+      if (e.pointerType === 'mouse') {
+        dragging = true;
+        capture(e.pointerId);
+        setFromX(e.clientX);
+        e.preventDefault();
+      } else {
+        pending = true;
+      }
+    });
+    fig.addEventListener('pointermove', (e) => {
+      if (dragging) {
+        setFromX(e.clientX);
+        return;
+      }
+      if (!pending) return;
+      const dx = Math.abs(e.clientX - startX);
+      const dy = Math.abs(e.clientY - startY);
+      if (dx >= 6 && dx > dy) {
+        pending = false;
+        dragging = true;
+        capture(e.pointerId);
+        setFromX(e.clientX);
+      } else if (dy >= 8 && dy > dx) {
+        pending = false; // scroll vertical: lo gestiona el navegador
+      }
+    });
+    fig.addEventListener('pointerup', (e) => {
+      if (pending) setFromX(e.clientX); // tap: fijar la posición tocada
+      pending = false;
+      dragging = false;
+    });
+    fig.addEventListener('pointercancel', () => {
+      pending = false;
+      dragging = false;
+    });
+
     sync();
   });
 </script>

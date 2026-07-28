@@ -88,6 +88,17 @@ document
   .querySelectorAll('[data-reveal], [data-reveal-lines], [data-countup]')
   .forEach((el) => io.observe(el));
 
+// Teclado: si el foco entra en un elemento aún oculto por el reveal (p. ej.
+// tabulando por el grid del portfolio con su stagger), se muestra al instante
+// para que el usuario nunca tenga el foco dentro de contenido invisible.
+document.addEventListener('focusin', (e) => {
+  const el = (e.target as HTMLElement).closest?.('[data-reveal]:not(.is-visible)') as HTMLElement | null;
+  if (!el) return;
+  el.style.setProperty('--reveal-delay', '0ms');
+  el.classList.add('is-visible');
+  io.unobserve(el);
+});
+
 /* -------------------------------------------------------------------------- */
 /* Count-up: la cifra "corre" al entrar en viewport, una sola vez (§3.3)       */
 /* -------------------------------------------------------------------------- */

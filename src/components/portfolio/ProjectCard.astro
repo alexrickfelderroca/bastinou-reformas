@@ -1,10 +1,14 @@
 ---
 /**
- * Tarjeta de proyecto para el grid del portfolio. Cover + badge de tipo +
- * título (i18n) + meta (m² · año). Hover: elevación + scale de la imagen.
+ * Tarjeta de proyecto para el grid del portfolio. La zona de imagen es el
+ * slider antes/después interactivo (primer par del proyecto); el cuerpo
+ * (título + meta + «Ver proyecto») enlaza al detalle mediante un enlace
+ * extendido. La media queda por encima del enlace para que el arrastre del
+ * slider no navegue. Si un proyecto no tuviera pares, cae al cover estático.
  */
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
+import BeforeAfter from '../sections/BeforeAfter.astro';
 import { useTranslations, type Locale } from '../../i18n/ui';
 import { localizedPath } from '../../i18n/routes';
 
@@ -14,28 +18,48 @@ interface Props {
 }
 const { locale, entry } = Astro.props;
 const t = useTranslations(locale);
-const { type, area, year, cover } = entry.data;
+const { type, area, year, cover, beforeAfter } = entry.data;
 const url = `${localizedPath('proyectos', locale)}/${entry.id}`;
 const typeCap = type[0].toUpperCase() + type.slice(1);
+const pair = beforeAfter[0];
 ---
 
-<a class="pcard card-hover" href={url} data-type={type} data-reveal>
-  <div class="pcard__media">
-    <Image src={cover} alt="" widths={[420, 720, 1000]} sizes="(min-width: 768px) 45vw, 100vw" class="card-media" loading="lazy" />
+<article class="pcard card-hover" data-type={type} data-reveal>
+  <div class:list={['pcard__media', { 'pcard__media--slider': !!pair }]}>
+    {
+      pair ? (
+        <BeforeAfter
+          before={pair.before}
+          after={pair.after}
+          beforeLabel={t('project.before')}
+          afterLabel={t('project.after')}
+          ariaLabel={`${t('project.beforeAfterAria')} — ${t(`projects.${entry.id}.title`)}`}
+          aspect="4 / 3"
+          widths={[420, 720, 1000]}
+          sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw"
+          compact
+        />
+      ) : (
+        <Image src={cover} alt="" widths={[420, 720, 1000]} sizes="(min-width: 768px) 45vw, 100vw" class="card-media" loading="lazy" />
+      )
+    }
     <span class="pcard__badge">{t(`portfolio.type${typeCap}`)}</span>
   </div>
   <div class="pcard__body">
-    <h2 class="pcard__title">{t(`projects.${entry.id}.title`)}</h2>
+    <h2 class="pcard__title">
+      <a class="pcard__link" href={url}>{t(`projects.${entry.id}.title`)}</a>
+    </h2>
     <p class="pcard__meta">{area} m² · {year}</p>
+    <span class="pcard__cta" aria-hidden="true">{t('portfolio.viewProject')} →</span>
   </div>
-</a>
+</article>
 
 <style>
   .pcard {
+    position: relative;
     display: block;
     border-radius: 1.25rem;
     overflow: hidden;
-    text-decoration: none;
     color: var(--color-ink);
     background: var(--color-cloud);
     border: 1px solid var(--color-line);
@@ -44,6 +68,11 @@ const typeCap = type[0].toUpperCase() + type.slice(1);
     position: relative;
     aspect-ratio: 4 / 3;
     overflow: hidden;
+  }
+  /* Sólo con slider: por encima del enlace extendido (z1) para que el
+     arrastre no navegue. El cover estático queda debajo y sí es clicable. */
+  .pcard__media--slider {
+    z-index: 2;
   }
   .pcard__media :global(img) {
     width: 100%;
@@ -55,6 +84,9 @@ const typeCap = type[0].toUpperCase() + type.slice(1);
     position: absolute;
     left: 0.9rem;
     top: 0.9rem;
+    /* Sobre el input range del slider (z4), sin robarle eventos. */
+    z-index: 5;
+    pointer-events: none;
     padding: 0.3rem 0.7rem;
     border-radius: 999px;
     background: rgba(10, 10, 10, 0.6);
@@ -72,9 +104,33 @@ const typeCap = type[0].toUpperCase() + type.slice(1);
     font-weight: 600;
     letter-spacing: -0.01em;
   }
+  .pcard__link {
+    color: inherit;
+    text-decoration: none;
+  }
+  /* Enlace extendido: todo el cuerpo de la tarjeta navega al proyecto. */
+  .pcard__link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
   .pcard__meta {
     margin-top: 0.35rem;
     color: var(--color-slate);
     font-size: 0.95rem;
+  }
+  .pcard__cta {
+    display: inline-block;
+    margin-top: 0.7rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-deep);
+  }
+  @media (hover: hover) {
+    .pcard:hover .pcard__cta {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
   }
 </style>

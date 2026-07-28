@@ -46,7 +46,6 @@ const hasPhone = !site.phone.includes('[PENDIENTE');
 
     <!-- Navegación desktop -->
     <nav class="nav-desktop" aria-label="Principal">
-      <a class="nav-link" href={p('home')}>{t('nav.inicio')}</a>
       <a class="nav-link" href={p('nosotros')}>{t('nav.nosotros')}</a>
       <div class="nav-desktop__group" data-dropdown>
         <button class="nav-link nav-link--btn" aria-expanded="false" aria-haspopup="true" data-dropdown-toggle>
@@ -99,7 +98,6 @@ const hasPhone = !site.phone.includes('[PENDIENTE');
     </button>
   </div>
   <nav class="mobile-menu__nav container-x" aria-label={t('nav.menu')}>
-    <a class="mobile-menu__link" href={p('home')}>{t('nav.inicio')}</a>
     <a class="mobile-menu__link" href={p('nosotros')}>{t('nav.nosotros')}</a>
     <span class="mobile-menu__label">{t('nav.servicios')}</span>
     {services.map((s) => (
