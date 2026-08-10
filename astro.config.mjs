@@ -6,8 +6,8 @@ import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 import node from '@astrojs/node';
 
-// Site URL — [PENDIENTE: dominio real]. Used for canonicals, sitemap, hreflang, OG.
-const SITE = 'https://www.reformabcn.es';
+// Site URL. Used for canonicals, sitemap, hreflang, OG.
+const SITE = 'https://kobor.es';
 
 // https://astro.build/config
 export default defineConfig({
