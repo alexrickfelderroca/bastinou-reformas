@@ -111,8 +111,11 @@ const MAXX = Math.max(...all.map((s) => s.box.maxX)) + 4;
 const MAXY = Math.max(...all.map((s) => s.box.maxY)) + 4;
 const VW = Math.round(MAXX - MINX), VH = Math.round(MAXY - MINY);
 
+/* fill-rule="evenodd": los contornos y sus huecos vienen de potrace con
+   sentidos de giro no garantizados; evenodd recorta los huecos SIEMPRE
+   (con nonzero la "o" salía maciza). */
 const fullSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${Math.round(MINX)} ${Math.round(MINY)} ${VW} ${VH}" fill="currentColor" role="img" aria-label="Kobor">
-${glyphs.map((g) => `  <path d="${g.d}"/>`).join('\n')}
+${glyphs.map((g) => `  <path fill-rule="evenodd" d="${g.d}"/>`).join('\n')}
 </svg>
 `;
 writeFileSync(join(BRAND, 'kobor-logo.svg'), fullSvg);
@@ -152,7 +155,7 @@ const kx = Math.round(k.box.minX - (side - kw) / 2);
 const ky = Math.round(k.box.minY - (side - kh) / 2);
 const kSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${kx} ${ky} ${side} ${side}">
   <rect x="${kx}" y="${ky}" width="${side}" height="${side}" fill="#f7f5f0"/>
-  <path d="${k.d}" fill="#0a0a0a"/>
+  <path d="${k.d}" fill="#0a0a0a" fill-rule="evenodd"/>
 </svg>`;
 const icon = (px) => sharp(Buffer.from(kSvg), { density: 300 }).resize(px, px).png().toBuffer();
 

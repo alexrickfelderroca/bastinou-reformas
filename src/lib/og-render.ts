@@ -17,7 +17,7 @@ import brand from '../assets/brand/kobor-glyphs.json';
 // Wordmark real de Kobor como <img> embebido (SVG → data URI): así la tarjeta
 // OG lleva el logotipo del cliente, no el nombre tipografiado.
 const logoSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${brand.viewBox.x} ${brand.viewBox.y} ${brand.viewBox.w} ${brand.viewBox.h}">${brand.glyphs
-  .map((g) => `<path d="${g.d}" fill="#24443c"/>`)
+  .map((g) => `<path d="${g.d}" fill="#24443c" fill-rule="evenodd"/>`)
   .join('')}</svg>`;
 const logoSrc = `data:image/svg+xml;base64,${Buffer.from(logoSvg).toString('base64')}`;
 const LOGO_H = 40;
