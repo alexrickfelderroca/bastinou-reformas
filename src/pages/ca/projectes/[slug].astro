@@ -3,6 +3,10 @@ import { getCollection } from 'astro:content';
 import ProjectDetail from '../../../components/portfolio/ProjectDetail.astro';
 import { getLocaleFromUrl } from '../../../i18n/ui';
 
+// Ficha de proyecto: prerenderizada en build (usa getStaticPaths sobre la
+// colección de contenido). Necesario con output:'server' para no romper.
+export const prerender = true;
+
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
   return projects.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));

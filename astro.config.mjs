@@ -19,10 +19,14 @@ export default defineConfig({
   // meta-refresh + canonical + noindex (src/components/RedirectStub.astro),
   // que funcionan igual en estático y en SSR.
 
-  // Salida estática por defecto: todo el contenido se prerenderiza (SEO). Sólo
-  // las rutas marcadas con `prerender = false` (p. ej. /api/lead) se ejecutan
-  // en el servidor. Adaptador Node neutro para desarrollo/preview; se cambia por
-  // el del hosting elegido (Vercel/Netlify/Cloudflare) en una línea al desplegar.
+  // Salida servidor: el sitio se sirve con el servidor Node standalone
+  // (dist/server/entry.mjs → `npm start`), que también sirve los estáticos de
+  // dist/client. Necesario en el hosting (Hostinger): sin proceso Node, servir
+  // dist/ como estático da 403 porque el index vive en dist/client, no en la raíz.
+  // Las rutas con `prerender = true` (og, robots y las fichas de proyecto con
+  // getStaticPaths) se generan en build; el resto se renderiza on demand.
+  // /api/lead (prerender = false) siempre corre en servidor.
+  output: 'server',
   adapter: node({ mode: 'standalone' }),
 
   // ES is the default language and lives at the root (no prefix).
