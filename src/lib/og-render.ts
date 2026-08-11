@@ -4,7 +4,7 @@
  * trazos usando Hanken Grotesk (woff de @fontsource/hanken-grotesk), y sharp (ya
  * presente por astro:assets) rasteriza ese SVG a PNG — sin binarios nativos extra
  * ni fuentes en el rasterizado. Sólo lo usa el endpoint `/og/[og].png.ts`.
- * Estética clara Reforma BCN: fondo crema, titular verde oscuro, acento salvia.
+ * Estética clara Kobor: fondo crema, titular verde oscuro, acento salvia.
  */
 import satori from 'satori';
 import sharp from 'sharp';
@@ -12,6 +12,16 @@ import { createRequire } from 'node:module';
 import { readFileSync } from 'node:fs';
 import { ogContent } from './og-meta';
 import type { Locale } from '../i18n/ui';
+import brand from '../assets/brand/kobor-glyphs.json';
+
+// Wordmark real de Kobor como <img> embebido (SVG → data URI): así la tarjeta
+// OG lleva el logotipo del cliente, no el nombre tipografiado.
+const logoSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${brand.viewBox.x} ${brand.viewBox.y} ${brand.viewBox.w} ${brand.viewBox.h}">${brand.glyphs
+  .map((g) => `<path d="${g.d}" fill="#24443c"/>`)
+  .join('')}</svg>`;
+const logoSrc = `data:image/svg+xml;base64,${Buffer.from(logoSvg).toString('base64')}`;
+const LOGO_H = 40;
+const LOGO_W = Math.round((LOGO_H * brand.viewBox.w) / brand.viewBox.h);
 
 const require = createRequire(import.meta.url);
 const fontData = (weight: number) =>
@@ -57,8 +67,8 @@ export async function renderOgPng(id: string, locale: Locale): Promise<Buffer> {
         'div',
         { display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid #d8d4c9', paddingTop: '32px' },
         [
-          node('div', { display: 'flex', fontSize: 42, fontWeight: 700, letterSpacing: '-0.01em', color: '#24443c' }, 'Reforma BCN'),
-          node('div', { display: 'flex', fontSize: 26, color: '#5f6f66' }, 'reformabcn.es'),
+          { type: 'img', props: { src: logoSrc, width: LOGO_W, height: LOGO_H, style: { display: 'flex' } } },
+          node('div', { display: 'flex', fontSize: 26, color: '#5f6f66' }, 'kobor.es'),
         ],
       ),
     ],

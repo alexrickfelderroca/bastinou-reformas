@@ -16,7 +16,7 @@ import { getLocaleFromUrl, localeHtmlLang, localeOgLocale, useTranslations } fro
 import { alternatesFor, type RouteKey } from '../i18n/routes';
 import { site } from '../config/site';
 import { OG_ROUTE_IDS, ogImagePath } from '../lib/og-meta';
-import logo from '../assets/brand/reforma-bcn-logo.png';
+import logo from '../assets/brand/kobor-logo.png';
 
 interface Props {
   title?: string;
@@ -47,7 +47,7 @@ const {
   alternates: alternatesProp,
 } = Astro.props;
 
-const siteUrl = Astro.site ?? new URL('https://www.reformabcn.es');
+const siteUrl = Astro.site ?? new URL('https://kobor.es');
 const canonical = new URL(Astro.url.pathname, siteUrl).href;
 // OG por página (Fase 8): imagen explícita (p. ej. detalle de proyecto) o la
 // generada para su routeKey/idioma; sin routeKey conocido → 'default'.

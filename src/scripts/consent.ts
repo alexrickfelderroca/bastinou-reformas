@@ -12,7 +12,7 @@
  * `window.gtag` lo define el bloque is:inline de `ConsentGtm.astro` en el <head>,
  * así que siempre existe antes de que corra este módulo (diferido).
  */
-const STORAGE_KEY = 'rbcn_consent';
+const STORAGE_KEY = 'kobor_consent';
 const MAX_AGE = 1000 * 60 * 60 * 24 * 180; // 180 días
 
 declare global {

@@ -3,15 +3,15 @@
  * Hasta entonces: placeholders claros [PENDIENTE]. Cambiar SOLO aquí.
  */
 export const site = {
-  name: 'Reforma BCN',
+  name: 'Kobor',
   legalName: '[PENDIENTE: razón social]',
   nif: '[PENDIENTE: NIF/CIF]',
 
   // Contacto — usados en header, footer, tel:, wa.me y JSON-LD.
-  phone: '[PENDIENTE: +34 600 000 000]',
-  phoneHref: '+34600000000', // formato E.164 sin espacios para tel: y wa.me
-  whatsapp: '34600000000', // número wa.me sin '+'
-  email: 'info@reformabcn.es', // [PENDIENTE: email real]
+  phone: '+34 623 80 81 72',
+  phoneHref: '+34623808172', // formato E.164 sin espacios para tel: y wa.me
+  whatsapp: '34623808172', // número wa.me sin '+'
+  email: 'admin@kobor.com',
 
   // Dirección / zona de servicio: Barcelona y alrededores hasta 50 km.
   address: {

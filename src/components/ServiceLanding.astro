@@ -37,7 +37,7 @@ const l = (k: string) => t(`landings.${service}.${k}`);
 const faqItems = [1, 2, 3, 4, 5].map((n) => ({ q: l(`q${n}`), a: l(`a${n}`) }));
 
 // Schema Service + BreadcrumbList.
-const siteUrl = Astro.site ?? new URL('https://www.reformabcn.es');
+const siteUrl = Astro.site ?? new URL('https://kobor.es');
 const canonical = new URL(Astro.url.pathname, siteUrl).href;
 const serviceLd = {
   '@context': 'https://schema.org',

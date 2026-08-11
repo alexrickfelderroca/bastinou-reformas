@@ -4,8 +4,9 @@
  * (generado a partir de fotos reales del proyecto Casa en España), con capa
  * oscura para legibilidad.
  *
- * Disposición "hybrid" (rediseño con BrandLoader): un wordmark gigante "Reforma BCN"
- * ancla la parte inferior (como la referencia), acompañado de un titular-valor
+ * Disposición "hybrid" (rediseño con BrandLoader): el wordmark gigante "kobor"
+ * (glifos reales del logotipo, vectorizados en kobor-glyphs.json) ancla la parte
+ * inferior (como la referencia), acompañado de un titular-valor
  * (h1) y los dos CTA. El texto entra con un reveal enmascarado COORDINADO con el
  * BrandLoader mediante las clases `html.is-brandloading` (oculto) → `html.is-revealed`
  * (entra). Si el loader NO se reproduce (reduced-motion / repetición / sin-JS),
@@ -21,6 +22,7 @@
 import { useTranslations, type Locale } from '../../i18n/ui';
 import { localizedPath } from '../../i18n/routes';
 import { whatsappHref } from '../../config/site';
+import brand from '../../assets/brand/kobor-glyphs.json';
 
 interface Props {
   locale: Locale;
@@ -28,7 +30,10 @@ interface Props {
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 
-const wordmark = 'Reforma BCN'.split('');
+// Glifos del wordmark (k · ob · o · r) en un sistema de coordenadas común:
+// cada <svg> recorta su glifo con viewBox y se escala por --wm-h (altura k).
+const VBH = brand.viewBox.h;
+const wordmark = brand.glyphs;
 const chips = [1, 2, 3].map((n) => ({
   t: t(`home.hero.chip${n}t`),
   d: t(`home.hero.chip${n}d`),
@@ -89,8 +94,16 @@ const chips = [1, 2, 3].map((n) => ({
     </div>
 
     <div class="hero__brand" aria-hidden="true">
-      {wordmark.map((l, i) => (
-        <span class="hero__wm" style={`--rev-delay: ${(i * 0.035).toFixed(3)}s`}>{l === ' ' ? ' ' : l}</span>
+      {wordmark.map((g, i) => (
+        <svg
+          class="hero__wm"
+          style={`--rev-delay: ${(i * 0.07).toFixed(3)}s; width: calc(var(--wm-h) * ${(g.w / VBH).toFixed(4)}); height: calc(var(--wm-h) * ${(g.h / VBH).toFixed(4)});`}
+          viewBox={`${g.x} ${g.y} ${g.w} ${g.h}`}
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <path d={g.d} />
+        </svg>
       ))}
     </div>
   </div>
@@ -278,23 +291,22 @@ const chips = [1, 2, 3].map((n) => ({
     color: rgba(255, 255, 255, 0.68);
   }
 
-  /* ---- Wordmark gigante (decorativo) ---- */
+  /* ---- Wordmark gigante (glifos reales del logo, decorativo) ---- */
   .hero__brand {
+    /* Altura del glifo alto (k). El ancho total ≈ 4.1 × altura. */
+    --wm-h: clamp(3.25rem, 16.5vw, 15rem);
     display: flex;
     align-items: flex-end;
+    gap: calc(var(--wm-h) * 0.055);
     color: #fff;
-    font-weight: 560;
-    font-size: clamp(2.25rem, 10.5vw, 8.5rem);
-    line-height: 0.9;
-    letter-spacing: -0.035em;
-    white-space: nowrap;
-    /* Máscara del reveal por letras. */
+    /* Máscara del reveal por glifos. */
     overflow: hidden;
-    padding-bottom: 0.1em;
-    margin-bottom: -0.1em;
+    padding-bottom: calc(var(--wm-h) * 0.04);
+    margin-bottom: calc(var(--wm-h) * -0.04);
   }
   .hero__wm {
-    display: inline-block;
+    display: block;
+    flex: none;
     will-change: transform;
   }
 

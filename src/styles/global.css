@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* ============================================================================
-   REFORMA BCN — Sistema de diseño (rediseño claro 2026)
+   KOBOR — Sistema de diseño (rediseño claro 2026)
    Paleta del concepto "Reformas Barcelona": fondo crema luminoso, verde
    grisáceo oscuro para texto y bandas (pie, CTA, menú), beige y verde salvia
    como superficies suaves. Tipografía: Hanken Grotesk self-hosted (sin cambio).
@@ -332,10 +332,10 @@ html.js [data-reveal-lines].is-visible .line > span {
 }
 ::view-transition-new(root) {
   z-index: 2;
-  animation: rbcn-center-clip 1.1s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+  animation: kobor-center-clip 1.1s cubic-bezier(0.76, 0, 0.24, 1) forwards;
 }
 
-@keyframes rbcn-center-clip {
+@keyframes kobor-center-clip {
   0% {
     clip-path: inset(50% 50% 50% 50% round 1.25rem);
     transform: scale(1.35);

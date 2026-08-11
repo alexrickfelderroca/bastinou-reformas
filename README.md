@@ -1,9 +1,17 @@
-# Reforma BCN — sitio web
+# Kobor — sitio web
 
-Sitio de captación de leads para **Reforma BCN** (reformas de viviendas y locales
+Sitio de captación de leads para **Kobor** (reformas de viviendas y locales
 comerciales en Barcelona y alrededores, hasta 50 km). Trilingüe (ES/CA/EN), estático,
 orientado a Google Ads y SEO.
 
+> **Rebranding (ago-2026).** La empresa pasa a llamarse **Kobor**: marca y logotipo
+> nuevos (wordmark del cliente vectorizado en `src/assets/brand/kobor-logo.svg|png`
+> + `kobor-glyphs.json`; favicons regenerados — todo reproducible con
+> `node _build/generate-brand-assets.mjs`), dominio `kobor.es`, contacto real
+> (+34 623 80 81 72 · admin@kobor.com) y las animaciones de marca (BrandLoader
+> «kob | caja | or» y wordmark gigante del hero) reconstruidas con los glifos
+> reales del logotipo. El diseño (paleta crema/verde, tipografía) no cambia.
+>
 > **Rebranding (jul-2026).** El proyecto nació como «Bastinou» (premium, tema oscuro);
 > la fuente de verdad actual son los dos PDF del cliente: *Concepto página principal
 > Reformas Barcelona* y *Especificación página «Nuestros precios»*. Cambios clave:
@@ -109,7 +117,7 @@ public/
       cargar ninguna etiqueta; primera capa no modal con Aceptar/Rechazar en
       paridad (un clic) + "Configurar"; segunda capa granular (`<dialog>` nativo:
       analítica y marketing por separado, necesarias siempre activas). Registro
-      granular en localStorage (`bastinou_consent`, caducidad 180 días) reaplicado
+      granular en localStorage (`kobor_consent`, caducidad 180 días) reaplicado
       en cada carga. Todo **dormido** hasta definir `PUBLIC_GTM_ID` real (sin él:
       ni GTM ni banner). Eventos `whatsapp_click`/`phone_click` (listener delegado)
       + los ya existentes `form_submit` y `calc_*`. Política de cookies (ES/CA/EN)
@@ -179,9 +187,8 @@ en el código) y activar los servicios externos. Nada de esto es código nuevo: 
 datos y credenciales.
 
 **Bloqueantes de lanzamiento — datos del cliente:**
-- [ ] **Contacto** (`src/config/site.ts`): teléfono real (`phone` + `phoneHref`),
-      WhatsApp (`whatsapp`), email (`email`). Hasta rellenarlos, el pie muestra
-      `[PENDIENTE: +34 600 000 000]` como texto visible.
+- [x] **Contacto** (`src/config/site.ts`): +34 623 80 81 72 (tel + WhatsApp) y
+      admin@kobor.com (ago-2026).
 - [ ] **Identidad legal** (`src/config/site.ts`): `legalName` (razón social), `nif`,
       `address` (calle/CP) y `geo` (coordenadas). Aparecen en el JSON-LD y en las
       páginas legales cuando existan.

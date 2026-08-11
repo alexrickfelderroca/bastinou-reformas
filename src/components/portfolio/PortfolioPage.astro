@@ -14,7 +14,7 @@ import { breadcrumbLd } from '../../lib/breadcrumbs';
 const locale = getLocaleFromUrl(Astro.url);
 const t = useTranslations(locale);
 
-const siteUrl = Astro.site ?? new URL('https://www.reformabcn.es');
+const siteUrl = Astro.site ?? new URL('https://kobor.es');
 const crumbs = breadcrumbLd(siteUrl, [
   { name: t('landing.breadcrumbHome'), path: localizedPath('home', locale) },
   { name: t('nav.proyectos'), path: localizedPath('proyectos', locale) },

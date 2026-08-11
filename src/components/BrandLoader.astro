@@ -1,8 +1,9 @@
 ---
 /**
  * BrandLoader — intro de marca "letter loader" (home). Adaptación del componente
- * "Aurela Letter Loader" (referencia GSAP) al sistema de Reforma BCN:
- *  - Rebrand: wordmark partido "Reforma" | caja | "BCN".
+ * "Aurela Letter Loader" (referencia GSAP) al sistema Kobor:
+ *  - Rebrand: wordmark partido "kob" | caja | "or" con los GLIFOS REALES del
+ *    logotipo (kobor-glyphs.json, vectorizado del archivo del cliente).
  *  - Telón sobre la banda verde oscura del proyecto (--color-deep).
  *  - Imágenes de la caja creciente = fotos reales del portfolio; la imagen FINAL
  *    es el póster del hero, así el "descubrimiento" enlaza con el vídeo del hero.
@@ -27,18 +28,33 @@
 import coverA from '../assets/portfolio/viviendas/v6-despues.jpg';
 import coverB from '../assets/portfolio/viviendas/v3-despues.jpg';
 import coverC from '../assets/portfolio/comerciales/c1-despues.jpg';
+import brand from '../assets/brand/kobor-glyphs.json';
 
-// Partición del wordmark "Reforma BCN": "Reforma" | [caja imagen] | "BCN"
-// (la caja crece donde iría el espacio).
-const startLetters = ['R', 'e', 'f', 'o', 'r', 'm', 'a'];
-const endLetters = ['B', 'C', 'N'];
+// Partición del wordmark "kobor": "kob" | [caja imagen] | "or".
+// Los glifos vectorizados vienen agrupados por trazos conexos (k · ob · o · r);
+// la caja crece en el hueco natural entre la ligadura "ob" y la segunda "o".
+// Cada <svg> recorta su glifo por viewBox y se escala con la fuente del h1
+// (1em = altura del glifo alto), así la caja de 1em sigue siendo coherente.
+const VBH = brand.viewBox.h;
+const startGlyphs = brand.glyphs.slice(0, 2);
+const endGlyphs = brand.glyphs.slice(2);
 ---
 
 <div id="brand-loader" class="bl" aria-hidden="true">
   <div class="bl__loader">
     <div class="bl__h1">
       <div class="bl__h1-start">
-        {startLetters.map((l) => <span class="bl__letter">{l}</span>)}
+        {startGlyphs.map((g) => (
+          <svg
+            class="bl__letter"
+            style={`width: calc(1em * ${(g.w / VBH).toFixed(4)}); height: calc(1em * ${(g.h / VBH).toFixed(4)});`}
+            viewBox={`${g.x} ${g.y} ${g.w} ${g.h}`}
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path d={g.d} />
+          </svg>
+        ))}
       </div>
 
       <div class="bl__box">
@@ -55,7 +71,17 @@ const endLetters = ['B', 'C', 'N'];
       </div>
 
       <div class="bl__h1-end">
-        {endLetters.map((l) => <span class="bl__letter">{l}</span>)}
+        {endGlyphs.map((g) => (
+          <svg
+            class="bl__letter"
+            style={`width: calc(1em * ${(g.w / VBH).toFixed(4)}); height: calc(1em * ${(g.h / VBH).toFixed(4)});`}
+            viewBox={`${g.x} ${g.y} ${g.w} ${g.h}`}
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path d={g.d} />
+          </svg>
+        ))}
       </div>
     </div>
   </div>
@@ -99,29 +125,31 @@ const endLetters = ['B', 'C', 'N'];
   .bl__h1 {
     white-space: nowrap;
     justify-content: center;
-    font-family: var(--font-sans);
-    /* El wordmark completo («Reforma» + caja de 1em + «BCN») mide ~6,6em:
-       a 13vw ocupa ~86vw, así que cabe entero en cualquier pantalla. */
-    font-size: clamp(2.25rem, 13vw, 13rem);
-    font-weight: 560;
-    line-height: 0.75;
-    letter-spacing: -0.02em;
+    /* 1em = altura del glifo alto (k). El wordmark completo («kob» + caja de
+       1em + «or») mide ~5,1em: a 15vw ocupa ~77vw, cabe en cualquier pantalla. */
+    font-size: clamp(2.5rem, 15vw, 13rem);
+    line-height: 1;
     display: flex;
     position: relative;
   }
 
   .bl__h1-start {
     justify-content: flex-end;
+    align-items: flex-end;
+    gap: 0.05em;
     display: flex;
     overflow: hidden;
   }
   .bl__h1-end {
     justify-content: flex-start;
+    align-items: flex-end;
+    gap: 0.05em;
     display: flex;
     overflow: hidden;
   }
   .bl__letter {
     display: block;
+    flex: none;
     position: relative;
   }
 
@@ -243,7 +271,7 @@ const endLetters = ['B', 'C', 'N'];
       onComplete: finish,
     });
 
-    tl.from(letters, { yPercent: 100, stagger: 0.025, duration: 1.25 });
+    tl.from(letters, { yPercent: 100, stagger: 0.08, duration: 1.25 });
     tl.fromTo(box, { width: '0em' }, { width: '1em', duration: 1.25 }, '< 1.25');
     tl.fromTo(img, { width: '0%' }, { width: '100%', duration: 1.25 }, '<');
     tl.fromTo(hStart, { x: '0em' }, { x: '-0.05em', duration: 1.25 }, '<');
@@ -291,7 +319,7 @@ const endLetters = ['B', 'C', 'N'];
      sin flash y a prueba de sin-JS. -->
 <script is:inline>
   (function () {
-    var KEY = 'rbcn_intro';
+    var KEY = 'kobor_intro';
     var el = document.getElementById('brand-loader');
     if (!el) return;
     var reduce = false;

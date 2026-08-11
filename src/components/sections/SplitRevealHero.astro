@@ -151,10 +151,10 @@ const pileImgs = await Promise.all(pileSet.map((s) => getImage({ src: s, width: 
       var reduce = false;
       try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
       var seen = false;
-      try { seen = sessionStorage.getItem('rbcn_srhero_' + service) === '1'; } catch (e) {}
+      try { seen = sessionStorage.getItem('kobor_srhero_' + service) === '1'; } catch (e) {}
       if (reduce || seen) return; // estado final directo, sin intro
       s.classList.add('is-intro');
-      try { sessionStorage.setItem('rbcn_srhero_' + service, '1'); } catch (e) {}
+      try { sessionStorage.setItem('kobor_srhero_' + service, '1'); } catch (e) {}
       // Failsafe: si el módulo no revela en 6s, mostramos el contenido igualmente.
       window.setTimeout(function () {
         if (!s.classList.contains('is-revealed')) s.classList.add('is-revealed', 'is-done');

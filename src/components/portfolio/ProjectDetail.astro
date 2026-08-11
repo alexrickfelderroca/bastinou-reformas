@@ -27,7 +27,7 @@ const alternates = locales.map((l) => ({
   path: withTrailingSlash(`${localizedPath('proyectos', l)}/${entry.id}`),
 }));
 
-const siteUrl = Astro.site ?? new URL('https://www.reformabcn.es');
+const siteUrl = Astro.site ?? new URL('https://kobor.es');
 const crumbs = breadcrumbLd(siteUrl, [
   { name: t('landing.breadcrumbHome'), path: localizedPath('home', locale) },
   { name: t('nav.proyectos'), path: localizedPath('proyectos', locale) },

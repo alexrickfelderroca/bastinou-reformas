@@ -1,7 +1,7 @@
 {
   "meta": {
-    "siteName": "Reforma BCN",
-    "defaultTitle": "Reforma BCN — Reformes a Barcelona i rodalia",
+    "siteName": "Kobor",
+    "defaultTitle": "Kobor — Reformes a Barcelona i rodalia",
     "defaultDescription": "Reformes d'habitatges, oficines i locals comercials a Barcelona i rodalia (fins a 50 km). Un únic equip des de la primera visita fins al lliurament, amb preus orientatius clars.",
     "tagline": "Reformes a Barcelona i rodalia"
   },
@@ -538,12 +538,12 @@
     }
   },
   "about": {
-    "metaTitle": "Sobre nosaltres — Reforma BCN",
-    "metaDesc": "Som Reforma BCN: una empresa de reformes propera i seriosa a Barcelona. Habitatges i locals comercials, amb pressupost clar i un sol equip.",
+    "metaTitle": "Sobre nosaltres — Kobor",
+    "metaDesc": "Som Kobor: una empresa de reformes propera i seriosa a Barcelona. Habitatges i locals comercials, amb pressupost clar i un sol equip.",
     "title": "Una empresa de reformes propera i seriosa",
     "subtitle": "Reformem habitatges i locals comercials a Barcelona i rodalia. Sense vendre fum: pressupost clar, un sol equip i obra ben feta.",
     "introTitle": "Qui som",
-    "introText": "Reforma BCN neix per fer reformes normals i ben fetes, a un preu raonable. Treballem per a clients particulars i per a negocis petits i mitjans: pisos, cases, oficines, botigues, gimnasos, salons de bellesa i restaurants. Un únic equip t'acompanya des de la primera visita fins al lliurament final.",
+    "introText": "Kobor neix per fer reformes normals i ben fetes, a un preu raonable. Treballem per a clients particulars i per a negocis petits i mitjans: pisos, cases, oficines, botigues, gimnasos, salons de bellesa i restaurants. Un únic equip t'acompanya des de la primera visita fins al lliurament final.",
     "valuesTitle": "Per què triar-nos",
     "eyEnfoque": "Enfocament",
     "eyGarantias": "Garanties",
@@ -568,8 +568,8 @@
     "teamName": "[PENDENT: nom]"
   },
   "contact": {
-    "metaTitle": "Contacte — Reforma BCN",
-    "metaDesc": "Contacta amb Reforma BCN: WhatsApp, telèfon, email i formulari. Reformes d'habitatges i locals a Barcelona i rodalia. Visita gratuïta.",
+    "metaTitle": "Contacte — Kobor",
+    "metaDesc": "Contacta amb Kobor: WhatsApp, telèfon, email i formulari. Reformes d'habitatges i locals a Barcelona i rodalia. Visita gratuïta.",
     "title": "Parlem de la teva reforma",
     "subtitle": "Explica'ns el teu projecte pel canal que prefereixis. Et responem en menys de 24 h i acordem una visita gratuïta.",
     "waysTitle": "Com contactar",
@@ -585,7 +585,7 @@
   },
   "consent": {
     "title": "Cookies",
-    "body": "A Reforma BCN fem servir cookies pròpies i de tercers (Google) per mesurar l'audiència i mostrar publicitat. Pots acceptar-les totes, rebutjar-les o triar per categoria. Més detall a la",
+    "body": "A Kobor fem servir cookies pròpies i de tercers (Google) per mesurar l'audiència i mostrar publicitat. Pots acceptar-les totes, rebutjar-les o triar per categoria. Més detall a la",
     "policyLink": "política de cookies",
     "accept": "Acceptar",
     "reject": "Rebutjar",
@@ -604,13 +604,13 @@
   },
   "cookies": {
     "metaTitle": "Política de cookies",
-    "metaDesc": "Informació sobre les cookies que utilitza Reforma BCN: necessàries, d'analítica i de màrqueting, i com gestionar el teu consentiment.",
+    "metaDesc": "Informació sobre les cookies que utilitza Kobor: necessàries, d'analítica i de màrqueting, i com gestionar el teu consentiment.",
     "title": "Política de cookies",
     "updated": "Última actualització: juliol de 2026.",
     "introTitle": "Què són les cookies?",
     "introText": "Una cookie és un petit fitxer que un lloc web desa al teu dispositiu quan el visites. Serveixen perquè el lloc funcioni, per recordar les teves preferències i per mesurar com s'utilitza. També fem servir tecnologies equivalents com l'emmagatzematge local del navegador.",
     "whoTitle": "Qui fa servir les cookies",
-    "whoText": "El responsable del tractament és Reforma BCN ([PENDENT: raó social i NIF]). Algunes cookies les gestionen tercers, principalment Google, a través de Google Tag Manager, Google Analytics i Google Ads.",
+    "whoText": "El responsable del tractament és Kobor ([PENDENT: raó social i NIF]). Algunes cookies les gestionen tercers, principalment Google, a través de Google Tag Manager, Google Analytics i Google Ads.",
     "typesTitle": "Cookies que utilitzem",
     "typesIntro": "Agrupem les cookies en tres categories. Llevat de les necessàries, cap s'activa sense el teu consentiment.",
     "necessaryTitle": "Necessàries",
@@ -630,18 +630,18 @@
   },
   "privacy": {
     "metaTitle": "Política de privacitat",
-    "metaDesc": "Com tracta Reforma BCN les teves dades personals: responsable, finalitats, base jurídica, conservació, destinataris i els teus drets (RGPD).",
+    "metaDesc": "Com tracta Kobor les teves dades personals: responsable, finalitats, base jurídica, conservació, destinataris i els teus drets (RGPD).",
     "title": "Política de privacitat",
     "updated": "Última actualització: juliol de 2026.",
     "s": [
-      { "h": "Responsable del tractament", "p": ["El responsable del tractament de les teves dades és Reforma BCN ([PENDENT: raó social], NIF [PENDENT], amb domicili a [PENDENT: adreça]). Pots contactar-nos a <a href=\"mailto:info@reformabcn.es\">info@reformabcn.es</a>."] },
+      { "h": "Responsable del tractament", "p": ["El responsable del tractament de les teves dades és Kobor ([PENDENT: raó social], NIF [PENDENT], amb domicili a [PENDENT: adreça]). Pots contactar-nos a <a href=\"mailto:admin@kobor.com\">admin@kobor.com</a>."] },
       { "h": "Quines dades tractem", "p": ["Tractem les dades que ens facilites als formularis de contacte i pressupost (nom, telèfon, correu electrònic, el missatge i, si les adjuntes, les fotos o els plànols de la teva reforma). Si acceptes les cookies, també tractem dades de navegació i de campanyes publicitàries."] },
       { "h": "Amb quina finalitat", "p": ["Fem servir les teves dades per atendre la teva sol·licitud, preparar pressupostos i prestar-te els nostres serveis de reforma. Amb el teu consentiment, a més, mesurem l'audiència del lloc i mostrem publicitat rellevant."] },
       { "h": "Base jurídica", "p": ["Tractem les teves dades sobre la base del teu consentiment i de l'aplicació de mesures precontractuals sol·licitades per tu. L'analítica i la publicitat es basen exclusivament en el teu consentiment, que pots retirar en qualsevol moment."] },
       { "h": "Quant de temps les conservem", "p": ["Conservem les teves dades mentre duri la relació i, després, durant els terminis legalment exigibles. Les dades tractades amb finalitats de màrqueting es conserven fins que retires el teu consentiment."] },
       { "h": "A qui comuniquem les teves dades", "p": ["No venem les teves dades. Només les comuniquem als proveïdors que ens presten serveis (correu electrònic i allotjament) i, si has donat el teu consentiment, a Google per a analítica i publicitat."] },
       { "h": "Transferències internacionals", "p": ["Alguns proveïdors, com Google, poden tractar dades fora de l'Espai Econòmic Europeu. En aquest cas s'apliquen les garanties adequades que preveu el RGPD, com les clàusules contractuals tipus de la Comissió Europea."] },
-      { "h": "Els teus drets", "p": ["Pots exercir els teus drets d'accés, rectificació, supressió, oposició, limitació del tractament i portabilitat escrivint-nos a <a href=\"mailto:info@reformabcn.es\">info@reformabcn.es</a>. Si consideres que no hem atès correctament la teva sol·licitud, pots reclamar davant l'Agència Espanyola de Protecció de Dades (<a href=\"https://www.aepd.es\" target=\"_blank\" rel=\"noopener\">www.aepd.es</a>)."] },
+      { "h": "Els teus drets", "p": ["Pots exercir els teus drets d'accés, rectificació, supressió, oposició, limitació del tractament i portabilitat escrivint-nos a <a href=\"mailto:admin@kobor.com\">admin@kobor.com</a>. Si consideres que no hem atès correctament la teva sol·licitud, pots reclamar davant l'Agència Espanyola de Protecció de Dades (<a href=\"https://www.aepd.es\" target=\"_blank\" rel=\"noopener\">www.aepd.es</a>)."] },
       { "h": "Cookies", "p": ["Utilitzem cookies pròpies i de tercers segons es detalla a la nostra <a href=\"/ca/politica-cookies/\">política de cookies</a>, on també pots gestionar les teves preferències."] },
       { "h": "Seguretat", "p": ["Apliquem mesures tècniques i organitzatives raonables per protegir les teves dades contra accessos no autoritzats, pèrdua o alteració."] },
       { "h": "Canvis en aquesta política", "p": ["Podem actualitzar aquesta política per adaptar-la a canvis normatius o dels nostres serveis. Publicarem aquí sempre la versió vigent."] }
@@ -649,13 +649,13 @@
   },
   "legal": {
     "metaTitle": "Avís legal",
-    "metaDesc": "Dades identificatives del titular, condicions d'ús, propietat intel·lectual i legislació aplicable del lloc web de Reforma BCN.",
+    "metaDesc": "Dades identificatives del titular, condicions d'ús, propietat intel·lectual i legislació aplicable del lloc web de Kobor.",
     "title": "Avís legal",
     "updated": "Última actualització: juliol de 2026.",
     "s": [
-      { "h": "Dades identificatives", "p": ["En compliment de la Llei 34/2002 (LSSI-CE), t'informem que aquest lloc web és titularitat de Reforma BCN ([PENDENT: raó social], NIF [PENDENT]), amb domicili a [PENDENT: adreça] i correu electrònic <a href=\"mailto:info@reformabcn.es\">info@reformabcn.es</a>. Activitat: reformes d'habitatges i locals comercials."] },
+      { "h": "Dades identificatives", "p": ["En compliment de la Llei 34/2002 (LSSI-CE), t'informem que aquest lloc web és titularitat de Kobor ([PENDENT: raó social], NIF [PENDENT]), amb domicili a [PENDENT: adreça] i correu electrònic <a href=\"mailto:admin@kobor.com\">admin@kobor.com</a>. Activitat: reformes d'habitatges i locals comercials."] },
       { "h": "Objecte i condicions d'ús", "p": ["Aquest lloc ofereix informació sobre els nostres serveis i permet sol·licitar pressupost. En navegar-hi acceptes aquestes condicions. Et compromets a fer un ús adequat dels continguts i a no emprar-los amb finalitats il·lícites."] },
-      { "h": "Propietat intel·lectual i industrial", "p": ["Els continguts del lloc (textos, fotografies, dissenys, logotips i marques) són titularitat de Reforma BCN o de tercers que n'han autoritzat l'ús, i estan protegits per la normativa de propietat intel·lectual i industrial. No se'n permet la reproducció, distribució o transformació sense autorització expressa."] },
+      { "h": "Propietat intel·lectual i industrial", "p": ["Els continguts del lloc (textos, fotografies, dissenys, logotips i marques) són titularitat de Kobor o de tercers que n'han autoritzat l'ús, i estan protegits per la normativa de propietat intel·lectual i industrial. No se'n permet la reproducció, distribució o transformació sense autorització expressa."] },
       { "h": "Responsabilitat", "p": ["Procurem que la informació sigui correcta i estigui actualitzada, però no garantim l'absència d'errors ni la disponibilitat contínua del lloc. Els preus publicats són orientatius i no constitueixen una oferta contractual. No ens responsabilitzem dels danys derivats d'un ús indegut del lloc ni de la seva indisponibilitat temporal."] },
       { "h": "Enllaços a tercers", "p": ["El lloc pot incloure enllaços a pàgines de tercers. No ens responsabilitzem dels seus continguts ni de les seves polítiques de privacitat."] },
       { "h": "Protecció de dades", "p": ["El tractament de les dades personals que ens facilitis es regeix per la nostra <a href=\"/ca/privacitat/\">política de privacitat</a>."] },

@@ -57,7 +57,7 @@ const gtmLoader = `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new
   // caducidad de 180 días; si es inválido o ha caducado, se borra y el banner
   // volverá a pedir consentimiento (los defaults denegados siguen vigentes).
   try {
-    var raw = localStorage.getItem('rbcn_consent');
+    var raw = localStorage.getItem('kobor_consent');
     if (raw) {
       var c = JSON.parse(raw);
       var MAX_AGE = 1000 * 60 * 60 * 24 * 180;
@@ -70,7 +70,7 @@ const gtmLoader = `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new
           ad_personalization: ads,
         });
       } else {
-        localStorage.removeItem('rbcn_consent');
+        localStorage.removeItem('kobor_consent');
       }
     }
   } catch (e) {

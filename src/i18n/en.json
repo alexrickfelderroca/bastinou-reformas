@@ -1,7 +1,7 @@
 {
   "meta": {
-    "siteName": "Reforma BCN",
-    "defaultTitle": "Reforma BCN — Renovations in Barcelona and surroundings",
+    "siteName": "Kobor",
+    "defaultTitle": "Kobor — Renovations in Barcelona and surroundings",
     "defaultDescription": "Renovations of homes, offices and commercial premises in Barcelona and surroundings (up to 50 km). A single team from the first visit to handover, with clear indicative prices.",
     "tagline": "Renovations in Barcelona and surroundings"
   },
@@ -538,12 +538,12 @@
     }
   },
   "about": {
-    "metaTitle": "About us — Reforma BCN",
-    "metaDesc": "We are Reforma BCN: an approachable, reliable renovation company in Barcelona. Homes and commercial premises, with clear quotes and a single team.",
+    "metaTitle": "About us — Kobor",
+    "metaDesc": "We are Kobor: an approachable, reliable renovation company in Barcelona. Homes and commercial premises, with clear quotes and a single team.",
     "title": "An approachable, reliable renovation company",
     "subtitle": "We renovate homes and commercial premises in Barcelona and surroundings. No smoke and mirrors: a clear quote, a single team and work done properly.",
     "introTitle": "Who we are",
-    "introText": "Reforma BCN was born to do honest, well-executed renovations at a reasonable price. We work for private clients and for small and medium-sized businesses: flats, houses, offices, shops, gyms, beauty salons and restaurants. A single team is with you from the first visit to the final handover.",
+    "introText": "Kobor was born to do honest, well-executed renovations at a reasonable price. We work for private clients and for small and medium-sized businesses: flats, houses, offices, shops, gyms, beauty salons and restaurants. A single team is with you from the first visit to the final handover.",
     "valuesTitle": "Why choose us",
     "eyEnfoque": "Approach",
     "eyGarantias": "Guarantees",
@@ -568,8 +568,8 @@
     "teamName": "[PENDING: name]"
   },
   "contact": {
-    "metaTitle": "Contact — Reforma BCN",
-    "metaDesc": "Contact Reforma BCN: WhatsApp, phone, email and form. Renovations of homes and commercial premises in Barcelona and surroundings. Free visit.",
+    "metaTitle": "Contact — Kobor",
+    "metaDesc": "Contact Kobor: WhatsApp, phone, email and form. Renovations of homes and commercial premises in Barcelona and surroundings. Free visit.",
     "title": "Let's talk about your renovation",
     "subtitle": "Tell us about your project through whichever channel you prefer. We reply within 24 h and arrange a free visit.",
     "waysTitle": "How to reach us",
@@ -585,7 +585,7 @@
   },
   "consent": {
     "title": "Cookies",
-    "body": "At Reforma BCN we use first- and third-party cookies (Google) to measure traffic and show advertising. You can accept them all, reject them or choose by category. More detail in the",
+    "body": "At Kobor we use first- and third-party cookies (Google) to measure traffic and show advertising. You can accept them all, reject them or choose by category. More detail in the",
     "policyLink": "cookie policy",
     "accept": "Accept",
     "reject": "Reject",
@@ -604,13 +604,13 @@
   },
   "cookies": {
     "metaTitle": "Cookie policy",
-    "metaDesc": "Information about the cookies Reforma BCN uses: necessary, analytics and marketing cookies, and how to manage your consent.",
+    "metaDesc": "Information about the cookies Kobor uses: necessary, analytics and marketing cookies, and how to manage your consent.",
     "title": "Cookie policy",
     "updated": "Last updated: July 2026.",
     "introTitle": "What are cookies?",
     "introText": "A cookie is a small file that a website stores on your device when you visit. Cookies make the site work, remember your preferences and measure how the site is used. We also use equivalent technologies such as the browser's local storage.",
     "whoTitle": "Who uses cookies",
-    "whoText": "The data controller is Reforma BCN ([PENDING: legal name and tax ID]). Some cookies are managed by third parties, mainly Google, through Google Tag Manager, Google Analytics and Google Ads.",
+    "whoText": "The data controller is Kobor ([PENDING: legal name and tax ID]). Some cookies are managed by third parties, mainly Google, through Google Tag Manager, Google Analytics and Google Ads.",
     "typesTitle": "Cookies we use",
     "typesIntro": "We group cookies into three categories. Except for the necessary ones, none are activated without your consent.",
     "necessaryTitle": "Necessary",
@@ -630,18 +630,18 @@
   },
   "privacy": {
     "metaTitle": "Privacy policy",
-    "metaDesc": "How Reforma BCN processes your personal data: controller, purposes, legal basis, retention, recipients and your rights (GDPR).",
+    "metaDesc": "How Kobor processes your personal data: controller, purposes, legal basis, retention, recipients and your rights (GDPR).",
     "title": "Privacy policy",
     "updated": "Last updated: July 2026.",
     "s": [
-      { "h": "Data controller", "p": ["The controller of your data is Reforma BCN ([PENDING: legal name], tax ID [PENDING], registered at [PENDING: address]). You can reach us at <a href=\"mailto:info@reformabcn.es\">info@reformabcn.es</a>."] },
+      { "h": "Data controller", "p": ["The controller of your data is Kobor ([PENDING: legal name], tax ID [PENDING], registered at [PENDING: address]). You can reach us at <a href=\"mailto:admin@kobor.com\">admin@kobor.com</a>."] },
       { "h": "What data we process", "p": ["We process the data you provide in the contact and quote forms (name, phone, email, your message and, if you attach them, the photos or plans of your renovation). If you accept cookies, we also process browsing and advertising-campaign data."] },
       { "h": "Purposes", "p": ["We use your data to respond to your request, prepare quotes and provide our renovation services. With your consent, we also measure the site's audience and show relevant advertising."] },
       { "h": "Legal basis", "p": ["We process your data on the basis of your consent and of pre-contractual measures taken at your request. Analytics and advertising rely solely on your consent, which you can withdraw at any time."] },
       { "h": "How long we keep it", "p": ["We keep your data for as long as the relationship lasts and, afterwards, for the periods required by law. Data processed for marketing purposes is kept until you withdraw your consent."] },
       { "h": "Who we share it with", "p": ["We do not sell your data. We only share it with the providers that serve us (email and hosting) and, if you have given your consent, with Google for analytics and advertising."] },
       { "h": "International transfers", "p": ["Some providers, such as Google, may process data outside the European Economic Area. In that case the appropriate safeguards under the GDPR apply, such as the European Commission's standard contractual clauses."] },
-      { "h": "Your rights", "p": ["You can exercise your rights of access, rectification, erasure, objection, restriction of processing and portability by writing to <a href=\"mailto:info@reformabcn.es\">info@reformabcn.es</a>. If you believe we have not handled your request properly, you may lodge a complaint with the Spanish Data Protection Agency (<a href=\"https://www.aepd.es\" target=\"_blank\" rel=\"noopener\">www.aepd.es</a>)."] },
+      { "h": "Your rights", "p": ["You can exercise your rights of access, rectification, erasure, objection, restriction of processing and portability by writing to <a href=\"mailto:admin@kobor.com\">admin@kobor.com</a>. If you believe we have not handled your request properly, you may lodge a complaint with the Spanish Data Protection Agency (<a href=\"https://www.aepd.es\" target=\"_blank\" rel=\"noopener\">www.aepd.es</a>)."] },
       { "h": "Cookies", "p": ["We use first- and third-party cookies as described in our <a href=\"/en/cookie-policy/\">cookie policy</a>, where you can also manage your preferences."] },
       { "h": "Security", "p": ["We apply reasonable technical and organisational measures to protect your data against unauthorised access, loss or alteration."] },
       { "h": "Changes to this policy", "p": ["We may update this policy to reflect regulatory changes or changes to our services. The current version will always be published here."] }
@@ -649,13 +649,13 @@
   },
   "legal": {
     "metaTitle": "Legal notice",
-    "metaDesc": "Owner identification, terms of use, intellectual property and applicable law for the Reforma BCN website.",
+    "metaDesc": "Owner identification, terms of use, intellectual property and applicable law for the Kobor website.",
     "title": "Legal notice",
     "updated": "Last updated: July 2026.",
     "s": [
-      { "h": "Owner identification", "p": ["In compliance with Spanish Law 34/2002 (LSSI-CE), we inform you that this website is owned by Reforma BCN ([PENDING: legal name], tax ID [PENDING]), registered at [PENDING: address], email <a href=\"mailto:info@reformabcn.es\">info@reformabcn.es</a>. Activity: renovation of homes and commercial premises."] },
+      { "h": "Owner identification", "p": ["In compliance with Spanish Law 34/2002 (LSSI-CE), we inform you that this website is owned by Kobor ([PENDING: legal name], tax ID [PENDING]), registered at [PENDING: address], email <a href=\"mailto:admin@kobor.com\">admin@kobor.com</a>. Activity: renovation of homes and commercial premises."] },
       { "h": "Purpose and terms of use", "p": ["This site provides information about our services and lets you request a quote. By browsing it you accept these terms. You agree to make appropriate use of the content and not to use it for unlawful purposes."] },
-      { "h": "Intellectual and industrial property", "p": ["The site's content (texts, photographs, designs, logos and trademarks) belongs to Reforma BCN or to third parties who have authorised its use, and is protected by intellectual and industrial property law. Its reproduction, distribution or transformation is not permitted without express authorisation."] },
+      { "h": "Intellectual and industrial property", "p": ["The site's content (texts, photographs, designs, logos and trademarks) belongs to Kobor or to third parties who have authorised its use, and is protected by intellectual and industrial property law. Its reproduction, distribution or transformation is not permitted without express authorisation."] },
       { "h": "Liability", "p": ["We strive to keep the information correct and up to date, but we do not guarantee the absence of errors or the continuous availability of the site. The published prices are indicative and do not constitute a contractual offer. We are not liable for damages arising from misuse of the site or from its temporary unavailability."] },
       { "h": "Third-party links", "p": ["The site may include links to third-party pages. We are not responsible for their content or their privacy policies."] },
       { "h": "Data protection", "p": ["The processing of the personal data you provide is governed by our <a href=\"/en/privacy-policy/\">privacy policy</a>."] },

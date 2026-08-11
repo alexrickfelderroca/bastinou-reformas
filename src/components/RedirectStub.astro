@@ -11,7 +11,7 @@ interface Props {
   lang?: string;
 }
 const { to, lang = 'es' } = Astro.props;
-const siteUrl = Astro.site ?? new URL('https://www.reformabcn.es');
+const siteUrl = Astro.site ?? new URL('https://kobor.es');
 const target = new URL(to, siteUrl).href;
 ---
 
@@ -23,9 +23,9 @@ const target = new URL(to, siteUrl).href;
     <meta http-equiv="refresh" content={`0;url=${to}`} />
     <link rel="canonical" href={target} />
     <meta name="robots" content="noindex" />
-    <title>Reforma BCN</title>
+    <title>Kobor</title>
   </head>
   <body>
-    <p><a href={to}>Reforma BCN — continuar</a></p>
+    <p><a href={to}>Kobor — continuar</a></p>
   </body>
 </html>
