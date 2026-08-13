@@ -11,7 +11,7 @@ export const site = {
   phone: '+34 623 80 81 72',
   phoneHref: '+34623808172', // formato E.164 sin espacios para tel: y wa.me
   whatsapp: '34623808172', // número wa.me sin '+'
-  email: 'admin@kobor.com',
+  email: 'admin@kobor.es',
 
   // Dirección / zona de servicio: Barcelona y alrededores hasta 50 km.
   // Calle y CP confirmados por el propietario (ago-2026): es su dirección,

@@ -8,7 +8,7 @@ orientado a Google Ads y SEO.
 > nuevos (wordmark del cliente vectorizado en `src/assets/brand/kobor-logo.svg|png`
 > + `kobor-glyphs.json`; favicons regenerados — todo reproducible con
 > `node _build/generate-brand-assets.mjs`), dominio `kobor.es`, contacto real
-> (+34 623 80 81 72 · admin@kobor.com) y las animaciones de marca (BrandLoader
+> (+34 623 80 81 72 · admin@kobor.es) y las animaciones de marca (BrandLoader
 > «kob | caja | or» y wordmark gigante del hero) reconstruidas con los glifos
 > reales del logotipo. El diseño (paleta crema/verde, tipografía) no cambia.
 >
@@ -188,10 +188,10 @@ datos y credenciales.
 
 **Bloqueantes de lanzamiento — datos del cliente:**
 - [x] **Contacto** (`src/config/site.ts`): +34 623 80 81 72 (tel + WhatsApp) y
-      admin@kobor.com (ago-2026).
-- [ ] **Identidad legal** (`src/config/site.ts`): `legalName` (razón social), `nif`,
-      `address` (calle/CP) y `geo` (coordenadas). Aparecen en el JSON-LD y en las
-      páginas legales cuando existan.
+      admin@kobor.es (corregido de @kobor.com, ago-2026).
+- [ ] **Identidad legal** (`src/config/site.ts`): `legalName` (razón social) y `nif`.
+      Aparecen en el JSON-LD y en las páginas legales cuando existan. (`address` y
+      `geo` ya rellenados con datos reales del propietario, ago-2026.)
 - [ ] **Dominio real** en `astro.config.mjs` (`SITE`) — afecta a canonical, sitemap,
       hreflang, OG y `robots.txt`.
 - [ ] **Tarifas reales** para la calculadora y las landings (`pricing.json` +
