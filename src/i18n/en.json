@@ -581,7 +581,11 @@
     "officeTitle": "Office",
     "officeValue": "Barcelona / Sant Cugat del Vallès",
     "areaTitle": "Service area",
-    "areaText": "Barcelona and towns up to around 50 km away, depending on the project."
+    "areaText": "Barcelona and towns up to around 50 km away, depending on the project.",
+    "mapTitle": "Where we are",
+    "mapText": "We're based in Sant Cugat del Vallès, just outside Barcelona.",
+    "mapCta": "Get directions",
+    "mapFrameTitle": "Google Maps map showing Kobor's location"
   },
   "consent": {
     "title": "Cookies",

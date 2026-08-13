@@ -78,6 +78,32 @@ const zones = ['Barcelona', "L'Hospitalet", 'Badalona', 'Sant Cugat', 'Sabadell'
     </div>
   </section>
 
+  <section class="section ct-map">
+    <div class="container-x">
+      <div class="ct-map__head">
+        <div>
+          <h2 class="h-section" data-reveal>{t('contact.mapTitle')}</h2>
+          <p class="lead ct-map__text" data-reveal>{t('contact.mapText')}</p>
+          <p class="ct-map__addr" data-reveal>
+            {site.address.street} · {site.address.postalCode} Sant Cugat del Vallès
+          </p>
+        </div>
+        <a class="btn btn-outline" href={site.maps.directionsUrl} target="_blank" rel="noopener" data-reveal>
+          {t('contact.mapCta')}
+        </a>
+      </div>
+      <div class="ct-map__frame" data-reveal>
+        <iframe
+          src={site.maps.embedUrl}
+          title={t('contact.mapFrameTitle')}
+          loading="lazy"
+          allowfullscreen
+          referrerpolicy="strict-origin-when-cross-origin"
+        ></iframe>
+      </div>
+    </div>
+  </section>
+
   <script is:inline type="application/ld+json" set:html={JSON.stringify(crumbs)} />
 </Layout>
 
@@ -153,6 +179,56 @@ const zones = ['Barcelona', "L'Hospitalet", 'Badalona', 'Sant Cugat', 'Sabadell'
     border-bottom: 1px solid var(--color-line);
     color: var(--color-graphite);
   }
+  .ct-map {
+    background: var(--color-paper);
+    border-top: 1px solid var(--color-line);
+  }
+  .ct-map__head {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .ct-map__text {
+    margin-top: 1rem;
+    max-width: 48ch;
+  }
+  .ct-map__addr {
+    margin-top: 0.75rem;
+    color: var(--color-slate);
+    font-size: 0.95rem;
+  }
+  /* Marco tipo tarjeta (bisel doble): bandeja clara + mapa embebido con radio
+     concéntrico. El mapa descansa ligeramente desaturado para integrarse en la
+     paleta y recupera el color al interactuar. */
+  .ct-map__frame {
+    padding: 0.5rem;
+    border-radius: 1.25rem;
+    border: 1px solid var(--color-line);
+    background: var(--color-cloud);
+    box-shadow:
+      0 1px 2px rgba(31, 55, 48, 0.05),
+      0 16px 40px -24px rgba(31, 55, 48, 0.25);
+  }
+  .ct-map__frame iframe {
+    display: block;
+    width: 100%;
+    height: 380px;
+    border: 0;
+    border-radius: calc(1.25rem - 0.5rem);
+    filter: saturate(0.35);
+    transition: filter 0.5s var(--ease-standard);
+  }
+  .ct-map__frame:hover iframe,
+  .ct-map__frame:focus-within iframe {
+    filter: saturate(1);
+  }
+  @media (hover: none) {
+    .ct-map__frame iframe {
+      filter: none;
+    }
+  }
   @media (min-width: 768px) {
     .ct-methods__grid {
       grid-template-columns: repeat(3, 1fr);
@@ -160,6 +236,15 @@ const zones = ['Barcelona', "L'Hospitalet", 'Badalona', 'Sant Cugat', 'Sabadell'
     .ct-info__grid {
       grid-template-columns: 1fr 1fr;
       gap: 4rem;
+    }
+    .ct-map__head {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 2.5rem;
+    }
+    .ct-map__frame iframe {
+      height: 460px;
     }
   }
 </style>

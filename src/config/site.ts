@@ -14,19 +14,31 @@ export const site = {
   email: 'admin@kobor.com',
 
   // Dirección / zona de servicio: Barcelona y alrededores hasta 50 km.
+  // Calle y CP tomados del listado de Google Maps del local (pin del embed
+  // facilitado por el propietario, ago-2026).
   address: {
-    street: '[PENDIENTE: dirección]',
+    street: 'Av. Can Fatjó dels Aurons, 15',
     city: 'Barcelona / Sant Cugat del Vallès',
     region: 'Cataluña',
-    postalCode: '[PENDIENTE]',
+    postalCode: '08174',
     country: 'ES',
   },
   areaServed: ['Barcelona', 'Área metropolitana de Barcelona'],
 
-  // Coordenadas del local para el JSON-LD (GeoCoordinates). Se dejan sin definir
-  // hasta tener la dirección real: no se publica un punto inventado. Al recibir
-  // los datos: geo: { lat: 41.xxxx, lng: 2.xxxx }.
-  geo: null as { lat: number; lng: number } | null,
+  // Coordenadas del local para el JSON-LD (GeoCoordinates). Extraídas del embed
+  // de Google Maps facilitado por el propietario (ago-2026). El pin de Google
+  // corresponde al listado "Serres Wrap Center" (Sant Cugat del Vallès), la
+  // misma dirección desde la que opera Kobor.
+  geo: { lat: 41.489689, lng: 2.080816 } as { lat: number; lng: number } | null,
+
+  // Google Maps: embed (iframe de la página de contacto) y enlace "Cómo llegar".
+  // El embed lo entregó el propietario tal cual desde Maps → Compartir → Insertar mapa.
+  maps: {
+    embedUrl:
+      'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d747.1682475348857!2d2.08081592855845!3d41.48968869819793!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2027f0d4ea2a70f1%3A0xc8f7c6ce9b2a429d!2sSerres%20Wrap%20Center!5e0!3m2!1sen!2ses!4v1786619018289!5m2!1sen!2ses',
+    directionsUrl:
+      'https://www.google.com/maps/dir/?api=1&destination=Serres+Wrap+Center,+Sant+Cugat+del+Vall%C3%A8s',
+  },
 
   // Horario comercial (para JSON-LD y footer). Se muestra en pie y contacto.
   openingHours: 'Lun–Sáb 09:00–19:00',
