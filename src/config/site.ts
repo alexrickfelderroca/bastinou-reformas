@@ -14,8 +14,8 @@ export const site = {
   email: 'admin@kobor.com',
 
   // Dirección / zona de servicio: Barcelona y alrededores hasta 50 km.
-  // Calle y CP tomados del listado de Google Maps del local (pin del embed
-  // facilitado por el propietario, ago-2026).
+  // Calle y CP confirmados por el propietario (ago-2026): es su dirección,
+  // aunque el listado de Google en ese punto pertenezca a otro negocio.
   address: {
     street: 'Av. Can Fatjó dels Aurons, 15',
     city: 'Barcelona / Sant Cugat del Vallès',
@@ -25,19 +25,21 @@ export const site = {
   },
   areaServed: ['Barcelona', 'Área metropolitana de Barcelona'],
 
-  // Coordenadas del local para el JSON-LD (GeoCoordinates). Extraídas del embed
-  // de Google Maps facilitado por el propietario (ago-2026). El pin de Google
-  // corresponde al listado "Serres Wrap Center" (Sant Cugat del Vallès), la
-  // misma dirección desde la que opera Kobor.
+  // Coordenadas del local para el JSON-LD (GeoCoordinates) y el mapa. Extraídas
+  // del embed que facilitó el propietario (ago-2026).
   geo: { lat: 41.489689, lng: 2.080816 } as { lat: number; lng: number } | null,
 
   // Google Maps: embed (iframe de la página de contacto) y enlace "Cómo llegar".
-  // El embed lo entregó el propietario tal cual desde Maps → Compartir → Insertar mapa.
+  // OJO: ambos van por COORDENADAS a propósito. El listado de Google en esta
+  // dirección ("Serres Wrap Center") NO es la empresa: un embed/destino "de
+  // lugar" mostraría su ficha, su nombre y sus reseñas. Con lat,lng el mapa
+  // queda interactivo con un pin sin marca y la dirección la pinta nuestro
+  // propio HTML. No volver al embed de lugar.
+  // Nota: la query de texto de la dirección tampoco sirve — Google la geocoda
+  // mal (Av. Can Fatjó dels Aurons de Cerdanyola, otro punto).
   maps: {
-    embedUrl:
-      'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d747.1682475348857!2d2.08081592855845!3d41.48968869819793!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2027f0d4ea2a70f1%3A0xc8f7c6ce9b2a429d!2sSerres%20Wrap%20Center!5e0!3m2!1sen!2ses!4v1786619018289!5m2!1sen!2ses',
-    directionsUrl:
-      'https://www.google.com/maps/dir/?api=1&destination=Serres+Wrap+Center,+Sant+Cugat+del+Vall%C3%A8s',
+    embedUrl: 'https://maps.google.com/maps?q=41.489689,2.080816&z=17&hl=es&output=embed',
+    directionsUrl: 'https://www.google.com/maps/dir/?api=1&destination=41.489689,2.080816',
   },
 
   // Horario comercial (para JSON-LD y footer). Se muestra en pie y contacto.
