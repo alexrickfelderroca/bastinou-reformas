@@ -1,12 +1,17 @@
 /**
  * Lógica de leads (CLAUDE.pdf §6): validación, formateo y envío por email
- * (Resend) + notificación opcional a Telegram. Sin SDKs: se usa fetch contra las
- * APIs REST. Todo va detrás de variables de entorno; si no están configuradas,
- * el lead se registra y se devuelve OK (útil en desarrollo) sin enviar nada.
+ * + notificación opcional a Telegram. Todo va detrás de variables de entorno;
+ * si no están configuradas, el lead se registra en el log y se devuelve OK
+ * (útil en desarrollo) sin enviar nada.
  *
- * Variables ([PENDIENTE], ver .env.example):
- *   RESEND_API_KEY, LEAD_TO_EMAIL, LEAD_FROM_EMAIL
- *   TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID (opcional)
+ * Email — dos vías, en este orden (ver .env.example):
+ *   1. Resend (fetch a su API REST):  RESEND_API_KEY + LEAD_TO_EMAIL
+ *   2. SMTP (nodemailer; pensado para el buzón de Hostinger, p. ej.
+ *      admin@kobor.es):  SMTP_HOST + SMTP_USER + SMTP_PASS + LEAD_TO_EMAIL
+ * Con ambas configuradas, Resend tiene prioridad y SMTP hace de respaldo si
+ * Resend falla. LEAD_FROM_EMAIL es opcional en las dos.
+ *
+ * Telegram (opcional): TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID
  */
 
 export interface LeadData {
@@ -87,7 +92,11 @@ export function leadToText(d: LeadData): string {
   return lines.filter((l) => l !== '').join('\n');
 }
 
-async function sendEmail(d: LeadData): Promise<boolean> {
+function leadSubject(d: LeadData): string {
+  return `Nuevo lead${d.service ? ` · ${d.service}` : ''} — ${d.name}`;
+}
+
+async function sendEmailResend(d: LeadData): Promise<boolean> {
   const key = getEnv('RESEND_API_KEY');
   const to = getEnv('LEAD_TO_EMAIL');
   const from = getEnv('LEAD_FROM_EMAIL') || 'Kobor <leads@kobor.es>';
@@ -99,11 +108,48 @@ async function sendEmail(d: LeadData): Promise<boolean> {
       from,
       to: [to],
       reply_to: d.email || undefined,
-      subject: `Nuevo lead${d.service ? ` · ${d.service}` : ''} — ${d.name}`,
+      subject: leadSubject(d),
       text: leadToText(d),
     }),
   });
   return res.ok;
+}
+
+/** Envío por SMTP autenticado (buzón de Hostinger u otro proveedor). */
+async function sendEmailSmtp(d: LeadData): Promise<boolean> {
+  const host = getEnv('SMTP_HOST');
+  const user = getEnv('SMTP_USER');
+  const pass = getEnv('SMTP_PASS');
+  const to = getEnv('LEAD_TO_EMAIL');
+  if (!host || !user || !pass || !to) return false;
+  // Import dinámico: nodemailer solo se carga si esta vía está configurada.
+  const { default: nodemailer } = await import('nodemailer');
+  const port = Number(getEnv('SMTP_PORT') || 465);
+  const transport = nodemailer.createTransport({
+    host,
+    port,
+    secure: port === 465, // 465 = TLS implícito; 587/25 negocian STARTTLS
+    auth: { user, pass },
+  });
+  const info = await transport.sendMail({
+    // Muchos SMTP (Hostinger incluido) exigen que el From sea el buzón autenticado.
+    from: getEnv('LEAD_FROM_EMAIL') || `Kobor <${user}>`,
+    to,
+    replyTo: d.email || undefined,
+    subject: leadSubject(d),
+    text: leadToText(d),
+  });
+  return info.accepted.length > 0;
+}
+
+/** Email por la primera vía que funcione: Resend y, si no, SMTP. */
+async function sendEmail(d: LeadData): Promise<boolean> {
+  try {
+    if (await sendEmailResend(d)) return true;
+  } catch {
+    /* caer a SMTP */
+  }
+  return sendEmailSmtp(d);
 }
 
 async function sendTelegram(d: LeadData): Promise<boolean> {
@@ -120,7 +166,9 @@ async function sendTelegram(d: LeadData): Promise<boolean> {
 
 /** Envía el lead por los canales configurados. Devuelve los que funcionaron. */
 export async function sendLead(d: LeadData): Promise<{ sent: string[]; configured: boolean }> {
-  const configured = Boolean(getEnv('RESEND_API_KEY') || getEnv('TELEGRAM_BOT_TOKEN'));
+  const configured = Boolean(
+    getEnv('RESEND_API_KEY') || getEnv('SMTP_HOST') || getEnv('TELEGRAM_BOT_TOKEN')
+  );
   const sent: string[] = [];
   const results = await Promise.allSettled([sendEmail(d), sendTelegram(d)]);
   if (results[0].status === 'fulfilled' && results[0].value) sent.push('email');

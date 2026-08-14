@@ -205,9 +205,13 @@ datos y credenciales.
 **Activación de servicios (credenciales / `.env`, en el deploy):**
 - [ ] **Tracking**: `PUBLIC_GTM_ID` real + configurar GA4/Ads dentro del contenedor
       de GTM (ver sección "Tracking"). Todo dormido hasta entonces.
-- [ ] **Leads** (`.env`): `RESEND_API_KEY`, `LEAD_TO_EMAIL`, `LEAD_FROM_EMAIL` y,
-      opcional, `TELEGRAM_BOT_TOKEN`/`TELEGRAM_CHAT_ID`. Sin ellos el lead se registra
-      en el log del servidor pero no se envía email/Telegram.
+- [ ] **Leads** (`.env`): dos vías de email — SMTP del buzón de Hostinger
+      (`SMTP_HOST`/`SMTP_USER`/`SMTP_PASS` + `LEAD_TO_EMAIL`; recomendada, sin
+      cuentas externas) o Resend (`RESEND_API_KEY` + `LEAD_TO_EMAIL`); opcional
+      `TELEGRAM_BOT_TOKEN`/`TELEGRAM_CHAT_ID`. Sin credenciales el lead solo se
+      registra en el log del servidor (¡se pierde en la práctica!). Test local:
+      `node _build/smtp-catcher.mjs` + env vars apuntando a localhost:2525
+      (ago-2026).
 - [ ] **Hosting**: elegir adaptador (Vercel/Netlify/Cloudflare) — el de Node es interino.
 - [ ] **Antispam** (Fase 6): activar reCAPTCHA/Turnstile en el endpoint `/api/lead`.
 
