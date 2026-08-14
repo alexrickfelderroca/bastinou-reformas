@@ -4,7 +4,8 @@
  * por email/Telegram (src/lib/lead.ts). Acepta JSON (fetch, con JS) y
  * form-urlencoded (fallback sin JS → redirección).
  *
- * Antispam: honeypot (campo `company`). [PENDIENTE: añadir reCAPTCHA v3 o
+ * Antispam: honeypot (campo `project_ref`; se acepta el nombre antiguo
+ * `company` por páginas cacheadas). [PENDIENTE: añadir reCAPTCHA v3 o
  * Turnstile cuando haya claves — validar el token aquí.]
  */
 import type { APIRoute } from 'astro';
@@ -35,7 +36,12 @@ export const POST: APIRoute = async ({ request, redirect }) => {
   }
 
   // Honeypot: si el campo oculto viene relleno, es un bot. Fingimos éxito.
-  if (raw.company && raw.company.trim() !== '') {
+  // El descarte SIEMPRE se registra: un honeypot silencioso ya nos costó leads
+  // humanos cuando el autofill del navegador rellenaba el antiguo campo
+  // "company" con el perfil del visitante (ago-2026).
+  const hp = (raw.project_ref || raw.company || '').trim();
+  if (hp !== '') {
+    console.log(`[lead] descartado por honeypot (valor: ${JSON.stringify(hp.slice(0, 60))}) — ${raw.name || '?'} / ${raw.phone || '?'}`);
     return isJson ? json({ ok: true }) : redirect('/?lead=ok', 303);
   }
 

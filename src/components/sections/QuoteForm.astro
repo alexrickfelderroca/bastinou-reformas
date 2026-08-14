@@ -37,9 +37,12 @@ const t = useTranslations(locale);
     <form id="quote" class="quote__form" data-lead-form method="post" action="/api/lead" novalidate>
       {service && <input type="hidden" name="service" value={service} />}
       <input type="hidden" name="locale" value={locale} />
-      <!-- Honeypot antispam: oculto para humanos, lo rellenan los bots -->
+      <!-- Honeypot antispam: oculto para humanos, lo rellenan los bots.
+           OJO: nunca llamarlo "company"/"empresa" — el autofill de Chrome/Opera
+           ignora autocomplete="off" y lo rellenaba con el perfil del visitante,
+           descartando leads humanos (ago-2026). -->
       <div class="quote__hp" aria-hidden="true">
-        <label>No rellenar<input type="text" name="company" tabindex="-1" autocomplete="off" /></label>
+        <label>No rellenar<input type="text" name="project_ref" tabindex="-1" autocomplete="off" /></label>
       </div>
 
       <div class="quote__field">
