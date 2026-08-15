@@ -1,0 +1,211 @@
+---
+/**
+ * Landing de Google Ads — SKAG "reformas integrales barcelona" (ES, noindex).
+ * H1 idéntico al titular fijado del anuncio (Quality Score). Orden de
+ * conversión: hero → formulario → contenido de confianza → CTA final que
+ * vuelve al formulario. Sin PricesCtaBlock a propósito (fuga a calculadora).
+ * Atribución gclid/UTM: la aporta scripts/forms.ts a todo [data-lead-form].
+ */
+import Layout from '../layouts/Layout.astro';
+import ServiceIncludes from '../components/sections/ServiceIncludes.astro';
+import PricingTable from '../components/sections/PricingTable.astro';
+import RelatedProjects from '../components/sections/RelatedProjects.astro';
+import Process from '../components/sections/Process.astro';
+import Faq from '../components/sections/Faq.astro';
+import QuoteForm from '../components/sections/QuoteForm.astro';
+import { useTranslations } from '../i18n/ui';
+import { site, telHref } from '../config/site';
+
+const locale = 'es' as const;
+const t = useTranslations(locale);
+
+// FAQ real del servicio de viviendas (mismo contenido verificado del sitio).
+const faqItems = [1, 2, 3, 4, 5].map((n) => ({
+  q: t(`landings.viviendas.q${n}`),
+  a: t(`landings.viviendas.a${n}`),
+}));
+---
+
+<Layout
+  title="Reformas Integrales Barcelona"
+  description="Reformas integrales de pisos y casas en Barcelona y alrededores (50 km). Presupuesto cerrado antes de empezar y un solo equipo para toda la obra. Pide tu visita gratuita."
+  noindex={true}
+>
+  <!-- Hero de conversión: H1 = titular fijado del anuncio, palabra por palabra -->
+  <section class="lp-hero">
+    <div class="container-x lp-hero__inner" data-reveal-group>
+      <p class="lp-hero__eyebrow" data-reveal>Barcelona y alrededores · hasta 50 km</p>
+      <h1 class="h-hero lp-hero__title" data-reveal>Reformas Integrales Barcelona</h1>
+      <p class="lead lp-hero__sub" data-reveal>
+        Presupuesto cerrado antes de empezar y un solo equipo para toda la obra:
+        albañilería, fontanería, electricidad y acabados. Sin sorpresas.
+      </p>
+      <div class="lp-hero__cta" data-reveal>
+        <a class="btn" href="#presupuesto">Pide tu visita gratuita</a>
+        <a class="btn btn-outline" href={telHref} data-phone>Llámanos ahora</a>
+      </div>
+      <p class="lp-hero__phone" data-reveal>
+        <a href={telHref} data-phone>{site.phone}</a>
+        <span aria-hidden="true">·</span>
+        <span>{site.openingHours}</span>
+      </p>
+      <ul class="lp-hero__proof" data-reveal>
+        <li>Presupuesto cerrado</li>
+        <li>Más de 10 años de obras</li>
+        <li>Equipo propio</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Formulario arriba del todo: la landing pide el lead antes de contar nada más -->
+  <QuoteForm locale={locale} service="viviendas" id="presupuesto" />
+
+  <!-- Contenido real del servicio (mismos componentes que la web) -->
+  <ServiceIncludes locale={locale} service="viviendas" />
+  <PricingTable locale={locale} pricingType="piso" />
+  <RelatedProjects locale={locale} />
+  <Process locale={locale} />
+  <Faq locale={locale} items={faqItems} />
+
+  <!-- CTA final: vuelve al formulario, sin fugas a otras páginas -->
+  <section class="lp-final on-dark">
+    <div class="container-x lp-final__inner" data-reveal-group>
+      <h2 class="h-section" data-reveal>¿Empezamos con tu reforma integral?</h2>
+      <p class="lead lp-final__sub" data-reveal>
+        Visita y presupuesto gratuitos. Te decimos precio cerrado antes de empezar.
+      </p>
+      <div class="lp-final__cta" data-reveal>
+        <a class="btn btn-invert" href="#presupuesto">Pide tu visita gratuita</a>
+        <a class="lp-final__phone" href={telHref} data-phone>{site.phone}</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Hero claro sobre papel, mismo lenguaje que el resto del sitio. */
+  .lp-hero {
+    padding: calc(var(--space-section) * 1.15) 0 var(--space-section);
+    background:
+      radial-gradient(52rem 30rem at 85% -12%, var(--color-sagecard) 0%, transparent 62%),
+      radial-gradient(40rem 26rem at -10% 110%, var(--color-beige) 0%, transparent 58%),
+      var(--color-paper);
+  }
+  .lp-hero__inner {
+    max-width: 52rem;
+  }
+  .lp-hero__eyebrow {
+    display: inline-block;
+    padding: 0.35rem 0.9rem;
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    background: var(--color-surface);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-slate);
+  }
+  .lp-hero__title {
+    margin-top: 1.4rem;
+  }
+  .lp-hero__sub {
+    margin-top: 1.4rem;
+    max-width: 40rem;
+  }
+  .lp-hero__cta {
+    margin-top: 2.2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .lp-hero__phone {
+    margin-top: 1.1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.6rem;
+    color: var(--color-slate);
+    font-size: 0.95rem;
+  }
+  .lp-hero__phone a {
+    font-size: 1.3rem;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+  .lp-hero__phone a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .lp-hero__proof {
+    list-style: none;
+    margin: 2rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .lp-hero__proof li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.45rem 0.85rem;
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    background: var(--color-surface);
+    font-size: 0.85rem;
+    font-weight: 550;
+    color: var(--color-graphite);
+  }
+  .lp-hero__proof li::before {
+    content: "";
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 999px;
+    background: var(--color-accent-solid);
+  }
+
+  /* Banda final oscura (mismo verde profundo que pie/CTA del sitio). */
+  .lp-final {
+    background: var(--color-deep);
+    color: #fff;
+    padding: var(--space-section) 0;
+  }
+  .lp-final__inner {
+    max-width: 46rem;
+    text-align: center;
+    margin-inline: auto;
+  }
+  .lp-final__sub {
+    margin-top: 1rem;
+    color: rgba(255, 255, 255, 0.78);
+  }
+  .lp-final__cta {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  .lp-final__phone {
+    color: #fff;
+    font-size: 1.25rem;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+  }
+  .lp-final__phone:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  @media (max-width: 640px) {
+    .lp-hero__cta .btn {
+      width: 100%;
+      justify-content: center;
+      text-align: center;
+    }
+  }
+</style>

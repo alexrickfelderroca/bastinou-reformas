@@ -62,6 +62,8 @@ export default defineConfig({
           '/en/construction-barcelona/',
           '/en/renovation-cost-calculator/',
           '/proyectos/casa-espana/',
+          // Landing de Google Ads (noindex): fuera del sitemap.
+          '/reformas-integrales-barcelona/',
         ].some((old) => page.endsWith(old)),
     }),
   ],

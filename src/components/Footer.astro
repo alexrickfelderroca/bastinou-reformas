@@ -124,7 +124,8 @@ const hasPhone = !site.phone.includes('[PENDIENTE');
     font-size: 0.78rem;
     text-transform: uppercase;
     letter-spacing: 0.14em;
-    color: rgba(255, 255, 255, 0.55);
+    /* 0.55 daba 4.47:1 sobre --color-deep (falla AA por 0.03); 0.62 pasa. */
+    color: rgba(255, 255, 255, 0.62);
     margin-bottom: 1rem;
     font-weight: 600;
   }
