@@ -74,7 +74,9 @@ export function whatsappHref(message: string): string {
  * escrito y listo, pero permanece DORMIDO hasta que se defina un ID real: sin él
  * no se carga GTM ni se auto-muestra el banner (no hay cookies que consentir).
  */
-export const gtmId = (import.meta.env.PUBLIC_GTM_ID ?? '').trim();
+// El ID del contenedor es público por diseño (va en el HTML), así que vive aquí
+// como valor por defecto y `PUBLIC_GTM_ID` lo puede sobreescribir en el build.
+export const gtmId = (import.meta.env.PUBLIC_GTM_ID ?? 'GTM-PHVSZV97').trim();
 
 /** Sólo se considera activo con un ID de contenedor real (GTM-XXXXXXX). El
  *  placeholder o una cadena vacía dejan el tracking dormido. */
