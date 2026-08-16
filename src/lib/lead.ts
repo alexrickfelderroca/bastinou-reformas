@@ -36,6 +36,11 @@ export interface LeadData {
   utm_source?: string;
   utm_medium?: string;
   utm_campaign?: string;
+  // `utm_term` es la keyword que disparó el anuncio: el dato más útil para
+  // decidir qué palabras pausar. `forms.ts` ya los captura; hasta ahora se
+  // perdían aquí y nunca llegaban al email.
+  utm_term?: string;
+  utm_content?: string;
   gclid?: string;
 }
 
@@ -70,7 +75,11 @@ export function leadToText(d: LeadData): string {
     d.message ? `Mensaje: ${d.message}` : '',
     '',
   ];
-  if (d.tipo || d.m2) {
+  // Cualquier campo de la calculadora abre el bloque, no solo `tipo` y `m2`.
+  // En /precios el municipio es OBLIGATORIO: con la condición anterior, quien
+  // dejaba los m² vacíos hacía que un dato que sí había rellenado no saliera
+  // nunca del sitio.
+  if (d.tipo || d.m2 || d.obra || d.segmento || d.municipio || d.plazo || d.precioMin) {
     lines.push('— Cálculo —');
     if (d.tipo) lines.push(`Tipo: ${d.tipo}`);
     if (d.obra) lines.push(`Obra: ${d.obra}`);
@@ -88,6 +97,8 @@ export function leadToText(d: LeadData): string {
   if (d.utm_source) lines.push(`utm_source: ${d.utm_source}`);
   if (d.utm_medium) lines.push(`utm_medium: ${d.utm_medium}`);
   if (d.utm_campaign) lines.push(`utm_campaign: ${d.utm_campaign}`);
+  if (d.utm_term) lines.push(`utm_term: ${d.utm_term}`);
+  if (d.utm_content) lines.push(`utm_content: ${d.utm_content}`);
   if (d.gclid) lines.push(`gclid: ${d.gclid}`);
   return lines.filter((l) => l !== '').join('\n');
 }

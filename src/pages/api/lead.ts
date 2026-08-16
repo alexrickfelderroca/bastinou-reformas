@@ -70,6 +70,8 @@ export const POST: APIRoute = async ({ request, redirect }) => {
     utm_source: raw.utm_source || undefined,
     utm_medium: raw.utm_medium || undefined,
     utm_campaign: raw.utm_campaign || undefined,
+    utm_term: raw.utm_term || undefined,
+    utm_content: raw.utm_content || undefined,
     gclid: raw.gclid || undefined,
   };
 
