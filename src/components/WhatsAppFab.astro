@@ -42,7 +42,11 @@ const href = whatsappHref(t('whatsapp.prefill'));
     height: 56px;
     border-radius: 999px;
     background: var(--color-whatsapp);
-    color: #fff;
+    /* Icono en verde oscuro, no blanco: como elemento gráfico necesita 3:1 y el
+       blanco sobre el verde de marca se queda en 1,98:1 (con --color-deep, 5,38:1).
+       El verde de fondo se mantiene intacto para que el botón siga siendo
+       reconocible de un vistazo. */
+    color: var(--color-deep);
     box-shadow: 0 12px 30px -8px rgba(37, 211, 102, 0.6);
     transition:
       transform 0.25s var(--ease-standard),

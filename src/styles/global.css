@@ -280,16 +280,21 @@ html.js [data-reveal-lines].is-visible .line > span {
   --btn-bg: #ffffff;
   --btn-fg: var(--color-deep);
 }
+/* El verde de WhatsApp se conserva EXACTO (es la señal reconocible de la marca),
+   pero la etiqueta va en el verde oscuro del sitio: blanco sobre #25d366 da
+   1,98:1 y no llega al 4,5:1 de WCAG AA; con --color-deep sube a 5,38:1.
+   El hover ACLARA en vez de oscurecer, que es lo coherente con texto oscuro
+   (oscurecerlo bajaba el contraste a 4,36:1, otra vez por debajo del mínimo). */
 .btn-whatsapp {
   --btn-bg: var(--color-whatsapp);
-  --btn-fg: #ffffff;
+  --btn-fg: var(--color-deep);
   border-color: var(--color-whatsapp);
 }
 @media (hover: hover) {
   .btn-whatsapp:hover {
-    --btn-bg: #1ebe5b;
+    --btn-bg: #2ee070;
     background: var(--btn-bg);
-    color: #fff;
+    color: var(--color-deep);
     border-color: var(--btn-bg);
   }
 }
