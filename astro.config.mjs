@@ -64,6 +64,9 @@ export default defineConfig({
           '/proyectos/casa-espana/',
           // Landing de Google Ads (noindex): fuera del sitemap.
           '/reformas-integrales-barcelona/',
+          // Página de propósito de la app OAuth (noindex). La exige la brand
+          // verification de Google Cloud; no es contenido del sitio comercial.
+          '/google-ads-api-tool/',
         ].some((old) => page.endsWith(old)),
     }),
   ],

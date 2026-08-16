@@ -1,0 +1,157 @@
+---
+/**
+ * Google Ads API Tool — página de propósito de la aplicación OAuth (noindex).
+ *
+ * POR QUÉ EXISTE: la brand verification de Google Cloud rechazó la portada de
+ * kobor.es con "Your homepage does not explain the purpose of your app". Es
+ * cierto: kobor.es es la web comercial de la empresa y no describe la
+ * aplicación interna que pide permisos OAuth. Esta página lo explica, y es la
+ * que se declara como "Application home page" en la pantalla de consentimiento.
+ *
+ * Mismo tratamiento que la landing de Google Ads: noindex, fuera del sitemap
+ * (astro.config.mjs) y sin enlace desde el menú ni el footer. No forma parte del
+ * sitio comercial ni afecta al SEO.
+ *
+ * EN INGLÉS a propósito: su único público es el equipo de revisión de Google y
+ * la pantalla de consentimiento del propio operador. El contenido coincide con
+ * el documento de diseño enviado con la solicitud de acceso Basic.
+ *
+ * Sin routeKey: no genera hreflang ni alternates, porque no tiene traducciones.
+ */
+import Layout from '../layouts/Layout.astro';
+import { site } from '../config/site';
+
+const sections = [
+  {
+    h: 'What this application is',
+    p: [
+      `This page describes an internal software tool built and operated by ${site.name}, a renovation company based in Barcelona, Spain.`,
+      'The tool uses the Google Ads API to manage and report on this company’s own advertising account. It is not a product, it is not sold, licensed or distributed, and it is not available to the general public. There is no sign-up and no customer-facing interface.',
+    ],
+  },
+  {
+    h: 'What the tool does',
+    p: [
+      '<strong>Campaign management.</strong> It creates and maintains search campaigns, ad groups, responsive search ads, ad assets and negative keyword lists for the company’s own advertising account.',
+      '<strong>Reporting.</strong> It reads performance metrics — cost, clicks, conversions and cost per lead — and presents them in a private internal dashboard, so that advertising spend can be measured against the enquiries and contracts it produces.',
+      '<strong>Keyword research.</strong> It validates search volumes before new pages or campaigns are created, so that budget is not committed to search terms with no real demand.',
+    ],
+  },
+  {
+    h: 'Who can use it',
+    p: [
+      'Access is internal only. Two people use it: the developer who operates it and holds the credentials, and the business owner, who reads the reports and approves budget. The business owner holds no API credentials and cannot trigger API calls.',
+      'No third party can reach the Google Ads API through this tool.',
+    ],
+  },
+  {
+    h: 'Human approval before any change',
+    p: [
+      'The tool never modifies the advertising account on its own. Automated processes read data and prepare recommendations; every change that would affect what is served — a new negative keyword, a budget adjustment — is presented to a person, who approves or rejects it. Only then is the change applied, and the decision is recorded with the user and the time.',
+    ],
+  },
+  {
+    h: 'Data and privacy',
+    p: [
+      'The tool reads configuration and performance data from the company’s own Google Ads account only. It does not access data belonging to any other advertiser.',
+      'Data is stored on a single private server under the company’s control, behind HTTPS and password authentication. It is not shared with third parties, not resold and not used for any purpose other than managing and reporting on this company’s own advertising.',
+      'OAuth credentials are held by the operator alone and are never transmitted to anyone else.',
+      `Our full privacy policy is available at <a href="/privacidad">kobor.es/privacidad</a>, and our legal notice at <a href="/aviso-legal">kobor.es/aviso-legal</a>.`,
+    ],
+  },
+  {
+    h: 'Contact',
+    p: [
+      `Questions about this application can be sent to <a href="mailto:${site.email}">${site.email}</a>.`,
+    ],
+  },
+];
+---
+
+<Layout
+  title="Google Ads API Tool"
+  description="Purpose and scope of the internal Google Ads API application operated by KOBOR Reformas."
+  noindex={true}
+  overHero={true}
+>
+  <section class="ap-hero on-dark">
+    <div class="container-x">
+      <p class="ap-hero__eyebrow">Internal application</p>
+      <h1 class="h-hero">Google Ads API Tool</h1>
+      <p class="ap-hero__sub">
+        An internal tool used by {site.name} to manage and report on its own
+        Google Ads advertising. Not a public product.
+      </p>
+    </div>
+  </section>
+
+  <section class="section ap-body">
+    <div class="container-x ap-prose">
+      {/*
+        SIN data-reveal a propósito. El resto del sitio revela al hacer scroll,
+        pero esta página existe para que un verificador automático de Google lea
+        qué hace la aplicación. Si renderiza con JS y no hace scroll, las
+        secciones de abajo quedarían invisibles y volveríamos al mismo rechazo.
+        Aquí el contenido se ve entero desde el primer frame, siempre.
+      */}
+      {sections.map((s) => (
+        <div class="ap-section">
+          <h2 class="ap-h">{s.h}</h2>
+          {s.p.map((para) => (
+            <p set:html={para} />
+          ))}
+        </div>
+      ))}
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .ap-hero {
+    background: var(--color-deep);
+    color: #fff;
+    padding-block: 8rem 3.5rem;
+  }
+  .ap-hero__eyebrow {
+    margin-bottom: 0.9rem;
+    color: rgba(255, 255, 255, 0.62);
+    font-size: 0.82rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .ap-hero__sub {
+    margin-top: 1.1rem;
+    max-width: 38rem;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 1.05rem;
+    line-height: 1.65;
+  }
+  .ap-body {
+    background: var(--color-paper);
+  }
+  .ap-prose {
+    max-width: 46rem;
+  }
+  .ap-section + .ap-section {
+    margin-top: 2.5rem;
+  }
+  .ap-h {
+    font-size: clamp(1.25rem, 2.4vw, 1.6rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+  .ap-section p {
+    margin-top: 1rem;
+    color: var(--color-slate);
+    line-height: 1.7;
+  }
+  .ap-section :global(a) {
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+  }
+  .ap-section :global(a:hover) {
+    text-decoration-thickness: 2px;
+  }
+</style>
