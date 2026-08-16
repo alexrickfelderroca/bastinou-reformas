@@ -26,4 +26,34 @@ const projects = defineCollection({
     }),
 });
 
-export const collections = { projects };
+/**
+ * Guías (contenido editorial que empuja a las páginas de dinero). A diferencia de
+ * `projects`, aquí el texto SÍ vive en el .md porque cada guía es un artículo
+ * completo: hay un archivo por idioma y `translationKey` une las tres versiones
+ * (igual que el mapa de rutas une las páginas). `moneyPage` es la RouteKey a la
+ * que empuja la guía y `related` lista translationKeys de otras guías.
+ */
+const guias = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/guias' }),
+  schema: ({ image }) =>
+    z.object({
+      lang: z.enum(['es', 'ca', 'en']),
+      translationKey: z.string(),
+      title: z.string(),
+      metaTitle: z.string(),
+      metaDescription: z.string(),
+      excerpt: z.string(),
+      keyword: z.string(),
+      pubDate: z.coerce.date(),
+      updatedDate: z.coerce.date().optional(),
+      cover: image(),
+      coverAlt: z.string(),
+      readingMinutes: z.number(),
+      faq: z.array(z.object({ q: z.string(), a: z.string() })).default([]),
+      moneyPage: z.string(),
+      related: z.array(z.string()).default([]),
+      order: z.number().default(0),
+    }),
+});
+
+export const collections = { projects, guias };

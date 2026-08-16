@@ -38,7 +38,7 @@ export const routes = {
   proyectos: { es: '/proyectos', ca: '/ca/projectes', en: '/en/projects' },
   nosotros: { es: '/nosotros', ca: '/ca/nosaltres', en: '/en/about' },
   contacto: { es: '/contacto', ca: '/ca/contacte', en: '/en/contact' },
-  blog: { es: '/blog', ca: '/ca/blog', en: '/en/blog' },
+  guias: { es: '/guias', ca: '/ca/guies', en: '/en/guides' },
   avisoLegal: { es: '/aviso-legal', ca: '/ca/avis-legal', en: '/en/legal-notice' },
   privacidad: { es: '/privacidad', ca: '/ca/privacitat', en: '/en/privacy-policy' },
   cookies: { es: '/politica-cookies', ca: '/ca/politica-cookies', en: '/en/cookie-policy' },

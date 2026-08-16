@@ -26,7 +26,7 @@ const t = useTranslations(locale);
 const p = (k: RouteKey) => localizedPath(k, locale);
 
 const services: RouteKey[] = ['viviendas', 'oficinas', 'tiendas', 'beauty'];
-const primaryNav: RouteKey[] = ['precios', 'proyectos', 'contacto'];
+const primaryNav: RouteKey[] = ['precios', 'proyectos', 'guias', 'contacto'];
 const waPrefill = t('whatsapp.prefill');
 const hasPhone = !site.phone.includes('[PENDIENTE');
 ---
@@ -177,6 +177,9 @@ const hasPhone = !site.phone.includes('[PENDIENTE');
     background: none;
     border: 0;
     cursor: pointer;
+    /* Cada entrada en una sola línea: con 6 entradas, sin esto los rótulos de
+       dos palabras se parten y la barra crece a dos alturas. */
+    white-space: nowrap;
     transition: opacity 0.2s ease;
   }
   .nav-link:hover,

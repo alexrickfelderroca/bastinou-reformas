@@ -17,6 +17,7 @@
     "nosotros": "About us",
     "contacto": "Contact",
     "blog": "Blog",
+    "guias": "Guides",
     "menu": "Menu",
     "close": "Close",
     "open": "Open menu"
@@ -174,6 +175,8 @@
     "pricingCustomDesc": "Every space is different. Tell us about your project and we'll prepare a detailed quote, no obligation.",
     "relatedTitle": "Related projects",
     "relatedCta": "View all projects",
+    "relatedGuidesTitle": "Related guides",
+    "relatedGuidesCta": "View all guides",
     "faqTitle": "Frequently asked questions",
     "ctaBlockTitle": "Check our indicative prices",
     "ctaBlockSub": "Clear reference prices for the most requested jobs, no obligation.",
@@ -536,6 +539,23 @@
       "summary": "Shared washrooms in poor condition renovated with sage green tiles, a double countertop with wall-mounted taps and a large mirror.",
       "duration": "2 weeks"
     }
+  },
+  "guias": {
+    "metaTitle": "Renovation guides in Barcelona",
+    "metaDescription": "Practical guides to renovating homes and commercial spaces in Barcelona and the surrounding area: what it costs, how long it takes and what to decide before you start.",
+    "eyebrow": "Before the work begins",
+    "title": "Renovation guides",
+    "intro": "The things worth knowing before you renovate, explained calmly: what it costs, how long it takes and which decisions shape the result. No jargon, and the same references we use when preparing a quote.",
+    "readingLabel": "min read",
+    "updatedLabel": "Updated",
+    "tocTitle": "In this guide",
+    "faqTitle": "Frequently asked questions",
+    "backToIndex": "All guides",
+    "relatedTitle": "Related guides",
+    "ctaTitle": "Want the figure for your own project?",
+    "ctaText": "The visit and the quote are free. We look at the space, take measurements and give you a closed written quote with line items, materials and timings. We reply in under 24 hours.",
+    "ctaButton": "Request a free visit",
+    "breadcrumb": "Guides"
   },
   "about": {
     "metaTitle": "About us — Kobor",

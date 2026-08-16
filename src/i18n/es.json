@@ -17,6 +17,7 @@
     "nosotros": "Sobre nosotros",
     "contacto": "Contacto",
     "blog": "Blog",
+    "guias": "Guías",
     "menu": "Menú",
     "close": "Cerrar",
     "open": "Abrir menú"
@@ -174,6 +175,8 @@
     "pricingCustomDesc": "Cada espacio es distinto. Cuéntanos tu proyecto y preparamos un presupuesto detallado, sin compromiso.",
     "relatedTitle": "Proyectos relacionados",
     "relatedCta": "Ver todos los proyectos",
+    "relatedGuidesTitle": "Guías relacionadas",
+    "relatedGuidesCta": "Ver todas las guías",
     "faqTitle": "Preguntas frecuentes",
     "ctaBlockTitle": "Consulta nuestros precios orientativos",
     "ctaBlockSub": "Referencias claras de los trabajos más solicitados, sin compromiso.",
@@ -536,6 +539,23 @@
       "summary": "Aseos comunes en mal estado renovados con azulejo verde salvia, encimera doble con grifería empotrada y espejo amplio.",
       "duration": "2 semanas"
     }
+  },
+  "guias": {
+    "metaTitle": "Guías de reformas en Barcelona",
+    "metaDescription": "Guías prácticas sobre reformas de viviendas y locales en Barcelona y alrededores: cuánto cuestan, cuánto tardan y qué decidir antes de empezar. Explicado sin tecnicismos.",
+    "eyebrow": "Antes de empezar la obra",
+    "title": "Guías de reformas",
+    "intro": "Explicamos con calma lo que conviene saber antes de reformar: cuánto cuesta, cuánto tarda y qué decisiones marcan el resultado. Sin tecnicismos y con las mismas referencias que usamos al preparar un presupuesto.",
+    "readingLabel": "min de lectura",
+    "updatedLabel": "Actualizado",
+    "tocTitle": "En esta guía",
+    "faqTitle": "Preguntas frecuentes",
+    "backToIndex": "Todas las guías",
+    "relatedTitle": "Guías relacionadas",
+    "ctaTitle": "¿Quieres la cifra de tu caso?",
+    "ctaText": "La visita y el presupuesto son gratuitos. Vemos el espacio, tomamos medidas y te entregamos un presupuesto cerrado por escrito, con partidas, materiales y plazos. Te respondemos en menos de 24 h.",
+    "ctaButton": "Solicitar visita gratuita",
+    "breadcrumb": "Guías"
   },
   "about": {
     "metaTitle": "Sobre nosotros — Kobor",

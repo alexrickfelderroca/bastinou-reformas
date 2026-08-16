@@ -1,0 +1,17 @@
+---
+/**
+ * Índice de guías en catalán (/ca/guies/). Envoltorio mínimo: filtra la
+ * colección por idioma y la ordena (order asc; a igualdad, la más reciente
+ * primero). Todo lo visual y textual vive en GuideIndexPage.astro.
+ */
+import { getCollection } from 'astro:content';
+import GuideIndexPage from '../../../components/guias/GuideIndexPage.astro';
+import { getLocaleFromUrl } from '../../../i18n/ui';
+
+const locale = getLocaleFromUrl(Astro.url);
+
+const entries = (await getCollection('guias', (e) => e.data.lang === 'ca')).sort(
+  (a, b) => a.data.order - b.data.order || b.data.pubDate.getTime() - a.data.pubDate.getTime(),
+);
+---
+<GuideIndexPage locale={locale} entries={entries} />

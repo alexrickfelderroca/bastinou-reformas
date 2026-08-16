@@ -17,6 +17,7 @@
     "nosotros": "Sobre nosaltres",
     "contacto": "Contacte",
     "blog": "Blog",
+    "guias": "Guies",
     "menu": "Menú",
     "close": "Tancar",
     "open": "Obrir menú"
@@ -174,6 +175,8 @@
     "pricingCustomDesc": "Cada espai és diferent. Explica'ns el teu projecte i preparem un pressupost detallat, sense compromís.",
     "relatedTitle": "Projectes relacionats",
     "relatedCta": "Veure tots els projectes",
+    "relatedGuidesTitle": "Guies relacionades",
+    "relatedGuidesCta": "Veure totes les guies",
     "faqTitle": "Preguntes freqüents",
     "ctaBlockTitle": "Consulta els nostres preus orientatius",
     "ctaBlockSub": "Referències clares dels treballs més sol·licitats, sense compromís.",
@@ -536,6 +539,23 @@
       "summary": "Lavabos comuns en mal estat renovats amb rajola verd sàlvia, taulell doble amb aixetes encastades i mirall ampli.",
       "duration": "2 setmanes"
     }
+  },
+  "guias": {
+    "metaTitle": "Guies de reformes a Barcelona",
+    "metaDescription": "Guies pràctiques sobre reformes d'habitatges i locals a Barcelona i rodalia: quant costen, quant triguen i què decidir abans de començar. Explicat sense tecnicismes.",
+    "eyebrow": "Abans de començar l'obra",
+    "title": "Guies de reformes",
+    "intro": "Expliquem amb calma el que convé saber abans de reformar: quant costa, quant triga i quines decisions marquen el resultat. Sense tecnicismes i amb les mateixes referències que fem servir en preparar un pressupost.",
+    "readingLabel": "min de lectura",
+    "updatedLabel": "Actualitzat",
+    "tocTitle": "En aquesta guia",
+    "faqTitle": "Preguntes freqüents",
+    "backToIndex": "Totes les guies",
+    "relatedTitle": "Guies relacionades",
+    "ctaTitle": "Vols la xifra del teu cas?",
+    "ctaText": "La visita i el pressupost són gratuïts. Veiem l'espai, prenem mides i et lliurem un pressupost tancat per escrit, amb partides, materials i terminis. Et responem en menys de 24 h.",
+    "ctaButton": "Sol·licitar visita gratuïta",
+    "breadcrumb": "Guies"
   },
   "about": {
     "metaTitle": "Sobre nosaltres — Kobor",

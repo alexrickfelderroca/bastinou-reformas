@@ -1,0 +1,209 @@
+---
+/**
+ * Guías relacionadas (§4.3, enlazado interno). Cierra el circuito de autoridad:
+ * las guías empujan a la página de dinero (`moneyPage`) y esta sección devuelve
+ * el enlace desde la landing de servicio hacia las guías que le corresponden.
+ *
+ * Selección por servicio mediante `translationKey` (no por slug: el slug está
+ * traducido y cambia por idioma). Las guías que todavía no existan se omiten sin
+ * romper el build y, si no queda ninguna, la sección no se renderiza.
+ *
+ * Se diferencia a propósito de «Proyectos relacionados», que va antes en la
+ * misma página: fondo salvia en vez de papel, texto sobre superficie blanca en
+ * vez de caption encima de la foto, y otro ratio de imagen (16/9 vs 4/3).
+ */
+import { Image } from 'astro:assets';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { useTranslations, type Locale } from '../../i18n/ui';
+import { localizedPath, withTrailingSlash } from '../../i18n/routes';
+import type { ServiceKey } from '../../config/services';
+import SectionHeader from './SectionHeader.astro';
+
+interface Props {
+  locale: Locale;
+  service: ServiceKey;
+}
+const { locale, service } = Astro.props;
+const t = useTranslations(locale);
+
+/** Qué guías cuelgan de cada servicio, en orden de importancia. */
+const guidesByService: Record<ServiceKey, string[]> = {
+  viviendas: ['precio-reforma-piso', 'plazo-reforma-piso'],
+  oficinas: ['plazo-reforma-piso'],
+  tiendas: ['plazo-reforma-piso'],
+  beauty: ['plazo-reforma-piso'],
+};
+
+/**
+ * Slug de la guía: el id del archivo, igual que en /proyectos, tolerando que la
+ * colección se organice en carpetas por idioma (`es/…`) o con sufijo (`….es`).
+ */
+function guideSlug(id: string): string {
+  return (id.split('/').pop() ?? id).replace(/\.(es|ca|en)$/, '');
+}
+
+const inLocale = await getCollection('guias', (entry) => entry.data.lang === locale);
+const byKey = new Map(inLocale.map((entry) => [entry.data.translationKey, entry]));
+
+// Respeta el orden declarado arriba y descarta las que aún no se han escrito.
+const guides = guidesByService[service]
+  .map((key) => byKey.get(key))
+  .filter((entry): entry is CollectionEntry<'guias'> => entry !== undefined);
+
+const indexHref = withTrailingSlash(localizedPath('guias', locale));
+---
+
+{guides.length > 0 && (
+  <section class="rguides">
+    <div class="container-x">
+      <div class="rguides__head">
+        <SectionHeader eyebrow={t('guias.eyebrow')} title={t('landing.relatedGuidesTitle')} />
+        <a class="btn btn-outline rguides__cta" href={indexHref}>
+          {t('landing.relatedGuidesCta')}
+        </a>
+      </div>
+
+      <div class="rguides__list" data-reveal-group data-reveal-stagger="90">
+        {guides.map((guide) => (
+          <a
+            class="rguides__card card-hover"
+            href={withTrailingSlash(`${localizedPath('guias', locale)}/${guideSlug(guide.id)}`)}
+            data-reveal
+          >
+            <div class="rguides__media">
+              <Image
+                src={guide.data.cover}
+                alt={guide.data.coverAlt}
+                widths={[420, 768]}
+                sizes="(min-width: 768px) 24rem, 100vw"
+                class="card-media"
+                loading="lazy"
+              />
+            </div>
+            <div class="rguides__body">
+              <h3 class="rguides__title">{guide.data.title}</h3>
+              <p class="rguides__excerpt">{guide.data.excerpt}</p>
+              <p class="rguides__meta">{guide.data.readingMinutes} {t('guias.readingLabel')}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  /* Franja salvia que entra y sale del papel con un degradado largo: ni corte
+     duro contra la FAQ (arriba) ni contra la banda oscura de precios (abajo). */
+  .rguides {
+    padding-block: var(--space-section);
+    background-color: var(--color-sagecard);
+    background-image: linear-gradient(
+      180deg,
+      var(--color-paper) 0,
+      var(--color-sagecard) 180px,
+      var(--color-sagecard) calc(100% - 180px),
+      var(--color-paper) 100%
+    );
+  }
+  /* La cabecera comparte el ancho de la lista para que el botón quede a plomo
+     con el borde derecho de las tarjetas. */
+  .rguides__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+    max-width: 60rem;
+  }
+  .rguides__head :global(.sec-head) {
+    margin-bottom: 0;
+  }
+  /* Sobre salvia, el gris de los antetítulos se queda en 4,43:1 (AA pide 4,5):
+     en esta sección sube a graphite, que da 8:1 sin cambiar el tono. */
+  .rguides__head :global(.sec-head__eyebrow) {
+    color: var(--color-graphite);
+  }
+  .rguides__cta {
+    flex: none;
+  }
+  .rguides__list {
+    display: grid;
+    gap: 1rem;
+    /* Filas iguales: con dos guías las dos tarjetas (y sus fotos) miden lo mismo. */
+    grid-auto-rows: 1fr;
+    max-width: 60rem;
+    margin-top: clamp(2rem, 4vw, 3rem);
+  }
+  .rguides__card {
+    display: grid;
+    grid-template-columns: 1fr;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 1.25rem;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+  }
+  /* Foto panorámica 16/9: otro ritmo visual que el 4/3 de «Proyectos relacionados».
+     La imagen va posicionada para que no sea su alto intrínseco (las portadas son
+     verticales) el que estire la tarjeta: el encuadre lo manda el contenedor. */
+  .rguides__media {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+  }
+  .rguides__media :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .rguides__body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: clamp(1.25rem, 2.5vw, 1.9rem);
+  }
+  .rguides__title {
+    font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+    font-weight: 550;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: var(--color-ink);
+  }
+  /* Entradilla acotada a 3 líneas: mantiene la altura de la tarjeta bajo control
+     (y con ella el encuadre de la foto) sea cual sea la longitud del texto. */
+  .rguides__excerpt {
+    color: var(--color-slate);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    max-width: 52ch;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
+  }
+  .rguides__meta {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--color-slate);
+  }
+  @media (min-width: 768px) {
+    .rguides__card {
+      grid-template-columns: 24rem 1fr;
+      align-items: stretch;
+    }
+    /* En horizontal la foto llena su columna (nunca deja huecos blancos); el alto
+       lo fija el texto acotado, así que el encuadre se mantiene apaisado. */
+    .rguides__media {
+      aspect-ratio: auto;
+      min-height: 12.5rem;
+    }
+  }
+</style>

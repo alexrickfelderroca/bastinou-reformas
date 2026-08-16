@@ -15,6 +15,7 @@ import PricingTable from './sections/PricingTable.astro';
 import RelatedProjects from './sections/RelatedProjects.astro';
 import Process from './sections/Process.astro';
 import Faq from './sections/Faq.astro';
+import RelatedGuides from './sections/RelatedGuides.astro';
 import PricesCtaBlock from './sections/PricesCtaBlock.astro';
 import QuoteForm from './sections/QuoteForm.astro';
 
@@ -70,6 +71,7 @@ const breadcrumbLd = {
   <RelatedProjects locale={locale} />
   <Process locale={locale} />
   <Faq locale={locale} items={faqItems} />
+  <RelatedGuides locale={locale} service={service} />
   <PricesCtaBlock locale={locale} />
   <QuoteForm locale={locale} service={service} />
 

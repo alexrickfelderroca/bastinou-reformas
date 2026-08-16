@@ -1,0 +1,61 @@
+---
+/**
+ * Guía individual en catalán (/ca/guies/<slug>/).
+ *
+ * El .md vive en src/content/guias/ca/, así que el id incluye la carpeta de
+ * idioma: el slug público es su último segmento. Los hreflang se construyen
+ * buscando las entradas con el MISMO `translationKey` en los otros idiomas, de
+ * modo que cada guía apunta a su traducción REAL (nunca a una URL inexistente).
+ *
+ * `getStaticPaths` va SIEMPRE como `export async function`: el compilador la
+ * eleva a ámbito de módulo, y declarada como const flecha llegaría vacía
+ * `Astro.props`. Por lo mismo, todo lo que necesita se declara dentro.
+ */
+import { getCollection, type CollectionEntry } from 'astro:content';
+import GuidePost from '../../../components/guias/GuidePost.astro';
+import { getLocaleFromUrl, locales, type Locale } from '../../../i18n/ui';
+import { localizedPath, withTrailingSlash } from '../../../i18n/routes';
+
+export async function getStaticPaths() {
+  const lang: Locale = 'ca';
+  const all = await getCollection('guias');
+
+  /** Slug público: último segmento del id (los .md van en es/, ca/, en/). */
+  const slugOf = (e: CollectionEntry<'guias'>): string => e.id.split('/').pop() ?? e.id;
+  const hrefFor = (l: Locale, slug: string): string =>
+    withTrailingSlash(`${localizedPath('guias', l)}/${slug}`);
+
+  return all
+    .filter((entry) => entry.data.lang === lang)
+    .map((entry) => {
+      // Sólo los idiomas con traducción real de ESTA guía.
+      const alternates = locales
+        .map((l) => {
+          const twin = all.find(
+            (e) => e.data.lang === l && e.data.translationKey === entry.data.translationKey,
+          );
+          return twin ? { locale: l, path: hrefFor(l, slugOf(twin)) } : null;
+        })
+        .filter((a): a is { locale: Locale; path: string } => a !== null);
+
+      // Relacionadas: mismos translationKeys, siempre en el idioma de la página.
+      const relatedEntries = entry.data.related
+        .map((key) => all.find((e) => e.data.lang === lang && e.data.translationKey === key))
+        .filter((e): e is CollectionEntry<'guias'> => e !== undefined);
+
+      return {
+        params: { slug: slugOf(entry) },
+        props: { entry, alternates, relatedEntries },
+      };
+    });
+}
+
+const locale = getLocaleFromUrl(Astro.url);
+const { entry, alternates, relatedEntries } = Astro.props;
+---
+<GuidePost
+  locale={locale}
+  entry={entry}
+  alternates={alternates}
+  relatedEntries={relatedEntries}
+/>

@@ -1,0 +1,343 @@
+---
+/**
+ * Índice de guías. Cabecera sobria (banda verde, sin hero de foto) y un listado
+ * con jerarquía: la primera guía —la de `order` más bajo— ocupa un bloque ancho
+ * con imagen grande, y el resto va en una rejilla secundaria de dos columnas.
+ *
+ * Si un idioma todavía no tiene guías publicadas, se pinta un estado vacío
+ * sobrio (nunca una página en blanco) con el CTA de contacto. Todo el texto sale
+ * de los diccionarios; de la colección sólo salen títulos, extractos y fechas.
+ */
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { useTranslations, localeHtmlLang, type Locale } from '../../i18n/ui';
+import { localizedPath, withTrailingSlash } from '../../i18n/routes';
+import { breadcrumbLd } from '../../lib/breadcrumbs';
+
+interface Props {
+  locale: Locale;
+  entries: CollectionEntry<'guias'>[];
+}
+
+const { locale, entries } = Astro.props;
+const t = useTranslations(locale);
+
+/** Slug público de una guía: último segmento del id (los .md van en es/, ca/, en/). */
+const slugOf = (e: CollectionEntry<'guias'>): string => e.id.split('/').pop() ?? e.id;
+const guideHref = (e: CollectionEntry<'guias'>): string =>
+  withTrailingSlash(`${localizedPath('guias', locale)}/${slugOf(e)}`);
+
+const contactPath = withTrailingSlash(localizedPath('contacto', locale));
+
+// Orden editorial: `order` manda; a igualdad, la más reciente primero.
+const sorted = [...entries].sort(
+  (a, b) => a.data.order - b.data.order || b.data.pubDate.getTime() - a.data.pubDate.getTime(),
+);
+const [featured, ...rest] = sorted;
+
+const dateFmt = new Intl.DateTimeFormat(localeHtmlLang[locale], {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+const isoDay = (value: Date): string => value.toISOString().slice(0, 10);
+
+const siteUrl = Astro.site ?? new URL('https://kobor.es');
+const crumbsLd = breadcrumbLd(siteUrl, [
+  { name: t('landing.breadcrumbHome'), path: localizedPath('home', locale) },
+  { name: t('guias.breadcrumb'), path: localizedPath('guias', locale) },
+]);
+---
+
+<Layout
+  title={t('guias.metaTitle')}
+  description={t('guias.metaDescription')}
+  routeKey="guias"
+  overHero={true}
+>
+  <section class="gi-head on-dark">
+    <div class="container-x">
+      <div class="gi-head__inner" data-reveal-group data-reveal-stagger="70">
+        <p class="gi-head__eyebrow" data-reveal>{t('guias.eyebrow')}</p>
+        <h1 class="h-hero gi-head__title" data-reveal>{t('guias.title')}</h1>
+        <p class="lead gi-head__intro" data-reveal>{t('guias.intro')}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section gi-list">
+    <div class="container-x">
+      {featured ? (
+        <Fragment>
+          <a class="gi-featured card-hover" href={guideHref(featured)} data-reveal>
+            <div class="gi-featured__media">
+              <Image
+                src={featured.data.cover}
+                alt=""
+                widths={[640, 960, 1280]}
+                sizes="(min-width: 960px) 56vw, 100vw"
+                class="card-media"
+                loading="eager"
+                fetchpriority="high"
+              />
+            </div>
+            <div class="gi-featured__body">
+              <p class="gi-meta">
+                <time datetime={isoDay(featured.data.pubDate)}>
+                  {dateFmt.format(featured.data.pubDate)}
+                </time>
+                <span class="gi-meta__dot" aria-hidden="true">·</span>
+                <span>{featured.data.readingMinutes} {t('guias.readingLabel')}</span>
+              </p>
+              <h2 class="gi-featured__title">{featured.data.title}</h2>
+              <p class="gi-featured__excerpt">{featured.data.excerpt}</p>
+              {/* Afordancia visual del enlace: la tarjeta entera es el enlace y
+                  su nombre accesible es el título, así que la flecha es decorativa. */}
+              <span class="gi-featured__more" aria-hidden="true">
+                <svg width="15" height="10" viewBox="0 0 15 10">
+                  <path d="M9.6 1 13.8 5 9.6 9M13.8 5H1" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </div>
+          </a>
+
+          {rest.length > 0 && (
+            <div class="gi-grid" data-reveal-group data-reveal-stagger="90">
+              {rest.map((e) => (
+                <a class="gi-card card-hover" href={guideHref(e)} data-reveal>
+                  <div class="gi-card__media">
+                    <Image
+                      src={e.data.cover}
+                      alt=""
+                      widths={[400, 640, 1120]}
+                      sizes="(min-width: 1216px) 560px, (min-width: 720px) 45vw, 100vw"
+                      class="card-media"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div class="gi-card__body">
+                    <p class="gi-meta">
+                      <time datetime={isoDay(e.data.pubDate)}>{dateFmt.format(e.data.pubDate)}</time>
+                      <span class="gi-meta__dot" aria-hidden="true">·</span>
+                      <span>{e.data.readingMinutes} {t('guias.readingLabel')}</span>
+                    </p>
+                    <h2 class="gi-card__title">{e.data.title}</h2>
+                    <p class="gi-card__excerpt">{e.data.excerpt}</p>
+                  </div>
+                </a>
+              ))}
+            </div>
+          )}
+        </Fragment>
+      ) : (
+        <div class="gi-empty" data-reveal-group data-reveal-stagger="70">
+          <h2 class="gi-empty__title" data-reveal>{t('guias.ctaTitle')}</h2>
+          <p class="gi-empty__text" data-reveal>{t('guias.ctaText')}</p>
+          <a class="btn gi-empty__cta" href={contactPath} data-reveal>{t('guias.ctaButton')}</a>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(crumbsLd)} />
+</Layout>
+
+<style>
+  /* ---------- Cabecera ---------- */
+  .gi-head {
+    background: var(--color-deep);
+    color: #fff;
+    padding-block: 8rem 3.5rem;
+  }
+  .gi-head__inner {
+    max-width: 52rem;
+  }
+  .gi-head__eyebrow {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: rgba(255, 255, 255, 0.62);
+    margin-bottom: 1rem;
+  }
+  .gi-head__title {
+    text-wrap: balance;
+  }
+  .gi-head__intro {
+    margin-top: 1.25rem;
+    color: rgba(255, 255, 255, 0.74);
+  }
+
+  /* ---------- Listado ---------- */
+  .gi-list {
+    background: var(--color-paper);
+  }
+  .gi-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.03em;
+    /* slate, no mist: mist (#7e8b81) se queda en 3,3:1 sobre papel — no llega a AA. */
+    color: var(--color-slate);
+  }
+  .gi-meta__dot {
+    color: var(--color-mist);
+  }
+
+  /* Destacada: bloque ancho, imagen grande. */
+  .gi-featured {
+    display: grid;
+    grid-template-columns: 1fr;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 1.5rem;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+  }
+  .gi-featured__media {
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+  }
+  .gi-featured__media :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .gi-featured__body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.9rem;
+    padding: 1.75rem 1.6rem 2rem;
+  }
+  .gi-featured__title {
+    font-size: clamp(1.4rem, 2.8vw, 2.05rem);
+    font-weight: 560;
+    line-height: 1.14;
+    letter-spacing: -0.018em;
+    color: var(--color-ink);
+    text-wrap: balance;
+  }
+  .gi-featured__excerpt {
+    max-width: 52ch;
+    color: var(--color-slate);
+    line-height: 1.6;
+  }
+  .gi-featured__more {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin-top: 0.5rem;
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    color: var(--color-accent);
+    transition: background-color 0.3s var(--ease-standard),
+      color 0.3s var(--ease-standard), border-color 0.3s var(--ease-standard);
+  }
+  @media (hover: hover) {
+    .gi-featured:hover .gi-featured__more {
+      background: var(--color-deep);
+      border-color: var(--color-deep);
+      color: #fff;
+    }
+  }
+
+  /* Rejilla secundaria: dos columnas, nunca tres iguales. */
+  .gi-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-top: clamp(2rem, 4vw, 3rem);
+  }
+  .gi-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 1.25rem;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+  }
+  .gi-card__media {
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+  }
+  .gi-card__media :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .gi-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 1.3rem 1.4rem 1.5rem;
+  }
+  .gi-card__title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 1.26;
+    letter-spacing: -0.014em;
+    color: var(--color-ink);
+    text-wrap: balance;
+  }
+  .gi-card__excerpt {
+    font-size: 0.94rem;
+    line-height: 1.55;
+    color: var(--color-slate);
+  }
+
+  /* ---------- Estado vacío ---------- */
+  .gi-empty {
+    max-width: 40rem;
+    padding: clamp(2rem, 5vw, 3rem);
+    background: var(--color-sagecard);
+    border-radius: 1.5rem;
+  }
+  .gi-empty__title {
+    font-size: clamp(1.35rem, 2.6vw, 1.85rem);
+    font-weight: 560;
+    line-height: 1.18;
+    letter-spacing: -0.015em;
+    color: var(--color-ink);
+    text-wrap: balance;
+  }
+  .gi-empty__text {
+    margin-top: 0.9rem;
+    color: var(--color-graphite);
+    line-height: 1.65;
+  }
+  .gi-empty__cta {
+    margin-top: 1.75rem;
+  }
+
+  @media (min-width: 720px) {
+    .gi-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+  }
+  @media (min-width: 960px) {
+    .gi-featured {
+      grid-template-columns: 1.15fr 0.85fr;
+      align-items: stretch;
+    }
+    /* La proporción fija la altura de la fila; con `stretch` la imagen sigue
+       llenando la tarjeta si el texto resultara más alto. */
+    .gi-featured__media {
+      aspect-ratio: 4 / 3;
+    }
+    .gi-featured__body {
+      justify-content: center;
+      padding: 2.75rem 2.5rem;
+    }
+  }
+</style>
