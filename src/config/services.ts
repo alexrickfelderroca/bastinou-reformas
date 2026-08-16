@@ -7,14 +7,22 @@
  */
 import type { RouteKey } from '../i18n/routes';
 
-export type ServiceKey = 'viviendas' | 'oficinas' | 'tiendas' | 'beauty';
+export type ServiceKey = 'viviendas' | 'oficinas' | 'tiendas' | 'beauty' | 'banos';
 
 /** Tipo de tarifa integral en pricing.json; null = presupuesto a medida. */
 export type PricingType = 'piso' | 'casa' | 'oficina' | null;
 
+/**
+ * Tarifa de reforma PARCIAL en pricing.json (`parcial.*`). A diferencia de la
+ * integral, es un precio total «desde» por reforma, no un €/m²: un baño no se
+ * presupuesta por metros. Cuando está presente manda sobre `pricingType`.
+ */
+export type PartialPricingKey = 'bano' | 'cocina';
+
 export interface ServiceCfg {
   routeKey: RouteKey;
   pricingType: PricingType;
+  partialPricing?: PartialPricingKey;
 }
 
 export const services: Record<ServiceKey, ServiceCfg> = {
@@ -22,6 +30,8 @@ export const services: Record<ServiceKey, ServiceCfg> = {
   oficinas: { routeKey: 'oficinas', pricingType: 'oficina' },
   tiendas: { routeKey: 'tiendas', pricingType: 'oficina' },
   beauty: { routeKey: 'beauty', pricingType: 'oficina' },
+  banos: { routeKey: 'banos', pricingType: null, partialPricing: 'bano' },
 };
 
-export const serviceOrder: ServiceKey[] = ['viviendas', 'oficinas', 'tiendas', 'beauty'];
+/** Orden del desplegable de Servicios: las cuatro verticales y luego baños. */
+export const serviceOrder: ServiceKey[] = ['viviendas', 'oficinas', 'tiendas', 'beauty', 'banos'];

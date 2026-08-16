@@ -1,22 +1,30 @@
 ---
 /**
- * Precios orientativos por segmento (§4.3). Lee pricing.json (placeholder) para
- * el tipo de servicio. Si pricingType es null (construcción) → "a medida".
- * Cifras placeholder: el precio exacto se da tras la visita.
+ * Precios orientativos por segmento (§4.3). Lee pricing.json para el tipo de
+ * servicio. Dos modalidades:
+ *  - `pricingType` (integral): €/m² — piso, casa, oficina.
+ *  - `partialPricing` (parcial): precio TOTAL «desde» por reforma — baño,
+ *    cocina. Una estancia no se presupuesta por metros, así que la unidad
+ *    €/m² se omite; manda sobre `pricingType` si se pasan ambas.
+ * Sin ninguna de las dos (construcción) → "a medida".
+ * El precio exacto se cierra siempre tras la visita.
  */
 import { useTranslations, type Locale } from '../../i18n/ui';
 import { localizedPath } from '../../i18n/routes';
-import type { PricingType } from '../../config/services';
+import type { PricingType, PartialPricingKey } from '../../config/services';
 import pricing from '../../config/pricing.json';
 import SectionHeader from './SectionHeader.astro';
 
 interface Props {
   locale: Locale;
   pricingType: PricingType;
+  partialPricing?: PartialPricingKey;
 }
-const { locale, pricingType } = Astro.props;
+const { locale, pricingType, partialPricing } = Astro.props;
 const t = useTranslations(locale);
-const nf = new Intl.NumberFormat(locale === 'en' ? 'en' : 'es-ES');
+// `useGrouping: 'always'` es obligatorio: es-ES aplica minimumGroupingDigits=2,
+// así que sin él 4900 se imprime "4900" y 11000 "11.000" en la misma tabla.
+const nf = new Intl.NumberFormat(locale === 'en' ? 'en' : 'es-ES', { useGrouping: 'always' });
 
 type Seg = 'basico' | 'estandar' | 'premium';
 const segMeta: { key: Seg; name: string; desc: string; featured?: boolean }[] = [
@@ -25,15 +33,27 @@ const segMeta: { key: Seg; name: string; desc: string; featured?: boolean }[] = 
   { key: 'premium', name: t('landing.segPremium'), desc: t('landing.segPremiumDesc') },
 ];
 
-const rates = pricingType ? (pricing.integral as Record<string, Record<Seg, number>>)[pricingType] : null;
+const rates = partialPricing
+  ? (pricing.parcial as Record<string, Record<Seg, number>>)[partialPricing]
+  : pricingType
+    ? (pricing.integral as Record<string, Record<Seg, number>>)[pricingType]
+    : null;
+
+// La tarifa parcial es un total por reforma: sin "€/m²" y con su propio antetítulo.
+const isPartial = Boolean(partialPricing);
+const unitLabel = isPartial ? t('landing.perProject') : t('landing.perSqm');
+// El subtítulo integral habla de "por m²": en parcial mentiría sobre la unidad.
+const pricingSubtitle = isPartial
+  ? t('landing.pricingSubtitlePartial')
+  : t('landing.pricingSubtitle');
 ---
 
 <section class="section pricing">
   <div class="container-x">
     <SectionHeader
-      eyebrow={t('landing.perSqm')}
+      eyebrow={unitLabel}
       title={t('landing.pricingTitle')}
-      subtitle={t('landing.pricingSubtitle')}
+      subtitle={pricingSubtitle}
     />
 
     {rates ? (
@@ -44,7 +64,7 @@ const rates = pricingType ? (pricing.integral as Record<string, Record<Seg, numb
             <p class="pricing__price">
               <span class="pricing__from">{t('landing.from')}</span>
               <span class="pricing__amount">{nf.format(rates[seg.key])}</span>
-              <span class="pricing__unit">{t('landing.perSqm')}</span>
+              <span class="pricing__unit">{isPartial ? '€' : t('landing.perSqm')}</span>
             </p>
             <p class="pricing__desc">{seg.desc}</p>
             <a class:list={['btn', seg.featured ? '' : 'btn-outline']} href={localizedPath('contacto', locale)}>

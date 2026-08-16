@@ -17,7 +17,7 @@ faq:
     a: "It depends on whether the home has a second bathroom. We plan this with you during the visit to keep disruption to a minimum."
   - q: "Do you work across the whole of Barcelona?"
     a: "Barcelona and the surrounding area up to 50 km, Monday to Saturday from 9:00 to 19:00."
-moneyPage: "precios"
+moneyPage: "banos"
 related:
   - "precio-reforma-piso"
   - "plazo-reforma-piso"
@@ -34,7 +34,7 @@ The bathroom is the most requested renovation in the home: it is small, it is us
 - Shower **screen**
 - Waste removal and final clean
 
-In other words: you start with a 1990s bathroom and end up with a finished bathroom, ready to use — with a single team doing everything, so you are not coordinating a plumber, a tiler and a fitter separately.
+In other words: you start with a 1990s bathroom and end up with a finished bathroom, ready to use — with a single team doing everything, so you are not coordinating a plumber, a tiler and a fitter separately. How we handle each stage, along with real finished bathrooms, is on our [bathroom renovation in Barcelona](/en/bathroom-renovation-barcelona/) page.
 
 ## What can push the price up (or down)
 

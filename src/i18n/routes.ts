@@ -30,6 +30,11 @@ export const routes = {
     ca: '/ca/reformes-beauty-fitness-barcelona',
     en: '/en/beauty-fitness-renovation-barcelona',
   },
+  banos: {
+    es: '/reformas-banos-barcelona',
+    ca: '/ca/reformes-banys-barcelona',
+    en: '/en/bathroom-renovation-barcelona',
+  },
   precios: {
     es: '/nuestros-precios',
     ca: '/ca/els-nostres-preus',

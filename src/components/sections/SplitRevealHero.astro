@@ -46,6 +46,12 @@ import bea0 from '../../assets/portfolio/comerciales/c5-despues.jpg';
 import bea1 from '../../assets/portfolio/comerciales/c8-despues.jpg';
 import bea2 from '../../assets/portfolio/comerciales/c11-despues.jpg';
 import bea3 from '../../assets/portfolio/comerciales/c10-despues.jpg';
+// Baños: los cuatro proyectos de baño del portfolio (salvia, beige y madera,
+// compacto y rosa) — obra real, ninguna imagen de archivo.
+import ban0 from '../../assets/portfolio/viviendas/v10-despues.jpg';
+import ban1 from '../../assets/portfolio/viviendas/v13-despues.jpg';
+import ban2 from '../../assets/portfolio/viviendas/v12-despues.jpg';
+import ban3 from '../../assets/portfolio/viviendas/v11-despues.jpg';
 
 type SplitService = Exclude<ServiceKey, 'viviendas'>;
 
@@ -61,12 +67,14 @@ const IMAGES: Record<SplitService, ImageMetadata[]> = {
   oficinas: [ofi0, ofi1, ofi2, ofi3, ofi4],
   tiendas: [tie0, tie1, tie2, tie3, tie4],
   beauty: [bea0, bea1, bea2, bea3],
+  banos: [ban0, ban1, ban2, ban3],
 };
 // Cuáles forman la pila de la esquina (variedad temática por servicio).
 const PILE_IDX: Record<SplitService, number[]> = {
   oficinas: [1, 2, 4], // oficina lounge · recepción · office
   tiendas: [1, 2, 4], // supermercado · restaurante · cocina
   beauty: [1, 2, 3], // gimnasio · aseos salvia · aseos
+  banos: [1, 2, 3], // beige y madera · compacto · rosa
 };
 
 const set = IMAGES[service];

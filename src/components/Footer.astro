@@ -9,6 +9,7 @@ import logo from '../assets/brand/kobor-logo.png';
 import { useTranslations, type Locale } from '../i18n/ui';
 import { localizedPath, type RouteKey } from '../i18n/routes';
 import { site, telHref, whatsappHref } from '../config/site';
+import { services as serviceCfg, serviceOrder } from '../config/services';
 
 interface Props {
   locale: Locale;
@@ -18,7 +19,9 @@ const t = useTranslations(locale);
 const p = (k: RouteKey) => localizedPath(k, locale);
 const year = new Date().getFullYear();
 
-const serviceLinks: RouteKey[] = ['viviendas', 'oficinas', 'tiendas', 'beauty'];
+// Derivado de la configuración, igual que en el header: un servicio nuevo entra
+// solo en el pie y no se queda sin enlaces internos.
+const serviceLinks: RouteKey[] = serviceOrder.map((s) => serviceCfg[s].routeKey);
 const companyLinks: RouteKey[] = ['precios', 'proyectos', 'guias', 'nosotros', 'contacto'];
 const legalLinks: { key: RouteKey; label: string }[] = [
   { key: 'avisoLegal', label: t('footer.avisoLegal') },

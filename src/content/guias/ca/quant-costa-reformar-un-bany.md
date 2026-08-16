@@ -17,7 +17,7 @@ faq:
     a: "Depèn de si l'habitatge té un segon bany. Ho planifiquem amb tu a la visita per reduir al mínim les molèsties."
   - q: "Treballeu a tota Barcelona?"
     a: "Barcelona i rodalia fins a 50 km, de dilluns a dissabte de 9:00 a 19:00."
-moneyPage: "precios"
+moneyPage: "banos"
 related:
   - "precio-reforma-piso"
   - "plazo-reforma-piso"
@@ -34,7 +34,7 @@ El bany és la reforma més demanada de la casa: és petit, es fa servir cada di
 - **Mampara** de dutxa
 - Retirada de runa i neteja final
 
-És a dir: entres amb un bany dels anys 90 i en surts amb un bany acabat, a punt per fer servir — amb un sol equip fent-ho tot, sense haver de coordinar tu el lampista, l'enrajolador i el muntador per separat.
+És a dir: entres amb un bany dels anys 90 i en surts amb un bany acabat, a punt per fer servir — amb un sol equip fent-ho tot, sense haver de coordinar tu el lampista, l'enrajolador i el muntador per separat. Com treballem cada fase, i banys reals ja acabats, ho tens a la nostra pàgina de [reforma de banys a Barcelona](/ca/reformes-banys-barcelona/).
 
 ## Què pot encarir (o abaratir) el preu
 

@@ -17,7 +17,7 @@ faq:
     a: "Depende de si la vivienda tiene segundo baño. Lo planificamos contigo en la visita para minimizar las molestias."
   - q: "¿Trabajáis en toda Barcelona?"
     a: "Barcelona y alrededores hasta 50 km, de lunes a sábado de 9:00 a 19:00."
-moneyPage: "precios"
+moneyPage: "banos"
 related:
   - "precio-reforma-piso"
   - "plazo-reforma-piso"
@@ -34,7 +34,7 @@ El baño es la reforma más demandada de la casa: es pequeño, se usa a diario y
 - **Mampara** de ducha
 - Retirada de escombros y limpieza final
 
-Es decir: entras con un baño de los años 90 y sales con un baño terminado, listo para usar — con un solo equipo haciéndolo todo, sin coordinar tú a fontanero, alicatador y montador por separado.
+Es decir: entras con un baño de los años 90 y sales con un baño terminado, listo para usar — con un solo equipo haciéndolo todo, sin coordinar tú a fontanero, alicatador y montador por separado. Cómo trabajamos cada fase, y baños reales ya terminados, lo tienes en nuestra página de [reforma de baños en Barcelona](/reformas-banos-barcelona/).
 
 ## Qué puede encarecer (o abaratar) el precio
 

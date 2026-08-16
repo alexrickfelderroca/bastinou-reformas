@@ -67,7 +67,7 @@ const breadcrumbLd = {
     ? <PisosRevealHero locale={locale} />
     : <SplitRevealHero locale={locale} service={service} />}
   <ServiceIncludes locale={locale} service={service} />
-  <PricingTable locale={locale} pricingType={cfg.pricingType} />
+  <PricingTable locale={locale} pricingType={cfg.pricingType} partialPricing={cfg.partialPricing} />
   <RelatedProjects locale={locale} />
   <Process locale={locale} />
   <Faq locale={locale} items={faqItems} />
