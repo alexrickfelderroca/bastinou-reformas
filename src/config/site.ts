@@ -89,7 +89,9 @@ export const gtmEnabled = /^GTM-[A-Z0-9]+$/.test(gtmId);
  * `.env.example`). Clarity NO entiende Consent Mode: se gatea por inyección
  * diferida en `ConsentClarity.astro`, dentro de la categoría de analítica.
  */
-export const clarityId = (import.meta.env.PUBLIC_CLARITY_ID ?? '').trim();
+// El default es el ID REAL del proyecto (alta de Alex, 23-08-2026) — el mismo
+// patrón que gtmId con GTM-PHVSZV97: la variable de entorno permite anularlo.
+export const clarityId = (import.meta.env.PUBLIC_CLARITY_ID ?? 'y6n0g3juf1').trim();
 
 /** Sólo activo con un ID de proyecto con pinta real (cadena alfanumérica corta,
  *  p. ej. "abcd1efgh2"). Vacío o con formato extraño ⇒ ni rastro de Clarity en
