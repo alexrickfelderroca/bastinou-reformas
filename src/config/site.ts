@@ -81,3 +81,17 @@ export const gtmId = (import.meta.env.PUBLIC_GTM_ID ?? 'GTM-PHVSZV97').trim();
 /** Sólo se considera activo con un ID de contenedor real (GTM-XXXXXXX). El
  *  placeholder o una cadena vacía dejan el tracking dormido. */
 export const gtmEnabled = /^GTM-[A-Z0-9]+$/.test(gtmId);
+
+/**
+ * ID del proyecto de Microsoft Clarity (mapas de calor y grabaciones de sesión).
+ * Mismo patrón que GTM: es público por diseño (aparece en la URL del script,
+ * https://www.clarity.ms/tag/{id}), así que va por `PUBLIC_CLARITY_ID` (ver
+ * `.env.example`). Clarity NO entiende Consent Mode: se gatea por inyección
+ * diferida en `ConsentClarity.astro`, dentro de la categoría de analítica.
+ */
+export const clarityId = (import.meta.env.PUBLIC_CLARITY_ID ?? '').trim();
+
+/** Sólo activo con un ID de proyecto con pinta real (cadena alfanumérica corta,
+ *  p. ej. "abcd1efgh2"). Vacío o con formato extraño ⇒ ni rastro de Clarity en
+ *  el HTML generado (gate de build en Layout.astro). */
+export const clarityEnabled = /^[a-z0-9]{4,32}$/i.test(clarityId);

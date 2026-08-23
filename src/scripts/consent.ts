@@ -19,6 +19,10 @@ declare global {
   interface Window {
     gtag?: (...args: unknown[]) => void;
     dataLayer?: unknown[];
+    /** Definido por ConsentClarity.astro (sólo se renderiza con un ID real). */
+    __koborClarity?: { cargar: () => void };
+    /** Definido por el tag de Microsoft Clarity una vez inyectado. */
+    clarity?: (...args: unknown[]) => void;
   }
 }
 
@@ -71,6 +75,39 @@ function applyConsent(choice: ConsentChoice): void {
     ad_user_data: ads,
     ad_personalization: ads,
   });
+
+  // Microsoft Clarity NO entiende Consent Mode, así que se gatea aparte
+  // (categoría analítica). El gate de carga vive en ConsentClarity.astro.
+  // El guard sobre import.meta.env es ESTÁTICO: sin PUBLIC_CLARITY_ID, Vite
+  // lo sustituye en build y el bloque entero desaparece del bundle (cero
+  // rastro de Clarity, coherente con el gate de build del componente).
+  // Es el interruptor GRUESO (truthy crudo); el gate FINO (regex del formato
+  // del ID) vive en site.ts y decide el render del componente — un ID truthy
+  // pero inválido deja este bloque como no-op inocuo (los ?. lo cubren).
+  if (import.meta.env.PUBLIC_CLARITY_ID) {
+    if (choice.analytics) {
+      // granted → inyectar el tag (idempotente; sólo existe con un ID real).
+      window.__koborClarity?.cargar();
+      // Y si Clarity YA estaba cargado (conceder → revocar → volver a
+      // conceder en la misma página), cargar() es no-op: hay que devolverle
+      // el consentimiento explícitamente o queda mudo hasta la siguiente
+      // carga (flujo reproducido en la revisión del 23-08).
+      window.clarity?.('consent');
+    } else {
+      // denied: un script ya inyectado no se descarga solo, así que si Clarity
+      // está cargado se le retira el consentimiento (deja de grabar y de
+      // escribir cookies)…
+      window.clarity?.('consent', false);
+      // …y se borran sus cookies (_clck y _clsk) en el host actual y en
+      // .kobor.es, cubriendo también restos de una visita anterior.
+      const past = 'expires=Thu, 01 Jan 1970 00:00:00 GMT';
+      for (const name of ['_clck', '_clsk']) {
+        document.cookie = `${name}=; ${past}; path=/`;
+        document.cookie = `${name}=; ${past}; path=/; domain=.kobor.es`;
+        document.cookie = `${name}=; ${past}; path=/; domain=${location.hostname}`;
+      }
+    }
+  }
 }
 
 function showBanner(): void {

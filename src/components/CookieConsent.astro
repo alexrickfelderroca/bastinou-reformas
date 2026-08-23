@@ -14,7 +14,7 @@
  */
 import { useTranslations, type Locale } from '../i18n/ui';
 import { localizedPath } from '../i18n/routes';
-import { gtmEnabled } from '../config/site';
+import { clarityEnabled, gtmEnabled } from '../config/site';
 
 interface Props {
   locale: Locale;
@@ -28,7 +28,7 @@ const policyPath = localizedPath('cookies', locale);
 <section
   class="consent"
   data-consent-banner
-  data-consent-autoshow={gtmEnabled ? '' : undefined}
+  data-consent-autoshow={gtmEnabled || clarityEnabled ? '' : undefined}
   aria-labelledby="consent-title"
   hidden
 >

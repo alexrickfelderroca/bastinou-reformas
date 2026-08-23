@@ -1,0 +1,29 @@
+---
+/**
+ * Microsoft Clarity gateado por consentimiento (categoría ANALÍTICA).
+ *
+ * Clarity NO entiende Google Consent Mode: no se puede dejar cargado "en
+ * denied" como GTM. El gate es de inyección diferida: este script inline sólo
+ * define `window.__koborClarity.cargar()` — idempotente, inyecta el tag oficial
+ * (https://www.clarity.ms/tag/{ID}) UNA sola vez — y lo llama en la propia
+ * carga de página únicamente si existe una elección previa VÁLIDA con la
+ * analítica concedida (mismo registro `kobor_consent` y misma validación de
+ * versión/caducidad que ConsentGtm.astro, que corre justo antes y ya ha borrado
+ * cualquier registro inválido o caducado). Sin consentimiento: CERO peticiones
+ * a clarity.ms y CERO cookies. El "granted" en vivo (clic en el banner) lo
+ * dispara `scripts/consent.ts` → applyConsent().
+ *
+ * Rendimiento: este inline son unas pocas líneas síncronas y el tag de Clarity
+ * se inyecta con `async`, fuera de la ruta crítica — no toca la línea de TBT.
+ *
+ * Este componente sólo se renderiza con un ID real (`clarityEnabled` en
+ * Layout.astro): sin ID no queda NI RASTRO de Clarity en el HTML generado.
+ */
+import { clarityId } from '../config/site';
+
+// JS crudo vía set:html (mismo patrón que el loader de GTM en ConsentGtm.astro):
+// el ID se interpola de forma segura con JSON.stringify.
+const clarityScript = `(function(){var ID=${JSON.stringify(clarityId)};var cargado=false;window.__koborClarity={cargar:function(){if(cargado)return;cargado=true;(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,'clarity','script',ID);}};try{var raw=localStorage.getItem('kobor_consent');if(raw){var c=JSON.parse(raw);var MAX_AGE=1000*60*60*24*180;if(c&&c.v===1&&typeof c.ts==='number'&&Date.now()-c.ts<MAX_AGE&&c.analytics==='granted'){window.__koborClarity.cargar();}}}catch(e){/* sin almacenamiento: defaults = no cargar */}})();`;
+---
+
+<script is:inline set:html={clarityScript} />
