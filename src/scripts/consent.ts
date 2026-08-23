@@ -12,6 +12,8 @@
  * `window.gtag` lo define el bloque is:inline de `ConsentGtm.astro` en el <head>,
  * así que siempre existe antes de que corra este módulo (diferido).
  */
+import { clarityEnabled } from '../config/site';
+
 const STORAGE_KEY = 'kobor_consent';
 const MAX_AGE = 1000 * 60 * 60 * 24 * 180; // 180 días
 
@@ -78,13 +80,14 @@ function applyConsent(choice: ConsentChoice): void {
 
   // Microsoft Clarity NO entiende Consent Mode, así que se gatea aparte
   // (categoría analítica). El gate de carga vive en ConsentClarity.astro.
-  // El guard sobre import.meta.env es ESTÁTICO: sin PUBLIC_CLARITY_ID, Vite
-  // lo sustituye en build y el bloque entero desaparece del bundle (cero
-  // rastro de Clarity, coherente con el gate de build del componente).
-  // Es el interruptor GRUESO (truthy crudo); el gate FINO (regex del formato
-  // del ID) vive en site.ts y decide el render del componente — un ID truthy
-  // pero inválido deja este bloque como no-op inocuo (los ?. lo cubren).
-  if (import.meta.env.PUBLIC_CLARITY_ID) {
+  // El guard tiene que ser EL MISMO que decide el render del componente
+  // (`clarityEnabled`, site.ts): gatear con `import.meta.env.PUBLIC_CLARITY_ID`
+  // crudo divergía en cuanto site.ts lleva el ID real como default — sin la
+  // env en el build, Vite eliminaba este bloque mientras el componente SÍ se
+  // renderizaba: el clic en vivo no cargaba Clarity y, peor, una revocación en
+  // la misma página no le retiraba el consentimiento ni borraba sus cookies
+  // (cazado verificando producción el 23-08).
+  if (clarityEnabled) {
     if (choice.analytics) {
       // granted → inyectar el tag (idempotente; sólo existe con un ID real).
       window.__koborClarity?.cargar();
