@@ -4,8 +4,9 @@
  * se muestran seis referencias en tarjetas blancas; el listado completo se abre
  * en «Nuestros precios». Con el aviso único de IVA debajo del bloque.
  */
+import { getCollection, type CollectionEntry } from 'astro:content';
 import { useTranslations, type Locale } from '../../i18n/ui';
-import { localizedPath } from '../../i18n/routes';
+import { localizedPath, withTrailingSlash } from '../../i18n/routes';
 import SectionHeader from './SectionHeader.astro';
 
 interface Props {
@@ -18,6 +19,20 @@ const items = [1, 2, 3, 4, 5, 6].map((n) => ({
   name: t(`home.prices.p${n}n`),
   value: t(`home.prices.p${n}v`),
 }));
+
+// Las tres guías de cifras, con su slug REAL en el idioma de la página (mismo
+// criterio que guias/[slug].astro). Desde la portada no había NINGÚN enlace a
+// ellas y el buscador no las conocía (26-08-2026); esta sección es su sitio
+// natural: quien mira precios quiere el detalle.
+const guideOrder = ['precio-reforma-piso', 'precio-reforma-bano', 'plazo-reforma-piso'];
+const guias = (await getCollection('guias'))
+  .filter((e: CollectionEntry<'guias'>) => e.data.lang === locale)
+  .sort(
+    (a: CollectionEntry<'guias'>, b: CollectionEntry<'guias'>) =>
+      guideOrder.indexOf(a.data.translationKey) - guideOrder.indexOf(b.data.translationKey),
+  );
+const guideHref = (e: CollectionEntry<'guias'>): string =>
+  withTrailingSlash(`${localizedPath('guias', locale)}/${e.id.split('/').pop()}`);
 ---
 
 <section class="section hprices">
@@ -42,6 +57,12 @@ const items = [1, 2, 3, 4, 5, 6].map((n) => ({
     <div class="hprices__foot" data-reveal>
       <a class="btn" href={localizedPath('precios', locale)}>{t('home.prices.cta')}</a>
       <p class="hprices__note">{t('home.prices.note')}</p>
+      <p class="hprices__guides">
+        <span>{t('home.prices.guides')}</span>
+        {guias.map((e) => (
+          <a href={guideHref(e)}>{e.data.metaTitle}</a>
+        ))}
+      </p>
     </div>
   </div>
 </section>
@@ -93,6 +114,26 @@ const items = [1, 2, 3, 4, 5, 6].map((n) => ({
   .hprices__note {
     font-size: 0.85rem;
     color: var(--color-slate);
+  }
+  .hprices__guides {
+    font-size: 0.9rem;
+    color: var(--color-slate);
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 1.25rem;
+    row-gap: 0.35rem;
+  }
+  .hprices__guides span {
+    font-weight: 560;
+    color: var(--color-ink);
+  }
+  .hprices__guides a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .hprices__guides a:hover {
+    color: var(--color-ink);
   }
 
   @media (min-width: 640px) {

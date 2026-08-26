@@ -5,9 +5,10 @@
  * WhatsApp, oficina y horario clicables/visibles, y la fila legal.
  */
 import { Image } from 'astro:assets';
+import { getCollection, type CollectionEntry } from 'astro:content';
 import logo from '../assets/brand/kobor-logo.png';
 import { useTranslations, type Locale } from '../i18n/ui';
-import { localizedPath, type RouteKey } from '../i18n/routes';
+import { localizedPath, withTrailingSlash, type RouteKey } from '../i18n/routes';
 import { site, telHref, whatsappHref } from '../config/site';
 import { services as serviceCfg, serviceOrder } from '../config/services';
 
@@ -23,6 +24,27 @@ const year = new Date().getFullYear();
 // solo en el pie y no se queda sin enlaces internos.
 const serviceLinks: RouteKey[] = serviceOrder.map((s) => serviceCfg[s].routeKey);
 const companyLinks: RouteKey[] = ['precios', 'proyectos', 'guias', 'nosotros', 'contacto'];
+
+// Las tres guías, con su slug REAL en el idioma del pie (mismo criterio que
+// guias/[slug].astro: el slug público es el último segmento del id). El pie
+// está en TODAS las páginas, y hasta hoy cada guía tenía UN solo enlace
+// interno en todo el sitio — por eso el buscador no las conocía (26-08-2026).
+const guideOrder = ['precio-reforma-piso', 'precio-reforma-bano', 'plazo-reforma-piso'];
+const guias = (await getCollection('guias'))
+  .filter((e: CollectionEntry<'guias'>) => e.data.lang === locale)
+  .sort(
+    (a: CollectionEntry<'guias'>, b: CollectionEntry<'guias'>) =>
+      guideOrder.indexOf(a.data.translationKey) - guideOrder.indexOf(b.data.translationKey),
+  );
+const guideHref = (e: CollectionEntry<'guias'>): string =>
+  withTrailingSlash(`${localizedPath('guias', locale)}/${e.id.split('/').pop()}`);
+
+// La columna «empresa» con las tres guías desplegadas bajo su índice.
+const companyList: { href: string; label: string }[] = companyLinks.flatMap((k) => {
+  const base = { href: p(k), label: t(`nav.${k}`) };
+  if (k !== 'guias') return [base];
+  return [base, ...guias.map((e) => ({ href: guideHref(e), label: e.data.metaTitle }))];
+});
 const legalLinks: { key: RouteKey; label: string }[] = [
   { key: 'avisoLegal', label: t('footer.avisoLegal') },
   { key: 'privacidad', label: t('footer.privacidad') },
@@ -52,8 +74,8 @@ const hasPhone = !site.phone.includes('[PENDIENTE');
     <nav class="footer__col" aria-label={t('footer.company')}>
       <h2 class="footer__title">{t('footer.company')}</h2>
       <ul>
-        {companyLinks.map((k) => (
-          <li><a href={p(k)}>{t(`nav.${k}`)}</a></li>
+        {companyList.map(({ href, label }) => (
+          <li><a href={href}>{label}</a></li>
         ))}
       </ul>
     </nav>
