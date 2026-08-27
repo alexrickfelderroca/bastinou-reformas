@@ -11,7 +11,7 @@ import ConsentClarity from '../components/ConsentClarity.astro';
 import BrandLoader from '../components/BrandLoader.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import WhatsAppFab from '../components/WhatsAppFab.astro';
+import ContactFabs from '../components/ContactFabs.astro';
 import CookieConsent from '../components/CookieConsent.astro';
 import { getLocaleFromUrl, localeHtmlLang, localeOgLocale, useTranslations } from '../i18n/ui';
 import { alternatesFor, type RouteKey } from '../i18n/routes';
@@ -191,7 +191,7 @@ const websiteLd = {
       <slot />
     </main>
     <Footer locale={locale} />
-    <WhatsAppFab locale={locale} />
+    <ContactFabs locale={locale} />
     <CookieConsent locale={locale} />
 
     <script>

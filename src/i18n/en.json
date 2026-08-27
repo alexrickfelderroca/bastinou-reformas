@@ -56,6 +56,9 @@
     "aria": "Contact us on WhatsApp",
     "prefill": "Hi, I'd like some information about a renovation."
   },
+  "call": {
+    "aria": "Call Kobor by phone"
+  },
   "og": {
     "eyebrow": "Renovations · Barcelona and surroundings"
   },

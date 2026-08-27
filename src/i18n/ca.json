@@ -56,6 +56,9 @@
     "aria": "Contactar per WhatsApp",
     "prefill": "Hola, m'agradaria informació sobre una reforma."
   },
+  "call": {
+    "aria": "Trucar per telèfon a Kobor"
+  },
   "og": {
     "eyebrow": "Reformes · Barcelona i rodalia"
   },

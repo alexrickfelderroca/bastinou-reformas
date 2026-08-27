@@ -56,6 +56,9 @@
     "aria": "Contactar por WhatsApp",
     "prefill": "Hola, me gustaría información sobre una reforma."
   },
+  "call": {
+    "aria": "Llamar por teléfono a Kobor"
+  },
   "og": {
     "eyebrow": "Reformas · Barcelona y alrededores"
   },

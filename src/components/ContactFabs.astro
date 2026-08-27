@@ -1,11 +1,36 @@
 ---
 /**
- * Botón flotante de WhatsApp en todas las páginas (CLAUDE.pdf §5.3, brief §5).
- * Mensaje prellenado en el idioma de la página. `data-wa` marca el clic para el
- * tracking (Fase 7: whatsapp_click). Única excepción de color del sitio.
+ * Los dos botones flotantes de contacto, en todas las páginas.
+ *
+ * Antes esto era `WhatsAppFab.astro` y flotaba SOLO WhatsApp (CLAUDE.pdf §5.3,
+ * brief §5). Se añade el de llamar el 28-08-2026, por decisión de Alex, después
+ * de medir la web en móvil a 390 px:
+ *
+ *   · WhatsApp: botón fijo, visible siempre.
+ *   · Teléfono: NINGÚN acceso rápido. Los dos `tel:` de la cabecera están
+ *     escondidos dentro del menú desplegable, y los otros dos viven en el pie,
+ *     a 8.704 px y 9.977 px de scroll — unas veinte pantallas hacia abajo.
+ *
+ * O sea: el canal que perseguía al visitante era el de escribir, y el de llamar
+ * estaba enterrado. En reformas, quien coge el teléfono suele llevarse la obra.
+ *
+ * ⚠️ Se AÑADE, no se sustituye. La tarjeta de investigación que levantó esto
+ * citaba un solo artículo de 2026 comparando «botón de llamada» con «widget de
+ * chat», y WhatsApp no es un widget de chat genérico: en un negocio local
+ * español es un canal fuerte por sí mismo. Esos porcentajes no están medidos
+ * sobre KOBOR, así que aquí no se decide cuál gana — se le dan al visitante los
+ * dos y que elija. `phone_click` y `whatsapp_click` ya se miden por separado
+ * (`scripts/tracking.ts`), así que dentro de un mes habrá datos PROPIOS.
+ *
+ * Color: el verde de WhatsApp es la única excepción cromática del sitio y sigue
+ * siéndolo. El de llamar usa `--color-deep`, el mismo de las bandas oscuras y
+ * los CTA, para que no parezca un segundo botón de marca ajena.
+ *
+ * Rastreo: `data-phone` ya lo escucha el listener delegado de `tracking.ts` y
+ * emite `phone_click`. No hace falta tocar nada allí.
  */
 import { useTranslations, type Locale } from '../i18n/ui';
-import { whatsappHref } from '../config/site';
+import { whatsappHref, telHref } from '../config/site';
 
 interface Props {
   locale: Locale;
@@ -15,32 +40,60 @@ const t = useTranslations(locale);
 const href = whatsappHref(t('whatsapp.prefill'));
 ---
 
-<a
-  class="wa-fab"
-  href={href}
-  target="_blank"
-  rel="noopener"
-  aria-label={t('whatsapp.aria')}
-  data-wa
-  data-wa-source="fab"
->
-  <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true" fill="currentColor">
-    <path d="M16 3C9.4 3 4 8.4 4 15c0 2.1.6 4.2 1.6 6L4 29l8.2-1.6c1.7.9 3.7 1.4 5.8 1.4 6.6 0 12-5.4 12-12S22.6 3 16 3zm0 21.8c-1.8 0-3.6-.5-5.1-1.4l-.4-.2-4.9 1 1-4.8-.3-.4c-1-1.6-1.5-3.4-1.5-5.3C4.3 9.6 9.6 4.3 16 4.3S27.7 9.6 27.7 16 22.4 24.8 16 24.8zm6.6-8.2c-.4-.2-2.1-1-2.4-1.2-.3-.1-.6-.2-.8.2s-.9 1.2-1.1 1.4c-.2.2-.4.3-.8.1-.4-.2-1.5-.6-2.9-1.8-1.1-1-1.8-2.2-2-2.5-.2-.4 0-.6.2-.7l.5-.6c.2-.2.2-.4.4-.6.1-.2.1-.4 0-.6l-1.1-2.6c-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.4-1.2 1.2-1.2 2.9s1.2 3.4 1.4 3.6c.2.2 2.5 3.8 6 5.3.8.4 1.5.6 2 .7.8.3 1.6.2 2.2.1.7-.1 2.1-.9 2.4-1.7.3-.8.3-1.6.2-1.7-.1-.2-.4-.3-.8-.5z"/>
-  </svg>
-</a>
+<div class="fabs">
+  <!-- Llamar va ARRIBA: WhatsApp lleva meses en la esquina inferior y quien ya
+       lo usa lo busca ahí. Lo nuevo se añade encima, no desplaza a lo conocido. -->
+  <a class="fab fab--call" href={telHref} aria-label={t('call.aria')} data-phone>
+    <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+      <path
+        d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.2.4 2.4.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .7-.2 1l-2.2 2.2z"
+      ></path>
+    </svg>
+  </a>
+
+  <a
+    class="fab fab--wa"
+    href={href}
+    target="_blank"
+    rel="noopener"
+    aria-label={t('whatsapp.aria')}
+    data-wa
+    data-wa-source="fab"
+  >
+    <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true" fill="currentColor">
+      <path d="M16 3C9.4 3 4 8.4 4 15c0 2.1.6 4.2 1.6 6L4 29l8.2-1.6c1.7.9 3.7 1.4 5.8 1.4 6.6 0 12-5.4 12-12S22.6 3 16 3zm0 21.8c-1.8 0-3.6-.5-5.1-1.4l-.4-.2-4.9 1 1-4.8-.3-.4c-1-1.6-1.5-3.4-1.5-5.3C4.3 9.6 9.6 4.3 16 4.3S27.7 9.6 27.7 16 22.4 24.8 16 24.8zm6.6-8.2c-.4-.2-2.1-1-2.4-1.2-.3-.1-.6-.2-.8.2s-.9 1.2-1.1 1.4c-.2.2-.4.3-.8.1-.4-.2-1.5-.6-2.9-1.8-1.1-1-1.8-2.2-2-2.5-.2-.4 0-.6.2-.7l.5-.6c.2-.2.2-.4.4-.6.1-.2.1-.4 0-.6l-1.1-2.6c-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.4-1.2 1.2-1.2 2.9s1.2 3.4 1.4 3.6c.2.2 2.5 3.8 6 5.3.8.4 1.5.6 2 .7.8.3 1.6.2 2.2.1.7-.1 2.1-.9 2.4-1.7.3-.8.3-1.6.2-1.7-.1-.2-.4-.3-.8-.5z"></path>
+    </svg>
+  </a>
+</div>
 
 <style>
-  .wa-fab {
+  /* La pila. La posición y el z-index viven AQUÍ y no en cada botón: con dos
+     elementos `fixed` independientes, mover uno obliga a recalcular el offset
+     del otro a mano, y es exactamente así como se acaban solapando. */
+  .fabs {
     position: fixed;
     right: clamp(1rem, 3vw, 1.75rem);
     bottom: clamp(1rem, 3vw, 1.75rem);
     z-index: 45;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: opacity 0.3s var(--ease-standard);
+  }
+
+  .fab {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 56px;
     height: 56px;
     border-radius: 999px;
+    transition:
+      transform 0.25s var(--ease-standard),
+      box-shadow 0.25s var(--ease-standard);
+  }
+
+  .fab--wa {
     background: var(--color-whatsapp);
     /* Icono en verde oscuro, no blanco: como elemento gráfico necesita 3:1 y el
        blanco sobre el verde de marca se queda en 1,98:1 (con --color-deep, 5,38:1).
@@ -48,21 +101,57 @@ const href = whatsappHref(t('whatsapp.prefill'));
        reconocible de un vistazo. */
     color: var(--color-deep);
     box-shadow: 0 12px 30px -8px rgba(37, 211, 102, 0.6);
-    transition:
-      transform 0.25s var(--ease-standard),
-      box-shadow 0.25s var(--ease-standard),
-      opacity 0.3s var(--ease-standard);
   }
+
+  /* El de llamar usa la banda oscura de la marca, no un segundo color vivo: dos
+     botones chillones compitiendo en la misma esquina se anulan. El icono va en
+     blanco sobre --color-deep, muy por encima del 3:1 que pide un elemento
+     gráfico (WCAG 1.4.11). */
+  /* ⚠️ El filo claro NO es adorno. El verde de WhatsApp se separa solo de
+     cualquier fondo; `--color-deep` es oscuro, y sobre la foto oscura de la
+     portada el botón se fundía con ella (visto en la captura a 390 px). Un
+     objeto de interfaz tiene que distinguirse de lo que hay detrás (WCAG
+     1.4.11), y detrás puede haber cualquier cosa: aquí el contraste no lo puede
+     dar el relleno, así que lo da el borde. Sombra en dos capas, como el resto
+     del sitio. */
+  .fab--call {
+    background: var(--color-deep);
+    color: #fff;
+    box-shadow:
+      0 0 0 1.5px rgba(255, 255, 255, 0.85),
+      0 12px 30px -8px rgba(0, 0, 0, 0.55);
+  }
+
   @media (hover: hover) {
-    .wa-fab:hover {
+    .fab:hover {
       transform: translateY(-3px) scale(1.04);
+    }
+    .fab--wa:hover {
       box-shadow: 0 16px 36px -8px rgba(37, 211, 102, 0.7);
     }
+    .fab--call:hover {
+      box-shadow:
+        0 0 0 1.5px rgba(255, 255, 255, 0.95),
+        0 16px 36px -8px rgba(0, 0, 0, 0.65);
+    }
   }
-  /* Mientras el banner de cookies está abierto, ocúltalo para que no choque con
-     la tarjeta (móvil: hoja a pantalla completa). Vuelve al elegir. */
-  body[data-consent-open] .wa-fab {
+
+  /* Mientras el banner de cookies está abierto, ocúltalos para que no choquen
+     con la tarjeta (móvil: hoja a pantalla completa). Vuelven al elegir.
+     Va sobre el CONTENEDOR: si se pusiera en cada botón, añadir un tercero
+     algún día lo dejaría asomando por encima del banner. */
+  body[data-consent-open] .fabs {
     opacity: 0;
     pointer-events: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fabs,
+    .fab {
+      transition: none;
+    }
+    .fab:hover {
+      transform: none;
+    }
   }
 </style>
