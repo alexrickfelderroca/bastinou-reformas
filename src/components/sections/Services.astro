@@ -285,6 +285,9 @@ const pad = (n: number) => String(n).padStart(2, '0');
     position: absolute;
     inset: 0;
     z-index: calc(var(--n-panel, 0));
+    /* El wrap no esta recortado por clip-path: si recibe el clic, tapa al panel
+       visible. Se hace transparente al puntero y el enlace lo recupera abajo. */
+    pointer-events: none;
   }
   .svc-reveal.is-enhanced .svc-panel {
     position: absolute;
@@ -293,6 +296,9 @@ const pad = (n: number) => String(n).padStart(2, '0');
     min-height: 0;
     border-radius: 0;
     z-index: calc(var(--i) + 1);
+    /* Solo el enlace recibe el clic, y clip-path recorta tambien su area
+       sensible: el clic acaba en el unico panel destapado (el que se ve). */
+    pointer-events: auto;
     /* Recorte gobernado por --p (0 = oculto abajo, 1 = a pantalla completa).
        El panel 0 arranca a 1 (siempre visible); el resto se descubren al scrollear. */
     clip-path: inset(calc((1 - var(--p, 1)) * 100%) 0 0 0);
