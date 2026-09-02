@@ -1,10 +1,9 @@
 ---
 /**
- * Página Nosotros (§4.2): quiénes somos, enfoque, garantías, equipo y proceso.
+ * Página Nosotros (§4.2): quiénes somos, enfoque, garantías y proceso.
  */
 import Layout from '../layouts/Layout.astro';
 import SectionHeader from './sections/SectionHeader.astro';
-import Team from './sections/Team.astro';
 import Process from './sections/Process.astro';
 import FinalCTA from './sections/FinalCTA.astro';
 import { getLocaleFromUrl, useTranslations } from '../i18n/ui';
@@ -70,7 +69,6 @@ const guarantees = [1, 2, 3, 4].map((n) => t(`about.g${n}`));
     </div>
   </section>
 
-  <Team locale={locale} />
   <Process locale={locale} />
   <FinalCTA locale={locale} />
 

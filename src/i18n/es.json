@@ -596,7 +596,6 @@
     "valuesTitle": "Por qué elegirnos",
     "eyEnfoque": "Enfoque",
     "eyGarantias": "Garantías",
-    "eyEquipo": "Equipo",
     "v1t": "Un solo interlocutor",
     "v1d": "Un responsable de obra te acompaña de principio a fin. Sin pasarte de mano en mano.",
     "v2t": "Presupuesto claro",
@@ -610,11 +609,7 @@
     "g1": "Garantía sobre la obra ejecutada",
     "g2": "Licencias y documentación técnica en regla",
     "g3": "Seguro de responsabilidad civil",
-    "g4": "Materiales con garantía de fabricante",
-    "teamTitle": "El equipo",
-    "teamSubtitle": "Las personas que harán tu reforma.",
-    "teamRole": "[PENDIENTE: cargo]",
-    "teamName": "[PENDIENTE: nombre]"
+    "g4": "Materiales con garantía de fabricante"
   },
   "contact": {
     "metaTitle": "Contacto — Kobor",

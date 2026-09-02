@@ -596,7 +596,6 @@
     "valuesTitle": "Why choose us",
     "eyEnfoque": "Approach",
     "eyGarantias": "Guarantees",
-    "eyEquipo": "Team",
     "v1t": "A single point of contact",
     "v1d": "One site manager is with you from start to finish. No being passed around.",
     "v2t": "A clear quote",
@@ -610,11 +609,7 @@
     "g1": "Guarantee on the work carried out",
     "g2": "Permits and technical documentation in order",
     "g3": "Public liability insurance",
-    "g4": "Materials with manufacturer's warranty",
-    "teamTitle": "The team",
-    "teamSubtitle": "The people who'll do your renovation.",
-    "teamRole": "[PENDING: role]",
-    "teamName": "[PENDING: name]"
+    "g4": "Materials with manufacturer's warranty"
   },
   "contact": {
     "metaTitle": "Contact — Kobor",

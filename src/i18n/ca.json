@@ -596,7 +596,6 @@
     "valuesTitle": "Per què triar-nos",
     "eyEnfoque": "Enfocament",
     "eyGarantias": "Garanties",
-    "eyEquipo": "Equip",
     "v1t": "Un sol interlocutor",
     "v1d": "Un responsable d'obra t'acompanya de principi a fi. Sense passar de mà en mà.",
     "v2t": "Pressupost clar",
@@ -610,11 +609,7 @@
     "g1": "Garantia sobre l'obra executada",
     "g2": "Llicències i documentació tècnica en regla",
     "g3": "Assegurança de responsabilitat civil",
-    "g4": "Materials amb garantia de fabricant",
-    "teamTitle": "L'equip",
-    "teamSubtitle": "Les persones que faran la teva reforma.",
-    "teamRole": "[PENDENT: càrrec]",
-    "teamName": "[PENDENT: nom]"
+    "g4": "Materials amb garantia de fabricant"
   },
   "contact": {
     "metaTitle": "Contacte — Kobor",
