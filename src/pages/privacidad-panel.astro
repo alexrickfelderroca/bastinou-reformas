@@ -1,0 +1,301 @@
+---
+/**
+ * Política de privacidad del Panel KOBOR — herramienta interna (noindex).
+ *
+ * POR QUÉ EXISTE: la revisión de aplicaciones de Meta exige una URL pública de
+ * política de privacidad y otra de eliminación de datos para conceder acceso
+ * avanzado a `instagram_business_manage_messages`. La política del sitio
+ * comercial (/privacidad) no sirve: describe la web, no el tratamiento de los
+ * mensajes de Instagram que hace la herramienta interna.
+ *
+ * Mismo tratamiento que /google-ads-api-tool: noindex, fuera del sitemap
+ * (astro.config.mjs) y sin enlace desde el menú ni el footer. No forma parte
+ * del sitio comercial ni afecta al SEO.
+ *
+ * La URL de eliminación de datos que se declara en Meta es esta misma más el
+ * ancla #eliminacion (sección 7). Si se renombra esa sección, hay que cambiarla
+ * también en la configuración básica de la app de Meta.
+ *
+ * Sin routeKey: no genera hreflang ni alternates, porque no tiene traducciones.
+ * Su público —el revisor de Meta y quien nos escribe— lee español.
+ */
+import Layout from '../layouts/Layout.astro';
+
+const ACTUALIZADA = '10 de septiembre de 2026';
+
+const sections: { id?: string; h: string; body: string }[] = [
+  {
+    h: '1. Quién es el responsable',
+    body: `
+      <table>
+        <tr><th>Responsable</th><td>KOBOR Reformas</td></tr>
+        <tr><th>Contacto</th><td><a href="mailto:admin@kobor.es">admin@kobor.es</a></td></tr>
+        <tr><th>Ámbito</th><td>Barcelona y alrededores, España</td></tr>
+      </table>`,
+  },
+  {
+    h: '2. Qué datos se tratan',
+    body: `
+      <h3>Si nos escribes por Instagram</h3>
+      <ul>
+        <li>Tu nombre de usuario, tu nombre público y tu identificador de Instagram.</li>
+        <li>El contenido de los mensajes que nos envías y de los que te enviamos.</li>
+        <li>La fecha y hora de cada mensaje.</li>
+      </ul>
+      <p>Estos datos se obtienen a través de la API de Mensajería de Instagram de Meta,
+      y <strong>solo de conversaciones que tú has iniciado</strong> escribiéndonos primero.
+      No accedemos a tu perfil, a tus publicaciones, a tus contactos ni a ninguna
+      conversación tuya con terceros.</p>
+      <h3>Si nos escribes por correo</h3>
+      <ul>
+        <li>Tu dirección de correo y tu nombre.</li>
+        <li>El asunto y el contenido de los mensajes intercambiados.</li>
+      </ul>`,
+  },
+  {
+    h: '3. Para qué se usan',
+    body: `
+      <p>Para un único fin: <strong>leer lo que nos escribes y responderte</strong>. En
+      concreto, para preparar un borrador de respuesta que una persona de KOBOR Reformas
+      revisa y aprueba antes de enviarlo.</p>
+      <p>No se usan para publicidad, no se elabora ningún perfil comercial con ellos y
+      no se venden ni se ceden a terceros con fines comerciales.</p>
+      <div class="pp-caja">
+        <h3>Ninguna respuesta se envía de forma automática</h3>
+        <p>El sistema redacta un borrador, pero <strong>siempre hay una persona</strong> que
+        lo lee, lo edita si hace falta y pulsa el botón de enviar. No existe respuesta
+        automática sin supervisión humana.</p>
+      </div>`,
+  },
+  {
+    h: '4. Base legal',
+    body: `
+      <ul>
+        <li><strong>Interés legítimo</strong> (art. 6.1.f del RGPD): atender a quien contacta
+            con el negocio por sus propios canales públicos.</li>
+        <li><strong>Medidas precontractuales</strong> (art. 6.1.b del RGPD) cuando el mensaje
+            es una petición de presupuesto o de información sobre nuestros servicios.</li>
+      </ul>`,
+  },
+  {
+    h: '5. Con quién se comparten',
+    body: `
+      <p>Para redactar los borradores de respuesta, el contenido de la conversación se envía
+      a <strong>Anthropic PBC</strong>, proveedor del modelo de lenguaje Claude, que actúa
+      como encargado del tratamiento. Anthropic no utiliza estos datos para entrenar sus
+      modelos.</p>
+      <p>Aparte de eso, los datos se intercambian únicamente con las plataformas de origen
+      del mensaje: <strong>Meta Platforms</strong> (Instagram) y <strong>Hostinger</strong>
+      (servidor de correo de kobor.es).</p>
+      <p>No hay ningún otro destinatario.</p>`,
+  },
+  {
+    h: '6. Dónde se guardan y cuánto tiempo',
+    body: `
+      <p>Los datos se almacenan <strong>en local, en el ordenador de la persona responsable
+      del negocio</strong>, en un archivo al que no se puede acceder desde internet. El
+      sistema no publica ninguna dirección accesible desde fuera de ese equipo.</p>
+      <p>Se conservan mientras la conversación siga siendo relevante para la relación
+      comercial, y como máximo <strong>24 meses</strong> desde el último mensaje. Después se
+      eliminan.</p>`,
+  },
+  {
+    id: 'eliminacion',
+    h: '7. Cómo borrar tus datos',
+    body: `
+      <p>Escribe a <a href="mailto:admin@kobor.es?subject=Eliminar%20mis%20datos">admin@kobor.es</a>
+      con el asunto <strong>&laquo;Eliminar mis datos&raquo;</strong>, indicando tu usuario de
+      Instagram o la dirección de correo desde la que nos escribiste.</p>
+      <p>Se borrará toda la conversación en un plazo máximo de <strong>30 días</strong> y se
+      confirmará por escrito. No hace falta justificar el motivo.</p>
+      <p>También puedes retirar el acceso de esta aplicación desde tu propia cuenta de
+      Instagram, en <em>Configuración &rarr; Sitios web y aplicaciones</em>.</p>`,
+  },
+  {
+    h: '8. Tus derechos',
+    body: `
+      <p>Tienes derecho a acceder a tus datos, rectificarlos, suprimirlos, limitar u oponerte
+      a su tratamiento y solicitar su portabilidad. Para ejercerlos, escribe a
+      <a href="mailto:admin@kobor.es">admin@kobor.es</a>.</p>
+      <p>Si consideras que no se han atendido correctamente, puedes reclamar ante la
+      <strong>Agencia Española de Protección de Datos</strong>
+      (<a href="https://www.aepd.es" rel="noopener">aepd.es</a>).</p>`,
+  },
+  {
+    h: '9. Seguridad',
+    body: `
+      <ul>
+        <li>Las credenciales de acceso se guardan en el Administrador de credenciales del
+            sistema operativo, nunca en el código ni en archivos de texto.</li>
+        <li>El servidor solo acepta conexiones desde el propio equipo.</li>
+        <li>Las comunicaciones con Meta, con el servidor de correo y con Anthropic van
+            cifradas mediante TLS.</li>
+      </ul>`,
+  },
+  {
+    h: '10. Cambios',
+    body: `
+      <p>Si esta política cambia, se actualizará la fecha del encabezado. Los cambios
+      sustanciales se comunicarán a quienes tengan una conversación abierta con nosotros.</p>`,
+  },
+];
+---
+
+<Layout
+  title="Política de privacidad del Panel KOBOR"
+  description="Cómo trata KOBOR Reformas los datos de las personas que le escriben por Instagram o por correo electrónico."
+  noindex={true}
+  overHero={true}
+  exactTitle={true}
+>
+  <section class="pp-hero on-dark">
+    <div class="container-x">
+      <p class="pp-hero__eyebrow">Herramienta interna</p>
+      <h1 class="h-hero">Política de privacidad del Panel KOBOR</h1>
+      <p class="pp-hero__meta">Última actualización: {ACTUALIZADA}</p>
+    </div>
+  </section>
+
+  <section class="section pp-body">
+    <div class="container-x pp-prose">
+      {/*
+        SIN data-reveal a propósito, igual que en /google-ads-api-tool: esta
+        página existe para que un revisor de Meta lea el documento entero. Si
+        revelara al hacer scroll y el revisor no lo hiciera, las secciones de
+        abajo quedarían invisibles. Aquí se ve todo desde el primer frame.
+      */}
+      <div class="pp-section">
+        <p>
+          Este documento explica qué datos trata <strong>Panel KOBOR</strong>, la herramienta
+          interna que KOBOR Reformas usa para atender los mensajes que recibe, y qué derechos
+          tienes sobre ellos.
+        </p>
+        <p>
+          Panel KOBOR <strong>no es un producto para terceros</strong>: no se ofrece ni se
+          vende a nadie. Es una herramienta de uso interno de un único negocio.
+        </p>
+      </div>
+
+      {sections.map((s) => (
+        <div class="pp-section" id={s.id}>
+          <h2 class="pp-h">{s.h}</h2>
+          <div set:html={s.body} />
+        </div>
+      ))}
+
+      <p class="pp-pie">
+        KOBOR Reformas &middot; <a href="mailto:admin@kobor.es">admin@kobor.es</a> &middot;
+        <a href="https://kobor.es">kobor.es</a>
+      </p>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .pp-hero {
+    background: var(--color-deep);
+    color: #fff;
+    padding-block: 8rem 3.5rem;
+  }
+  .pp-hero__eyebrow {
+    margin-bottom: 0.9rem;
+    color: rgba(255, 255, 255, 0.62);
+    font-size: 0.82rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .pp-hero__meta {
+    margin-top: 1rem;
+    color: rgba(255, 255, 255, 0.68);
+    font-size: 0.95rem;
+  }
+  .pp-body {
+    background: var(--color-paper);
+  }
+  .pp-prose {
+    max-width: 46rem;
+  }
+  .pp-section + .pp-section {
+    margin-top: 2.5rem;
+  }
+  /* Compensa la cabecera fija al saltar a #eliminacion desde el enlace de Meta. */
+  .pp-section[id] {
+    scroll-margin-top: 6rem;
+  }
+  .pp-h {
+    font-size: clamp(1.25rem, 2.4vw, 1.6rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+  .pp-section :global(p) {
+    margin-top: 1rem;
+    color: var(--color-slate);
+    line-height: 1.7;
+  }
+  .pp-section :global(h3) {
+    margin-top: 1.6rem;
+    font-size: 1.02rem;
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+  .pp-section :global(ul) {
+    margin-top: 1rem;
+    padding-left: 1.15rem;
+    list-style: disc;
+  }
+  .pp-section :global(li) {
+    margin-top: 0.45rem;
+    color: var(--color-slate);
+    line-height: 1.7;
+  }
+  .pp-section :global(table) {
+    width: 100%;
+    margin-top: 1rem;
+    border-collapse: collapse;
+  }
+  .pp-section :global(th),
+  .pp-section :global(td) {
+    padding: 0.7rem 0.85rem;
+    border-bottom: 1px solid color-mix(in oklab, var(--color-slate) 22%, transparent);
+    color: var(--color-slate);
+    line-height: 1.6;
+    text-align: left;
+    vertical-align: top;
+  }
+  .pp-section :global(th) {
+    width: 34%;
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+  .pp-section :global(.pp-caja) {
+    margin-top: 1.5rem;
+    padding: 1.1rem 1.25rem 1.35rem;
+    border: 1px solid color-mix(in oklab, var(--color-slate) 24%, transparent);
+    border-radius: 14px;
+    background: color-mix(in oklab, var(--color-paper) 55%, #fff);
+  }
+  .pp-section :global(.pp-caja h3) {
+    margin-top: 0;
+  }
+  .pp-section :global(a) {
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+  }
+  .pp-section :global(a:hover) {
+    text-decoration-thickness: 2px;
+  }
+  .pp-pie {
+    margin-top: 3.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid color-mix(in oklab, var(--color-slate) 22%, transparent);
+    color: var(--color-slate);
+    font-size: 0.92rem;
+  }
+  .pp-pie a {
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+  }
+</style>

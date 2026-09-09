@@ -67,6 +67,10 @@ export default defineConfig({
           // Página de propósito de la app OAuth (noindex). La exige la brand
           // verification de Google Cloud; no es contenido del sitio comercial.
           '/google-ads-api-tool/',
+          // Política de privacidad del Panel KOBOR (noindex). La exige la
+          // revisión de aplicaciones de Meta para el acceso avanzado a los
+          // mensajes de Instagram; tampoco es contenido del sitio comercial.
+          '/privacidad-panel/',
         ].some((old) => page.endsWith(old)),
     }),
   ],
