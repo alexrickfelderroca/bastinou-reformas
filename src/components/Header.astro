@@ -252,6 +252,12 @@ const hasPhone = !site.phone.includes('[PENDIENTE');
     min-height: 2.5rem;
     padding: 0.6rem 1.15rem;
     font-size: 0.9rem;
+    /* El rótulo va SIEMPRE en una línea y el botón no se encoge. Sin esto,
+       «Solicitar visita» se partía en dos y el botón quedaba como una pastilla
+       achatada: de 1024 a ~1140 (la fila va justa) y de 1280 en adelante, donde
+       reaparece el teléfono y se come el hueco. Mismo criterio que .nav-link. */
+    white-space: nowrap;
+    flex: none;
   }
   /* CTA sobre hero oscuro: relleno blanco con texto verde para contrastar. */
   .site-header--over-dark:not([data-scrolled='true']) .header-cta {
@@ -368,6 +374,19 @@ const hasPhone = !site.phone.includes('[PENDIENTE');
     }
     .menu-toggle {
       display: none;
+    }
+    /* El contenedor está topado a 80rem, así que la fila NO gana ancho por
+       encima de 1280px: a 1280 y a 1920 hay exactamente el mismo hueco. Con el
+       CTA en una sola línea, lo único que puede ceder es el aire entre enlaces,
+       y se cede igual en todo el rango para que el ritmo no salte. */
+    .site-header__bar {
+      gap: 1rem;
+    }
+    .nav-desktop {
+      gap: 1.05rem;
+    }
+    .header-actions {
+      gap: 0.8rem;
     }
   }
   /* El teléfono del header sólo cabe con holgura en pantallas amplias. */
