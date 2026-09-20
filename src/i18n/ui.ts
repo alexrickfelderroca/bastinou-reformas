@@ -55,14 +55,36 @@ const dictionaries: Record<Locale, Dict> = { es, ca, en };
  * Ahora el texto dice {legalName} y el valor sale de site.ts. Un cambio, nueve
  * páginas. Un idioma nuevo hereda los datos sin tocar nada.
  */
-const companyVars: Record<string, string> = {
-  legalName: site.legalName,
-  nif: site.nif,
-  legalAddress: site.legalAddress,
-  email: site.email,
-  phone: site.phone,
-  city: site.address.city,
+/**
+ * Texto del hueco MIENTRAS NO HAYA DATO, en el idioma de cada página.
+ *
+ * Hace falta porque site.ts es un solo archivo y no tiene idioma. Sin esto, una
+ * página en catalán mostraría «[PENDIENTE: razón social]» en español: el
+ * refactor habría arreglado el mantenimiento y empeorado lo que se ve. En
+ * cuanto los tres campos de site.ts tengan valor real, esta tabla deja de
+ * usarse sola — no hay que tocarla ni borrarla.
+ */
+const HUECO_POR_IDIOMA: Record<Locale, Record<string, string>> = {
+  es: { legalName: '[PENDIENTE: razón social]', nif: '[PENDIENTE]', legalAddress: '[PENDIENTE: dirección]' },
+  ca: { legalName: '[PENDENT: raó social]', nif: '[PENDENT]', legalAddress: '[PENDENT: adreça]' },
+  en: { legalName: '[PENDING: legal name]', nif: '[PENDING]', legalAddress: '[PENDING: address]' },
 };
+
+/** Un valor sigue pendiente si conserva el marcador que trae site.ts de fábrica. */
+const siguePendiente = (v: string) => v.startsWith('[PENDIENTE');
+
+function companyVarsFor(locale: Locale): Record<string, string> {
+  const hueco = HUECO_POR_IDIOMA[locale];
+  const dato = (clave: string, valor: string) => (siguePendiente(valor) ? hueco[clave] : valor);
+  return {
+    legalName: dato('legalName', site.legalName),
+    nif: dato('nif', site.nif),
+    legalAddress: dato('legalAddress', site.legalAddress),
+    email: site.email,
+    phone: site.phone,
+    city: site.address.city,
+  };
+}
 
 /**
  * Sustituye {clave} por su valor. Una clave sin valor se deja TAL CUAL, con sus
@@ -98,19 +120,20 @@ function lookup(dict: Dict, path: string): unknown {
  * término, devuelve la propia clave (visible en desarrollo para detectar huecos).
  */
 export function useTranslations(locale: Locale) {
+  const vars = companyVarsFor(locale);
   return function t(key: string): string {
     const val = lookup(dictionaries[locale], key) ?? lookup(dictionaries.es, key);
-    return typeof val === 'string' ? interpolate(val, companyVars) : key;
+    return typeof val === 'string' ? interpolate(val, vars) : key;
   };
 }
 
 /** Sustituye {clave} en cualquier cadena del árbol, respetando su forma. */
-function interpolateDeep<T>(node: T): T {
-  if (typeof node === 'string') return interpolate(node, companyVars) as unknown as T;
-  if (Array.isArray(node)) return node.map(interpolateDeep) as unknown as T;
+function interpolateDeep<T>(node: T, vars: Record<string, string>): T {
+  if (typeof node === 'string') return interpolate(node, vars) as unknown as T;
+  if (Array.isArray(node)) return node.map((n) => interpolateDeep(n, vars)) as unknown as T;
   if (node && typeof node === 'object') {
     const out: Record<string, unknown> = {};
-    for (const [k, v] of Object.entries(node as Record<string, unknown>)) out[k] = interpolateDeep(v);
+    for (const [k, v] of Object.entries(node as Record<string, unknown>)) out[k] = interpolateDeep(v, vars);
     return out as unknown as T;
   }
   return node;
@@ -127,5 +150,5 @@ function interpolateDeep<T>(node: T): T {
  */
 export function tData<T = unknown>(locale: Locale, key: string): T | undefined {
   const val = lookup(dictionaries[locale], key) ?? lookup(dictionaries.es, key);
-  return val === undefined ? undefined : interpolateDeep(val as T);
+  return val === undefined ? undefined : interpolateDeep(val as T, companyVarsFor(locale));
 }
