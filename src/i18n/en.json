@@ -658,7 +658,7 @@
     "introTitle": "What are cookies?",
     "introText": "A cookie is a small file that a website stores on your device when you visit. Cookies make the site work, remember your preferences and measure how the site is used. We also use equivalent technologies such as the browser's local storage.",
     "whoTitle": "Who uses cookies",
-    "whoText": "The data controller is Kobor ([PENDING: legal name and tax ID]). Some cookies are managed by third parties: Google, through Google Tag Manager, Google Analytics and Google Ads, and Microsoft, through Microsoft Clarity.",
+    "whoText": "The data controller is Kobor ({legalName}, tax ID {nif}). Some cookies are managed by third parties: Google, through Google Tag Manager, Google Analytics and Google Ads, and Microsoft, through Microsoft Clarity.",
     "typesTitle": "Cookies we use",
     "typesIntro": "We group cookies into three categories. Except for the necessary ones, none are activated without your consent.",
     "necessaryTitle": "Necessary",
@@ -682,7 +682,7 @@
     "title": "Privacy policy",
     "updated": "Last updated: August 2026.",
     "s": [
-      { "h": "Data controller", "p": ["The controller of your data is Kobor ([PENDING: legal name], tax ID [PENDING], registered at [PENDING: address]). You can reach us at <a href=\"mailto:admin@kobor.es\">admin@kobor.es</a>."] },
+      { "h": "Data controller", "p": ["The controller of your data is Kobor ({legalName}, tax ID {nif}, registered at {legalAddress}). You can reach us at <a href=\"mailto:admin@kobor.es\">admin@kobor.es</a>."] },
       { "h": "What data we process", "p": ["We process the data you provide in the contact and quote forms (name, phone, email, your message and, if you attach them, the photos or plans of your renovation). If you accept cookies, we also process browsing and advertising-campaign data."] },
       { "h": "Purposes", "p": ["We use your data to respond to your request, prepare quotes and provide our renovation services. With your consent, we also measure the site's audience and show relevant advertising."] },
       { "h": "Legal basis", "p": ["We process your data on the basis of your consent and of pre-contractual measures taken at your request. Analytics and advertising rely solely on your consent, which you can withdraw at any time."] },
@@ -701,7 +701,7 @@
     "title": "Legal notice",
     "updated": "Last updated: August 2026.",
     "s": [
-      { "h": "Owner identification", "p": ["In compliance with Spanish Law 34/2002 (LSSI-CE), we inform you that this website is owned by Kobor ([PENDING: legal name], tax ID [PENDING]), registered at [PENDING: address], email <a href=\"mailto:admin@kobor.es\">admin@kobor.es</a>. Activity: renovation of homes and commercial premises."] },
+      { "h": "Owner identification", "p": ["In compliance with Spanish Law 34/2002 (LSSI-CE), we inform you that this website is owned by Kobor ({legalName}, tax ID {nif}), registered at {legalAddress}, email <a href=\"mailto:admin@kobor.es\">admin@kobor.es</a>. Activity: renovation of homes and commercial premises."] },
       { "h": "Purpose and terms of use", "p": ["This site provides information about our services and lets you request a quote. By browsing it you accept these terms. You agree to make appropriate use of the content and not to use it for unlawful purposes."] },
       { "h": "Intellectual and industrial property", "p": ["The site's content (texts, photographs, designs, logos and trademarks) belongs to Kobor or to third parties who have authorised its use, and is protected by intellectual and industrial property law. Its reproduction, distribution or transformation is not permitted without express authorisation."] },
       { "h": "Liability", "p": ["We strive to keep the information correct and up to date, but we do not guarantee the absence of errors or the continuous availability of the site. The published prices are indicative and do not constitute a contractual offer. We are not liable for damages arising from misuse of the site or from its temporary unavailability."] },

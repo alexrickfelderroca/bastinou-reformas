@@ -85,7 +85,7 @@ const zones = ['Barcelona', "L'Hospitalet", 'Badalona', 'Sant Cugat', 'Sabadell'
           <h2 class="h-section" data-reveal>{t('contact.mapTitle')}</h2>
           <p class="lead ct-map__text" data-reveal>{t('contact.mapText')}</p>
           <p class="ct-map__addr" data-reveal>
-            {site.address.street} · {site.address.postalCode} Sant Cugat del Vallès
+            {site.address.street} · {site.address.postalCode} {site.address.city}
           </p>
         </div>
         <a class="btn btn-outline" href={site.maps.directionsUrl} target="_blank" rel="noopener" data-reveal>

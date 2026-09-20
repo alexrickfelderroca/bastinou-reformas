@@ -6,6 +6,7 @@
 import es from './es.json';
 import ca from './ca.json';
 import en from './en.json';
+import { site } from '../config/site';
 
 export const locales = ['es', 'ca', 'en'] as const;
 export type Locale = (typeof locales)[number];
@@ -38,6 +39,43 @@ export const localeOgLocale: Record<Locale, string> = {
 type Dict = Record<string, unknown>;
 const dictionaries: Record<Locale, Dict> = { es, ca, en };
 
+/**
+ * Datos de empresa que los textos legales interpolan con {clave}.
+ *
+ * Por qué existe esto: el aviso legal, la política de privacidad y la de
+ * cookies tienen que nombrar a la titular (LSSI-CE art. 10, RGPD art. 13). Ese
+ * dato estaba COPIADO a mano en los tres diccionarios, así que vivía en nueve
+ * sitios y había que acordarse de los nueve.
+ *
+ * Y la trampa de verdad: el marcador estaba TRADUCIDO — [PENDIENTE] en es.json,
+ * [PENDENT] en ca.json, [PENDING] en en.json. Así que la «búsqueda global de
+ * PENDIENTE» que todo el mundo hace antes de publicar encontraba 7 de 21 y
+ * dejaba el catalán y el inglés en la calle con el hueco puesto.
+ *
+ * Ahora el texto dice {legalName} y el valor sale de site.ts. Un cambio, nueve
+ * páginas. Un idioma nuevo hereda los datos sin tocar nada.
+ */
+const companyVars: Record<string, string> = {
+  legalName: site.legalName,
+  nif: site.nif,
+  legalAddress: site.legalAddress,
+  email: site.email,
+  phone: site.phone,
+  city: site.address.city,
+};
+
+/**
+ * Sustituye {clave} por su valor. Una clave sin valor se deja TAL CUAL, con sus
+ * llaves: si alguien escribe {nifX} por error, se ve en la página. Borrarla
+ * dejaría una frase que se lee bien y que ya no identifica a nadie, que es
+ * justo el fallo que no se detecta leyendo.
+ */
+function interpolate(text: string, vars: Record<string, string>): string {
+  return text.replace(/\{(\w+)\}/g, (entero, clave) =>
+    Object.prototype.hasOwnProperty.call(vars, clave) ? vars[clave] : entero,
+  );
+}
+
 /** Deduce el idioma a partir de la URL: /ca/… → ca, /en/… → en, resto → es. */
 export function getLocaleFromUrl(url: URL): Locale {
   const [, seg] = url.pathname.split('/');
@@ -62,11 +100,32 @@ function lookup(dict: Dict, path: string): unknown {
 export function useTranslations(locale: Locale) {
   return function t(key: string): string {
     const val = lookup(dictionaries[locale], key) ?? lookup(dictionaries.es, key);
-    return typeof val === 'string' ? val : key;
+    return typeof val === 'string' ? interpolate(val, companyVars) : key;
   };
 }
 
-/** Igual que `t` pero para nodos que son arrays/objetos (listas, FAQs…). */
+/** Sustituye {clave} en cualquier cadena del árbol, respetando su forma. */
+function interpolateDeep<T>(node: T): T {
+  if (typeof node === 'string') return interpolate(node, companyVars) as unknown as T;
+  if (Array.isArray(node)) return node.map(interpolateDeep) as unknown as T;
+  if (node && typeof node === 'object') {
+    const out: Record<string, unknown> = {};
+    for (const [k, v] of Object.entries(node as Record<string, unknown>)) out[k] = interpolateDeep(v);
+    return out as unknown as T;
+  }
+  return node;
+}
+
+/**
+ * Igual que `t` pero para nodos que son arrays/objetos (listas, FAQs…).
+ *
+ * Interpola en profundidad, y no por simetría: las secciones legales llegan por
+ * aquí (`legal.s`, `privacy.s` son arrays de {h, p[]}), así que 18 de los 21
+ * marcadores están DENTRO de estos arrays. Interpolar sólo en `t()` habría
+ * arreglado las tres cookies y dejado el aviso legal y la privacidad intactos
+ * en los tres idiomas — con el refactor puesto y pareciendo hecho.
+ */
 export function tData<T = unknown>(locale: Locale, key: string): T | undefined {
-  return (lookup(dictionaries[locale], key) ?? lookup(dictionaries.es, key)) as T | undefined;
+  const val = lookup(dictionaries[locale], key) ?? lookup(dictionaries.es, key);
+  return val === undefined ? undefined : interpolateDeep(val as T);
 }
