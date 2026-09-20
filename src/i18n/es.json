@@ -658,7 +658,7 @@
     "introTitle": "¿Qué son las cookies?",
     "introText": "Una cookie es un pequeño archivo que un sitio web guarda en tu dispositivo al visitarlo. Sirven para que el sitio funcione, para recordar tus preferencias y para medir cómo se usa. También usamos tecnologías equivalentes como el almacenamiento local del navegador.",
     "whoTitle": "Quién usa las cookies",
-    "whoText": "El responsable del tratamiento es Kobor ([PENDIENTE: razón social y NIF]). Algunas cookies las gestionan terceros: Google, a través de Google Tag Manager, Google Analytics y Google Ads, y Microsoft, a través de Microsoft Clarity.",
+    "whoText": "El responsable del tratamiento es Kobor ({legalName}, NIF {nif}). Algunas cookies las gestionan terceros: Google, a través de Google Tag Manager, Google Analytics y Google Ads, y Microsoft, a través de Microsoft Clarity.",
     "typesTitle": "Cookies que utilizamos",
     "typesIntro": "Agrupamos las cookies en tres categorías. Salvo las necesarias, ninguna se activa sin tu consentimiento.",
     "necessaryTitle": "Necesarias",
@@ -682,7 +682,7 @@
     "title": "Política de privacidad",
     "updated": "Última actualización: agosto de 2026.",
     "s": [
-      { "h": "Responsable del tratamiento", "p": ["El responsable del tratamiento de tus datos es Kobor ([PENDIENTE: razón social], NIF [PENDIENTE], con domicilio en [PENDIENTE: dirección]). Puedes contactarnos en <a href=\"mailto:admin@kobor.es\">admin@kobor.es</a>."] },
+      { "h": "Responsable del tratamiento", "p": ["El responsable del tratamiento de tus datos es Kobor ({legalName}, NIF {nif}, con domicilio en {legalAddress}). Puedes contactarnos en <a href=\"mailto:admin@kobor.es\">admin@kobor.es</a>."] },
       { "h": "Qué datos tratamos", "p": ["Tratamos los datos que nos facilitas en los formularios de contacto y presupuesto (nombre, teléfono, correo electrónico, el mensaje y, si las adjuntas, las fotos o planos de tu reforma). Si aceptas las cookies, también tratamos datos de navegación y de campañas publicitarias."] },
       { "h": "Con qué finalidad", "p": ["Usamos tus datos para atender tu solicitud, preparar presupuestos y prestarte nuestros servicios de reforma. Con tu consentimiento, además, medimos la audiencia del sitio y mostramos publicidad relevante."] },
       { "h": "Base jurídica", "p": ["Tratamos tus datos sobre la base de tu consentimiento y de la aplicación de medidas precontractuales solicitadas por ti. La analítica y la publicidad se basan exclusivamente en tu consentimiento, que puedes retirar en cualquier momento."] },
@@ -701,7 +701,7 @@
     "title": "Aviso legal",
     "updated": "Última actualización: agosto de 2026.",
     "s": [
-      { "h": "Datos identificativos", "p": ["En cumplimiento de la Ley 34/2002 (LSSI-CE), te informamos de que este sitio web es titularidad de Kobor ([PENDIENTE: razón social], NIF [PENDIENTE]), con domicilio en [PENDIENTE: dirección] y correo electrónico <a href=\"mailto:admin@kobor.es\">admin@kobor.es</a>. Actividad: reformas de viviendas y locales comerciales."] },
+      { "h": "Datos identificativos", "p": ["En cumplimiento de la Ley 34/2002 (LSSI-CE), te informamos de que este sitio web es titularidad de Kobor ({legalName}, NIF {nif}), con domicilio en {legalAddress} y correo electrónico <a href=\"mailto:admin@kobor.es\">admin@kobor.es</a>. Actividad: reformas de viviendas y locales comerciales."] },
       { "h": "Objeto y condiciones de uso", "p": ["Este sitio ofrece información sobre nuestros servicios y permite solicitar presupuesto. Al navegar por él aceptas las presentes condiciones. Te comprometes a hacer un uso adecuado de los contenidos y a no emplearlos con fines ilícitos."] },
       { "h": "Propiedad intelectual e industrial", "p": ["Los contenidos del sitio (textos, fotografías, diseños, logotipos y marcas) son titularidad de Kobor o de terceros que han autorizado su uso, y están protegidos por la normativa de propiedad intelectual e industrial. No se permite su reproducción, distribución o transformación sin autorización expresa."] },
       { "h": "Responsabilidad", "p": ["Procuramos que la información sea correcta y esté actualizada, pero no garantizamos la ausencia de errores ni la disponibilidad continua del sitio. Los precios publicados son orientativos y no constituyen una oferta contractual. No nos responsabilizamos de los daños derivados de un uso indebido del sitio ni de su indisponibilidad temporal."] },

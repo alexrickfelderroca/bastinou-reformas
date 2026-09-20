@@ -93,7 +93,7 @@ const hasPhone = !site.phone.includes('[PENDIENTE');
         {site.social.instagram && (
           <li><a href={site.social.instagram} target="_blank" rel="noopener">Instagram</a></li>
         )}
-        <li class="footer__area">{t('footer.office')}: {site.address.city}</li>
+        <li class="footer__area">{t('footer.office')}: {site.address.displayCity}</li>
         <li class="footer__area">{t('footer.hours')}: {t('contact.hoursValue')}</li>
         <li class="footer__area">{t('footer.serviceArea')}</li>
       </ul>

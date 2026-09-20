@@ -1,11 +1,34 @@
 /**
  * Datos de la empresa. Se entregan por separado (CLAUDE.pdf §8, §10).
  * Hasta entonces: placeholders claros [PENDIENTE]. Cambiar SOLO aquí.
+ *
+ * Desde el 20-09-2026 esto es CIERTO también para los textos legales. Antes no
+ * lo era: el aviso legal, la privacidad y las cookies llevaban el «[PENDIENTE]»
+ * escrito a mano dentro de es.json, ca.json y en.json — 21 marcadores repartidos
+ * por 9 páginas. Ahora esos textos llevan {legalName}, {nif} y {legalAddress},
+ * y `useTranslations` los sustituye con lo que haya aquí. Rellenar los tres
+ * campos de abajo arregla las 9 páginas en los tres idiomas de una vez.
  */
 export const site = {
   name: 'Kobor',
+
+  /* ---------------------------------------------------------------------- */
+  /* Identidad jurídica — NO INVENTAR NINGUNO DE ESTOS TRES VALORES.         */
+  /*                                                                        */
+  /* Salen del documento societario (escritura de constitución o modelo 036),*/
+  /* no de lo que se recuerde ni de lo que ponga en otra web. Un NIF         */
+  /* aproximado en un aviso legal es peor que el hueco: el hueco se ve y se  */
+  /* corrige; un dígito mal identifica a otra empresa.                       */
+  /*                                                                        */
+  /* Mientras sigan en [PENDIENTE]:                                          */
+  /*   · el JSON-LD omite el campo (lo filtra `clean()` en Layout.astro),     */
+  /*   · pero el texto legal SÍ los muestra, porque la ley exige que estén.  */
+  /* ---------------------------------------------------------------------- */
   legalName: '[PENDIENTE: razón social]',
   nif: '[PENDIENTE: NIF/CIF]',
+  /** Domicilio social tal y como figure en la escritura. Puede NO coincidir
+   *  con la dirección operativa de abajo; si coincide, se repite entero. */
+  legalAddress: '[PENDIENTE: dirección]',
 
   // Contacto — usados en header, footer, tel:, wa.me y JSON-LD.
   phone: '+34 623 80 81 72',
@@ -16,9 +39,31 @@ export const site = {
   // Dirección / zona de servicio: Barcelona y alrededores hasta 50 km.
   // Calle y CP confirmados por el propietario (ago-2026): es su dirección,
   // aunque el listado de Google en ese punto pertenezca a otro negocio.
+  //
+  // OJO — `city` y `displayCity` NO son lo mismo y no deben fusionarse:
+  //
+  //   city        → el MUNICIPIO REAL. Es lo que va en `addressLocality` del
+  //                 JSON-LD, y Google/Apple/Bing lo leen como DATO, no como
+  //                 texto libre. Un solo municipio, escrito como el callejero.
+  //                 Antes aquí ponía «Barcelona / Sant Cugat del Vallès» y eso
+  //                 se publicaba tal cual en schema.org: una localidad con
+  //                 barra no existe, así que el dato entraba inválido en las
+  //                 tres plataformas a la vez.
+  //   displayCity → la frase para humanos del pie y del CTA final. Puede
+  //                 nombrar dos sitios porque es marketing, no un campo.
+  //
+  // Municipio verificado (20-09-2026) por tres vías independientes:
+  //   · El CP 08174 pertenece a Sant Cugat del Vallès (Cerdanyola es 08290).
+  //   · La ficha de Google, verificada, publica «08174 Sant Cugat del Vallès»
+  //     y su Plus Code F3QJ+VH resuelve a 52 m de nuestro pin.
+  //   · Apple Maps geocodifica la calle y el número en Sant Cugat del Vallès.
+  // Existe un «Can Fatjó dels Aurons» DISTINTO en Bellaterra (Cerdanyola del
+  // Vallès, 08193) a 1,2 km: es el que devuelve Google al buscar por texto, y
+  // de ahí salió la versión «Cerdanyola» que circula. No es esta dirección.
   address: {
     street: 'Av. Can Fatjó dels Aurons, 15',
-    city: 'Barcelona / Sant Cugat del Vallès',
+    city: 'Sant Cugat del Vallès',
+    displayCity: 'Barcelona / Sant Cugat del Vallès',
     region: 'Cataluña',
     postalCode: '08174',
     country: 'ES',

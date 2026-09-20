@@ -658,7 +658,7 @@
     "introTitle": "Què són les cookies?",
     "introText": "Una cookie és un petit fitxer que un lloc web desa al teu dispositiu quan el visites. Serveixen perquè el lloc funcioni, per recordar les teves preferències i per mesurar com s'utilitza. També fem servir tecnologies equivalents com l'emmagatzematge local del navegador.",
     "whoTitle": "Qui fa servir les cookies",
-    "whoText": "El responsable del tractament és Kobor ([PENDENT: raó social i NIF]). Algunes cookies les gestionen tercers: Google, a través de Google Tag Manager, Google Analytics i Google Ads, i Microsoft, a través de Microsoft Clarity.",
+    "whoText": "El responsable del tractament és Kobor ({legalName}, NIF {nif}). Algunes cookies les gestionen tercers: Google, a través de Google Tag Manager, Google Analytics i Google Ads, i Microsoft, a través de Microsoft Clarity.",
     "typesTitle": "Cookies que utilitzem",
     "typesIntro": "Agrupem les cookies en tres categories. Llevat de les necessàries, cap s'activa sense el teu consentiment.",
     "necessaryTitle": "Necessàries",
@@ -682,7 +682,7 @@
     "title": "Política de privacitat",
     "updated": "Última actualització: agost de 2026.",
     "s": [
-      { "h": "Responsable del tractament", "p": ["El responsable del tractament de les teves dades és Kobor ([PENDENT: raó social], NIF [PENDENT], amb domicili a [PENDENT: adreça]). Pots contactar-nos a <a href=\"mailto:admin@kobor.es\">admin@kobor.es</a>."] },
+      { "h": "Responsable del tractament", "p": ["El responsable del tractament de les teves dades és Kobor ({legalName}, NIF {nif}, amb domicili a {legalAddress}). Pots contactar-nos a <a href=\"mailto:admin@kobor.es\">admin@kobor.es</a>."] },
       { "h": "Quines dades tractem", "p": ["Tractem les dades que ens facilites als formularis de contacte i pressupost (nom, telèfon, correu electrònic, el missatge i, si les adjuntes, les fotos o els plànols de la teva reforma). Si acceptes les cookies, també tractem dades de navegació i de campanyes publicitàries."] },
       { "h": "Amb quina finalitat", "p": ["Fem servir les teves dades per atendre la teva sol·licitud, preparar pressupostos i prestar-te els nostres serveis de reforma. Amb el teu consentiment, a més, mesurem l'audiència del lloc i mostrem publicitat rellevant."] },
       { "h": "Base jurídica", "p": ["Tractem les teves dades sobre la base del teu consentiment i de l'aplicació de mesures precontractuals sol·licitades per tu. L'analítica i la publicitat es basen exclusivament en el teu consentiment, que pots retirar en qualsevol moment."] },
@@ -701,7 +701,7 @@
     "title": "Avís legal",
     "updated": "Última actualització: agost de 2026.",
     "s": [
-      { "h": "Dades identificatives", "p": ["En compliment de la Llei 34/2002 (LSSI-CE), t'informem que aquest lloc web és titularitat de Kobor ([PENDENT: raó social], NIF [PENDENT]), amb domicili a [PENDENT: adreça] i correu electrònic <a href=\"mailto:admin@kobor.es\">admin@kobor.es</a>. Activitat: reformes d'habitatges i locals comercials."] },
+      { "h": "Dades identificatives", "p": ["En compliment de la Llei 34/2002 (LSSI-CE), t'informem que aquest lloc web és titularitat de Kobor ({legalName}, NIF {nif}), amb domicili a {legalAddress} i correu electrònic <a href=\"mailto:admin@kobor.es\">admin@kobor.es</a>. Activitat: reformes d'habitatges i locals comercials."] },
       { "h": "Objecte i condicions d'ús", "p": ["Aquest lloc ofereix informació sobre els nostres serveis i permet sol·licitar pressupost. En navegar-hi acceptes aquestes condicions. Et compromets a fer un ús adequat dels continguts i a no emprar-los amb finalitats il·lícites."] },
       { "h": "Propietat intel·lectual i industrial", "p": ["Els continguts del lloc (textos, fotografies, dissenys, logotips i marques) són titularitat de Kobor o de tercers que n'han autoritzat l'ús, i estan protegits per la normativa de propietat intel·lectual i industrial. No se'n permet la reproducció, distribució o transformació sense autorització expressa."] },
       { "h": "Responsabilitat", "p": ["Procurem que la informació sigui correcta i estigui actualitzada, però no garantim l'absència d'errors ni la disponibilitat contínua del lloc. Els preus publicats són orientatius i no constitueixen una oferta contractual. No ens responsabilitzem dels danys derivats d'un ús indegut del lloc ni de la seva indisponibilitat temporal."] },
