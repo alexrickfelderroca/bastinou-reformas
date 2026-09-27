@@ -1,12 +1,13 @@
 ---
 /**
- * Pie del sitio (banda verde oscura). Logotipo Kobor en blanco (filter sobre el
- * PNG transparente), columnas de servicios, empresa y contacto con teléfono, email,
- * WhatsApp, oficina y horario clicables/visibles, y la fila legal.
+ * Pie del sitio (banda verde oscura). Logotipo COMPLETO de Kobor (kobor +
+ * REFORMAS + — BARCELONA —, el del logo de 09-2026) en blanco (filter sobre el
+ * PNG transparente), columnas de servicios, empresa y contacto con teléfono,
+ * email, WhatsApp, oficina y horario clicables/visibles, y la fila legal.
  */
 import { Image } from 'astro:assets';
 import { getCollection, type CollectionEntry } from 'astro:content';
-import logo from '../assets/brand/kobor-logo.png';
+import logo from '../assets/brand/kobor-lockup.png';
 import { useTranslations, type Locale } from '../i18n/ui';
 import { localizedPath, withTrailingSlash, type RouteKey } from '../i18n/routes';
 import { site, telHref, whatsappHref } from '../config/site';
@@ -57,7 +58,7 @@ const hasPhone = !site.phone.includes('[PENDIENTE');
   <div class="container-x footer__grid">
     <div class="footer__brand">
       <a href={p('home')} aria-label={t('meta.siteName')}>
-        <Image src={logo} alt={t('meta.siteName')} width={200} densities={[1, 2]} class="footer__logo" loading="lazy" />
+        <Image src={logo} alt={t('meta.siteName')} width={232} densities={[1, 2]} class="footer__logo" loading="lazy" />
       </a>
       <p class="footer__tagline">{t('footer.tagline')}</p>
     </div>
@@ -133,9 +134,11 @@ const hasPhone = !site.phone.includes('[PENDIENTE');
     max-width: 22rem;
   }
   .footer__logo {
-    width: 180px;
+    /* Logo completo (con REFORMAS y BARCELONA): más ancho que el wordmark solo
+       para que «BARCELONA» no se quede en un hilo ilegible. */
+    width: 232px;
     height: auto;
-    /* PNG transparente con texto verde oscuro → en blanco sobre la banda verde. */
+    /* PNG transparente con texto negro → en blanco sobre la banda verde. */
     filter: brightness(0) invert(1);
     opacity: 0.95;
   }

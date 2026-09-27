@@ -38,11 +38,15 @@ import brand from '../assets/brand/kobor-glyphs.json';
 const VBH = brand.viewBox.h;
 const startGlyphs = brand.glyphs.slice(0, 2);
 const endGlyphs = brand.glyphs.slice(2);
+// Hueco real entre glifos del logotipo (media de k→ob→o→r) en em: las letras
+// quedan con el mismo espaciado que el logo del cliente.
+const gaps = brand.glyphs.slice(1).map((g, i) => g.x - (brand.glyphs[i].x + brand.glyphs[i].w));
+const GAP_EM = (gaps.reduce((a, b) => a + b, 0) / gaps.length / VBH).toFixed(4);
 ---
 
 <div id="brand-loader" class="bl" aria-hidden="true">
   <div class="bl__loader">
-    <div class="bl__h1">
+    <div class="bl__h1" style={`--bl-gap: ${GAP_EM}em;`}>
       <div class="bl__h1-start">
         {startGlyphs.map((g) => (
           <svg
@@ -126,7 +130,8 @@ const endGlyphs = brand.glyphs.slice(2);
     white-space: nowrap;
     justify-content: center;
     /* 1em = altura del glifo alto (k). El wordmark completo («kob» + caja de
-       1em + «or») mide ~5,1em: a 15vw ocupa ~77vw, cabe en cualquier pantalla. */
+       1em + «or») mide ~5,4em con el logo de 09-2026: a 15vw ocupa ~80vw, cabe
+       en cualquier pantalla. */
     font-size: clamp(2.5rem, 15vw, 13rem);
     line-height: 1;
     display: flex;
@@ -136,14 +141,14 @@ const endGlyphs = brand.glyphs.slice(2);
   .bl__h1-start {
     justify-content: flex-end;
     align-items: flex-end;
-    gap: 0.05em;
+    gap: var(--bl-gap, 0.05em);
     display: flex;
     overflow: hidden;
   }
   .bl__h1-end {
     justify-content: flex-start;
     align-items: flex-end;
-    gap: 0.05em;
+    gap: var(--bl-gap, 0.05em);
     display: flex;
     overflow: hidden;
   }
