@@ -12,7 +12,7 @@
 import { Image } from 'astro:assets';
 import logo from '../assets/brand/kobor-logo.png';
 import { useTranslations, type Locale } from '../i18n/ui';
-import { localizedPath, type RouteKey } from '../i18n/routes';
+import { localizedPath, withTrailingSlash, type RouteKey } from '../i18n/routes';
 import { site, telHref, whatsappHref } from '../config/site';
 import { services as serviceCfg, serviceOrder } from '../config/services';
 import LanguageSwitcher from './LanguageSwitcher.astro';
@@ -24,7 +24,7 @@ interface Props {
 }
 const { locale, routeKey, overHero = false } = Astro.props;
 const t = useTranslations(locale);
-const p = (k: RouteKey) => localizedPath(k, locale);
+const p = (k: RouteKey) => withTrailingSlash(localizedPath(k, locale));
 
 // Se deriva de la configuración, no de una lista aparte: así una página de
 // servicio nueva aparece en el menú sola, sin quedar inalcanzable por olvido.
