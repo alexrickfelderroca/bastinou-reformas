@@ -7,10 +7,9 @@
  * Disposición "hybrid" (rediseño con BrandLoader): el wordmark gigante "kobor"
  * (glifos reales del logotipo, vectorizados en kobor-glyphs.json) ancla la parte
  * inferior (como la referencia), acompañado de un titular-valor
- * (h1) y los dos CTA. El texto entra con un reveal enmascarado COORDINADO con el
- * BrandLoader mediante las clases `html.is-brandloading` (oculto) → `html.is-revealed`
- * (entra). Si el loader NO se reproduce (reduced-motion / repetición / sin-JS),
- * ninguna de esas clases se activa y el contenido es visible de inmediato.
+ * (h1) y los dos CTA. El póster, el titular y los botones se pintan en el
+ * primer frame: la intro de marca ya no los oculta (era el LCP, con más de un
+ * segundo de render delay). El wordmark gigante sigue siendo la marca.
  *
  * El vídeo:
  *  - Dos encuadres: 16:9 (escritorio) y 9:16 (móvil). Sólo se descarga uno,
@@ -22,6 +21,7 @@
 import { useTranslations, type Locale } from '../../i18n/ui';
 import { localizedPath } from '../../i18n/routes';
 import { whatsappHref } from '../../config/site';
+import { HERO_DESKTOP_MEDIA, HERO_MOBILE_MEDIA } from '../../lib/hero-lcp';
 import brand from '../../assets/brand/kobor-glyphs.json';
 
 interface Props {
@@ -47,7 +47,20 @@ const chips = [1, 2, 3].map((n) => ({
 
 <section class="hero on-dark">
   <div class="hero__media" aria-hidden="true">
-    <div class="hero__poster"></div>
+    <picture class="hero__picture">
+      <source media={HERO_MOBILE_MEDIA} type="image/avif" srcset="/hero/hero-mobile.avif" />
+      <source media={HERO_MOBILE_MEDIA} type="image/webp" srcset="/hero/hero-mobile.webp" />
+      <source media={HERO_DESKTOP_MEDIA} type="image/avif" srcset="/hero/hero-desktop.avif" />
+      <source media={HERO_DESKTOP_MEDIA} type="image/webp" srcset="/hero/hero-desktop.webp" />
+      <img
+        class="hero__poster"
+        src="/hero/hero-mobile.jpg"
+        alt=""
+        width="716"
+        height="1284"
+        fetchpriority="high"
+      />
+    </picture>
     <video
       class="hero__video"
       muted
@@ -138,6 +151,12 @@ const chips = [1, 2, 3].map((n) => ({
     overflow: hidden;
   }
   /* Grado cinemático desaturado, compartido por vídeo y póster (afinable). */
+  .hero__picture {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
   .hero__poster,
   .hero__video {
     position: absolute;
@@ -145,15 +164,14 @@ const chips = [1, 2, 3].map((n) => ({
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
     filter: saturate(0.5) contrast(1.03) brightness(0.88);
   }
-  /* Póster (habitación acabada): visible de inmediato y sin JS / reduced-motion.
-     Escritorio por defecto; móvil bajo el breakpoint. */
+  /* Póster real (<img>), visible en el primer frame. El encuadre lo elige
+     <picture> (no un fondo CSS) para poder darle fetchpriority y un preload.
+     El scale evita un filo al aplicar el mismo filtro que el vídeo. */
   .hero__poster {
-    background-image: url('/hero/hero-desktop.jpg');
-    background-size: cover;
-    background-position: center;
-    transform: scale(1.02); /* evita bordes con el filtro/escala del vídeo */
+    transform: scale(1.02);
   }
   /* El vídeo entra por encima del póster cuando puede reproducirse. */
   .hero__video {
@@ -182,9 +200,6 @@ const chips = [1, 2, 3].map((n) => ({
   }
 
   @media (max-width: 800px) {
-    .hero__poster {
-      background-image: url('/hero/hero-mobile.jpg');
-    }
     .hero__scrim {
       background:
         linear-gradient(
@@ -315,35 +330,8 @@ const chips = [1, 2, 3].map((n) => ({
     will-change: transform;
   }
 
-  /* ---- Reveal coordinado con el BrandLoader ----
-     Solo se OCULTA mientras el loader va a reproducirse (html.is-brandloading);
-     si no hay loader (reduced-motion / repetición / sin-JS) el contenido es
-     visible por defecto (nunca queda oculto de forma permanente). */
-  :global(html.is-brandloading) .hero__wm,
-  :global(html.is-brandloading) .hero__mask-inner {
-    transform: translateY(120%);
-  }
-  :global(html.is-brandloading) .hero__actions,
-  :global(html.is-brandloading) .hero__chips {
-    opacity: 0;
-    transform: translateY(24px);
-  }
-
-  :global(html.is-revealed) .hero__wm,
-  :global(html.is-revealed) .hero__mask-inner {
-    transform: translateY(0);
-    transition: transform 1.15s cubic-bezier(0.16, 1, 0.3, 1);
-    transition-delay: var(--rev-delay, 0s);
-  }
-  :global(html.is-revealed) .hero__actions,
-  :global(html.is-revealed) .hero__chips {
-    opacity: 1;
-    transform: none;
-    transition: opacity 1s ease, transform 1s cubic-bezier(0.16, 1, 0.3, 1);
-    transition-delay: 0.42s;
-  }
-
-  /* Sin animación de vídeo: nos quedamos con el póster estático. */
+  /* Sin animación de vídeo: nos quedamos con el póster estático.
+     El póster y el titular no se ocultan: son el LCP. */
   @media (prefers-reduced-motion: reduce) {
     .hero__video {
       display: none;
@@ -362,7 +350,9 @@ const chips = [1, 2, 3].map((n) => ({
 <script>
   /**
    * Carga el encuadre de vídeo adecuado (16:9 / 9:16) sin descargar los dos, y
-   * respeta prefers-reduced-motion. Se difiere a idle para no dañar el LCP.
+   * respeta prefers-reduced-motion. Espera a que el póster (LCP) haya cargado
+   * y al idle del hilo, para no competir con esa imagen. preload="none" en
+   * el <video>: sin src hasta este momento.
    */
   function initHeroVideo() {
     const video = document.querySelector<HTMLVideoElement>('.hero .hero__video');
@@ -391,9 +381,20 @@ const chips = [1, 2, 3].map((n) => ({
     if (attempt) attempt.catch(() => {});
   }
 
-  if (typeof window.requestIdleCallback === 'function') {
-    window.requestIdleCallback(() => initHeroVideo(), { timeout: 2000 });
+  function whenIdle(fn: () => void): void {
+    if (typeof window.requestIdleCallback === 'function') {
+      window.requestIdleCallback(() => fn(), { timeout: 2500 });
+    } else {
+      window.setTimeout(fn, 200);
+    }
+  }
+
+  const poster = document.querySelector<HTMLImageElement>('.hero .hero__poster');
+  const schedule = () => whenIdle(initHeroVideo);
+  if (poster && !poster.complete) {
+    poster.addEventListener('load', schedule, { once: true });
+    poster.addEventListener('error', schedule, { once: true });
   } else {
-    window.addEventListener('load', () => initHeroVideo());
+    schedule();
   }
 </script>

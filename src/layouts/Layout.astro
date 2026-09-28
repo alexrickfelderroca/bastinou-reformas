@@ -17,6 +17,7 @@ import { getLocaleFromUrl, localeHtmlLang, localeOgLocale, useTranslations } fro
 import { alternatesFor, type RouteKey } from '../i18n/routes';
 import { site, clarityEnabled } from '../config/site';
 import { OG_ROUTE_IDS, ogImagePath } from '../lib/og-meta';
+import { heroLcpPreloads } from '../lib/hero-lcp';
 
 interface Props {
   title?: string;
@@ -27,7 +28,7 @@ interface Props {
   noindex?: boolean;
   /** No añadir el sufijo de marca al <title> (títulos fijados por especificación). */
   exactTitle?: boolean;
-  /** Intro de marca a pantalla completa (solo la home). Ver Preloader.astro. */
+  /** Home: precarga el póster del hero (LCP). Ya no monta una intro que lo tape. */
   preloader?: boolean;
   /** Alternates hreflang explícitos (p. ej. detalle de proyecto con slug propio). */
   alternates?: { locale: import('../i18n/ui').Locale; path: string }[];
@@ -146,6 +147,21 @@ const websiteLd = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- LCP de la home: el póster del hero, el encuadre que de verdad se pinta
+         (AVIF móvil o de escritorio). Va antes del resto para que el scanner
+         lo pida enseguida. El <picture> usa las mismas URL. -->
+    {preloader &&
+      heroLcpPreloads.map((item) => (
+        <link
+          rel="preload"
+          as="image"
+          href={item.href}
+          type={item.type}
+          media={item.media}
+          fetchpriority="high"
+        />
+      ))}
 
     <!-- Consent Mode v2 + GTM (Fase 7). Lo primero: fija los defaults DENEGADOS
          antes de que cualquier etiqueta pueda leer el estado de consentimiento. -->

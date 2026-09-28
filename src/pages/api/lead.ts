@@ -16,7 +16,11 @@ export const prerender = false;
 const json = (data: unknown, status = 200) =>
   new Response(JSON.stringify(data), {
     status,
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      // Ni el CDN ni el navegador deben guardar la respuesta del formulario.
+      'Cache-Control': 'private, no-store',
+    },
   });
 
 export const POST: APIRoute = async ({ request, redirect }) => {

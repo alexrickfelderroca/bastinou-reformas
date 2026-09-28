@@ -259,10 +259,15 @@ const hasPhone = !site.phone.includes('[PENDIENTE');
     white-space: nowrap;
     flex: none;
   }
-  /* CTA sobre hero oscuro: relleno blanco con texto verde para contrastar. */
+  /* CTA «Solicitar visita» sobre el hero oscuro: blanco sólido y verde de
+     marca (#24443c sobre #fff ≈ 10,7:1). No depende de la opacidad del header:
+     si el botón se funde con la foto, el contraste medido cae por debajo de 4,5:1. */
   .site-header--over-dark:not([data-scrolled='true']) .header-cta {
     --btn-bg: #fff;
     --btn-fg: var(--color-deep);
+    background-color: #fff;
+    color: var(--color-deep);
+    border-color: #fff;
   }
 
   .menu-toggle {
