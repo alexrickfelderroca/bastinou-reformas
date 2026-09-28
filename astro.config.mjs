@@ -1,10 +1,85 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 import node from '@astrojs/node';
+
+const canonicalGateModule = fileURLToPath(new URL('./src/server/canonical-gate.ts', import.meta.url));
+
+/**
+ * El adaptador Node sirve dist/client ANTES de la app, así que el middleware
+ * no ve /contacto, /index.html ni el host www. Este plugin inyecta el gate
+ * delante de ese handler estático.
+ *
+ * No usamos `trailingSlash: 'always'`: en standalone ese ajuste redirige en el
+ * handler estático con un Location relativo (www y la barra serían dos 301) y
+ * también redirige POST /api/lead. La barra, www, index.html y las URL
+ * antiguas se resuelven juntas en src/lib/canonical-request.ts.
+ */
+function koborCanonicalPlugin() {
+  const virtualId = 'virtual:kobor-canonical';
+  const resolvedVirtualId = `\0${virtualId}`;
+  return {
+    name: 'kobor-canonical-http',
+    enforce: 'pre',
+    resolveId(id) {
+      if (id === virtualId) return resolvedVirtualId;
+    },
+    load(id) {
+      if (id === resolvedVirtualId) {
+        return `export { canonicalGate } from ${JSON.stringify(canonicalGateModule)};`;
+      }
+    },
+    transform(code, id) {
+      const norm = id.split('\\').join('/');
+      if (!norm.includes('/@astrojs/node/dist/standalone.js')) return;
+      const needle = 'staticHandler(req, res, () => appHandler(req, res));';
+      if (!code.includes(needle)) return;
+      return {
+        code: `import { canonicalGate } from ${JSON.stringify(virtualId)};\n${code.replace(
+          needle,
+          'if (canonicalGate(req, res)) return;\n    staticHandler(req, res, () => appHandler(req, res));',
+        )}`,
+        map: null,
+      };
+    },
+  };
+}
+
+/** Falla el build si el gate no llegó a dist/server (las redirecciones de estáticos no existirían). */
+function koborCanonicalCheck() {
+  return {
+    name: 'kobor-canonical-check',
+    hooks: {
+      'astro:build:done': () => {
+        const root = fileURLToPath(new URL('./dist/server', import.meta.url));
+        const stack = [root];
+        let found = false;
+        while (stack.length) {
+          const dir = stack.pop();
+          if (!dir) break;
+          for (const entry of readdirSync(dir, { withFileTypes: true })) {
+            const full = join(dir, entry.name);
+            if (entry.isDirectory()) stack.push(full);
+            else if (entry.isFile() && statSync(full).isFile() && /\.(mjs|js|cjs)$/.test(entry.name)) {
+              if (readFileSync(full, 'utf8').includes('kobor-pre-static-gate')) found = true;
+            }
+          }
+        }
+        if (!found) {
+          throw new Error(
+            'El gate canónico no está en dist/server. www, index.html y la barra no redirigirían en los HTML prerenderizados.',
+          );
+        }
+      },
+    },
+  };
+}
 
 // Site URL. Used for canonicals, sitemap, hreflang, OG.
 const SITE = 'https://kobor.es';
@@ -13,18 +88,16 @@ const SITE = 'https://kobor.es';
 export default defineConfig({
   site: SITE,
 
-  // Rutas antiguas (rebranding jul-2026) → nuevas. NO se usan los `redirects`
-  // del config: en el build estático no generan stubs y el hosting interino
-  // (GitHub Pages) devolvería 404. En su lugar hay páginas físicas con
-  // meta-refresh + canonical + noindex (src/components/RedirectStub.astro),
-  // que funcionan igual en estático y en SSR.
+  // Rutas antiguas (rebranding jul-2026): 301 real en src/lib/canonical-request.ts
+  // (mismo salto que www, la barra final e index.html). Ya no hay stubs HTML.
 
   // Salida estática por defecto: todo el contenido se prerenderiza (SEO). Sólo
   // las rutas con `prerender = false` (p. ej. /api/lead) corren en servidor.
-  // El adaptador Node standalone genera dist/server/entry.mjs, que en producción
-  // (Hostinger) se arranca con `npm start` y sirve tanto los estáticos de
-  // dist/client como la ruta SSR. Servir dist/ como estático sin proceso Node
-  // da 403: el index vive en dist/client, no en la raíz de dist/.
+  // El adaptador Node standalone genera dist/server/entry.mjs. En producción
+  // (Hostinger) `npm start` ejecuta server/start.mjs, que importa ese entry y
+  // añade Cache-Control / Content-Type (ver src/server/cache-headers.mjs).
+  // Sirve tanto los estáticos de dist/client como la ruta SSR. Servir dist/
+  // como estático sin proceso Node da 403: el index vive en dist/client.
   adapter: node({ mode: 'standalone' }),
 
   // ES is the default language and lives at the root (no prefix).
@@ -45,23 +118,13 @@ export default defineConfig({
     // por ruta idéntica, pero nuestros slugs están traducidos (no coinciden), así
     // que sólo enlazaría la home y dejaría el resto sin alternates. El hreflang
     // autoritativo y completo va en el <head> de cada página (routes.ts).
-    // Los stubs de redirección (URLs antiguas, noindex) se excluyen.
+    // Las URL antiguas ya no son páginas: el 301 vive en el gate y no entran
+    // en el sitemap. Las noindex de Ads, OAuth y el panel siguen fuera.
+    // lastmod = fecha de build (el integrador la aplica a cada URL).
     sitemap({
+      lastmod: new Date(),
       filter: (page) =>
         ![
-          '/reformas-pisos-barcelona/',
-          '/reformas-casas-barcelona/',
-          '/construccion-barcelona/',
-          '/calculadora-reformas/',
-          '/ca/reformes-pisos-barcelona/',
-          '/ca/reformes-cases-barcelona/',
-          '/ca/construccio-barcelona/',
-          '/ca/calculadora-reformes/',
-          '/en/apartment-renovation-barcelona/',
-          '/en/house-renovation-barcelona/',
-          '/en/construction-barcelona/',
-          '/en/renovation-cost-calculator/',
-          '/proyectos/casa-espana/',
           // Landing de Google Ads (noindex): fuera del sitemap.
           '/reformas-integrales-barcelona/',
           // Página de propósito de la app OAuth (noindex). La exige la brand
@@ -73,10 +136,11 @@ export default defineConfig({
           '/privacidad-panel/',
         ].some((old) => page.endsWith(old)),
     }),
+    koborCanonicalCheck(),
   ],
 
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [koborCanonicalPlugin(), tailwindcss()],
     // React 19 splits its runtime and its "shared internals" across the `react`
     // and `react-dom` packages. If Vite pre-bundles them into separate instances,
     // react-dom sets the hooks dispatcher on one copy while the component reads it

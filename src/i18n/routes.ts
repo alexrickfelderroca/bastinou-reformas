@@ -35,6 +35,18 @@ export const routes = {
     ca: '/ca/reformes-banys-barcelona',
     en: '/en/bathroom-renovation-barcelona',
   },
+  // Barra final en el mapa: los enlaces nuevos (menú, pie, resumen de
+  // servicios) salen ya en la URL canónica. withTrailingSlash es idempotente.
+  integrales: {
+    es: '/reformas-integrales/',
+    ca: '/ca/reformes-integrals/',
+    en: '/en/full-renovations/',
+  },
+  cocinas: {
+    es: '/reformas-cocinas/',
+    ca: '/ca/reformes-cuines/',
+    en: '/en/kitchen-renovation/',
+  },
   precios: {
     es: '/nuestros-precios',
     ca: '/ca/els-nostres-preus',
@@ -51,9 +63,13 @@ export const routes = {
 
 export type RouteKey = keyof typeof routes;
 
-/** Ruta localizada para una página en un idioma concreto. */
+/**
+ * Ruta localizada para una página en un idioma concreto, siempre con barra
+ * final. Header, footer y el resto de `p(key)` salen de aquí: el enlace
+ * interno y el canonical coinciden y no provocan un 301.
+ */
 export function localizedPath(key: RouteKey, locale: Locale): string {
-  return routes[key][locale];
+  return withTrailingSlash(routes[key][locale]);
 }
 
 /**
@@ -62,8 +78,9 @@ export function localizedPath(key: RouteKey, locale: Locale): string {
  * selector de idioma apuntan a la URL canónica sin saltos de redirección 301.
  */
 export function withTrailingSlash(path: string): string {
-  if (path === '/') return '/';
-  return path.endsWith('/') ? path : `${path}/`;
+  const collapsed = path.replace(/\/{2,}/g, '/');
+  if (collapsed === '' || collapsed === '/') return '/';
+  return collapsed.endsWith('/') ? collapsed : `${collapsed}/`;
 }
 
 /** Todas las variantes de idioma de una página (para hreflang y el selector). */

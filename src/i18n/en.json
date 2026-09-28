@@ -2,7 +2,7 @@
   "meta": {
     "siteName": "Kobor",
     "defaultTitle": "Kobor — Renovations in Barcelona and surroundings",
-    "defaultDescription": "Renovations of homes, offices and commercial premises in Barcelona and surroundings (up to 50 km). A single team from the first visit to handover, with clear indicative prices.",
+    "defaultDescription": "Renovations of homes, offices and premises in Barcelona and surroundings (up to 50 km). One team from the first visit to handover, with indicative prices.",
     "tagline": "Renovations in Barcelona and surroundings"
   },
   "nav": {
@@ -13,6 +13,8 @@
     "tiendas": "Shop renovations",
     "beauty": "Beauty & fitness",
     "banos": "Bathroom renovation",
+    "integrales": "Full renovations",
+    "cocinas": "Kitchen renovation",
     "precios": "Our prices",
     "proyectos": "Portfolio",
     "nosotros": "About us",
@@ -76,7 +78,7 @@
   "home": {
     "hero": {
       "badge": "Barcelona and surroundings · up to 50 km",
-      "line1": "Renovations that transform",
+      "line1": "Renovations in Barcelona that transform",
       "line2": "spaces and simplify the process",
       "subtitle": "Renovations of homes, offices and commercial premises. A single team from the first visit to the final handover.",
       "ctaVisit": "Request a free visit",
@@ -91,7 +93,7 @@
     "services": {
       "eyebrow": "What we do",
       "title": "Our services",
-      "subtitle": "Four easy-to-understand areas of work. We renovate small and medium-sized homes and commercial premises.",
+      "subtitle": "Full renovations, kitchens and small to medium commercial premises.",
       "cta": "View service",
       "viviendasT": "Homes",
       "oficinasT": "Offices",
@@ -100,7 +102,11 @@
       "viviendas": "Full and partial renovations of flats and houses.",
       "oficinas": "Functional, up-to-date workspaces.",
       "tiendas": "Premises ready to sell and welcome customers.",
-      "beauty": "Beauty salons, clinics and fitness centres."
+      "beauty": "Beauty salons, clinics and fitness centres.",
+      "integralesT": "Full renovations",
+      "cocinasT": "Kitchens",
+      "integrales": "A complete renovation of flats and houses, from the layout to the finishes.",
+      "cocinas": "Complete kitchens: cabinetry, worktop, appliances and installation."
     },
     "prices": {
       "eyebrow": "No surprises",
@@ -203,6 +209,96 @@
     "breadcrumbHome": "Home"
   },
   "landings": {
+    "integrales": {
+      "metaTitle": "Full renovations in Barcelona",
+      "metaDesc": "Full renovation of flats and houses in Barcelona and surroundings (up to 50 km). A written quote before work starts and one team for the whole job.",
+      "h1": "Full renovations in Barcelona",
+      "heroSub": "A complete renovation of a flat or a house in Barcelona and up to 50 km. A written quote before work starts and one team — more than 10 years of building work — for building, plumbing, electrics and finishes.",
+      "includesSub": "Demolition, systems, kitchen, bathrooms and finishes, with one person responsible from start to finish.",
+      "pricingSubtitle": "Per-m² reference prices for a full home renovation. The exact figure, after the visit.",
+      "pricingDisclaimer": "Indicative “from” prices, VAT not included. The final figure depends on floor area, the condition of the property, access and materials.",
+      "segBasicoDesc": "A full renovation with functional materials and standard brands.",
+      "segEstandarDesc": "A balance of price and quality in the systems and finishes of the whole home.",
+      "segPremiumDesc": "Higher-end materials, bespoke joinery and more detail in the rooms.",
+      "ctaTitle": "Indicative prices for a full renovation",
+      "ctaSub": "From €590/m² at the basic level. The full list is on our prices page.",
+      "formTitle": "Request a quote for your full renovation",
+      "formSub": "Tell us whether it is a flat or a house and the approximate floor area. We reply within 24 h.",
+      "i1": "Demolition and a new layout of the rooms",
+      "i2": "Renewed electrical and plumbing systems",
+      "i3": "Kitchen: cabinetry, worktop, appliances and installation",
+      "i4": "Bathrooms: plumbing, tiling, sanitaryware and screens",
+      "i5": "Flooring, painting and interior joinery",
+      "i6": "Air conditioning, insulation and ventilation",
+      "q1": "How much does a full renovation cost in Barcelona?",
+      "a1": "The published reference is €590/m² at basic level, €720/m² at standard and €890/m² at premium, depending on floor area, condition and materials. The exact figure is closed in writing after the visit.",
+      "q2": "How long does a full renovation take?",
+      "a2": "An average flat (70–90 m²) usually takes 8 to 12 weeks, depending on scope and permits. In the published projects, the Eixample flat (75 m²) took 10 weeks and the Sant Cugat duplex (95 m²) took 12. The schedule is in writing with the quote.",
+      "q3": "Do I need a works permit?",
+      "a3": "If the work does not touch structure or façade, the usual step is a minor-works notice. We help with that paperwork; licence management is not included in the indicative prices.",
+      "q4": "Can I live in the home during the works?",
+      "a4": "For a full renovation it is best not to live in the home. We look at that at the visit, before the schedule is fixed.",
+      "q5": "Do you offer a guarantee, and where do you work?",
+      "a5": "Yes. The work is guaranteed and the materials carry their manufacturer's warranty. We work in Barcelona and surroundings, up to about 50 km depending on the project, with a speciality in bathrooms and kitchens.",
+      "process": {
+        "eyebrow": "From the visit to the keys",
+        "title": "How we carry out a full renovation",
+        "subtitle": "Four steps, with the price and the schedule in writing before work starts.",
+        "s1t": "Contact",
+        "s1d": "You tell us whether it is a flat or a house and which rooms are part of the job.",
+        "s2t": "Visit",
+        "s2d": "We review measurements, condition and systems. The visit is free.",
+        "s3t": "Quote",
+        "s3d": "Items, materials and timelines in writing. The full-renovation reference starts from €590/m².",
+        "s4t": "Renovation",
+        "s4d": "One team through to handover. For a full renovation, it is best not to live in the home."
+      }
+    },
+    "cocinas": {
+      "metaTitle": "Kitchen renovation in Barcelona",
+      "metaDesc": "Kitchen renovation in Barcelona and surroundings: cabinetry, worktop and installation. From €7,900, with a free visit and a written quote before work.",
+      "h1": "Kitchen renovation in Barcelona",
+      "heroSub": "A complete kitchen in Barcelona and surroundings: strip-out, cabinetry, worktop, appliances and installation. From €7,900, VAT not included; the exact figure, after a free visit.",
+      "includesSub": "From the strip-out to the worktop and the installation, with one person responsible from start to finish.",
+      "pricingSubtitle": "A “from” price for a complete kitchen, by finish level. The exact figure, after a free visit.",
+      "pricingDisclaimer": "Indicative “from” prices per kitchen, VAT not included. The final figure depends on condition, floor area, access and materials.",
+      "segBasicoDesc": "Functional cabinetry, a standard worktop and installation.",
+      "segEstandarDesc": "A balance of price and quality: known brands and better finishes.",
+      "segPremiumDesc": "Higher end, with bespoke joinery and more detail in the worktop and lighting.",
+      "ctaTitle": "Kitchen renovation prices",
+      "ctaSub": "From €7,900 at the basic level. The full list is on our prices page.",
+      "formTitle": "Request a quote for your kitchen",
+      "formSub": "Tell us the floor area and what you want to change. We reply within 24 h.",
+      "i1": "Strip-out of the existing kitchen",
+      "i2": "Cabinetry: fronts, units and, when the project calls for it, ceiling-height units",
+      "i3": "Worktop and splashback",
+      "i4": "Integrated appliances, when the project includes them",
+      "i5": "Water points, wastes and electrical points",
+      "i6": "Lighting and the kitchen floor",
+      "q1": "How much does it cost to renovate a kitchen in Barcelona?",
+      "a1": "A complete kitchen starts from €7,900 at basic level, €10,500 at standard and €15,000 at premium. These are indicative prices, VAT not included. The final quote is closed in writing after a free visit.",
+      "q2": "How long does a kitchen renovation take?",
+      "a2": "In the published projects, the Gràcia kitchen (14 m²) took 4 weeks and the Sarrià kitchen-diner (22 m²) took 6. The timeline for yours is set in writing with the quote.",
+      "q3": "Do I need a permit to renovate the kitchen?",
+      "a3": "A kitchen that does not touch structure or façade usually requires a minor-works notice. We help with the paperwork; licence management is not in the indicative prices.",
+      "q4": "Can the quote change once work has started?",
+      "a4": "We work with a closed written quote: items, materials and timelines before we start. The work is guaranteed and the materials carry their manufacturer's warranty.",
+      "q5": "Where do you renovate kitchens?",
+      "a5": "In Barcelona and surroundings, up to about 50 km depending on the project. Kitchens, together with bathrooms, are our speciality.",
+      "process": {
+        "eyebrow": "From the old kitchen to the new one",
+        "title": "How we renovate a kitchen",
+        "subtitle": "Four steps, with the kitchen price in writing before anything is stripped out.",
+        "s1t": "Contact",
+        "s1d": "You tell us the floor area and whether you are changing the layout, the units or only the finishes.",
+        "s2t": "Visit",
+        "s2d": "We review water points, wastes, electrics and the current condition. The visit is free.",
+        "s3t": "Quote",
+        "s3d": "Items, materials and timeline in writing. A complete kitchen starts from €7,900.",
+        "s4t": "Renovation",
+        "s4d": "Strip-out, installation and finishes with one team, until the kitchen is ready."
+      }
+    },
     "viviendas": {
       "metaTitle": "Home renovations in Barcelona",
       "metaDesc": "Full and partial renovations of flats and houses in Barcelona and surroundings. A clear quote before work starts and a single team for the whole job.",
@@ -230,6 +326,29 @@
       "metaDesc": "Office renovations in Barcelona and surroundings: layout, systems, lighting and finishes. Functional workspaces, ready on schedule.",
       "h1": "Office renovations in Barcelona",
       "heroSub": "Functional, up-to-date workspaces, ready to operate. We coordinate the works to minimise the impact on your activity.",
+      "includesSub": "Office layout, systems, lighting and finishes, with one site manager from start to finish.",
+      "pricingSubtitle": "Per-m² reference prices for renovating the office. The exact figure, after we visit the floor.",
+      "pricingDisclaimer": "Indicative “from” prices, VAT not included, for an office. The final figure depends on floor area, the condition of the space, access and materials.",
+      "segBasicoDesc": "Functional materials for workstations and rooms. Standard brands, nothing extra.",
+      "segEstandarDesc": "A balance of price and quality in lighting, flooring and air conditioning.",
+      "segPremiumDesc": "Higher-end materials, with the brand built into furniture and signage.",
+      "ctaTitle": "Indicative prices for an office renovation",
+      "ctaSub": "From €490/m² at the basic level. The full list is on our prices page.",
+      "formTitle": "Request a quote for your office",
+      "formSub": "Tell us the floor area and whether the office has to stay in use. We reply within 24 h.",
+      "process": {
+        "eyebrow": "Works and day-to-day use",
+        "title": "How we renovate an office",
+        "subtitle": "Four steps, with a schedule designed so the activity can continue when the project allows it.",
+        "s1t": "Contact",
+        "s1d": "You tell us the layout: workstations, meeting rooms and break areas.",
+        "s2t": "Visit",
+        "s2d": "We review the floor, the systems and how to reduce the impact on your activity.",
+        "s3t": "Quote",
+        "s3d": "Items, materials and timelines in writing. If needed, we look at night or weekend hours.",
+        "s4t": "Renovation",
+        "s4d": "One site manager through to handover, with progress reports."
+      },
       "i1": "Space planning and meeting rooms",
       "i2": "Electrical, data and air-conditioning systems",
       "i3": "Technical and ambient lighting",
@@ -237,7 +356,7 @@
       "i5": "Furniture integration, signage and branding",
       "i6": "Regulatory, accessibility and fire-safety compliance",
       "q1": "How much does it cost to renovate an office?",
-      "a1": "As a reference, a full commercial-unit renovation starts from €490/m², depending on systems and finishes. You'll find indicative line items under “Our prices”.",
+      "a1": "On this page an office renovation starts from €490/m² at basic level, €620/m² at standard and €780/m² at premium, depending on systems and finishes. The closed price is set after the visit.",
       "q2": "Can you work at night or on weekends?",
       "a2": "Yes. We adapt the works schedule to reduce the impact on your activity and your neighbours'.",
       "q3": "Do you handle the activity licence?",
@@ -245,13 +364,36 @@
       "q4": "Do you work turnkey?",
       "a4": "Yes. From design to handover, with a single site manager and progress reports.",
       "q5": "Do you offer a guarantee?",
-      "a5": "Yes, all work is guaranteed and materials carry their manufacturer's warranty."
+      "a5": "Yes. The office work is guaranteed, and the systems and materials carry their manufacturer's warranty."
     },
     "tiendas": {
       "metaTitle": "Shop and commercial unit renovations in Barcelona",
       "metaDesc": "Renovations of shops, restaurants and commercial premises in Barcelona and surroundings. Premises ready to sell and welcome customers, with no surprises.",
       "h1": "Shop and commercial unit renovations in Barcelona",
       "heroSub": "Premises ready to sell and welcome customers: shops, restaurants and neighbourhood businesses, with the works coordinated from start to finish.",
+      "includesSub": "Façade, sales floor and the premises' systems, coordinated from start to finish.",
+      "pricingSubtitle": "Per-m² reference prices for a shop, restaurant or retail unit. The exact figure, after the visit.",
+      "pricingDisclaimer": "Indicative “from” prices, VAT not included, for a commercial unit. They depend on condition, the shopfront, extraction and materials.",
+      "segBasicoDesc": "Functional materials for the sales floor and the stockroom. Standard brands.",
+      "segEstandarDesc": "A balance of price and quality in shopfront lighting and hard-wearing floors.",
+      "segPremiumDesc": "Higher-end materials, counters and furniture with more detail.",
+      "ctaTitle": "Indicative prices for a commercial-unit renovation",
+      "ctaSub": "From €490/m² at the basic level. The full list is on our prices page.",
+      "formTitle": "Request a quote for your premises",
+      "formSub": "Tell us whether it is a shop, a restaurant or another business, and if it must stay open. We reply within 24 h.",
+      "process": {
+        "eyebrow": "The unit and opening",
+        "title": "How we renovate a commercial unit",
+        "subtitle": "From the look of the premises to the schedule, with the works organised so trading can continue when that is feasible.",
+        "s1t": "Contact",
+        "s1d": "You tell us whether it is a shop, a restaurant or another business, and what must be ready to open.",
+        "s2t": "Visit",
+        "s2d": "We look at the sales floor, the stockroom, the façade and the air-conditioning and extraction systems.",
+        "s3t": "Quote",
+        "s3d": "Items and timelines in writing. A small or medium unit usually takes 4 to 10 weeks, depending on scope.",
+        "s4t": "Renovation",
+        "s4d": "Where we can, we organise the works in phases or outside opening hours so you do not have to stop trading."
+      },
       "i1": "The look of your premises: façade, shopfront and signage",
       "i2": "Layout of the sales floor and stockroom",
       "i3": "Retail and shopfront lighting",
@@ -259,21 +401,44 @@
       "i5": "Hard-wearing flooring and wall coverings",
       "i6": "Counters, fitting rooms and bespoke furniture",
       "q1": "How much does it cost to renovate a commercial unit?",
-      "a1": "A full commercial-unit renovation starts from €490/m² as a reference, depending on condition, systems and finishes. See more line items under “Our prices”.",
+      "a1": "For a shop, restaurant or retail unit, the reference is €490/m² at basic level, €620 at standard and €780 at premium, depending on the condition of the unit, the systems and the finishes. The closed figure, after the visit.",
       "q2": "How long does a shop refit take?",
       "a2": "A small or medium unit usually takes 4 to 10 weeks depending on scope. We set the schedule in the quote.",
       "q3": "Can you work while the shop stays open?",
       "a3": "When feasible, we organise the works in phases or outside opening hours so you don't have to stop trading.",
       "q4": "Do you handle licences?",
-      "a4": "It can be assessed when the project requires it; it isn't included in the indicative prices.",
+      "a4": "The licence for the commercial activity can be assessed separately. It is not part of the indicative prices for the works.",
       "q5": "Do you offer a guarantee?",
-      "a5": "Yes. All work is guaranteed, and materials carry their manufacturer's warranty."
+      "a5": "Yes. The works on the premises are guaranteed, and the flooring, lighting and furniture materials carry their manufacturer's warranty."
     },
     "beauty": {
       "metaTitle": "Beauty & fitness renovations in Barcelona",
       "metaDesc": "Renovations of beauty salons, hairdressers, clinics and gyms in Barcelona and surroundings. Comfortable, functional spaces, ready for your clients.",
       "h1": "Beauty & fitness renovations in Barcelona",
       "heroSub": "Beauty salons, hairdressers, clinics and fitness centres. Comfortable, functional spaces designed for your clients and your day-to-day.",
+      "includesSub": "Treatment rooms, water, ventilation and changing rooms, with one person responsible from start to finish.",
+      "pricingSubtitle": "Per-m² reference prices for a salon, clinic or gym. The exact figure, after the visit.",
+      "pricingDisclaimer": "Indicative “from” prices, VAT not included, for a salon, clinic or gym. They depend on floor area, wet areas, ventilation and materials.",
+      "segBasicoDesc": "Functional materials for treatment rooms and changing rooms. Standard brands.",
+      "segEstandarDesc": "A balance of price and quality in lighting, easy-clean floors and wet areas.",
+      "segPremiumDesc": "Higher-end materials in wall finishes, lighting and wet areas.",
+      "ctaTitle": "Indicative prices for a beauty or fitness renovation",
+      "ctaSub": "From €490/m² at the basic level. The full list is on our prices page.",
+      "formTitle": "Request a quote for your salon or gym",
+      "formSub": "Tell us whether it is a hair salon, a clinic or a gym, and the floor area. We reply within 24 h.",
+      "process": {
+        "eyebrow": "The space your clients use",
+        "title": "How we renovate a salon or a gym",
+        "subtitle": "Treatment rooms, changing rooms, water and ventilation, with a written schedule before work starts.",
+        "s1t": "Contact",
+        "s1d": "You tell us whether it is a hair salon, a clinic, a beauty salon or a gym, and how the space is divided.",
+        "s2t": "Visit",
+        "s2d": "We review water points, ventilation, changing rooms and what the activity requires.",
+        "s3t": "Quote",
+        "s3d": "Items and timelines in writing. A small salon usually takes 4 to 8 weeks; a medium gym, somewhat longer.",
+        "s4t": "Renovation",
+        "s4d": "We adapt accessibility, ventilation and hygiene to the activity, with one site manager."
+      },
       "i1": "Layout of treatment rooms, studios and changing rooms",
       "i2": "Plumbing and drainage for workstations",
       "i3": "Ventilation, air conditioning and extraction",
@@ -281,15 +446,15 @@
       "i5": "Easy-clean flooring and wall coverings",
       "i6": "Toilets, showers and wet areas",
       "q1": "How much does it cost to renovate a salon or a gym?",
-      "a1": "As a reference, a full commercial-unit renovation starts from €490/m², depending on systems and floor area. You'll find indicative line items under “Our prices”.",
+      "a1": "Salon, hairdresser, clinic or gym: the reference is €490/m² at basic level, €620 at standard and €780 at premium, depending on systems and floor area. The quote is closed in writing after the visit.",
       "q2": "How long does this type of work take?",
       "a2": "A small salon usually takes 4 to 8 weeks; a medium-sized gym, somewhat longer. We give you a written schedule.",
       "q3": "Do you meet health and accessibility requirements?",
       "a3": "Yes, we bring the premises in line with the applicable accessibility, ventilation and hygiene regulations for your activity.",
       "q4": "Do you handle licences?",
-      "a4": "It can be assessed when the project requires it; it isn't included in the indicative prices.",
+      "a4": "The licence, when the activity requires one, can be assessed separately. The indicative prices for the works do not include it.",
       "q5": "Do you offer a guarantee?",
-      "a5": "Yes. All work is guaranteed, and materials carry their manufacturer's warranty."
+      "a5": "Yes. The work on the salon or the gym is guaranteed, and the materials carry their manufacturer's warranty."
     },
     "banos": {
       "metaTitle": "Bathroom renovation in Barcelona from €4,900",
@@ -461,6 +626,10 @@
     "beforeAfterNote": "Drag to compare the initial state with the final result.",
     "before": "Before",
     "after": "After",
+    "altIn": "in",
+    "altBefore": "before",
+    "altAfter": "after",
+    "altPhoto": "photo",
     "beforeAfterAria": "Compare before and after",
     "ctaTitle": "Want a result like this?",
     "ctaSub": "Check our indicative prices or tell us about your project.",
@@ -470,7 +639,8 @@
   "projects": {
     "piso-integral-barcelona": {
       "title": "Full flat renovation",
-      "summary": "Full renovation of a flat: demolition, a new layout, renewed systems with underfloor heating, a white kitchen with a wooden worktop and finishes in timber flooring and encaustic tiles.",
+      "seoTitle": "Full flat renovation in Barcelona, Eixample",
+      "summary": "Full renovation in the Eixample: demolition, a new layout, underfloor heating, a white kitchen with a wood worktop, timber and encaustic tiles.",
       "duration": "10 weeks"
     },
     "duplex-escalera-vidrio": {
@@ -505,6 +675,7 @@
     },
     "bano-verde-salvia": {
       "title": "Sage green bathroom",
+      "seoTitle": "Sage green bathroom renovation in Barcelona",
       "summary": "A bathtub replaced with a built-in shower with a glass screen, sage green tiles, gold taps and a wall-hung wooden vanity unit.",
       "duration": "3 weeks"
     },
@@ -535,6 +706,7 @@
     },
     "oficina-planta-abierta": {
       "title": "Open-plan office",
+      "seoTitle": "Open-plan office renovation in Poblenou",
       "summary": "An open floor transformed into an open-plan office: light-wood workstations, a sofa area, plants and an exposed, illuminated technical ceiling.",
       "duration": "8 weeks"
     },
@@ -545,21 +717,25 @@
     },
     "peluqueria-beige": {
       "title": "Hair salon",
+      "seoTitle": "Hair salon renovation in Barcelona, Gràcia",
       "summary": "A unit converted into a hair salon in beige tones: gold oval mirrors, a curved reception counter and comfortable workstations.",
       "duration": "6 weeks"
     },
     "gimnasio-industrial": {
       "title": "Industrial-style gym",
+      "seoTitle": "Industrial gym renovation in Cornellà",
       "summary": "An open-plan warehouse converted into a gym: machine and free-weight zones, a glazed studio, renovated communal washrooms and an industrial look.",
       "duration": "12 weeks"
     },
     "tienda-moda": {
       "title": "Fashion boutique",
+      "seoTitle": "Fashion boutique renovation in the Eixample",
       "summary": "A commercial unit refitted as a clothing shop in cream tones: light-wood furniture, mirrors and track lighting.",
       "duration": "6 weeks"
     },
     "supermercado-gourmet": {
       "title": "Gourmet supermarket",
+      "seoTitle": "Gourmet supermarket renovation in Sabadell",
       "summary": "An open-plan unit converted into a gourmet supermarket with wooden shelving, deli counters and a fresh fruit area.",
       "duration": "8 weeks"
     },
@@ -571,7 +747,7 @@
   },
   "guias": {
     "metaTitle": "Renovation guides in Barcelona",
-    "metaDescription": "Practical guides to renovating homes and commercial spaces in Barcelona and the surrounding area: what it costs, how long it takes and what to decide before you start.",
+    "metaDescription": "Practical guides to renovating homes and commercial spaces in Barcelona and the surrounding area: cost, duration and what to decide before work starts.",
     "eyebrow": "Before the work begins",
     "title": "Renovation guides",
     "intro": "The things worth knowing before you renovate, explained calmly: what it costs, how long it takes and which decisions shape the result. No jargon, and the same references we use when preparing a quote.",
@@ -587,7 +763,7 @@
     "breadcrumb": "Guides"
   },
   "about": {
-    "metaTitle": "About us — Kobor",
+    "metaTitle": "About Kobor · Renovations in Barcelona",
     "metaDesc": "We are Kobor: an approachable, reliable renovation company in Barcelona. Homes and commercial premises, with clear quotes and a single team.",
     "title": "An approachable, reliable renovation company",
     "subtitle": "We renovate homes and commercial premises in Barcelona and surroundings. No smoke and mirrors: a clear quote, a single team and work done properly.",
@@ -612,7 +788,7 @@
     "g4": "Materials with manufacturer's warranty"
   },
   "contact": {
-    "metaTitle": "Contact — Kobor",
+    "metaTitle": "Contact · Renovations in Barcelona | Kobor",
     "metaDesc": "Contact Kobor: WhatsApp, phone, email and form. Renovations of homes and commercial premises in Barcelona and surroundings. Free visit.",
     "title": "Let's talk about your renovation",
     "subtitle": "Tell us about your project through whichever channel you prefer. We reply within 24 h and arrange a free visit.",
@@ -651,14 +827,14 @@
     "marketingDesc": "Let us measure campaigns and show relevant advertising (Google Ads)."
   },
   "cookies": {
-    "metaTitle": "Cookie policy",
+    "metaTitle": "Cookie policy of Kobor in Barcelona",
     "metaDesc": "Information about the cookies Kobor uses: necessary, analytics and marketing cookies, and how to manage your consent.",
     "title": "Cookie policy",
     "updated": "Last updated: August 2026.",
     "introTitle": "What are cookies?",
     "introText": "A cookie is a small file that a website stores on your device when you visit. Cookies make the site work, remember your preferences and measure how the site is used. We also use equivalent technologies such as the browser's local storage.",
     "whoTitle": "Who uses cookies",
-    "whoText": "The data controller is Kobor ({legalName}, tax ID {nif}). Some cookies are managed by third parties: Google, through Google Tag Manager, Google Analytics and Google Ads, and Microsoft, through Microsoft Clarity.",
+    "whoText": "The data controller is Kobor ({legalName}, tax ID {nif}, registered at {legalAddress}). Some cookies are managed by third parties: Google, through Google Tag Manager, Google Analytics and Google Ads, and Microsoft, through Microsoft Clarity.",
     "typesTitle": "Cookies we use",
     "typesIntro": "We group cookies into three categories. Except for the necessary ones, none are activated without your consent.",
     "necessaryTitle": "Necessary",
@@ -677,7 +853,7 @@
     "moreText": "To learn how we process your personal data, see our privacy policy. If you have questions, write to us at"
   },
   "privacy": {
-    "metaTitle": "Privacy policy",
+    "metaTitle": "Privacy policy of Kobor in Barcelona",
     "metaDesc": "How Kobor processes your personal data: controller, purposes, legal basis, retention, recipients and your rights (GDPR).",
     "title": "Privacy policy",
     "updated": "Last updated: August 2026.",
@@ -696,7 +872,7 @@
     ]
   },
   "legal": {
-    "metaTitle": "Legal notice",
+    "metaTitle": "Legal notice of Kobor renovations, Barcelona",
     "metaDesc": "Owner identification, terms of use, intellectual property and applicable law for the Kobor website.",
     "title": "Legal notice",
     "updated": "Last updated: August 2026.",

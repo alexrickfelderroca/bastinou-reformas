@@ -28,7 +28,9 @@ const t = useTranslations(locale);
 
 /** Qué guías cuelgan de cada servicio, en orden de importancia. */
 const guidesByService: Record<ServiceKey, string[]> = {
-  viviendas: ['precio-reforma-piso', 'plazo-reforma-piso'],
+  integrales: ['ayudas-rehabilitacion-barcelona', 'precio-reforma-piso', 'plazo-reforma-piso'],
+  viviendas: ['ayudas-rehabilitacion-barcelona', 'precio-reforma-piso', 'plazo-reforma-piso'],
+  cocinas: ['precio-reforma-piso'],
   oficinas: ['plazo-reforma-piso'],
   tiendas: ['plazo-reforma-piso'],
   beauty: ['plazo-reforma-piso'],

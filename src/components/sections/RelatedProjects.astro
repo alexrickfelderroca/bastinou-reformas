@@ -1,11 +1,15 @@
 ---
 /**
- * Proyectos relacionados (§4.3): 3 tarjetas del portfolio que enlazan a
- * /proyectos. Imágenes reales del proyecto casa-España.
+ * Proyectos relacionados (§4.3). Con `service`, enseña obras de ese sector.
+ * Sin servicio (landing de Ads) mantiene las tres tarjetas de siempre.
+ * Los enlaces llevan barra final.
  */
 import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
 import { useTranslations, type Locale } from '../../i18n/ui';
-import { localizedPath } from '../../i18n/routes';
+import { localizedPath, withTrailingSlash } from '../../i18n/routes';
+import type { ServiceKey } from '../../config/services';
+import { projectImageAlt } from '../../lib/image-alt';
 import SectionHeader from './SectionHeader.astro';
 
 import kitchen from '../../assets/portfolio/viviendas/v6-despues.jpg';
@@ -14,30 +18,59 @@ import restaurant from '../../assets/portfolio/comerciales/c1-despues.jpg';
 
 interface Props {
   locale: Locale;
+  service?: ServiceKey;
 }
-const { locale } = Astro.props;
+const { locale, service } = Astro.props;
 const t = useTranslations(locale);
 
-const tiles = [
-  { img: kitchen, cap: t('projects.cocina-comedor-marmol.title'), slug: 'cocina-comedor-marmol' },
-  { img: bathroom, cap: t('projects.bano-verde-salvia.title'), slug: 'bano-verde-salvia' },
-  { img: restaurant, cap: t('projects.restaurante-vigas.title'), slug: 'restaurante-vigas' },
-];
+/** Obras ya publicadas, por servicio. Solo slugs que existen en el portfolio. */
+const slugsByService: Record<ServiceKey, string[]> = {
+  integrales: ['piso-integral-barcelona', 'duplex-escalera-vidrio', 'salon-piso-clasico'],
+  viviendas: ['piso-integral-barcelona', 'duplex-escalera-vidrio', 'cocina-blanca-madera'],
+  cocinas: ['cocina-blanca-madera', 'cocina-comedor-marmol', 'piso-integral-barcelona'],
+  oficinas: ['oficina-planta-abierta', 'oficina-zona-descanso'],
+  tiendas: ['tienda-moda', 'supermercado-gourmet', 'restaurante-vigas'],
+  beauty: ['peluqueria-beige', 'gimnasio-industrial'],
+  banos: ['bano-verde-salvia', 'bano-rosa', 'bano-beige-madera'],
+};
+
+const projectsHref = withTrailingSlash(localizedPath('proyectos', locale));
+const all = service ? await getCollection('projects') : [];
+const tiles = service
+  ? slugsByService[service]
+      .map((slug) => all.find((entry) => entry.id === slug))
+      .filter((entry): entry is NonNullable<typeof entry> => entry !== undefined)
+      .map((entry) => ({
+        img: entry.data.cover,
+        cap: t(`projects.${entry.id}.title`),
+        slug: entry.id,
+        alt: projectImageAlt({
+          title: t(`projects.${entry.id}.title`),
+          location: entry.data.location,
+          inWord: t('project.altIn'),
+          phase: t('project.altAfter'),
+        }),
+      }))
+  : [
+      { img: kitchen, cap: t('projects.cocina-comedor-marmol.title'), slug: 'cocina-comedor-marmol', alt: t('projects.cocina-comedor-marmol.title') },
+      { img: bathroom, cap: t('projects.bano-verde-salvia.title'), slug: 'bano-verde-salvia', alt: t('projects.bano-verde-salvia.title') },
+      { img: restaurant, cap: t('projects.restaurante-vigas.title'), slug: 'restaurante-vigas', alt: t('projects.restaurante-vigas.title') },
+    ];
 ---
 
 <section class="section related">
   <div class="container-x">
     <div class="related__head">
       <SectionHeader eyebrow={t('home.portfolio.eyebrow')} title={t('landing.relatedTitle')} />
-      <a class="btn btn-outline related__cta" href={localizedPath('proyectos', locale)}>
+      <a class="btn btn-outline related__cta" href={projectsHref}>
         {t('landing.relatedCta')}
       </a>
     </div>
     <div class="related__grid" data-reveal-group data-reveal-stagger="90">
-      {tiles.map(({ img, cap, slug }) => (
-        <a class="related__tile card-hover" href={`${localizedPath('proyectos', locale)}/${slug}`} data-reveal>
+      {tiles.map(({ img, cap, slug, alt }) => (
+        <a class="related__tile card-hover" href={withTrailingSlash(`${localizedPath('proyectos', locale)}/${slug}`)} data-reveal>
           <div class="related__media">
-            <Image src={img} alt="" widths={[380, 640]} sizes="(min-width: 768px) 33vw, 100vw" class="card-media" loading="lazy" />
+            <Image src={img} alt={alt} widths={[380, 640]} sizes="(min-width: 768px) 33vw, 100vw" class="card-media" loading="lazy" />
           </div>
           <span class="related__cap">{cap}</span>
         </a>

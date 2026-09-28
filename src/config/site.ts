@@ -28,7 +28,7 @@ export const site = {
   nif: 'B05576293',
   /** Domicilio social tal y como figure en la escritura. Puede NO coincidir
    *  con la dirección operativa de abajo; si coincide, se repite entero. */
-  legalAddress: 'Av. Can Fatjo dels Aurons, 15 BJ, 08193 Cerdanyola del Vallès (Barcelona)',
+  legalAddress: 'Av. Can Fatjó dels Aurons, 15 BJ, 08174 Sant Cugat del Vallès (Barcelona)',
 
   // Contacto — usados en header, footer, tel:, wa.me y JSON-LD.
   phone: '+34 623 80 81 72',
@@ -52,14 +52,14 @@ export const site = {
   //   displayCity → la frase para humanos del pie y del CTA final. Puede
   //                 nombrar dos sitios porque es marketing, no un campo.
   //
-  // Municipio verificado (20-09-2026) por tres vías independientes:
-  //   · El CP 08174 pertenece a Sant Cugat del Vallès (Cerdanyola es 08290).
+  // Municipio verificado (20-09-2026) y domicilio social confirmado por el
+  // propietario (28-09-2026): Sant Cugat del Vallès, 08174.
+  //   · El CP 08174 pertenece a Sant Cugat del Vallès.
   //   · La ficha de Google, verificada, publica «08174 Sant Cugat del Vallès»
   //     y su Plus Code F3QJ+VH resuelve a 52 m de nuestro pin.
   //   · Apple Maps geocodifica la calle y el número en Sant Cugat del Vallès.
-  // Existe un «Can Fatjó dels Aurons» DISTINTO en Bellaterra (Cerdanyola del
-  // Vallès, 08193) a 1,2 km: es el que devuelve Google al buscar por texto, y
-  // de ahí salió la versión «Cerdanyola» que circula. No es esta dirección.
+  // Una búsqueda por texto de la calle puede caer en otro punto homónimo, en
+  // Bellaterra, a 1,2 km. No es esta dirección.
   address: {
     street: 'Av. Can Fatjó dels Aurons, 15',
     city: 'Sant Cugat del Vallès',
@@ -81,7 +81,7 @@ export const site = {
   // queda interactivo con un pin sin marca y la dirección la pinta nuestro
   // propio HTML. No volver al embed de lugar.
   // Nota: la query de texto de la dirección tampoco sirve — Google la geocoda
-  // mal (Av. Can Fatjó dels Aurons de Cerdanyola, otro punto).
+  // mal (otro punto homónimo, en Bellaterra).
   maps: {
     embedUrl: 'https://maps.google.com/maps?q=41.489689,2.080816&z=17&hl=es&output=embed',
     directionsUrl: 'https://www.google.com/maps/dir/?api=1&destination=41.489689,2.080816',

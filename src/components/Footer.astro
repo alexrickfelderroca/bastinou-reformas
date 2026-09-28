@@ -18,7 +18,7 @@ interface Props {
 }
 const { locale } = Astro.props;
 const t = useTranslations(locale);
-const p = (k: RouteKey) => localizedPath(k, locale);
+const p = (k: RouteKey) => withTrailingSlash(localizedPath(k, locale));
 const year = new Date().getFullYear();
 
 // Derivado de la configuración, igual que en el header: un servicio nuevo entra
@@ -30,7 +30,12 @@ const companyLinks: RouteKey[] = ['precios', 'proyectos', 'guias', 'nosotros', '
 // guias/[slug].astro: el slug público es el último segmento del id). El pie
 // está en TODAS las páginas, y hasta hoy cada guía tenía UN solo enlace
 // interno en todo el sitio — por eso el buscador no las conocía (26-08-2026).
-const guideOrder = ['precio-reforma-piso', 'precio-reforma-bano', 'plazo-reforma-piso'];
+const guideOrder = [
+  'ayudas-rehabilitacion-barcelona',
+  'precio-reforma-piso',
+  'precio-reforma-bano',
+  'plazo-reforma-piso',
+];
 const guias = (await getCollection('guias'))
   .filter((e: CollectionEntry<'guias'>) => e.data.lang === locale)
   .sort(
@@ -64,7 +69,7 @@ const hasPhone = !site.phone.includes('[PENDIENTE');
     </div>
 
     <nav class="footer__col" aria-label={t('footer.services')}>
-      <h2 class="footer__title">{t('footer.services')}</h2>
+      <p class="footer__title">{t('footer.services')}</p>
       <ul>
         {serviceLinks.map((k) => (
           <li><a href={p(k)}>{t(`nav.${k}`)}</a></li>
@@ -73,7 +78,7 @@ const hasPhone = !site.phone.includes('[PENDIENTE');
     </nav>
 
     <nav class="footer__col" aria-label={t('footer.company')}>
-      <h2 class="footer__title">{t('footer.company')}</h2>
+      <p class="footer__title">{t('footer.company')}</p>
       <ul>
         {companyList.map(({ href, label }) => (
           <li><a href={href}>{label}</a></li>
@@ -82,7 +87,7 @@ const hasPhone = !site.phone.includes('[PENDIENTE');
     </nav>
 
     <div class="footer__col">
-      <h2 class="footer__title">{t('footer.contactTitle')}</h2>
+      <p class="footer__title">{t('footer.contactTitle')}</p>
       <ul>
         {hasPhone && <li><a href={telHref} data-phone>{site.phone}</a></li>}
         <li>
@@ -154,7 +159,7 @@ const hasPhone = !site.phone.includes('[PENDIENTE');
     letter-spacing: 0.14em;
     /* 0.55 daba 4.47:1 sobre --color-deep (falla AA por 0.03); 0.62 pasa. */
     color: rgba(255, 255, 255, 0.62);
-    margin-bottom: 1rem;
+    margin: 0 0 1rem;
     font-weight: 600;
   }
   .footer__col ul {

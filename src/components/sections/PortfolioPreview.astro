@@ -6,7 +6,8 @@
  */
 import { Image } from 'astro:assets';
 import { useTranslations, type Locale } from '../../i18n/ui';
-import { localizedPath } from '../../i18n/routes';
+import { localizedPath, withTrailingSlash } from '../../i18n/routes';
+import { projectImageAlt } from '../../lib/image-alt';
 import SectionHeader from './SectionHeader.astro';
 
 import imgViviendas from '../../assets/portfolio/viviendas/v3-despues.jpg';
@@ -18,18 +19,28 @@ interface Props {
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 
+const altFor = (id: string, location: string) =>
+  projectImageAlt({
+    title: t(`projects.${id}.title`),
+    location,
+    inWord: t('project.altIn'),
+    phase: t('project.altAfter'),
+  });
 const cats = [
   {
     img: imgViviendas,
     title: t('home.portfolio.catViviendas'),
     meta: t('home.portfolio.catViviendasMeta'),
+    alt: altFor('duplex-escalera-vidrio', 'Sant Cugat del Vallès'),
   },
   {
     img: imgLocales,
     title: t('home.portfolio.catLocales'),
     meta: t('home.portfolio.catLocalesMeta'),
+    alt: altFor('restaurante-vigas', 'Barcelona (El Born)'),
   },
 ];
+const projectsHref = withTrailingSlash(localizedPath('proyectos', locale));
 ---
 
 <section class="section portfolio">
@@ -41,12 +52,12 @@ const cats = [
     />
 
     <div class="portfolio__cats" data-reveal-group data-reveal-stagger="120">
-      {cats.map(({ img, title, meta }) => (
-        <a class="portfolio__cat card-hover" href={localizedPath('proyectos', locale)} data-reveal>
+      {cats.map(({ img, title, meta, alt }) => (
+        <a class="portfolio__cat card-hover" href={projectsHref} data-reveal>
           <div class="portfolio__cat-media">
             <Image
               src={img}
-              alt=""
+              alt={alt}
               widths={[640, 1024, 1400]}
               sizes="(min-width: 900px) 50vw, 100vw"
               class="card-media"
@@ -62,7 +73,7 @@ const cats = [
     </div>
 
     <div class="portfolio__foot" data-reveal>
-      <a class="btn" href={localizedPath('proyectos', locale)}>{t('home.portfolio.cta')}</a>
+      <a class="btn" href={projectsHref}>{t('home.portfolio.cta')}</a>
     </div>
   </div>
 </section>

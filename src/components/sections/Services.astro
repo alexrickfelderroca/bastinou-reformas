@@ -23,9 +23,11 @@
  */
 import { Image } from 'astro:assets';
 import { useTranslations, type Locale } from '../../i18n/ui';
-import { localizedPath, type RouteKey } from '../../i18n/routes';
+import { localizedPath, withTrailingSlash, type RouteKey } from '../../i18n/routes';
 import SectionHeader from './SectionHeader.astro';
 
+import imgIntegrales from '../../assets/portfolio/viviendas/v2-despues.jpg';
+import imgCocinas from '../../assets/portfolio/viviendas/v5-despues.jpg';
 import imgViviendas from '../../assets/portfolio/viviendas/v6-despues.jpg';
 import imgOficinas from '../../assets/portfolio/comerciales/c3-despues.jpg';
 import imgTiendas from '../../assets/portfolio/comerciales/c7-despues.jpg';
@@ -38,6 +40,8 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 
 const items: { key: RouteKey; img: ImageMetadata }[] = [
+  { key: 'integrales', img: imgIntegrales },
+  { key: 'cocinas', img: imgCocinas },
   { key: 'viviendas', img: imgViviendas },
   { key: 'oficinas', img: imgOficinas },
   { key: 'tiendas', img: imgTiendas },
@@ -83,7 +87,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
               <a
                 class="svc-panel"
                 data-svc-panel
-                href={localizedPath(key, locale)}
+                href={withTrailingSlash(localizedPath(key, locale))}
                 style={`--i:${i}`}
                 aria-label={`${title} — ${t('home.services.cta')}`}
               >

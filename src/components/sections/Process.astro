@@ -4,27 +4,38 @@
  * Números grandes + reveal escalonado.
  */
 import { useTranslations, type Locale } from '../../i18n/ui';
+import type { ServiceKey } from '../../config/services';
 import SectionHeader from './SectionHeader.astro';
 
 interface Props {
   locale: Locale;
+  /** Si el servicio tiene textos propios en landings.<servicio>.process, se usan. */
+  service?: ServiceKey;
 }
-const { locale } = Astro.props;
+const { locale, service } = Astro.props;
 const t = useTranslations(locale);
+
+/** Clave propia del servicio, o el texto común de la home si no existe. */
+const own = (key: string, fallback: string): string => {
+  if (!service) return fallback;
+  const path = `landings.${service}.process.${key}`;
+  const value = t(path);
+  return value === path ? fallback : value;
+};
 
 const steps = [1, 2, 3, 4].map((n) => ({
   n,
-  title: t(`home.process.s${n}t`),
-  desc: t(`home.process.s${n}d`),
+  title: own(`s${n}t`, t(`home.process.s${n}t`)),
+  desc: own(`s${n}d`, t(`home.process.s${n}d`)),
 }));
 ---
 
 <section class="section process">
   <div class="container-x">
     <SectionHeader
-      eyebrow={t('home.process.eyebrow')}
-      title={t('home.process.title')}
-      subtitle={t('home.process.subtitle')}
+      eyebrow={own('eyebrow', t('home.process.eyebrow'))}
+      title={own('title', t('home.process.title'))}
+      subtitle={own('subtitle', t('home.process.subtitle'))}
     />
 
     <ol class="process__grid" data-reveal-group data-reveal-stagger="90">

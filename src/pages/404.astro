@@ -1,11 +1,17 @@
 ---
 /**
- * 404 personalizada (§8) con enlaces a servicios. Se sirve en español (idioma
- * por defecto); el usuario puede navegar a su idioma desde la cabecera.
+ * 404 personalizada (§8) con enlaces a servicios. El idioma sale de la URL
+ * pedida: /ca/… catalán, /en/… inglés, el resto español. prerender = false
+ * para que no se congele el HTML en español en el build; el estado sigue
+ * siendo 404.
  */
 import Layout from '../layouts/Layout.astro';
 import { getLocaleFromUrl, useTranslations } from '../i18n/ui';
 import { localizedPath, type RouteKey } from '../i18n/routes';
+
+export const prerender = false;
+
+Astro.response.status = 404;
 
 const locale = getLocaleFromUrl(Astro.url);
 const t = useTranslations(locale);

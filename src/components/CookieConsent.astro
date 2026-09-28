@@ -33,7 +33,7 @@ const policyPath = localizedPath('cookies', locale);
   hidden
 >
   <div class="consent__card">
-    <h2 id="consent-title" class="consent__title">{t('consent.title')}</h2>
+    <p id="consent-title" class="consent__title">{t('consent.title')}</p>
     <p class="consent__body">
       {t('consent.body')}{' '}
       <a class="consent__link" href={policyPath}>{t('consent.policyLink')}</a>.
@@ -52,7 +52,7 @@ const policyPath = localizedPath('cookies', locale);
        Esc cierra sin guardar, backdrop e inertización gratis) --- */}
 <dialog class="consent-modal" id="consent-settings" aria-labelledby="cs-title">
   <div class="consent-modal__panel">
-    <h2 id="cs-title" class="consent-modal__title">{t('consent.settingsTitle')}</h2>
+    <p id="cs-title" class="consent-modal__title">{t('consent.settingsTitle')}</p>
     <p class="consent-modal__intro">{t('consent.settingsIntro')}</p>
 
     <ul class="consent-cats">
@@ -123,6 +123,7 @@ const policyPath = localizedPath('cookies', locale);
     transform: none;
   }
   .consent__title {
+    margin: 0;
     font-size: 1.05rem;
     font-weight: 600;
     letter-spacing: -0.01em;
@@ -200,6 +201,7 @@ const policyPath = localizedPath('cookies', locale);
     }
   }
   .consent-modal__title {
+    margin: 0;
     font-size: 1.15rem;
     font-weight: 600;
     letter-spacing: -0.01em;

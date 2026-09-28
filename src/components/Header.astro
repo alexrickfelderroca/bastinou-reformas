@@ -12,7 +12,7 @@
 import { Image } from 'astro:assets';
 import logo from '../assets/brand/kobor-logo.png';
 import { useTranslations, type Locale } from '../i18n/ui';
-import { localizedPath, type RouteKey } from '../i18n/routes';
+import { localizedPath, withTrailingSlash, type RouteKey } from '../i18n/routes';
 import { site, telHref, whatsappHref } from '../config/site';
 import { services as serviceCfg, serviceOrder } from '../config/services';
 import LanguageSwitcher from './LanguageSwitcher.astro';
@@ -24,7 +24,7 @@ interface Props {
 }
 const { locale, routeKey, overHero = false } = Astro.props;
 const t = useTranslations(locale);
-const p = (k: RouteKey) => localizedPath(k, locale);
+const p = (k: RouteKey) => withTrailingSlash(localizedPath(k, locale));
 
 // Se deriva de la configuración, no de una lista aparte: así una página de
 // servicio nueva aparece en el menú sola, sin quedar inalcanzable por olvido.
@@ -259,10 +259,15 @@ const hasPhone = !site.phone.includes('[PENDIENTE');
     white-space: nowrap;
     flex: none;
   }
-  /* CTA sobre hero oscuro: relleno blanco con texto verde para contrastar. */
+  /* CTA «Solicitar visita» sobre el hero oscuro: blanco sólido y verde de
+     marca (#24443c sobre #fff ≈ 10,7:1). No depende de la opacidad del header:
+     si el botón se funde con la foto, el contraste medido cae por debajo de 4,5:1. */
   .site-header--over-dark:not([data-scrolled='true']) .header-cta {
     --btn-bg: #fff;
     --btn-fg: var(--color-deep);
+    background-color: #fff;
+    color: var(--color-deep);
+    border-color: #fff;
   }
 
   .menu-toggle {
