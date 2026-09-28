@@ -167,11 +167,11 @@ const chips = [1, 2, 3].map((n) => ({
     object-position: center;
     filter: saturate(0.5) contrast(1.03) brightness(0.88);
   }
-  /* Póster (habitación acabada): <img> real, visible en el primer frame.
-     El encuadre (móvil / escritorio) lo elige <picture>, no un fondo CSS,
-     para poder darle fetchpriority y un preload. */
+  /* Póster real (<img>), visible en el primer frame. El encuadre lo elige
+     <picture> (no un fondo CSS) para poder darle fetchpriority y un preload.
+     El scale evita un filo al aplicar el mismo filtro que el vídeo. */
   .hero__poster {
-    transform: scale(1.02); /* evita bordes con el filtro/escala del vídeo */
+    transform: scale(1.02);
   }
   /* El vídeo entra por encima del póster cuando puede reproducirse. */
   .hero__video {

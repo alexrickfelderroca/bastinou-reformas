@@ -37,10 +37,10 @@ export function cacheControlFor(pathname, method = 'GET', status = 200) {
   if (path === '/api' || path.startsWith('/api/')) return CACHE_NO_STORE;
   if (verb !== 'GET' && verb !== 'HEAD') return CACHE_NO_STORE;
 
-  if (path.startsWith('/_astro/')) return CACHE_IMMUTABLE;
-  if (path.startsWith('/fonts/') || path.endsWith('.woff2')) return CACHE_IMMUTABLE;
+  if (path.startsWith('/_astro/')) return assetCache(status, CACHE_IMMUTABLE);
+  if (path.startsWith('/fonts/') || path.endsWith('.woff2')) return assetCache(status, CACHE_IMMUTABLE);
 
-  if (path.startsWith('/hero/') || LONG_ASSET.test(path)) return CACHE_LONG;
+  if (path.startsWith('/hero/') || LONG_ASSET.test(path)) return assetCache(status, CACHE_LONG);
 
   if (isHtmlPath(path)) {
     if (status === 200 || status === 304) return CACHE_HTML;
@@ -88,9 +88,12 @@ function stripQuery(pathname) {
   }
 }
 
-/**
- * @param {string} path
- */
+/** Un 404 de un asset no debe quedar un año en el CDN. */
+function assetCache(status, value) {
+  if (status === 200 || status === 304) return value;
+  return CACHE_ERROR;
+}
+
 function isHtmlPath(path) {
   if (path.endsWith('.html')) return true;
   const last = path.split('/').pop() || '';
