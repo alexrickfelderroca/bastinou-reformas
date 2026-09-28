@@ -21,10 +21,11 @@ export default defineConfig({
 
   // Salida estática por defecto: todo el contenido se prerenderiza (SEO). Sólo
   // las rutas con `prerender = false` (p. ej. /api/lead) corren en servidor.
-  // El adaptador Node standalone genera dist/server/entry.mjs, que en producción
-  // (Hostinger) se arranca con `npm start` y sirve tanto los estáticos de
-  // dist/client como la ruta SSR. Servir dist/ como estático sin proceso Node
-  // da 403: el index vive en dist/client, no en la raíz de dist/.
+  // El adaptador Node standalone genera dist/server/entry.mjs. En producción
+  // (Hostinger) `npm start` ejecuta server/start.mjs, que importa ese entry y
+  // añade Cache-Control / Content-Type (ver src/server/cache-headers.mjs).
+  // Sirve tanto los estáticos de dist/client como la ruta SSR. Servir dist/
+  // como estático sin proceso Node da 403: el index vive en dist/client.
   adapter: node({ mode: 'standalone' }),
 
   // ES is the default language and lives at the root (no prefix).
