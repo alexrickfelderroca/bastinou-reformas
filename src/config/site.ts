@@ -24,11 +24,11 @@ export const site = {
   /*   · el JSON-LD omite el campo (lo filtra `clean()` en Layout.astro),     */
   /*   · pero el texto legal SÍ los muestra, porque la ley exige que estén.  */
   /* ---------------------------------------------------------------------- */
-  legalName: '[PENDIENTE: razón social]',
-  nif: '[PENDIENTE: NIF/CIF]',
+  legalName: 'KOBOR PROJECT S.L.',
+  nif: 'B05576293',
   /** Domicilio social tal y como figure en la escritura. Puede NO coincidir
    *  con la dirección operativa de abajo; si coincide, se repite entero. */
-  legalAddress: '[PENDIENTE: dirección]',
+  legalAddress: 'Av. Can Fatjo dels Aurons, 15 BJ, 08193 Cerdanyola del Vallès (Barcelona)',
 
   // Contacto — usados en header, footer, tel:, wa.me y JSON-LD.
   phone: '+34 623 80 81 72',
