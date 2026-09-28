@@ -2,7 +2,7 @@
   "meta": {
     "siteName": "Kobor",
     "defaultTitle": "Kobor — Reformas en Barcelona y alrededores",
-    "defaultDescription": "Reformas de viviendas, oficinas y locales comerciales en Barcelona y alrededores (hasta 50 km). Un único equipo desde la primera visita hasta la entrega, con precios orientativos claros.",
+    "defaultDescription": "Reformas de viviendas, oficinas y locales en Barcelona y alrededores (hasta 50 km). Un equipo, de la visita a la entrega, con precios orientativos.",
     "tagline": "Reformas en Barcelona y alrededores"
   },
   "nav": {
@@ -13,6 +13,8 @@
     "tiendas": "Reformas de tiendas",
     "beauty": "Beauty & fitness",
     "banos": "Reformas de baños",
+    "integrales": "Reformas integrales",
+    "cocinas": "Reformas de cocinas",
     "precios": "Nuestros precios",
     "proyectos": "Portfolio",
     "nosotros": "Sobre nosotros",
@@ -76,7 +78,7 @@
   "home": {
     "hero": {
       "badge": "Barcelona y alrededores · hasta 50 km",
-      "line1": "Reformas que transforman",
+      "line1": "Reformas en Barcelona que transforman",
       "line2": "espacios y simplifican el proceso",
       "subtitle": "Reformas de viviendas, oficinas y locales comerciales. Un único equipo desde la primera visita hasta la entrega final.",
       "ctaVisit": "Solicitar visita gratuita",
@@ -91,7 +93,7 @@
     "services": {
       "eyebrow": "Qué hacemos",
       "title": "Nuestros servicios",
-      "subtitle": "Cuatro direcciones fáciles de entender. Reformamos viviendas y locales comerciales de tamaño pequeño y mediano.",
+      "subtitle": "Reforma integral, cocinas y locales comerciales de tamaño pequeño y mediano.",
       "cta": "Ver servicio",
       "viviendasT": "Viviendas",
       "oficinasT": "Oficinas",
@@ -100,7 +102,11 @@
       "viviendas": "Reformas integrales y parciales de pisos y casas.",
       "oficinas": "Espacios de trabajo funcionales y actuales.",
       "tiendas": "Locales preparados para vender y recibir clientes.",
-      "beauty": "Salones de belleza, clínicas y centros deportivos."
+      "beauty": "Salones de belleza, clínicas y centros deportivos.",
+      "integralesT": "Integrales",
+      "cocinasT": "Cocinas",
+      "integrales": "Reforma completa de pisos y casas, de la distribución a los acabados.",
+      "cocinas": "Cocinas completas: mobiliario, encimera, electrodomésticos e instalación."
     },
     "prices": {
       "eyebrow": "Sin sorpresas",
@@ -203,6 +209,96 @@
     "breadcrumbHome": "Inicio"
   },
   "landings": {
+    "integrales": {
+      "metaTitle": "Reformas integrales en Barcelona",
+      "metaDesc": "Reforma integral de pisos y casas en Barcelona y alrededores (hasta 50 km). Presupuesto por escrito antes de empezar y un solo equipo para toda la obra.",
+      "h1": "Reformas integrales en Barcelona",
+      "heroSub": "Reforma completa de un piso o una casa en Barcelona y hasta 50 km. Presupuesto por escrito antes de empezar y un solo equipo —más de 10 años de obras— para albañilería, fontanería, electricidad y acabados.",
+      "includesSub": "Derribos, instalaciones, cocina, baños y acabados, con un único responsable de principio a fin.",
+      "pricingSubtitle": "Referencias por m² de una reforma integral de vivienda. El importe exacto, tras la visita.",
+      "pricingDisclaimer": "Precios orientativos «desde», IVA no incluido. El importe final depende de la superficie, el estado del inmueble, la accesibilidad y los materiales.",
+      "segBasicoDesc": "Reforma integral con materiales funcionales y marcas estándar.",
+      "segEstandarDesc": "Equilibrio calidad-precio en instalaciones y acabados de toda la vivienda.",
+      "segPremiumDesc": "Materiales de gama alta, carpintería a medida y más detalle en las estancias.",
+      "ctaTitle": "Precios orientativos de reforma integral",
+      "ctaSub": "Desde 590 €/m² en básico. El listado completo está en nuestros precios.",
+      "formTitle": "Pide presupuesto para tu reforma integral",
+      "formSub": "Cuéntanos si es piso o casa y los metros aproximados. Te respondemos en menos de 24 h.",
+      "i1": "Derribos y nueva distribución de las estancias",
+      "i2": "Instalación eléctrica y de fontanería renovadas",
+      "i3": "Cocina: mobiliario, encimera, electrodomésticos e instalación",
+      "i4": "Baños: fontanería, alicatado, sanitarios y mamparas",
+      "i5": "Suelos, pintura y carpintería interior",
+      "i6": "Climatización, aislamiento y ventilación",
+      "q1": "¿Cuánto cuesta una reforma integral en Barcelona?",
+      "a1": "La referencia publicada es 590 €/m² en básico, 720 €/m² en estándar y 890 €/m² en premium, según superficie, estado y materiales. El importe exacto se cierra por escrito tras la visita.",
+      "q2": "¿Cuánto tarda una reforma integral?",
+      "a2": "Un piso medio (70–90 m²) suele estar entre 8 y 12 semanas, según alcance y permisos. En los proyectos publicados, el piso del Eixample (75 m²) se hizo en 10 semanas y el dúplex de Sant Cugat (95 m²) en 12. El calendario va por escrito con el presupuesto.",
+      "q3": "¿Necesito licencia de obras?",
+      "a3": "Si la obra no toca estructura ni fachada, lo habitual es un comunicado de obra menor. Ayudamos con esos trámites; la gestión de licencias no está incluida en los precios orientativos.",
+      "q4": "¿Puedo vivir en la vivienda durante la obra?",
+      "a4": "En una reforma integral lo recomendable es no vivir en la vivienda. Lo vemos en la visita, antes de fijar el calendario.",
+      "q5": "¿Ofrecéis garantía y en qué zona trabajáis?",
+      "a5": "Sí. La obra tiene garantía y los materiales, la de su fabricante. Trabajamos en Barcelona y alrededores, hasta unos 50 km según el proyecto, con especialidad en baños y cocinas.",
+      "process": {
+        "eyebrow": "De la visita a las llaves",
+        "title": "Cómo hacemos una reforma integral",
+        "subtitle": "Cuatro pasos, con el precio y el calendario por escrito antes de empezar la obra.",
+        "s1t": "Contacto",
+        "s1d": "Nos cuentas si es un piso o una casa y qué estancias entran en la obra.",
+        "s2t": "Visita",
+        "s2d": "Revisamos medidas, estado e instalaciones. La visita es gratuita.",
+        "s3t": "Presupuesto",
+        "s3d": "Partidas, materiales y plazos por escrito. La referencia de integral parte de 590 €/m².",
+        "s4t": "Reforma",
+        "s4d": "Un solo equipo hasta la entrega. En una integral, lo recomendable es no vivir en la vivienda."
+      }
+    },
+    "cocinas": {
+      "metaTitle": "Reformas de cocinas en Barcelona",
+      "metaDesc": "Reforma de cocinas en Barcelona y alrededores: mobiliario, encimera e instalación. Desde 7.900 €, con visita gratuita y presupuesto por escrito.",
+      "h1": "Reformas de cocinas en Barcelona",
+      "heroSub": "Cocina completa en Barcelona y alrededores: desmontaje, mobiliario, encimera, electrodomésticos e instalación. Desde 7.900 €, IVA no incluido; el importe exacto, tras una visita gratuita.",
+      "includesSub": "Del desmontaje a la encimera y la instalación, con un único responsable de principio a fin.",
+      "pricingSubtitle": "Precio «desde» por cocina completa, según el nivel de acabados. El importe exacto, tras una visita gratuita.",
+      "pricingDisclaimer": "Precios orientativos «desde» por cocina, IVA no incluido. El importe final depende del estado, los metros, el acceso y los materiales.",
+      "segBasicoDesc": "Mobiliario funcional, encimera estándar e instalación.",
+      "segEstandarDesc": "Equilibrio calidad-precio: marcas reconocidas y mejores acabados.",
+      "segPremiumDesc": "Gama alta, con carpintería a medida y más detalle en encimera e iluminación.",
+      "ctaTitle": "Precios de reforma de cocina",
+      "ctaSub": "Desde 7.900 € en básico. El listado completo está en nuestros precios.",
+      "formTitle": "Pide presupuesto para tu cocina",
+      "formSub": "Cuéntanos los metros y qué quieres cambiar. Te respondemos en menos de 24 h.",
+      "i1": "Desmontaje de la cocina existente",
+      "i2": "Mobiliario: frentes, módulos y, cuando el proyecto lo pide, muebles hasta el techo",
+      "i3": "Encimera y salpicadero",
+      "i4": "Electrodomésticos integrados, cuando el proyecto los incluye",
+      "i5": "Tomas de agua, desagües y puntos eléctricos",
+      "i6": "Iluminación y pavimento de la cocina",
+      "q1": "¿Cuánto cuesta reformar una cocina en Barcelona?",
+      "a1": "La cocina completa parte de 7.900 € en básico, 10.500 € en estándar y 15.000 € en premium. Son precios orientativos, IVA no incluido. El presupuesto definitivo se cierra por escrito tras una visita gratuita.",
+      "q2": "¿Cuánto dura la reforma de una cocina?",
+      "a2": "En los proyectos publicados, la cocina de Gràcia (14 m²) se hizo en 4 semanas y la cocina-comedor de Sarrià (22 m²) en 6. El plazo del tuyo queda por escrito con el presupuesto.",
+      "q3": "¿Necesito licencia para reformar la cocina?",
+      "a3": "Una cocina que no toca estructura ni fachada suele requerir un comunicado de obra menor. Ayudamos con los trámites; la gestión de licencias no está en los precios orientativos.",
+      "q4": "¿El presupuesto puede cambiar una vez empezada la obra?",
+      "a4": "Trabajamos con presupuesto cerrado por escrito: partidas, materiales y plazos antes de empezar. La obra tiene garantía y los materiales, la de su fabricante.",
+      "q5": "¿En qué zonas reformáis cocinas?",
+      "a5": "En Barcelona y alrededores, hasta unos 50 km según el proyecto. Las cocinas, junto con los baños, son nuestra especialidad.",
+      "process": {
+        "eyebrow": "De la cocina vieja a la nueva",
+        "title": "Cómo reformamos una cocina",
+        "subtitle": "Cuatro pasos, con el precio de la cocina por escrito antes de desmontar nada.",
+        "s1t": "Contacto",
+        "s1d": "Nos cuentas los metros y si cambias distribución, muebles o solo acabados.",
+        "s2t": "Visita",
+        "s2d": "Revisamos tomas de agua, desagües, electricidad y el estado actual. La visita es gratuita.",
+        "s3t": "Presupuesto",
+        "s3d": "Partidas, materiales y plazo por escrito. La cocina completa parte de 7.900 €.",
+        "s4t": "Reforma",
+        "s4d": "Desmontaje, instalación y acabados con un solo equipo, hasta dejar la cocina lista."
+      }
+    },
     "viviendas": {
       "metaTitle": "Reformas de viviendas en Barcelona",
       "metaDesc": "Reformas integrales y parciales de pisos y casas en Barcelona y alrededores. Presupuesto claro antes de empezar y un único equipo para toda la obra.",
@@ -230,6 +326,29 @@
       "metaDesc": "Reformas de oficinas en Barcelona y alrededores: distribución, instalaciones, iluminación y acabados. Espacios de trabajo funcionales, listos a plazo.",
       "h1": "Reformas de oficinas en Barcelona",
       "heroSub": "Espacios de trabajo funcionales y actuales, listos para operar. Coordinamos la obra para minimizar el impacto en tu actividad.",
+      "includesSub": "Distribución, instalaciones, iluminación y acabados de la oficina, con un responsable de obra de principio a fin.",
+      "pricingSubtitle": "Referencias por m² para reformar la oficina. El importe exacto, tras visitar la planta.",
+      "pricingDisclaimer": "Precios orientativos «desde», IVA no incluido, para una oficina. El final depende de la superficie, el estado de la planta, el acceso y los materiales.",
+      "segBasicoDesc": "Materiales funcionales para puestos y salas. Marcas estándar, sin florituras.",
+      "segEstandarDesc": "Equilibrio calidad-precio en iluminación, suelos y climatización.",
+      "segPremiumDesc": "Materiales de gama alta, con la marca integrada en mobiliario y señalética.",
+      "ctaTitle": "Precios orientativos de reforma de oficina",
+      "ctaSub": "Desde 490 €/m² en básico. El listado completo está en nuestros precios.",
+      "formTitle": "Pide presupuesto para tu oficina",
+      "formSub": "Cuéntanos los metros y si la oficina tiene que seguir en uso. Respondemos en menos de 24 h.",
+      "process": {
+        "eyebrow": "Obra y actividad",
+        "title": "Cómo reformamos una oficina",
+        "subtitle": "Cuatro pasos, con el calendario pensado para que la actividad pueda seguir cuando el proyecto lo permite.",
+        "s1t": "Contacto",
+        "s1d": "Nos cuentas la distribución: puestos, salas de reunión y zonas de descanso.",
+        "s2t": "Visita",
+        "s2d": "Revisamos la planta, las instalaciones y cómo reducir el impacto en la actividad.",
+        "s3t": "Presupuesto",
+        "s3d": "Partidas, materiales y plazos por escrito. Si hace falta, valoramos horarios de noche o fin de semana.",
+        "s4t": "Reforma",
+        "s4d": "Un responsable de obra hasta la entrega, con informes de avance."
+      },
       "i1": "Distribución de espacios y salas de reunión",
       "i2": "Instalación eléctrica, datos y climatización",
       "i3": "Iluminación técnica y de ambiente",
@@ -237,7 +356,7 @@
       "i5": "Integración de mobiliario, señalética y marca",
       "i6": "Adecuación a normativa, accesibilidad y PCI",
       "q1": "¿Cuánto cuesta reformar una oficina?",
-      "a1": "Como referencia, la reforma integral de un local comercial parte de 490 €/m², según instalaciones y acabados. En «Nuestros precios» tienes partidas orientativas.",
+      "a1": "En esta página la reforma de oficina parte de 490 €/m² en básico, 620 €/m² en estándar y 780 €/m² en premium, según instalaciones y acabados. El precio cerrado se fija tras la visita.",
       "q2": "¿Podéis trabajar de noche o en fines de semana?",
       "a2": "Sí. Adaptamos los horarios de obra para reducir el impacto en tu actividad y la de tus vecinos.",
       "q3": "¿Os encargáis de la licencia de actividad?",
@@ -245,13 +364,36 @@
       "q4": "¿Trabajáis llave en mano?",
       "a4": "Sí. Del proyecto a la entrega, con un único responsable de obra e informes de avance.",
       "q5": "¿Ofrecéis garantía?",
-      "a5": "Sí, toda la obra tiene garantía y los materiales la de su fabricante."
+      "a5": "Sí. La obra de la oficina tiene garantía, y las instalaciones y los materiales, la de su fabricante."
     },
     "tiendas": {
       "metaTitle": "Reformas de tiendas y locales en Barcelona",
       "metaDesc": "Reformas de tiendas, restaurantes y locales comerciales en Barcelona y alrededores. Locales preparados para vender y recibir clientes, sin sorpresas.",
       "h1": "Reformas de tiendas y locales en Barcelona",
       "heroSub": "Locales preparados para vender y recibir clientes: tiendas, restaurantes y comercios de barrio, con la obra coordinada de principio a fin.",
+      "includesSub": "Fachada, sala de ventas e instalaciones del local, coordinadas de principio a fin.",
+      "pricingSubtitle": "Referencias por m² para tienda, restaurante o comercio. El importe exacto, tras la visita.",
+      "pricingDisclaimer": "Precios orientativos «desde», IVA no incluido, para un local comercial. Dependen del estado, el escaparate, la extracción y los materiales.",
+      "segBasicoDesc": "Materiales funcionales para la sala de ventas y el almacén. Marcas estándar.",
+      "segEstandarDesc": "Equilibrio calidad-precio en iluminación de escaparate y pavimentos de uso.",
+      "segPremiumDesc": "Materiales de gama alta, mostradores y mobiliario con más detalle.",
+      "ctaTitle": "Precios orientativos de reforma de local",
+      "ctaSub": "Desde 490 €/m² en básico. El listado completo está en nuestros precios.",
+      "formTitle": "Pide presupuesto para tu local",
+      "formSub": "Cuéntanos si es tienda, restaurante o comercio, y si tiene que seguir abierto. Respondemos en menos de 24 h.",
+      "process": {
+        "eyebrow": "Local y apertura",
+        "title": "Cómo reformamos un local",
+        "subtitle": "De la imagen del local al calendario, con la obra organizada para no parar la actividad cuando es viable.",
+        "s1t": "Contacto",
+        "s1d": "Nos cuentas si es tienda, restaurante o comercio, y qué tiene que estar listo para abrir.",
+        "s2t": "Visita",
+        "s2d": "Vemos la sala de ventas, el almacén, la fachada y las instalaciones de clima y extracción.",
+        "s3t": "Presupuesto",
+        "s3d": "Partidas y plazos por escrito. Un local pequeño o mediano suele estar entre 4 y 10 semanas, según el alcance.",
+        "s4t": "Reforma",
+        "s4d": "Si se puede, organizamos la obra por fases o en horario de cierre para no parar la actividad."
+      },
       "i1": "Imagen del local: fachada, escaparate y rotulación",
       "i2": "Distribución de la sala de ventas y el almacén",
       "i3": "Iluminación comercial y de escaparate",
@@ -259,21 +401,44 @@
       "i5": "Pavimentos y revestimientos resistentes al uso",
       "i6": "Mostradores, probadores y mobiliario a medida",
       "q1": "¿Cuánto cuesta reformar un local comercial?",
-      "a1": "La reforma integral de un local parte de 490 €/m² como referencia, según estado, instalaciones y acabados. Consulta más partidas en «Nuestros precios».",
+      "a1": "Para tienda, restaurante o comercio, la referencia es 490 €/m² en básico, 620 en estándar y 780 en premium, según el estado del local, las instalaciones y los acabados. El importe cerrado, tras la visita.",
       "q2": "¿Cuánto dura la obra de una tienda?",
       "a2": "Un local pequeño o mediano suele estar entre 4 y 10 semanas según el alcance. Definimos el calendario en el presupuesto.",
       "q3": "¿Podéis trabajar con el local en funcionamiento?",
       "a3": "Cuando es viable, organizamos la obra por fases o en horarios de cierre para no parar la actividad.",
       "q4": "¿Gestionáis licencias?",
-      "a4": "Puede valorarse cuando el proyecto lo requiera; no está incluido en los precios orientativos.",
+      "a4": "La licencia de la actividad comercial se puede valorar aparte. No entra en los precios orientativos de la obra.",
       "q5": "¿Ofrecéis garantía?",
-      "a5": "Sí. Toda la obra tiene garantía, y los materiales la de su fabricante."
+      "a5": "Sí. La obra del local tiene garantía, y los materiales de pavimento, iluminación y mobiliario, la de su fabricante."
     },
     "beauty": {
       "metaTitle": "Reformas beauty & fitness en Barcelona",
       "metaDesc": "Reformas de salones de belleza, peluquerías, clínicas y gimnasios en Barcelona y alrededores. Espacios cómodos, funcionales y listos para tus clientes.",
       "h1": "Reformas beauty & fitness en Barcelona",
       "heroSub": "Salones de belleza, peluquerías, clínicas y centros deportivos. Espacios cómodos y funcionales, pensados para tus clientes y tu día a día.",
+      "includesSub": "Cabinas, agua, ventilación y vestuarios, con un único responsable de principio a fin.",
+      "pricingSubtitle": "Referencias por m² para salón, clínica o gimnasio. El importe exacto, tras la visita.",
+      "pricingDisclaimer": "Precios orientativos «desde», IVA no incluido, para salón, clínica o gimnasio. Dependen de la superficie, las zonas de agua, la ventilación y los materiales.",
+      "segBasicoDesc": "Materiales funcionales para cabinas y vestuarios. Marcas estándar.",
+      "segEstandarDesc": "Equilibrio calidad-precio en iluminación, suelos de fácil limpieza y zonas de agua.",
+      "segPremiumDesc": "Materiales de gama alta en revestimientos, iluminación y zonas de agua.",
+      "ctaTitle": "Precios orientativos de reforma beauty y fitness",
+      "ctaSub": "Desde 490 €/m² en básico. El listado completo está en nuestros precios.",
+      "formTitle": "Pide presupuesto para tu salón o gimnasio",
+      "formSub": "Cuéntanos si es peluquería, clínica o gimnasio, y los metros. Respondemos en menos de 24 h.",
+      "process": {
+        "eyebrow": "El local de tus clientes",
+        "title": "Cómo reformamos un salón o un gimnasio",
+        "subtitle": "Cabinas, vestuarios, agua y ventilación, con un calendario por escrito antes de empezar.",
+        "s1t": "Contacto",
+        "s1d": "Nos cuentas si es peluquería, clínica, salón o gimnasio, y cómo se reparte el espacio.",
+        "s2t": "Visita",
+        "s2d": "Revisamos puestos de agua, ventilación, vestuarios y lo que exige la actividad.",
+        "s3t": "Presupuesto",
+        "s3d": "Partidas y plazos por escrito. Un salón pequeño suele estar entre 4 y 8 semanas; un gimnasio mediano, algo más.",
+        "s4t": "Reforma",
+        "s4d": "Adecuamos accesibilidad, ventilación e higiene según la actividad, con un solo responsable de obra."
+      },
       "i1": "Distribución de cabinas, salas y vestuarios",
       "i2": "Fontanería y saneamiento para puestos de trabajo",
       "i3": "Ventilación, climatización y extracción",
@@ -281,15 +446,15 @@
       "i5": "Pavimentos y revestimientos de fácil limpieza",
       "i6": "Aseos, duchas y zonas de agua",
       "q1": "¿Cuánto cuesta reformar un salón o un gimnasio?",
-      "a1": "Como referencia, la reforma integral de un local parte de 490 €/m², según instalaciones y superficie. En «Nuestros precios» tienes partidas orientativas.",
+      "a1": "Salón, peluquería, clínica o gimnasio: la referencia es 490 €/m² en básico, 620 en estándar y 780 en premium, según instalaciones y superficie. El presupuesto se cierra por escrito tras la visita.",
       "q2": "¿Cuánto dura este tipo de obra?",
       "a2": "Un salón pequeño suele estar entre 4 y 8 semanas; un gimnasio mediano, algo más. Te damos un calendario por escrito.",
       "q3": "¿Cumplís los requisitos sanitarios y de accesibilidad?",
       "a3": "Sí, adecuamos el local a la normativa aplicable de accesibilidad, ventilación e higiene según la actividad.",
       "q4": "¿Gestionáis licencias?",
-      "a4": "Puede valorarse cuando el proyecto lo requiera; no está incluido en los precios orientativos.",
+      "a4": "La licencia, cuando la actividad la requiere, se puede valorar aparte. Los precios orientativos de la obra no la incluyen.",
       "q5": "¿Ofrecéis garantía?",
-      "a5": "Sí. Toda la obra tiene garantía, y los materiales la de su fabricante."
+      "a5": "Sí. La obra del salón o del gimnasio tiene garantía, y los materiales, la de su fabricante."
     },
     "banos": {
       "metaTitle": "Reforma de baños en Barcelona desde 4.900 €",
@@ -461,6 +626,10 @@
     "beforeAfterNote": "Desliza para comparar el estado inicial con el resultado final.",
     "before": "Antes",
     "after": "Después",
+    "altIn": "en",
+    "altBefore": "antes",
+    "altAfter": "después",
+    "altPhoto": "foto",
     "beforeAfterAria": "Comparar antes y después",
     "ctaTitle": "¿Quieres un resultado así?",
     "ctaSub": "Consulta nuestros precios orientativos o cuéntanos tu proyecto.",
@@ -470,7 +639,7 @@
   "projects": {
     "piso-integral-barcelona": {
       "title": "Reforma integral de piso",
-      "summary": "Reforma integral de un piso: demoliciones, nueva distribución, instalaciones renovadas con suelo radiante, cocina blanca con encimera de madera y acabados en tarima y baldosa hidráulica.",
+      "summary": "Reforma integral en el Eixample: demoliciones, nueva distribución, suelo radiante, cocina blanca con encimera de madera, tarima y baldosa hidráulica.",
       "duration": "10 semanas"
     },
     "duplex-escalera-vidrio": {
@@ -495,6 +664,7 @@
     },
     "salon-piso-clasico": {
       "title": "Salón en piso clásico",
+      "seoTitle": "Reforma de salón en piso clásico del Eixample",
       "summary": "Reforma de salón en un piso antiguo con pilar central y balcones de forja: suelo de madera, iluminación de carril y tonos beige.",
       "duration": "6 semanas"
     },
@@ -505,11 +675,13 @@
     },
     "bano-verde-salvia": {
       "title": "Baño en verde salvia",
+      "seoTitle": "Reforma de baño verde salvia en Barcelona",
       "summary": "Sustitución de bañera por ducha de obra con mampara, azulejo verde salvia, grifería dorada y mueble suspendido de madera.",
       "duration": "3 semanas"
     },
     "bano-rosa": {
       "title": "Baño con azulejo rosa",
+      "seoTitle": "Reforma de baño con azulejo rosa en L'Hospitalet",
       "summary": "Renovación completa de un baño antiguo: azulejo rosa nuevo, bañera con mampara, inodoro suspendido y espejo retroiluminado.",
       "duration": "3 semanas"
     },
@@ -545,6 +717,7 @@
     },
     "peluqueria-beige": {
       "title": "Salón de peluquería",
+      "seoTitle": "Reforma de peluquería en Barcelona, Gràcia",
       "summary": "Local convertido en salón de peluquería en tonos beige: espejos ovalados dorados, mostrador ondulado y puestos de trabajo cómodos.",
       "duration": "6 semanas"
     },
@@ -555,11 +728,13 @@
     },
     "tienda-moda": {
       "title": "Tienda de moda",
+      "seoTitle": "Reforma de tienda de moda en el Eixample",
       "summary": "Local comercial reformado como tienda de ropa en tonos crema: mobiliario de madera clara, espejos e iluminación de carril.",
       "duration": "6 semanas"
     },
     "supermercado-gourmet": {
       "title": "Supermercado gourmet",
+      "seoTitle": "Reforma de supermercado gourmet en Sabadell",
       "summary": "Local diáfano convertido en supermercado gourmet con estanterías de madera, vitrinas de charcutería y zona de fruta fresca.",
       "duration": "8 semanas"
     },
@@ -571,7 +746,7 @@
   },
   "guias": {
     "metaTitle": "Guías de reformas en Barcelona",
-    "metaDescription": "Guías prácticas sobre reformas de viviendas y locales en Barcelona y alrededores: cuánto cuestan, cuánto tardan y qué decidir antes de empezar. Explicado sin tecnicismos.",
+    "metaDescription": "Guías prácticas sobre reformas de viviendas y locales en Barcelona y alrededores: cuánto cuestan, cuánto tardan y qué decidir antes de empezar la obra.",
     "eyebrow": "Antes de empezar la obra",
     "title": "Guías de reformas",
     "intro": "Explicamos con calma lo que conviene saber antes de reformar: cuánto cuesta, cuánto tarda y qué decisiones marcan el resultado. Sin tecnicismos y con las mismas referencias que usamos al preparar un presupuesto.",
@@ -587,7 +762,7 @@
     "breadcrumb": "Guías"
   },
   "about": {
-    "metaTitle": "Sobre nosotros — Kobor",
+    "metaTitle": "Sobre nosotros · Reformas Kobor en Barcelona",
     "metaDesc": "Somos Kobor: una empresa de reformas cercana y seria en Barcelona. Viviendas y locales comerciales, con presupuesto claro y un solo equipo.",
     "title": "Una empresa de reformas cercana y seria",
     "subtitle": "Reformamos viviendas y locales comerciales en Barcelona y alrededores. Sin humo: presupuesto claro, un solo equipo y obra bien hecha.",
@@ -612,7 +787,7 @@
     "g4": "Materiales con garantía de fabricante"
   },
   "contact": {
-    "metaTitle": "Contacto — Kobor",
+    "metaTitle": "Contacto · Reformas en Barcelona | Kobor",
     "metaDesc": "Contacta con Kobor: WhatsApp, teléfono, email y formulario. Reformas de viviendas y locales en Barcelona y alrededores. Visita gratuita.",
     "title": "Hablemos de tu reforma",
     "subtitle": "Cuéntanos tu proyecto por el canal que prefieras. Te respondemos en menos de 24 h y acordamos una visita gratuita.",
@@ -651,7 +826,7 @@
     "marketingDesc": "Permiten medir campañas y mostrar publicidad relevante (Google Ads)."
   },
   "cookies": {
-    "metaTitle": "Política de cookies",
+    "metaTitle": "Política de cookies de Kobor en Barcelona",
     "metaDesc": "Información sobre las cookies que utiliza Kobor: necesarias, de analítica y de marketing, y cómo gestionar tu consentimiento.",
     "title": "Política de cookies",
     "updated": "Última actualización: agosto de 2026.",
@@ -696,7 +871,7 @@
     ]
   },
   "legal": {
-    "metaTitle": "Aviso legal",
+    "metaTitle": "Aviso legal de Kobor, reformas en Barcelona",
     "metaDesc": "Datos identificativos del titular, condiciones de uso, propiedad intelectual y legislación aplicable del sitio web de Kobor.",
     "title": "Aviso legal",
     "updated": "Última actualización: agosto de 2026.",

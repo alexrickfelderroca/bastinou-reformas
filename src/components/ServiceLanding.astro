@@ -67,12 +67,12 @@ const breadcrumbLd = {
     ? <PisosRevealHero locale={locale} />
     : <SplitRevealHero locale={locale} service={service} />}
   <ServiceIncludes locale={locale} service={service} />
-  <PricingTable locale={locale} pricingType={cfg.pricingType} partialPricing={cfg.partialPricing} />
-  <RelatedProjects locale={locale} />
-  <Process locale={locale} />
+  <PricingTable locale={locale} pricingType={cfg.pricingType} partialPricing={cfg.partialPricing} service={service} />
+  <RelatedProjects locale={locale} service={service} />
+  <Process locale={locale} service={service} />
   <Faq locale={locale} items={faqItems} />
   <RelatedGuides locale={locale} service={service} />
-  <PricesCtaBlock locale={locale} />
+  <PricesCtaBlock locale={locale} service={service} />
   <QuoteForm locale={locale} service={service} />
 
   <script is:inline type="application/ld+json" set:html={JSON.stringify(serviceLd)} />

@@ -11,6 +11,7 @@ import type { CollectionEntry } from 'astro:content';
 import BeforeAfter from '../sections/BeforeAfter.astro';
 import { useTranslations, type Locale } from '../../i18n/ui';
 import { localizedPath, withTrailingSlash } from '../../i18n/routes';
+import { projectImageAlt } from '../../lib/image-alt';
 
 interface Props {
   locale: Locale;
@@ -22,6 +23,14 @@ const { type, area, year, cover, beforeAfter } = entry.data;
 const url = withTrailingSlash(`${localizedPath('proyectos', locale)}/${entry.id}`);
 const typeCap = type[0].toUpperCase() + type.slice(1);
 const pair = beforeAfter[0];
+const title = t(`projects.${entry.id}.title`);
+const imageAlt = (phase: 'before' | 'after') =>
+  projectImageAlt({
+    title,
+    location: entry.data.location,
+    inWord: t('project.altIn'),
+    phase: t(phase === 'before' ? 'project.altBefore' : 'project.altAfter'),
+  });
 ---
 
 <article class="pcard card-hover" data-type={type} data-reveal>
@@ -33,21 +42,23 @@ const pair = beforeAfter[0];
           after={pair.after}
           beforeLabel={t('project.before')}
           afterLabel={t('project.after')}
-          ariaLabel={`${t('project.beforeAfterAria')} — ${t(`projects.${entry.id}.title`)}`}
+          ariaLabel={`${t('project.beforeAfterAria')} — ${title}`}
           aspect="4 / 3"
           widths={[420, 720, 1000]}
           sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw"
           compact
+          beforeAlt={imageAlt('before')}
+          afterAlt={imageAlt('after')}
         />
       ) : (
-        <Image src={cover} alt="" widths={[420, 720, 1000]} sizes="(min-width: 768px) 45vw, 100vw" class="card-media" loading="lazy" />
+        <Image src={cover} alt={imageAlt('after')} widths={[420, 720, 1000]} sizes="(min-width: 768px) 45vw, 100vw" class="card-media" loading="lazy" />
       )
     }
     <span class="pcard__badge">{t(`portfolio.type${typeCap}`)}</span>
   </div>
   <div class="pcard__body">
     <h2 class="pcard__title">
-      <a class="pcard__link" href={url}>{t(`projects.${entry.id}.title`)}</a>
+      <a class="pcard__link" href={url}>{title}</a>
     </h2>
     <p class="pcard__meta">{area} m² · {year}</p>
     <span class="pcard__cta" aria-hidden="true">{t('portfolio.viewProject')} →</span>

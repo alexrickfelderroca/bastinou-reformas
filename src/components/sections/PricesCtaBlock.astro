@@ -4,22 +4,31 @@
  * empuja a la página de precios orientativos.
  */
 import { useTranslations, type Locale } from '../../i18n/ui';
-import { localizedPath } from '../../i18n/routes';
+import { localizedPath, withTrailingSlash } from '../../i18n/routes';
+import type { ServiceKey } from '../../config/services';
 
 interface Props {
   locale: Locale;
+  service?: ServiceKey;
 }
-const { locale } = Astro.props;
+const { locale, service } = Astro.props;
 const t = useTranslations(locale);
+const own = (key: string, fallback: string): string => {
+  if (!service) return fallback;
+  const path = `landings.${service}.${key}`;
+  const value = t(path);
+  return value === path ? fallback : value;
+};
+const pricesHref = withTrailingSlash(localizedPath('precios', locale));
 ---
 
 <section class="prices-cta on-dark">
   <div class="container-x prices-cta__inner" data-reveal-group>
     <div class="prices-cta__text" data-reveal>
-      <h2 class="prices-cta__title">{t('landing.ctaBlockTitle')}</h2>
-      <p class="prices-cta__sub">{t('landing.ctaBlockSub')}</p>
+      <h2 class="prices-cta__title">{own('ctaTitle', t('landing.ctaBlockTitle'))}</h2>
+      <p class="prices-cta__sub">{own('ctaSub', t('landing.ctaBlockSub'))}</p>
     </div>
-    <a class="btn btn-invert" href={localizedPath('precios', locale)} data-reveal>
+    <a class="btn btn-invert" href={pricesHref} data-reveal>
       {t('landing.ctaBlockCta')}
     </a>
   </div>

@@ -22,6 +22,9 @@ interface Props {
   sizes?: string;
   /** Variante tarjeta: etiquetas abajo (no chocan con el badge) y grip menor. */
   compact?: boolean;
+  /** Alt del estado inicial y del resultado. Vacío solo si la foto es decorativa. */
+  beforeAlt?: string;
+  afterAlt?: string;
 }
 const {
   before,
@@ -33,15 +36,15 @@ const {
   widths = [600, 1000, 1400],
   sizes = '(min-width: 1024px) 900px, 100vw',
   compact = false,
+  beforeAlt = '',
+  afterAlt = '',
 } = Astro.props;
 ---
 
 <figure class:list={['ba', { 'ba--compact': compact }]} data-ba style={`--pos: 50%; --ba-aspect: ${aspect}`}>
-  {/* alt vacío: las etiquetas visibles y el aria-label del control ya nombran
-      antes/después; repetirlo como alt duplicaría cada anuncio (WCAG 1.1.1). */}
-  <Image class="ba__img" src={after} alt="" widths={widths} sizes={sizes} loading="lazy" />
+  <Image class="ba__img" src={after} alt={afterAlt} widths={widths} sizes={sizes} loading="lazy" />
   <div class="ba__clip">
-    <Image class="ba__img" src={before} alt="" widths={widths} sizes={sizes} loading="lazy" />
+    <Image class="ba__img" src={before} alt={beforeAlt} widths={widths} sizes={sizes} loading="lazy" />
   </div>
 
   <span class="ba__tag ba__tag--before">{beforeLabel}</span>

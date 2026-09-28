@@ -74,7 +74,7 @@ const crumbsLd = breadcrumbLd(siteUrl, [
             <div class="gi-featured__media">
               <Image
                 src={featured.data.cover}
-                alt=""
+                alt={featured.data.coverAlt}
                 widths={[640, 960, 1280]}
                 sizes="(min-width: 960px) 56vw, 100vw"
                 class="card-media"
@@ -109,7 +109,7 @@ const crumbsLd = breadcrumbLd(siteUrl, [
                   <div class="gi-card__media">
                     <Image
                       src={e.data.cover}
-                      alt=""
+                      alt={e.data.coverAlt}
                       widths={[400, 640, 1120]}
                       sizes="(min-width: 1216px) 560px, (min-width: 720px) 45vw, 100vw"
                       class="card-media"
