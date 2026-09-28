@@ -69,9 +69,9 @@ const logoUrl = new URL('/kobor-logo.png', siteUrl).href;
 const businessId = `${siteUrl.href}#business`;
 const websiteId = `${siteUrl.href}#website`;
 
-// sameAs: sólo el perfil de Habitissimo confirmado. La ficha de Google
-// (https://www.google.com/maps?cid=4875705963815148999) queda fuera hasta que
-// el propietario la confirme. No añadir hasMap mientras tanto.
+// Ficha de Google confirmada por el propietario (28-09-2026). Va en sameAs
+// junto a Habitissimo y también como hasMap.
+const googleBusinessUrl = 'https://www.google.com/maps?cid=4875705963815148999';
 const areaServed = [
   ...(site.geo
     ? [
@@ -110,7 +110,8 @@ const businessLd = {
   logo: logoUrl,
   priceRange: '€€€',
   areaServed,
-  sameAs: ['https://www.habitissimo.es/pro/kobor-reformas'],
+  sameAs: ['https://www.habitissimo.es/pro/kobor-reformas', googleBusinessUrl],
+  hasMap: googleBusinessUrl,
   address: {
     '@type': 'PostalAddress',
     streetAddress: clean(site.address.street),
