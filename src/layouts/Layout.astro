@@ -17,7 +17,6 @@ import { getLocaleFromUrl, localeHtmlLang, localeOgLocale, useTranslations } fro
 import { alternatesFor, type RouteKey } from '../i18n/routes';
 import { site, clarityEnabled } from '../config/site';
 import { OG_ROUTE_IDS, ogImagePath } from '../lib/og-meta';
-import logo from '../assets/brand/kobor-logo.png';
 
 interface Props {
   title?: string;
@@ -65,16 +64,43 @@ const alternates = alternatesProp ?? (routeKey ? alternatesFor(routeKey) : []);
 const clean = (v?: string): string | undefined =>
   v && !v.includes('[PENDIENTE') ? v : undefined;
 
-const logoUrl = new URL(logo.src, siteUrl).href;
+// URL estable: el PNG de /_astro cambia de hash en cada build.
+const logoUrl = new URL('/kobor-logo.png', siteUrl).href;
 const businessId = `${siteUrl.href}#business`;
 const websiteId = `${siteUrl.href}#website`;
-const socialLinks = Object.values(site.social).filter(Boolean);
+
+// Ficha de Google confirmada por el propietario (28-09-2026). Va en sameAs
+// junto a Habitissimo y también como hasMap.
+const googleBusinessUrl = 'https://www.google.com/maps?cid=4875705963815148999';
+const areaServed = [
+  ...(site.geo
+    ? [
+        {
+          '@type': 'GeoCircle',
+          geoMidpoint: {
+            '@type': 'GeoCoordinates',
+            latitude: site.geo.lat,
+            longitude: site.geo.lng,
+          },
+          geoRadius: 50000,
+        },
+      ]
+    : []),
+  { '@type': 'City', name: 'Barcelona' },
+  { '@type': 'City', name: "L'Hospitalet de Llobregat" },
+  { '@type': 'City', name: 'Badalona' },
+  { '@type': 'City', name: 'Sant Cugat del Vallès' },
+  { '@type': 'City', name: 'Sabadell' },
+  { '@type': 'City', name: 'Terrassa' },
+  { '@type': 'AdministrativeArea', name: 'Maresme' },
+  { '@type': 'AdministrativeArea', name: 'Baix Llobregat' },
+];
 
 const businessLd = {
   '@context': 'https://schema.org',
   '@type': 'HomeAndConstructionBusiness',
   '@id': businessId,
-  name: site.name,
+  name: 'KOBOR Reformas',
   legalName: clean(site.legalName),
   description: t('meta.defaultDescription'),
   url: siteUrl.href,
@@ -83,7 +109,9 @@ const businessLd = {
   image: logoUrl,
   logo: logoUrl,
   priceRange: '€€€',
-  areaServed: site.areaServed.map((name) => ({ '@type': 'AdministrativeArea', name })),
+  areaServed,
+  sameAs: ['https://www.habitissimo.es/pro/kobor-reformas', googleBusinessUrl],
+  hasMap: googleBusinessUrl,
   address: {
     '@type': 'PostalAddress',
     streetAddress: clean(site.address.street),
@@ -100,7 +128,6 @@ const businessLd = {
   },
   // Sólo se publica geo cuando hay coordenadas reales (no un punto inventado).
   ...(site.geo ? { geo: { '@type': 'GeoCoordinates', latitude: site.geo.lat, longitude: site.geo.lng } } : {}),
-  ...(socialLinks.length ? { sameAs: socialLinks } : {}),
 };
 
 const websiteLd = {

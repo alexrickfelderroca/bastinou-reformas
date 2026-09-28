@@ -658,7 +658,7 @@
     "introTitle": "Què són les cookies?",
     "introText": "Una cookie és un petit fitxer que un lloc web desa al teu dispositiu quan el visites. Serveixen perquè el lloc funcioni, per recordar les teves preferències i per mesurar com s'utilitza. També fem servir tecnologies equivalents com l'emmagatzematge local del navegador.",
     "whoTitle": "Qui fa servir les cookies",
-    "whoText": "El responsable del tractament és Kobor ({legalName}, NIF {nif}). Algunes cookies les gestionen tercers: Google, a través de Google Tag Manager, Google Analytics i Google Ads, i Microsoft, a través de Microsoft Clarity.",
+    "whoText": "El responsable del tractament és Kobor ({legalName}, NIF {nif}, amb domicili a {legalAddress}). Algunes cookies les gestionen tercers: Google, a través de Google Tag Manager, Google Analytics i Google Ads, i Microsoft, a través de Microsoft Clarity.",
     "typesTitle": "Cookies que utilitzem",
     "typesIntro": "Agrupem les cookies en tres categories. Llevat de les necessàries, cap s'activa sense el teu consentiment.",
     "necessaryTitle": "Necessàries",

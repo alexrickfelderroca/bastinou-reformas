@@ -658,7 +658,7 @@
     "introTitle": "What are cookies?",
     "introText": "A cookie is a small file that a website stores on your device when you visit. Cookies make the site work, remember your preferences and measure how the site is used. We also use equivalent technologies such as the browser's local storage.",
     "whoTitle": "Who uses cookies",
-    "whoText": "The data controller is Kobor ({legalName}, tax ID {nif}). Some cookies are managed by third parties: Google, through Google Tag Manager, Google Analytics and Google Ads, and Microsoft, through Microsoft Clarity.",
+    "whoText": "The data controller is Kobor ({legalName}, tax ID {nif}, registered at {legalAddress}). Some cookies are managed by third parties: Google, through Google Tag Manager, Google Analytics and Google Ads, and Microsoft, through Microsoft Clarity.",
     "typesTitle": "Cookies we use",
     "typesIntro": "We group cookies into three categories. Except for the necessary ones, none are activated without your consent.",
     "necessaryTitle": "Necessary",

@@ -658,7 +658,7 @@
     "introTitle": "¿Qué son las cookies?",
     "introText": "Una cookie es un pequeño archivo que un sitio web guarda en tu dispositivo al visitarlo. Sirven para que el sitio funcione, para recordar tus preferencias y para medir cómo se usa. También usamos tecnologías equivalentes como el almacenamiento local del navegador.",
     "whoTitle": "Quién usa las cookies",
-    "whoText": "El responsable del tratamiento es Kobor ({legalName}, NIF {nif}). Algunas cookies las gestionan terceros: Google, a través de Google Tag Manager, Google Analytics y Google Ads, y Microsoft, a través de Microsoft Clarity.",
+    "whoText": "El responsable del tratamiento es Kobor ({legalName}, NIF {nif}, con domicilio en {legalAddress}). Algunas cookies las gestionan terceros: Google, a través de Google Tag Manager, Google Analytics y Google Ads, y Microsoft, a través de Microsoft Clarity.",
     "typesTitle": "Cookies que utilizamos",
     "typesIntro": "Agrupamos las cookies en tres categorías. Salvo las necesarias, ninguna se activa sin tu consentimiento.",
     "necessaryTitle": "Necesarias",

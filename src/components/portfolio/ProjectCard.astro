@@ -10,7 +10,7 @@ import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import BeforeAfter from '../sections/BeforeAfter.astro';
 import { useTranslations, type Locale } from '../../i18n/ui';
-import { localizedPath } from '../../i18n/routes';
+import { localizedPath, withTrailingSlash } from '../../i18n/routes';
 
 interface Props {
   locale: Locale;
@@ -19,7 +19,7 @@ interface Props {
 const { locale, entry } = Astro.props;
 const t = useTranslations(locale);
 const { type, area, year, cover, beforeAfter } = entry.data;
-const url = `${localizedPath('proyectos', locale)}/${entry.id}`;
+const url = withTrailingSlash(`${localizedPath('proyectos', locale)}/${entry.id}`);
 const typeCap = type[0].toUpperCase() + type.slice(1);
 const pair = beforeAfter[0];
 ---
