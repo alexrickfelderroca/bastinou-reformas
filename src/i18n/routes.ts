@@ -35,6 +35,18 @@ export const routes = {
     ca: '/ca/reformes-banys-barcelona',
     en: '/en/bathroom-renovation-barcelona',
   },
+  // Barra final en el mapa: los enlaces nuevos (menú, pie, resumen de
+  // servicios) salen ya en la URL canónica. withTrailingSlash es idempotente.
+  integrales: {
+    es: '/reformas-integrales/',
+    ca: '/ca/reformes-integrals/',
+    en: '/en/full-renovations/',
+  },
+  cocinas: {
+    es: '/reformas-cocinas/',
+    ca: '/ca/reformes-cuines/',
+    en: '/en/kitchen-renovation/',
+  },
   precios: {
     es: '/nuestros-precios',
     ca: '/ca/els-nostres-preus',

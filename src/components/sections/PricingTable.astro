@@ -10,8 +10,8 @@
  * El precio exacto se cierra siempre tras la visita.
  */
 import { useTranslations, type Locale } from '../../i18n/ui';
-import { localizedPath } from '../../i18n/routes';
-import type { PricingType, PartialPricingKey } from '../../config/services';
+import { localizedPath, withTrailingSlash } from '../../i18n/routes';
+import type { PricingType, PartialPricingKey, ServiceKey } from '../../config/services';
 import pricing from '../../config/pricing.json';
 import SectionHeader from './SectionHeader.astro';
 
@@ -19,18 +19,28 @@ interface Props {
   locale: Locale;
   pricingType: PricingType;
   partialPricing?: PartialPricingKey;
+  /** Textos de precio propios del servicio, si existen en i18n. */
+  service?: ServiceKey;
 }
-const { locale, pricingType, partialPricing } = Astro.props;
+const { locale, pricingType, partialPricing, service } = Astro.props;
 const t = useTranslations(locale);
+
+const own = (key: string, fallback: string): string => {
+  if (!service) return fallback;
+  const path = `landings.${service}.${key}`;
+  const value = t(path);
+  return value === path ? fallback : value;
+};
+const contactHref = withTrailingSlash(localizedPath('contacto', locale));
 // `useGrouping: 'always'` es obligatorio: es-ES aplica minimumGroupingDigits=2,
 // así que sin él 4900 se imprime "4900" y 11000 "11.000" en la misma tabla.
 const nf = new Intl.NumberFormat(locale === 'en' ? 'en' : 'es-ES', { useGrouping: 'always' });
 
 type Seg = 'basico' | 'estandar' | 'premium';
 const segMeta: { key: Seg; name: string; desc: string; featured?: boolean }[] = [
-  { key: 'basico', name: t('landing.segBasico'), desc: t('landing.segBasicoDesc') },
-  { key: 'estandar', name: t('landing.segEstandar'), desc: t('landing.segEstandarDesc'), featured: true },
-  { key: 'premium', name: t('landing.segPremium'), desc: t('landing.segPremiumDesc') },
+  { key: 'basico', name: t('landing.segBasico'), desc: own('segBasicoDesc', t('landing.segBasicoDesc')) },
+  { key: 'estandar', name: t('landing.segEstandar'), desc: own('segEstandarDesc', t('landing.segEstandarDesc')), featured: true },
+  { key: 'premium', name: t('landing.segPremium'), desc: own('segPremiumDesc', t('landing.segPremiumDesc')) },
 ];
 
 const rates = partialPricing
@@ -43,9 +53,11 @@ const rates = partialPricing
 const isPartial = Boolean(partialPricing);
 const unitLabel = isPartial ? t('landing.perProject') : t('landing.perSqm');
 // El subtítulo integral habla de "por m²": en parcial mentiría sobre la unidad.
-const pricingSubtitle = isPartial
-  ? t('landing.pricingSubtitlePartial')
-  : t('landing.pricingSubtitle');
+const pricingSubtitle = own(
+  'pricingSubtitle',
+  isPartial ? t('landing.pricingSubtitlePartial') : t('landing.pricingSubtitle'),
+);
+const pricingDisclaimer = own('pricingDisclaimer', t('landing.pricingDisclaimer'));
 ---
 
 <section class="section pricing">
@@ -67,7 +79,7 @@ const pricingSubtitle = isPartial
               <span class="pricing__unit">{isPartial ? '€' : t('landing.perSqm')}</span>
             </p>
             <p class="pricing__desc">{seg.desc}</p>
-            <a class:list={['btn', seg.featured ? '' : 'btn-outline']} href={localizedPath('contacto', locale)}>
+            <a class:list={['btn', seg.featured ? '' : 'btn-outline']} href={contactHref}>
               {t('cta.quote')}
             </a>
           </div>
@@ -77,11 +89,11 @@ const pricingSubtitle = isPartial
       <div class="pricing__custom" data-reveal>
         <h3 class="pricing__custom-title">{t('landing.pricingCustomTitle')}</h3>
         <p class="pricing__custom-desc">{t('landing.pricingCustomDesc')}</p>
-        <a class="btn" href={localizedPath('contacto', locale)}>{t('cta.quote')}</a>
+        <a class="btn" href={contactHref}>{t('cta.quote')}</a>
       </div>
     )}
 
-    <p class="pricing__disclaimer">{t('landing.pricingDisclaimer')}</p>
+    <p class="pricing__disclaimer">{pricingDisclaimer}</p>
   </div>
 </section>
 

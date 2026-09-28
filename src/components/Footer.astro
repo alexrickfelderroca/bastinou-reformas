@@ -30,7 +30,12 @@ const companyLinks: RouteKey[] = ['precios', 'proyectos', 'guias', 'nosotros', '
 // guias/[slug].astro: el slug público es el último segmento del id). El pie
 // está en TODAS las páginas, y hasta hoy cada guía tenía UN solo enlace
 // interno en todo el sitio — por eso el buscador no las conocía (26-08-2026).
-const guideOrder = ['precio-reforma-piso', 'precio-reforma-bano', 'plazo-reforma-piso'];
+const guideOrder = [
+  'ayudas-rehabilitacion-barcelona',
+  'precio-reforma-piso',
+  'precio-reforma-bano',
+  'plazo-reforma-piso',
+];
 const guias = (await getCollection('guias'))
   .filter((e: CollectionEntry<'guias'>) => e.data.lang === locale)
   .sort(

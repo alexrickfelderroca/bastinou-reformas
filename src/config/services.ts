@@ -3,11 +3,18 @@
  * ruta, el tipo de tarifa en pricing.json y el orden. El contenido traducido
  * vive en los diccionarios i18n bajo `landings.<servicio>`.
  *
- * Servicios (concepto 2026): Viviendas · Oficinas · Tiendas · Beauty & fitness.
+ * Servicios: integrales, viviendas, cocinas, baños, oficinas, tiendas y beauty.
  */
 import type { RouteKey } from '../i18n/routes';
 
-export type ServiceKey = 'viviendas' | 'oficinas' | 'tiendas' | 'beauty' | 'banos';
+export type ServiceKey =
+  | 'integrales'
+  | 'viviendas'
+  | 'cocinas'
+  | 'oficinas'
+  | 'tiendas'
+  | 'beauty'
+  | 'banos';
 
 /** Tipo de tarifa integral en pricing.json; null = presupuesto a medida. */
 export type PricingType = 'piso' | 'casa' | 'oficina' | null;
@@ -26,12 +33,22 @@ export interface ServiceCfg {
 }
 
 export const services: Record<ServiceKey, ServiceCfg> = {
+  integrales: { routeKey: 'integrales', pricingType: 'piso' },
   viviendas: { routeKey: 'viviendas', pricingType: 'piso' },
+  cocinas: { routeKey: 'cocinas', pricingType: null, partialPricing: 'cocina' },
   oficinas: { routeKey: 'oficinas', pricingType: 'oficina' },
   tiendas: { routeKey: 'tiendas', pricingType: 'oficina' },
   beauty: { routeKey: 'beauty', pricingType: 'oficina' },
   banos: { routeKey: 'banos', pricingType: null, partialPricing: 'bano' },
 };
 
-/** Orden del desplegable de Servicios: las cuatro verticales y luego baños. */
-export const serviceOrder: ServiceKey[] = ['viviendas', 'oficinas', 'tiendas', 'beauty', 'banos'];
+/** Orden del desplegable de Servicios y del pie. */
+export const serviceOrder: ServiceKey[] = [
+  'integrales',
+  'viviendas',
+  'cocinas',
+  'banos',
+  'oficinas',
+  'tiendas',
+  'beauty',
+];

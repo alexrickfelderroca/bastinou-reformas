@@ -6,7 +6,7 @@
  * marcado con data-lead-form. `service` viaja como campo oculto.
  */
 import { useTranslations, type Locale } from '../../i18n/ui';
-import { localizedPath } from '../../i18n/routes';
+import { localizedPath, withTrailingSlash } from '../../i18n/routes';
 import { site, telHref, whatsappHref } from '../../config/site';
 import type { ServiceKey } from '../../config/services';
 
@@ -17,13 +17,20 @@ interface Props {
 }
 const { locale, service = undefined, id = 'presupuesto' } = Astro.props;
 const t = useTranslations(locale);
+const own = (key: string, fallback: string): string => {
+  if (!service) return fallback;
+  const path = `landings.${service}.${key}`;
+  const value = t(path);
+  return value === path ? fallback : value;
+};
+const privacyHref = withTrailingSlash(localizedPath('privacidad', locale));
 ---
 
 <section class="section quote" id={id}>
   <div class="container-x quote__grid">
     <div class="quote__aside" data-reveal-group>
-      <h2 class="h-section" data-reveal>{t('landing.formTitle')}</h2>
-      <p class="lead quote__sub" data-reveal>{t('landing.formSubtitle')}</p>
+      <h2 class="h-section" data-reveal>{own('formTitle', t('landing.formTitle'))}</h2>
+      <p class="lead quote__sub" data-reveal>{own('formSub', t('landing.formSubtitle'))}</p>
       <ul class="quote__direct" data-reveal>
         <li>
           <a class="btn btn-whatsapp" href={whatsappHref(t('whatsapp.prefill'))} target="_blank" rel="noopener" data-wa data-wa-source="quote-form">{t('cta.whatsapp')}</a>
@@ -66,7 +73,7 @@ const t = useTranslations(locale);
         <input type="checkbox" name="privacy" required />
         <span>
           {t('landing.formPrivacy')}{' '}
-          <a href={localizedPath('privacidad', locale)} target="_blank" rel="noopener">{t('landing.formPrivacyLink')}</a>.
+          <a href={privacyHref} target="_blank" rel="noopener">{t('landing.formPrivacyLink')}</a>.
         </span>
       </label>
 

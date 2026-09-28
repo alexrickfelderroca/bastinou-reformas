@@ -2,7 +2,7 @@
   "meta": {
     "siteName": "Kobor",
     "defaultTitle": "Kobor — Reformes a Barcelona i rodalia",
-    "defaultDescription": "Reformes d'habitatges, oficines i locals comercials a Barcelona i rodalia (fins a 50 km). Un únic equip des de la primera visita fins al lliurament, amb preus orientatius clars.",
+    "defaultDescription": "Reformes d'habitatges, oficines i locals a Barcelona i rodalia (fins a 50 km). Un equip, de la primera visita al lliurament, amb preus orientatius.",
     "tagline": "Reformes a Barcelona i rodalia"
   },
   "nav": {
@@ -13,6 +13,8 @@
     "tiendas": "Reformes de botigues",
     "beauty": "Beauty & fitness",
     "banos": "Reformes de banys",
+    "integrales": "Reformes integrals",
+    "cocinas": "Reformes de cuines",
     "precios": "Els nostres preus",
     "proyectos": "Portfolio",
     "nosotros": "Sobre nosaltres",
@@ -76,7 +78,7 @@
   "home": {
     "hero": {
       "badge": "Barcelona i rodalia · fins a 50 km",
-      "line1": "Reformes que transformen",
+      "line1": "Reformes a Barcelona que transformen",
       "line2": "espais i simplifiquen el procés",
       "subtitle": "Reformes d'habitatges, oficines i locals comercials. Un únic equip des de la primera visita fins al lliurament final.",
       "ctaVisit": "Sol·licitar visita gratuïta",
@@ -91,7 +93,7 @@
     "services": {
       "eyebrow": "Què fem",
       "title": "Els nostres serveis",
-      "subtitle": "Quatre direccions fàcils d'entendre. Reformem habitatges i locals comercials de mida petita i mitjana.",
+      "subtitle": "Reforma integral, cuines i locals comercials de mida petita i mitjana.",
       "cta": "Veure servei",
       "viviendasT": "Habitatges",
       "oficinasT": "Oficines",
@@ -100,7 +102,11 @@
       "viviendas": "Reformes integrals i parcials de pisos i cases.",
       "oficinas": "Espais de treball funcionals i actuals.",
       "tiendas": "Locals preparats per vendre i rebre clients.",
-      "beauty": "Salons de bellesa, clíniques i centres esportius."
+      "beauty": "Salons de bellesa, clíniques i centres esportius.",
+      "integralesT": "Integrals",
+      "cocinasT": "Cuines",
+      "integrales": "Reforma completa de pisos i cases, de la distribució als acabats.",
+      "cocinas": "Cuines completes: mobiliari, taulell, electrodomèstics i instal·lació."
     },
     "prices": {
       "eyebrow": "Sense sorpreses",
@@ -203,6 +209,96 @@
     "breadcrumbHome": "Inici"
   },
   "landings": {
+    "integrales": {
+      "metaTitle": "Reformes integrals a Barcelona",
+      "metaDesc": "Reforma integral de pisos i cases a Barcelona i rodalia (fins a 50 km). Pressupost per escrit abans de començar i un sol equip per a tota l'obra.",
+      "h1": "Reformes integrals a Barcelona",
+      "heroSub": "Reforma completa d'un pis o una casa a Barcelona i fins a 50 km. Pressupost per escrit abans de començar i un sol equip —més de 10 anys d'obres— per a paleta, lampisteria, electricitat i acabats.",
+      "includesSub": "Enderrocs, instal·lacions, cuina, banys i acabats, amb un únic responsable de principi a fi.",
+      "pricingSubtitle": "Referències per m² d'una reforma integral d'habitatge. L'import exacte, després de la visita.",
+      "pricingDisclaimer": "Preus orientatius «des de», IVA no inclòs. L'import final depèn de la superfície, l'estat de l'immoble, l'accessibilitat i els materials.",
+      "segBasicoDesc": "Reforma integral amb materials funcionals i marques estàndard.",
+      "segEstandarDesc": "Equilibri qualitat-preu en instal·lacions i acabats de tot l'habitatge.",
+      "segPremiumDesc": "Materials de gamma alta, fusteria a mida i més detall a les estances.",
+      "ctaTitle": "Preus orientatius de reforma integral",
+      "ctaSub": "Des de 590 €/m² en bàsic. El llistat complet és als nostres preus.",
+      "formTitle": "Demana pressupost per a la teva reforma integral",
+      "formSub": "Explica'ns si és pis o casa i els metres aproximats. Et responem en menys de 24 h.",
+      "i1": "Enderrocs i nova distribució de les estances",
+      "i2": "Instal·lació elèctrica i de lampisteria renovades",
+      "i3": "Cuina: mobiliari, taulell, electrodomèstics i instal·lació",
+      "i4": "Banys: lampisteria, enrajolat, sanitaris i mampares",
+      "i5": "Terres, pintura i fusteria interior",
+      "i6": "Climatització, aïllament i ventilació",
+      "q1": "Quant costa una reforma integral a Barcelona?",
+      "a1": "La referència publicada és 590 €/m² en bàsic, 720 €/m² en estàndard i 890 €/m² en premium, segons superfície, estat i materials. L'import exacte es tanca per escrit després de la visita.",
+      "q2": "Quant triga una reforma integral?",
+      "a2": "Un pis mitjà (70–90 m²) sol estar entre 8 i 12 setmanes, segons abast i permisos. En els projectes publicats, el pis de l'Eixample (75 m²) es va fer en 10 setmanes i el dúplex de Sant Cugat (95 m²) en 12. El calendari va per escrit amb el pressupost.",
+      "q3": "Necessito llicència d'obres?",
+      "a3": "Si l'obra no toca estructura ni façana, el més habitual és un comunicat d'obra menor. Ajudem amb aquests tràmits; la gestió de llicències no està inclosa en els preus orientatius.",
+      "q4": "Puc viure a l'habitatge durant l'obra?",
+      "a4": "En una reforma integral el recomanable és no viure a l'habitatge. Ho veiem a la visita, abans de fixar el calendari.",
+      "q5": "Oferiu garantia i en quina zona treballeu?",
+      "a5": "Sí. L'obra té garantia i els materials, la del seu fabricant. Treballem a Barcelona i rodalia, fins a uns 50 km segons el projecte, amb especialitat en banys i cuines.",
+      "process": {
+        "eyebrow": "De la visita a les claus",
+        "title": "Com fem una reforma integral",
+        "subtitle": "Quatre passos, amb el preu i el calendari per escrit abans de començar l'obra.",
+        "s1t": "Contacte",
+        "s1d": "Ens expliques si és un pis o una casa i quines estances entren a l'obra.",
+        "s2t": "Visita",
+        "s2d": "Revisem mides, estat i instal·lacions. La visita és gratuïta.",
+        "s3t": "Pressupost",
+        "s3d": "Partides, materials i terminis per escrit. La referència d'integral parteix de 590 €/m².",
+        "s4t": "Reforma",
+        "s4d": "Un sol equip fins al lliurament. En una integral, el recomanable és no viure a l'habitatge."
+      }
+    },
+    "cocinas": {
+      "metaTitle": "Reformes de cuines a Barcelona",
+      "metaDesc": "Reforma de cuines a Barcelona i rodalia (fins a 50 km): mobiliari, taulell i instal·lació. Des de 7.900 €, amb visita gratuïta i pressupost per escrit.",
+      "h1": "Reformes de cuines a Barcelona",
+      "heroSub": "Cuina completa a Barcelona i rodalia: desmuntatge, mobiliari, taulell, electrodomèstics i instal·lació. Des de 7.900 €, IVA no inclòs; l'import exacte, després d'una visita gratuïta.",
+      "includesSub": "Del desmuntatge al taulell i la instal·lació, amb un únic responsable de principi a fi.",
+      "pricingSubtitle": "Preu «des de» per cuina completa, segons el nivell d'acabats. L'import exacte, després d'una visita gratuïta.",
+      "pricingDisclaimer": "Preus orientatius «des de» per cuina, IVA no inclòs. L'import final depèn de l'estat, els metres, l'accés i els materials.",
+      "segBasicoDesc": "Mobiliari funcional, taulell estàndard i instal·lació.",
+      "segEstandarDesc": "Equilibri qualitat-preu: marques reconegudes i millors acabats.",
+      "segPremiumDesc": "Gamma alta, amb fusteria a mida i més detall en taulell i il·luminació.",
+      "ctaTitle": "Preus de reforma de cuina",
+      "ctaSub": "Des de 7.900 € en bàsic. El llistat complet és als nostres preus.",
+      "formTitle": "Demana pressupost per a la teva cuina",
+      "formSub": "Explica'ns els metres i què vols canviar. Et responem en menys de 24 h.",
+      "i1": "Desmuntatge de la cuina existent",
+      "i2": "Mobiliari: fronts, mòduls i, quan el projecte ho demana, mobles fins al sostre",
+      "i3": "Taulell i frontal",
+      "i4": "Electrodomèstics integrats, quan el projecte els inclou",
+      "i5": "Preses d'aigua, desguassos i punts elèctrics",
+      "i6": "Il·luminació i paviment de la cuina",
+      "q1": "Quant costa reformar una cuina a Barcelona?",
+      "a1": "La cuina completa parteix de 7.900 € en bàsic, 10.500 € en estàndard i 15.000 € en premium. Són preus orientatius, IVA no inclòs. El pressupost definitiu es tanca per escrit després d'una visita gratuïta.",
+      "q2": "Quant dura la reforma d'una cuina?",
+      "a2": "En els projectes publicats, la cuina de Gràcia (14 m²) es va fer en 4 setmanes i la cuina-menjador de Sarrià (22 m²) en 6. El termini del teu queda per escrit amb el pressupost.",
+      "q3": "Necessito llicència per reformar la cuina?",
+      "a3": "Una cuina que no toca estructura ni façana sol requerir un comunicat d'obra menor. Ajudem amb els tràmits; la gestió de llicències no està en els preus orientatius.",
+      "q4": "El pressupost pot canviar un cop començada l'obra?",
+      "a4": "Treballem amb pressupost tancat per escrit: partides, materials i terminis abans de començar. L'obra té garantia i els materials, la del seu fabricant.",
+      "q5": "A quines zones reformeu cuines?",
+      "a5": "A Barcelona i rodalia, fins a uns 50 km segons el projecte. Les cuines, juntament amb els banys, són la nostra especialitat.",
+      "process": {
+        "eyebrow": "De la cuina vella a la nova",
+        "title": "Com reformem una cuina",
+        "subtitle": "Quatre passos, amb el preu de la cuina per escrit abans de desmuntar res.",
+        "s1t": "Contacte",
+        "s1d": "Ens expliques els metres i si canvies distribució, mobles o només acabats.",
+        "s2t": "Visita",
+        "s2d": "Revisem preses d'aigua, desguassos, electricitat i l'estat actual. La visita és gratuïta.",
+        "s3t": "Pressupost",
+        "s3d": "Partides, materials i termini per escrit. La cuina completa parteix de 7.900 €.",
+        "s4t": "Reforma",
+        "s4d": "Desmuntatge, instal·lació i acabats amb un sol equip, fins a deixar la cuina a punt."
+      }
+    },
     "viviendas": {
       "metaTitle": "Reformes d'habitatges a Barcelona",
       "metaDesc": "Reformes integrals i parcials de pisos i cases a Barcelona i rodalia. Pressupost clar abans de començar i un únic equip per a tota l'obra.",
@@ -230,6 +326,29 @@
       "metaDesc": "Reformes d'oficines a Barcelona i rodalia: distribució, instal·lacions, il·luminació i acabats. Espais de treball funcionals, llestos a termini.",
       "h1": "Reformes d'oficines a Barcelona",
       "heroSub": "Espais de treball funcionals i actuals, a punt per operar. Coordinem l'obra per minimitzar l'impacte en la teva activitat.",
+      "includesSub": "Distribució, instal·lacions, il·luminació i acabats de l'oficina, amb un responsable d'obra de principi a fi.",
+      "pricingSubtitle": "Referències per m² per reformar l'oficina. L'import exacte, després de visitar la planta.",
+      "pricingDisclaimer": "Preus orientatius «des de», IVA no inclòs, per a una oficina. El final depèn de la superfície, l'estat de la planta, l'accés i els materials.",
+      "segBasicoDesc": "Materials funcionals per a llocs i sales. Marques estàndard, sense floritures.",
+      "segEstandarDesc": "Equilibri qualitat-preu en il·luminació, terres i climatització.",
+      "segPremiumDesc": "Materials de gamma alta, amb la marca integrada en mobiliari i senyalística.",
+      "ctaTitle": "Preus orientatius de reforma d'oficina",
+      "ctaSub": "Des de 490 €/m² en bàsic. El llistat complet és als nostres preus.",
+      "formTitle": "Demana pressupost per a la teva oficina",
+      "formSub": "Explica'ns els metres i si l'oficina ha de seguir en ús. Et responem en menys de 24 h.",
+      "process": {
+        "eyebrow": "Obra i activitat",
+        "title": "Com reformem una oficina",
+        "subtitle": "Quatre passos, amb el calendari pensat perquè l'activitat pugui continuar quan el projecte ho permet.",
+        "s1t": "Contacte",
+        "s1d": "Ens expliques la distribució: llocs, sales de reunió i zones de descans.",
+        "s2t": "Visita",
+        "s2d": "Revisem la planta, les instal·lacions i com reduir l'impacte en l'activitat.",
+        "s3t": "Pressupost",
+        "s3d": "Partides, materials i terminis per escrit. Si cal, valorem horaris de nit o cap de setmana.",
+        "s4t": "Reforma",
+        "s4d": "Un responsable d'obra fins al lliurament, amb informes d'avançament."
+      },
       "i1": "Distribució d'espais i sales de reunió",
       "i2": "Instal·lació elèctrica, dades i climatització",
       "i3": "Il·luminació tècnica i d'ambient",
@@ -237,7 +356,7 @@
       "i5": "Integració de mobiliari, senyalística i marca",
       "i6": "Adequació a normativa, accessibilitat i PCI",
       "q1": "Quant costa reformar una oficina?",
-      "a1": "Com a referència, la reforma integral d'un local comercial parteix de 490 €/m², segons instal·lacions i acabats. A «Els nostres preus» tens partides orientatives.",
+      "a1": "En aquesta pàgina la reforma d'oficina parteix de 490 €/m² en bàsic, 620 €/m² en estàndard i 780 €/m² en premium, segons instal·lacions i acabats. El preu tancat es fixa després de la visita.",
       "q2": "Podeu treballar de nit o els caps de setmana?",
       "a2": "Sí. Adaptem els horaris d'obra per reduir l'impacte en la teva activitat i la dels teus veïns.",
       "q3": "Us encarregueu de la llicència d'activitat?",
@@ -245,13 +364,36 @@
       "q4": "Treballeu claus en mà?",
       "a4": "Sí. Del projecte al lliurament, amb un únic responsable d'obra i informes d'avançament.",
       "q5": "Oferiu garantia?",
-      "a5": "Sí, tota l'obra té garantia i els materials la del seu fabricant."
+      "a5": "Sí. L'obra de l'oficina té garantia, i les instal·lacions i els materials, la del seu fabricant."
     },
     "tiendas": {
       "metaTitle": "Reformes de botigues i locals a Barcelona",
       "metaDesc": "Reformes de botigues, restaurants i locals comercials a Barcelona i rodalia. Locals preparats per vendre i rebre clients, sense sorpreses.",
       "h1": "Reformes de botigues i locals a Barcelona",
       "heroSub": "Locals preparats per vendre i rebre clients: botigues, restaurants i comerços de barri, amb l'obra coordinada de principi a fi.",
+      "includesSub": "Façana, sala de vendes i instal·lacions del local, coordinades de principi a fi.",
+      "pricingSubtitle": "Referències per m² per a botiga, restaurant o comerç. L'import exacte, després de la visita.",
+      "pricingDisclaimer": "Preus orientatius «des de», IVA no inclòs, per a un local comercial. Depenen de l'estat, l'aparador, l'extracció i els materials.",
+      "segBasicoDesc": "Materials funcionals per a la sala de vendes i el magatzem. Marques estàndard.",
+      "segEstandarDesc": "Equilibri qualitat-preu en il·luminació d'aparador i paviments d'ús.",
+      "segPremiumDesc": "Materials de gamma alta, taulells i mobiliari amb més detall.",
+      "ctaTitle": "Preus orientatius de reforma de local",
+      "ctaSub": "Des de 490 €/m² en bàsic. El llistat complet és als nostres preus.",
+      "formTitle": "Demana pressupost per al teu local",
+      "formSub": "Explica'ns si és botiga, restaurant o comerç, i si ha de seguir obert. Et responem en menys de 24 h.",
+      "process": {
+        "eyebrow": "Local i obertura",
+        "title": "Com reformem un local",
+        "subtitle": "De la imatge del local al calendari, amb l'obra organitzada per no aturar l'activitat quan és viable.",
+        "s1t": "Contacte",
+        "s1d": "Ens expliques si és botiga, restaurant o comerç, i què ha d'estar a punt per obrir.",
+        "s2t": "Visita",
+        "s2d": "Veiem la sala de vendes, el magatzem, la façana i les instal·lacions de clima i extracció.",
+        "s3t": "Pressupost",
+        "s3d": "Partides i terminis per escrit. Un local petit o mitjà sol estar entre 4 i 10 setmanes, segons l'abast.",
+        "s4t": "Reforma",
+        "s4d": "Si es pot, organitzem l'obra per fases o en horari de tancament per no aturar l'activitat."
+      },
       "i1": "Imatge del local: façana, aparador i retolació",
       "i2": "Distribució de la sala de vendes i el magatzem",
       "i3": "Il·luminació comercial i d'aparador",
@@ -259,21 +401,44 @@
       "i5": "Paviments i revestiments resistents a l'ús",
       "i6": "Taulells, emprovadors i mobiliari a mida",
       "q1": "Quant costa reformar un local comercial?",
-      "a1": "La reforma integral d'un local parteix de 490 €/m² com a referència, segons estat, instal·lacions i acabats. Consulta més partides a «Els nostres preus».",
+      "a1": "Per a botiga, restaurant o comerç, la referència és 490 €/m² en bàsic, 620 en estàndard i 780 en premium, segons l'estat del local, les instal·lacions i els acabats. L'import tancat, després de la visita.",
       "q2": "Quant dura l'obra d'una botiga?",
       "a2": "Un local petit o mitjà sol estar entre 4 i 10 setmanes segons l'abast. Definim el calendari al pressupost.",
       "q3": "Podeu treballar amb el local en funcionament?",
       "a3": "Quan és viable, organitzem l'obra per fases o en horaris de tancament per no aturar l'activitat.",
       "q4": "Gestioneu llicències?",
-      "a4": "Es pot valorar quan el projecte ho requereixi; no està inclòs en els preus orientatius.",
+      "a4": "La llicència de l'activitat comercial es pot valorar a part. No entra en els preus orientatius de l'obra.",
       "q5": "Oferiu garantia?",
-      "a5": "Sí. Tota l'obra té garantia, i els materials la del seu fabricant."
+      "a5": "Sí. L'obra del local té garantia, i els materials de paviment, il·luminació i mobiliari, la del seu fabricant."
     },
     "beauty": {
       "metaTitle": "Reformes beauty & fitness a Barcelona",
       "metaDesc": "Reformes de salons de bellesa, perruqueries, clíniques i gimnasos a Barcelona i rodalia. Espais còmodes, funcionals i a punt per als teus clients.",
       "h1": "Reformes beauty & fitness a Barcelona",
       "heroSub": "Salons de bellesa, perruqueries, clíniques i centres esportius. Espais còmodes i funcionals, pensats per als teus clients i el teu dia a dia.",
+      "includesSub": "Cabines, aigua, ventilació i vestidors, amb un únic responsable de principi a fi.",
+      "pricingSubtitle": "Referències per m² per a saló, clínica o gimnàs. L'import exacte, després de la visita.",
+      "pricingDisclaimer": "Preus orientatius «des de», IVA no inclòs, per a saló, clínica o gimnàs. Depenen de la superfície, les zones d'aigua, la ventilació i els materials.",
+      "segBasicoDesc": "Materials funcionals per a cabines i vestidors. Marques estàndard.",
+      "segEstandarDesc": "Equilibri qualitat-preu en il·luminació, terres de fàcil neteja i zones d'aigua.",
+      "segPremiumDesc": "Materials de gamma alta en revestiments, il·luminació i zones d'aigua.",
+      "ctaTitle": "Preus orientatius de reforma beauty i fitness",
+      "ctaSub": "Des de 490 €/m² en bàsic. El llistat complet és als nostres preus.",
+      "formTitle": "Demana pressupost per al teu saló o gimnàs",
+      "formSub": "Explica'ns si és perruqueria, clínica o gimnàs, i els metres. Et responem en menys de 24 h.",
+      "process": {
+        "eyebrow": "El local dels teus clients",
+        "title": "Com reformem un saló o un gimnàs",
+        "subtitle": "Cabines, vestidors, aigua i ventilació, amb un calendari per escrit abans de començar.",
+        "s1t": "Contacte",
+        "s1d": "Ens expliques si és perruqueria, clínica, saló o gimnàs, i com es reparteix l'espai.",
+        "s2t": "Visita",
+        "s2d": "Revisem llocs d'aigua, ventilació, vestidors i el que exigeix l'activitat.",
+        "s3t": "Pressupost",
+        "s3d": "Partides i terminis per escrit. Un saló petit sol estar entre 4 i 8 setmanes; un gimnàs mitjà, una mica més.",
+        "s4t": "Reforma",
+        "s4d": "Adeqüem accessibilitat, ventilació i higiene segons l'activitat, amb un sol responsable d'obra."
+      },
       "i1": "Distribució de cabines, sales i vestidors",
       "i2": "Lampisteria i sanejament per a llocs de treball",
       "i3": "Ventilació, climatització i extracció",
@@ -281,15 +446,15 @@
       "i5": "Paviments i revestiments de fàcil neteja",
       "i6": "Lavabos, dutxes i zones d'aigua",
       "q1": "Quant costa reformar un saló o un gimnàs?",
-      "a1": "Com a referència, la reforma integral d'un local parteix de 490 €/m², segons instal·lacions i superfície. A «Els nostres preus» tens partides orientatives.",
+      "a1": "Saló, perruqueria, clínica o gimnàs: la referència és 490 €/m² en bàsic, 620 en estàndard i 780 en premium, segons instal·lacions i superfície. El pressupost es tanca per escrit després de la visita.",
       "q2": "Quant dura aquest tipus d'obra?",
       "a2": "Un saló petit sol estar entre 4 i 8 setmanes; un gimnàs mitjà, una mica més. Et donem un calendari per escrit.",
       "q3": "Compliu els requisits sanitaris i d'accessibilitat?",
       "a3": "Sí, adeqüem el local a la normativa aplicable d'accessibilitat, ventilació i higiene segons l'activitat.",
       "q4": "Gestioneu llicències?",
-      "a4": "Es pot valorar quan el projecte ho requereixi; no està inclòs en els preus orientatius.",
+      "a4": "La llicència, quan l'activitat la requereix, es pot valorar a part. Els preus orientatius de l'obra no la inclouen.",
       "q5": "Oferiu garantia?",
-      "a5": "Sí. Tota l'obra té garantia, i els materials la del seu fabricant."
+      "a5": "Sí. L'obra del saló o del gimnàs té garantia, i els materials, la del seu fabricant."
     },
     "banos": {
       "metaTitle": "Reforma de banys a Barcelona des de 4.900 €",
@@ -461,6 +626,10 @@
     "beforeAfterNote": "Llisca per comparar l'estat inicial amb el resultat final.",
     "before": "Abans",
     "after": "Després",
+    "altIn": "a",
+    "altBefore": "abans",
+    "altAfter": "després",
+    "altPhoto": "foto",
     "beforeAfterAria": "Comparar abans i després",
     "ctaTitle": "Vols un resultat així?",
     "ctaSub": "Consulta els nostres preus orientatius o explica'ns el teu projecte.",
@@ -470,7 +639,7 @@
   "projects": {
     "piso-integral-barcelona": {
       "title": "Reforma integral de pis",
-      "summary": "Reforma integral d'un pis: enderrocs, nova distribució, instal·lacions renovades amb terra radiant, cuina blanca amb taulell de fusta i acabats en tarima i rajola hidràulica.",
+      "summary": "Reforma integral d'un pis a l'Eixample: enderrocs, nova distribució, terra radiant, cuina blanca amb taulell de fusta, tarima i rajola hidràulica.",
       "duration": "10 setmanes"
     },
     "duplex-escalera-vidrio": {
@@ -495,6 +664,7 @@
     },
     "salon-piso-clasico": {
       "title": "Saló en pis clàssic",
+      "seoTitle": "Reforma de saló de pis clàssic a l'Eixample",
       "summary": "Reforma de saló en un pis antic amb pilar central i balcons de forja: terra de fusta, il·luminació de carril i tons beix.",
       "duration": "6 setmanes"
     },
@@ -505,11 +675,13 @@
     },
     "bano-verde-salvia": {
       "title": "Bany en verd sàlvia",
+      "seoTitle": "Reforma de bany verd sàlvia a Barcelona",
       "summary": "Substitució de banyera per dutxa d'obra amb mampara, rajola verd sàlvia, aixetes daurades i moble suspès de fusta.",
       "duration": "3 setmanes"
     },
     "bano-rosa": {
       "title": "Bany amb rajola rosa",
+      "seoTitle": "Reforma de bany amb rajola rosa a l'Hospitalet",
       "summary": "Renovació completa d'un bany antic: rajola rosa nova, banyera amb mampara, inodor suspès i mirall retroil·luminat.",
       "duration": "3 setmanes"
     },
@@ -520,6 +692,7 @@
     },
     "bano-beige-madera": {
       "title": "Bany en beix i fusta",
+      "seoTitle": "Reforma de bany en beix i fusta a Terrassa",
       "summary": "Bany renovat amb rajoles beix, moble de fusta clara, aixetes daurades mat, banyera amb mampara i fornícula il·luminada.",
       "duration": "3 setmanes"
     },
@@ -545,6 +718,7 @@
     },
     "peluqueria-beige": {
       "title": "Saló de perruqueria",
+      "seoTitle": "Reforma de perruqueria a Barcelona, Gràcia",
       "summary": "Local convertit en saló de perruqueria en tons beix: miralls ovalats daurats, taulell ondulat i llocs de treball còmodes.",
       "duration": "6 setmanes"
     },
@@ -555,11 +729,13 @@
     },
     "tienda-moda": {
       "title": "Botiga de moda",
+      "seoTitle": "Reforma de botiga de moda a l'Eixample",
       "summary": "Local comercial reformat com a botiga de roba en tons crema: mobiliari de fusta clara, miralls i il·luminació de carril.",
       "duration": "6 setmanes"
     },
     "supermercado-gourmet": {
       "title": "Supermercat gourmet",
+      "seoTitle": "Reforma de supermercat gourmet a Sabadell",
       "summary": "Local diàfan convertit en supermercat gourmet amb prestatgeries de fusta, vitrines de xarcuteria i zona de fruita fresca.",
       "duration": "8 setmanes"
     },
@@ -571,7 +747,7 @@
   },
   "guias": {
     "metaTitle": "Guies de reformes a Barcelona",
-    "metaDescription": "Guies pràctiques sobre reformes d'habitatges i locals a Barcelona i rodalia: quant costen, quant triguen i què decidir abans de començar. Explicat sense tecnicismes.",
+    "metaDescription": "Guies pràctiques sobre reformes d'habitatges i locals a Barcelona i rodalia: quant costen, quant triguen i què decidir abans de començar l'obra.",
     "eyebrow": "Abans de començar l'obra",
     "title": "Guies de reformes",
     "intro": "Expliquem amb calma el que convé saber abans de reformar: quant costa, quant triga i quines decisions marquen el resultat. Sense tecnicismes i amb les mateixes referències que fem servir en preparar un pressupost.",
@@ -587,7 +763,7 @@
     "breadcrumb": "Guies"
   },
   "about": {
-    "metaTitle": "Sobre nosaltres — Kobor",
+    "metaTitle": "Sobre nosaltres · Reformes Kobor a Barcelona",
     "metaDesc": "Som Kobor: una empresa de reformes propera i seriosa a Barcelona. Habitatges i locals comercials, amb pressupost clar i un sol equip.",
     "title": "Una empresa de reformes propera i seriosa",
     "subtitle": "Reformem habitatges i locals comercials a Barcelona i rodalia. Sense vendre fum: pressupost clar, un sol equip i obra ben feta.",
@@ -612,7 +788,7 @@
     "g4": "Materials amb garantia de fabricant"
   },
   "contact": {
-    "metaTitle": "Contacte — Kobor",
+    "metaTitle": "Contacte · Reformes a Barcelona | Kobor",
     "metaDesc": "Contacta amb Kobor: WhatsApp, telèfon, email i formulari. Reformes d'habitatges i locals a Barcelona i rodalia. Visita gratuïta.",
     "title": "Parlem de la teva reforma",
     "subtitle": "Explica'ns el teu projecte pel canal que prefereixis. Et responem en menys de 24 h i acordem una visita gratuïta.",
@@ -651,7 +827,7 @@
     "marketingDesc": "Permeten mesurar campanyes i mostrar publicitat rellevant (Google Ads)."
   },
   "cookies": {
-    "metaTitle": "Política de cookies",
+    "metaTitle": "Política de cookies de Kobor a Barcelona",
     "metaDesc": "Informació sobre les cookies que utilitza Kobor: necessàries, d'analítica i de màrqueting, i com gestionar el teu consentiment.",
     "title": "Política de cookies",
     "updated": "Última actualització: agost de 2026.",
@@ -696,7 +872,7 @@
     ]
   },
   "legal": {
-    "metaTitle": "Avís legal",
+    "metaTitle": "Avís legal de Kobor, reformes a Barcelona",
     "metaDesc": "Dades identificatives del titular, condicions d'ús, propietat intel·lectual i legislació aplicable del lloc web de Kobor.",
     "title": "Avís legal",
     "updated": "Última actualització: agost de 2026.",
