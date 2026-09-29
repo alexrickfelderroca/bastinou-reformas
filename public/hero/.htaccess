@@ -1,0 +1,15 @@
+# Hostinger copia dist/client a public_html y su servidor web (no Node) sirve
+# directamente los archivos que existen en /hero. Su tabla MIME no conoce .webm
+# ni .avif (salían como text/plain) y no pone Cache-Control.
+# Node nunca sirve este archivo (`send` rechaza dotfiles). La cabecera del
+# mismo valor la pone Node en src/server/cache-headers.mjs.
+<IfModule mod_mime.c>
+  AddType video/webm .webm
+  AddType video/mp4 .mp4
+  AddType image/avif .avif
+  AddType image/webp .webp
+  AddType font/woff2 .woff2
+</IfModule>
+<IfModule mod_headers.c>
+  Header set Cache-Control "public, max-age=2592000"
+</IfModule>

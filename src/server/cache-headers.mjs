@@ -3,9 +3,9 @@
  *
  * Lo usan dos sitios, a propósito separados del middleware de redirecciones:
  *  - src/middleware.ts (respuestas SSR: /api/lead y lo que no sea un archivo)
- *  - server/start.mjs (TODAS las respuestas del proceso Node, incluidos los
- *    estáticos). El adaptador sirve public/ y el HTML prerenderizado con
- *    `send` ANTES del middleware, así que sin el arranque esas cabeceras
+ *  - src/server/header-policy.mjs, inyectado en dist/server/entry.mjs
+ *    (TODAS las respuestas del proceso Node, incluidos los estáticos). El adaptador sirve public/ y el HTML prerenderizado con
+ *    `send` ANTES del middleware, así que sin esa envoltura esas cabeceras
  *    no llegarían a /hero, /fonts ni al HTML.
  *
  * Las páginas HTML son iguales para todos los visitantes: el idioma va en la
@@ -51,15 +51,19 @@ export function cacheControlFor(pathname, method = 'GET', status = 200) {
 }
 
 /**
- * El CDN de Hostinger ha llegado a servir .webm como text/plain.
- * Forzamos el tipo en el origen.
+ * El servidor web de Hostinger sirve .webm y .avif como text/plain.
+ * Forzamos el tipo en el origen, sólo cuando la respuesta es el archivo
+ * (200/206/304): un 404 de /algo.webm es la página HTML de error.
  * @param {string} pathname
+ * @param {number} [status]
  * @returns {string | null}
  */
-export function contentTypeOverride(pathname) {
-  const path = stripQuery(pathname);
+export function contentTypeOverride(pathname, status = 200) {
+  if (status !== 200 && status !== 206 && status !== 304) return null;
+  const path = stripQuery(pathname).toLowerCase();
   if (path.endsWith('.webm')) return 'video/webm';
   if (path.endsWith('.mp4')) return 'video/mp4';
+  if (path.endsWith('.avif')) return 'image/avif';
   return null;
 }
 
@@ -71,7 +75,7 @@ export function contentTypeOverride(pathname) {
  */
 export function applyCacheHeaders(pathname, method, headers, status = 200) {
   const cache = cacheControlFor(pathname, method, status);
-  const type = contentTypeOverride(pathname);
+  const type = contentTypeOverride(pathname, status);
   if (cache) headers.set('Cache-Control', cache);
   if (type) headers.set('Content-Type', type);
 }
@@ -90,7 +94,7 @@ function stripQuery(pathname) {
 
 /** Un 404 de un asset no debe quedar un año en el CDN. */
 function assetCache(status, value) {
-  if (status === 200 || status === 304) return value;
+  if (status === 200 || status === 206 || status === 304) return value;
   return CACHE_ERROR;
 }
 
