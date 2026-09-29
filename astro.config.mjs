@@ -10,11 +10,15 @@ import sitemap from '@astrojs/sitemap';
 import node from '@astrojs/node';
 
 const canonicalGateModule = fileURLToPath(new URL('./src/server/canonical-gate.ts', import.meta.url));
+const headerPolicyModule = fileURLToPath(new URL('./src/server/header-policy.mjs', import.meta.url));
 
 /**
  * El adaptador Node sirve dist/client ANTES de la app, así que el middleware
  * no ve /contacto, /index.html ni el host www. Este plugin inyecta el gate
- * delante de ese handler estático.
+ * delante de ese handler estático, y también la política de Cache-Control /
+ * Content-Type (src/server/header-policy.mjs). Va dentro de
+ * dist/server/entry.mjs porque Hostinger arranca ese archivo directamente
+ * (Entry file del panel), no `npm start`.
  *
  * No usamos `trailingSlash: 'always'`: en standalone ese ajuste redirige en el
  * handler estático con un Location relativo (www y la barra serían dos 301) y
@@ -32,7 +36,10 @@ function koborCanonicalPlugin() {
     },
     load(id) {
       if (id === resolvedVirtualId) {
-        return `export { canonicalGate } from ${JSON.stringify(canonicalGateModule)};`;
+        return [
+          `export { canonicalGate } from ${JSON.stringify(canonicalGateModule)};`,
+          `export { installHeaderPolicy } from ${JSON.stringify(headerPolicyModule)};`,
+        ].join('\n');
       }
     },
     transform(code, id) {
@@ -41,9 +48,9 @@ function koborCanonicalPlugin() {
       const needle = 'staticHandler(req, res, () => appHandler(req, res));';
       if (!code.includes(needle)) return;
       return {
-        code: `import { canonicalGate } from ${JSON.stringify(virtualId)};\n${code.replace(
+        code: `import { canonicalGate, installHeaderPolicy } from ${JSON.stringify(virtualId)};\n${code.replace(
           needle,
-          'if (canonicalGate(req, res)) return;\n    staticHandler(req, res, () => appHandler(req, res));',
+          'installHeaderPolicy(req, res);\n    if (canonicalGate(req, res)) return;\n    staticHandler(req, res, () => appHandler(req, res));',
         )}`,
         map: null,
       };
@@ -60,6 +67,7 @@ function koborCanonicalCheck() {
         const root = fileURLToPath(new URL('./dist/server', import.meta.url));
         const stack = [root];
         let found = false;
+        let policy = false;
         while (stack.length) {
           const dir = stack.pop();
           if (!dir) break;
@@ -67,13 +75,20 @@ function koborCanonicalCheck() {
             const full = join(dir, entry.name);
             if (entry.isDirectory()) stack.push(full);
             else if (entry.isFile() && statSync(full).isFile() && /\.(mjs|js|cjs)$/.test(entry.name)) {
-              if (readFileSync(full, 'utf8').includes('kobor-pre-static-gate')) found = true;
+              const src = readFileSync(full, 'utf8');
+              if (src.includes('kobor-pre-static-gate')) found = true;
+              if (src.includes('kobor-header-policy')) policy = true;
             }
           }
         }
         if (!found) {
           throw new Error(
             'El gate canónico no está en dist/server. www, index.html y la barra no redirigirían en los HTML prerenderizados.',
+          );
+        }
+        if (!policy) {
+          throw new Error(
+            'La política de caché no está en dist/server. Con Hostinger arrancando dist/server/entry.mjs, el HTML saldría sin s-maxage y el .webm sin su tipo.',
           );
         }
       },
@@ -94,8 +109,9 @@ export default defineConfig({
   // Salida estática por defecto: todo el contenido se prerenderiza (SEO). Sólo
   // las rutas con `prerender = false` (p. ej. /api/lead) corren en servidor.
   // El adaptador Node standalone genera dist/server/entry.mjs. En producción
-  // (Hostinger) `npm start` ejecuta server/start.mjs, que importa ese entry y
-  // añade Cache-Control / Content-Type (ver src/server/cache-headers.mjs).
+  // (Hostinger) el panel arranca dist/server/entry.mjs directamente; ese entry
+  // ya lleva Cache-Control / Content-Type (src/server/header-policy.mjs).
+  // `npm start` (server/start.mjs) importa el mismo entry y da lo mismo.
   // Sirve tanto los estáticos de dist/client como la ruta SSR. Servir dist/
   // como estático sin proceso Node da 403: el index vive en dist/client.
   adapter: node({ mode: 'standalone' }),
