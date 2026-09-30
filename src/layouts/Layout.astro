@@ -175,10 +175,15 @@ const websiteLd = {
     <!-- Marca JS activo lo antes posible: el estado oculto de las animaciones
          sólo se aplica con html.js (sin JS todo es visible). Evita FOUC. -->
     <script is:inline>document.documentElement.classList.add('js');</script>
-    <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32" />
+    <!-- Favicons: todos son la «k» de KOBOR sobre negro (_build/generate-favicons.mjs).
+         El .ico (16/32/48) para navegadores antiguos y el SVG para los modernos;
+         el PNG de 96 (múltiplo de 48) y el de 512 son los que puede escoger Google. -->
+    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/png" href="/favicon-512.png" sizes="512x512" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#f7f5f0" />
 
