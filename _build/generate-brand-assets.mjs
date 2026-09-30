@@ -12,8 +12,8 @@
  *   src/assets/brand/kobor-glyphs.json  subtrazos por glifo + viewBox (loader/hero/OG)
  *   src/assets/brand/kobor-lockup.svg   logo completo: kobor + REFORMAS + — BARCELONA — (currentColor)
  *   src/assets/brand/kobor-lockup.png   logo completo 2000px, negro sobre transparente (pie)
- *   public/favicon-32.png · favicon.ico               glifo «k» blanco sobre negro
- *   public/apple-touch-icon.png · favicon-512.png      logo completo sobre negro (como el de redes)
+ *   public/favicon*, apple-touch-icon.png, icon-*.png  glifo «k» blanco sobre negro
+ *                                                      (vía _build/generate-favicons.mjs)
  *
  * Uso:  node _build/generate-brand-assets.mjs
  * Requiere: sharp (dep del proyecto) + potrace (devDependency, JS puro).
@@ -210,55 +210,9 @@ const png = async (svg, vb, ancho, destino) => {
 await png(wordSvg, vbWord, 2000, join(BRAND, 'kobor-logo.png'));
 await png(lockSvg, vbLock, 2000, join(BRAND, 'kobor-lockup.png'));
 
-/* 8 ─ Iconos.
-   · 180 y 512 (pantalla de inicio, Android, Google): el logo completo sobre
-     negro, con la misma composición que el cuadrado del cliente (el lockup
-     ocupa ~74 % del ancho, centrado) — es lo mismo que se ve en las redes.
-   · 32 y .ico (pestaña del navegador): a ese tamaño el logo completo es una
-     raya; va solo la «k», blanca sobre negro. */
-const cuadradoLockup = (px) => {
-  const lado = vbLock.w / 0.743;
-  const x0 = vbLock.x - (lado - vbLock.w) / 2;
-  const y0 = vbLock.y - (lado - vbLock.h) / 2;
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${px}" height="${px}" viewBox="${x0} ${y0} ${lado} ${lado}">
-  <rect x="${x0}" y="${y0}" width="${lado}" height="${lado}" fill="${NEGRO}"/>
-${lockPaths.map((d) => `  <path fill="#ffffff" fill-rule="evenodd" d="${d}"/>`).join('\n')}
-</svg>`;
-  return sharp(Buffer.from(svg)).png().toBuffer();
-};
-
-const k = glyphs[0];
-const kw = k.box.maxX - k.box.minX, kh = k.box.maxY - k.box.minY;
-const pad = Math.round(Math.max(kw, kh) * 0.18);
-const side = Math.round(Math.max(kw, kh) + pad * 2);
-const kx = Math.round(k.box.minX - (side - kw) / 2);
-const ky = Math.round(k.box.minY - (side - kh) / 2);
-const iconoK = (px) => {
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${px}" height="${px}" viewBox="${kx} ${ky} ${side} ${side}">
-  <rect x="${kx}" y="${ky}" width="${side}" height="${side}" fill="${NEGRO}"/>
-  <path d="${k.d}" fill="#ffffff" fill-rule="evenodd"/>
-</svg>`;
-  return sharp(Buffer.from(svg)).png().toBuffer();
-};
-
-writeFileSync(join(PUBLIC, 'favicon-512.png'), await cuadradoLockup(512));
-writeFileSync(join(PUBLIC, 'apple-touch-icon.png'), await cuadradoLockup(180));
-writeFileSync(join(PUBLIC, 'favicon-32.png'), await iconoK(32));
-
-/* favicon.ico: una entrada PNG de 256px (formato ICO con PNG embebido). */
-const png256 = await iconoK(256);
-const ico = Buffer.alloc(6 + 16);
-ico.writeUInt16LE(0, 0); // reserved
-ico.writeUInt16LE(1, 2); // type: icon
-ico.writeUInt16LE(1, 4); // count
-ico.writeUInt8(0, 6); // width 256 → 0
-ico.writeUInt8(0, 7); // height 256 → 0
-ico.writeUInt8(0, 8); // palette
-ico.writeUInt8(0, 9); // reserved
-ico.writeUInt16LE(1, 10); // planes
-ico.writeUInt16LE(32, 12); // bpp
-ico.writeUInt32LE(png256.length, 14); // size
-ico.writeUInt32LE(22, 18); // offset
-writeFileSync(join(PUBLIC, 'favicon.ico'), Buffer.concat([ico, png256]));
+/* 8 ─ Favicons: los genera _build/generate-favicons.mjs a partir del
+   kobor-glyphs.json recién escrito (la «k» sobre negro en todos los tamaños;
+   el logo completo es ilegible a 16-48 px, que es como lo pinta Google). */
+await import('./generate-favicons.mjs');
 
 console.log(`OK — wordmark ${vbWord.w}×${vbWord.h}, logo completo ${vbLock.w}×${vbLock.h}, PNG 2000px, favicons regenerados.`);
