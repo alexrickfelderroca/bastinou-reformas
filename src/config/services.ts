@@ -9,6 +9,7 @@ import type { RouteKey } from '../i18n/routes';
 
 export type ServiceKey =
   | 'integrales'
+  | 'santCugat'
   | 'viviendas'
   | 'cocinas'
   | 'oficinas'
@@ -30,10 +31,17 @@ export interface ServiceCfg {
   routeKey: RouteKey;
   pricingType: PricingType;
   partialPricing?: PartialPricingKey;
+  /** Zona del JSON-LD Service. Si falta, se usa la zona general del sitio. */
+  areaServed?: readonly string[];
 }
 
 export const services: Record<ServiceKey, ServiceCfg> = {
   integrales: { routeKey: 'integrales', pricingType: 'piso' },
+  santCugat: {
+    routeKey: 'santCugat',
+    pricingType: 'piso',
+    areaServed: ['Sant Cugat del Vallès'],
+  },
   viviendas: { routeKey: 'viviendas', pricingType: 'piso' },
   cocinas: { routeKey: 'cocinas', pricingType: null, partialPricing: 'cocina' },
   oficinas: { routeKey: 'oficinas', pricingType: 'oficina' },
@@ -45,6 +53,7 @@ export const services: Record<ServiceKey, ServiceCfg> = {
 /** Orden del desplegable de Servicios y del pie. */
 export const serviceOrder: ServiceKey[] = [
   'integrales',
+  'santCugat',
   'viviendas',
   'cocinas',
   'banos',
