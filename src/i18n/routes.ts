@@ -42,6 +42,11 @@ export const routes = {
     ca: '/ca/reformes-integrals/',
     en: '/en/full-renovations/',
   },
+  santCugat: {
+    es: '/reformas-integrales-sant-cugat-del-valles/',
+    ca: '/ca/reformes-integrals-sant-cugat-del-valles/',
+    en: '/en/full-renovations-sant-cugat-del-valles/',
+  },
   cocinas: {
     es: '/reformas-cocinas/',
     ca: '/ca/reformes-cuines/',
