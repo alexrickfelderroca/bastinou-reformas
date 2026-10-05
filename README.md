@@ -32,6 +32,8 @@ orientado a Google Ads y SEO.
 
 ## Cómo ejecutar
 
+Node.js `>=22.19.0` (campo `engines` de `package.json`). Astro 7.3 arrastra `unifont`, que depende de `undici` 8 (`node >=22.19.0`). El propio Astro sigue declarando `>=22.12.0`, pero con este árbol de dependencias el proceso de instalación y el build necesitan 22.19 o superior.
+
 ```bash
 npm install
 npm run dev        # desarrollo (http://localhost:4321)
