@@ -71,6 +71,8 @@ const l = (k: string) => t(`landings.${service}.${k}`);
 
 const IMAGES: Record<SplitService, ImageMetadata[]> = {
   integrales: [int0, int1, int2, int3],
+  // Misma obra publicada: el dúplex de Sant Cugat (v3) abre la página local.
+  santCugat: [int1, int0, int2, int3],
   cocinas: [coc0, coc1],
   oficinas: [ofi0, ofi1, ofi2, ofi3, ofi4],
   tiendas: [tie0, tie1, tie2, tie3, tie4],
@@ -80,6 +82,7 @@ const IMAGES: Record<SplitService, ImageMetadata[]> = {
 // Cuáles forman la pila de la esquina (variedad temática por servicio).
 const PILE_IDX: Record<SplitService, number[]> = {
   integrales: [1, 2, 3], // dúplex · estancias del piso integral
+  santCugat: [1, 2, 3],
   cocinas: [1], // cocina-comedor de mármol
   oficinas: [1, 2, 4], // oficina lounge · recepción · office
   tiendas: [1, 2, 4], // supermercado · restaurante · cocina
