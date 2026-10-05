@@ -1,16 +1,19 @@
 ---
 lang: en
 translationKey: "precio-reforma-piso"
-title: "How much does it cost to renovate an apartment in Barcelona? Real 2026 prices"
-metaTitle: "Apartment renovation cost in Barcelona: 2026 prices"
-metaDescription: "Real prices per m² for a full apartment renovation in Barcelona: from €590/m². What each finish level includes, examples by size and a closed written quote."
-excerpt: "The price per square metre we actually work with, finish level by finish level, plus real examples based on the size of your apartment. No small print, no inflated figures."
+title: "Barcelona renovation quote: what it costs to renovate an 80 m² apartment"
+metaTitle: "Barcelona renovation quote: an 80 m² apartment"
+metaDescription: "Indicative estimate for an apartment of about 80 m² in Barcelona: from €47,200 at basic level (€590/m²). VAT not included. The closed price comes after the visit."
+excerpt: "The per-m² rates we work with, plus a concrete example for an apartment of about 80 m². These are “from” estimates, not a closed quote."
 keyword: "apartment renovation cost barcelona"
 pubDate: 2026-08-16
+updatedDate: 2026-10-05
 cover: ../../../assets/portfolio/viviendas/v1-despues.jpg
 coverAlt: "White kitchen with a wooden worktop and light laminate flooring, completed as part of a full apartment renovation in the Eixample district of Barcelona"
-readingMinutes: 3
+readingMinutes: 4
 faq:
+  - q: "How much does it cost to renovate an 80 m² apartment in Barcelona?"
+    a: "As an estimate, using the rates in this guide, an 80 m² apartment starts at €47,200 at basic level (80 × €590/m²), €57,600 at standard (80 × €720/m²) and €71,200 at premium (80 × €890/m²). These are “from” prices, VAT not included. The closed quote is given after the visit."
   - q: "Is the quote really a closed price?"
     a: "Yes: before we start you have the line items, materials and timings in writing. That is how we work on every renovation."
   - q: "Do the visit and the quote cost anything?"
@@ -49,6 +52,18 @@ Applying the standard finish level (€720/m²) to the most common sizes in Barc
 - **90 m² apartment** → from around €65,000
 
 With the basic level, a 75 m² apartment would start at around €44,000; with premium, at around €67,000. You will find the complete rate list, line item by line item, on [our prices](/en/our-prices/).
+
+## Example: an apartment of about 80 m²
+
+An apartment of about 80 m² sits between the 75 m² and 90 m² examples above. The sum uses the same indicative “from” rates as this guide and [our prices](/en/our-prices/) (a full renovation from €590/m²). VAT is not included. This is not a closed quote.
+
+| Finish level | Calculation | Estimate |
+|---|---|---|
+| **Basic** | 80 m² × €590/m² | from **€47,200** |
+| **Standard** | 80 m² × €720/m² | from **€57,600** |
+| **Premium** | 80 m² × €890/m² | from **€71,200** |
+
+The figure is the exact product of the “from” rate and 80 m². On a real job the amount changes with the condition of the apartment, access and the materials. The quote we sign only comes after the free visit.
 
 ## What does a full renovation include?
 

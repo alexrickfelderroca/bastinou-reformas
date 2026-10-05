@@ -1,16 +1,19 @@
 ---
 lang: es
 translationKey: "precio-reforma-piso"
-title: "¿Cuánto cuesta reformar un piso en Barcelona? Precios reales 2026"
-metaTitle: "Cuánto cuesta reformar un piso en Barcelona 2026"
-metaDescription: "Precios reales por m² de una reforma integral en Barcelona: desde 590 €/m². Qué incluye cada calidad, ejemplos por tamaño de piso y presupuesto cerrado."
-excerpt: "Los precios por metro cuadrado con los que trabajamos, calidad por calidad, y ejemplos reales según los metros de tu piso. Sin letra pequeña ni cifras infladas."
-keyword: "cuanto cuesta reformar un piso en barcelona"
+title: "Presupuesto reforma Barcelona: cuánto cuesta reformar un piso de 80 m²"
+metaTitle: "Presupuesto reforma Barcelona: piso de 80 m²"
+metaDescription: "Estimación orientativa de un piso de unos 80 m² en Barcelona: desde 47.200 € en básico (590 €/m²). IVA no incluido. El precio cerrado, tras la visita."
+excerpt: "Las tarifas por m² con las que trabajamos y un ejemplo concreto de un piso de unos 80 m². Son estimaciones «desde», no un presupuesto cerrado."
+keyword: "presupuesto reforma barcelona"
 pubDate: 2026-08-16
+updatedDate: 2026-10-05
 cover: ../../../assets/portfolio/viviendas/v1-despues.jpg
 coverAlt: "Cocina blanca con encimera de madera y suelo laminado claro, terminada en una reforma integral de piso en el Eixample de Barcelona"
-readingMinutes: 3
+readingMinutes: 4
 faq:
+  - q: "¿Cuánto cuesta reformar un piso de 80 m² en Barcelona?"
+    a: "Como estimación, con las tarifas de esta guía, un piso de 80 m² parte de 47.200 € en básico (80 × 590 €/m²), de 57.600 € en estándar (80 × 720 €/m²) y de 71.200 € en premium (80 × 890 €/m²). Son precios «desde», IVA no incluido. El presupuesto cerrado se da tras la visita."
   - q: "¿El presupuesto es realmente cerrado?"
     a: "Sí: antes de empezar tienes por escrito partidas, materiales y plazos. Es nuestra forma de trabajar en toda reforma."
   - q: "¿La visita y el presupuesto cuestan algo?"
@@ -49,6 +52,18 @@ Aplicando la calidad estándar (720 €/m²) a los tamaños más habituales en B
 - **Piso de 90 m²** → desde unos 65.000 €
 
 Con calidad básica, un piso de 75 m² partiría de unos 44.000 €; con premium, de unos 67.000 €. Tienes el listado completo de tarifas, partida por partida, en [nuestros precios](/nuestros-precios/).
+
+## Ejemplo: piso de unos 80 m²
+
+Un piso de unos 80 m² queda entre los de 75 y 90 m². Aquí el cálculo usa las mismas tarifas orientativas «desde» de esta guía y de [nuestros precios](/nuestros-precios/) (reforma integral desde 590 €/m²). IVA no incluido. No es un presupuesto cerrado.
+
+| Calidad | Cálculo | Estimación |
+|---|---|---|
+| **Básico** | 80 m² × 590 €/m² | desde **47.200 €** |
+| **Estándar** | 80 m² × 720 €/m² | desde **57.600 €** |
+| **Premium** | 80 m² × 890 €/m² | desde **71.200 €** |
+
+La cifra es el producto exacto de la tarifa «desde» por 80 m². En una obra real el importe cambia con el estado del piso, el acceso y los materiales. El presupuesto que firmamos solo sale después de la visita gratuita.
 
 ## ¿Qué incluye una reforma integral?
 

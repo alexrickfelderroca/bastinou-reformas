@@ -1,16 +1,19 @@
 ---
 lang: ca
 translationKey: "precio-reforma-piso"
-title: "Quant costa reformar un pis a Barcelona? Preus reals 2026"
-metaTitle: "Quant costa reformar un pis a Barcelona 2026"
-metaDescription: "Preus reals per m² d'una reforma integral a Barcelona: des de 590 €/m². Què inclou cada qualitat, exemples segons la mida del pis i pressupost tancat."
-excerpt: "Els preus per metre quadrat amb què treballem, qualitat per qualitat, i exemples reals segons els metres del teu pis. Sense lletra petita ni xifres inflades."
-keyword: "quant costa reformar un pis a barcelona"
+title: "Pressupost reforma Barcelona: quant costa reformar un pis de 80 m²"
+metaTitle: "Pressupost reforma Barcelona: pis de 80 m²"
+metaDescription: "Estimació orientativa d'un pis d'uns 80 m² a Barcelona: des de 47.200 € en bàsic (590 €/m²). IVA no inclòs. El preu tancat, després de la visita."
+excerpt: "Les tarifes per m² amb què treballem i un exemple concret d'un pis d'uns 80 m². Són estimacions «des de», no un pressupost tancat."
+keyword: "pressupost reforma barcelona"
 pubDate: 2026-08-16
+updatedDate: 2026-10-05
 cover: ../../../assets/portfolio/viviendas/v1-despues.jpg
 coverAlt: "Cuina blanca amb taulell de fusta i terra laminat clar, acabada en una reforma integral de pis a l'Eixample de Barcelona"
-readingMinutes: 3
+readingMinutes: 4
 faq:
+  - q: "Quant costa reformar un pis de 80 m² a Barcelona?"
+    a: "Com a estimació, amb les tarifes d'aquesta guia, un pis de 80 m² parteix de 47.200 € en bàsic (80 × 590 €/m²), de 57.600 € en estàndard (80 × 720 €/m²) i de 71.200 € en premium (80 × 890 €/m²). Són preus «des de», IVA no inclòs. El pressupost tancat es dona després de la visita."
   - q: "El pressupost és realment tancat?"
     a: "Sí: abans de començar tens per escrit partides, materials i terminis. És la nostra manera de treballar en qualsevol reforma."
   - q: "La visita i el pressupost tenen algun cost?"
@@ -49,6 +52,18 @@ Aplicant la qualitat estàndard (720 €/m²) a les mides més habituals a Barce
 - **Pis de 90 m²** → des d'uns 65.000 €
 
 Amb qualitat bàsica, un pis de 75 m² partiria d'uns 44.000 €; amb premium, d'uns 67.000 €. Tens el llistat complet de tarifes, partida per partida, als [nostres preus](/ca/els-nostres-preus/).
+
+## Exemple: pis d'uns 80 m²
+
+Un pis d'uns 80 m² queda entre els de 75 i 90 m². El càlcul fa servir les mateixes tarifes orientatives «des de» d'aquesta guia i dels [nostres preus](/ca/els-nostres-preus/) (reforma integral des de 590 €/m²). IVA no inclòs. No és un pressupost tancat.
+
+| Qualitat | Càlcul | Estimació |
+|---|---|---|
+| **Bàsic** | 80 m² × 590 €/m² | des de **47.200 €** |
+| **Estàndard** | 80 m² × 720 €/m² | des de **57.600 €** |
+| **Premium** | 80 m² × 890 €/m² | des de **71.200 €** |
+
+La xifra és el producte exacte de la tarifa «des de» per 80 m². En una obra real l'import canvia amb l'estat del pis, l'accés i els materials. El pressupost que signem només surt després de la visita gratuïta.
 
 ## Què inclou una reforma integral?
 
